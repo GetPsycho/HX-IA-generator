@@ -43,7 +43,7 @@ def preset_smells_like_teen_spirit():
     pb.add_block("HD2_DistVerminDist",    slot=1)   # ProCo Rat
     pb.add_block("HD2_Chorus",            slot=2)   # Small Clone-style
     pb.add_block("HD2_DelaySimpleDelay",  slot=3)
-    pb.add_block("HD2_ReverbTile",        slot=4)
+    pb.add_block("HD2_ReverbGanymede",    slot=4)
 
     pb.add_snapshot(0, "Intro Clean", blocks_on=[0, 4],
                     color="green")

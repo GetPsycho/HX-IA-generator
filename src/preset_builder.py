@@ -1,21 +1,18 @@
 """
-preset_builder.py (v2)
-Construit un preset HX Effects à partir du catalogue officiel.
+preset_builder.py
+Construit un preset HX Effects a partir du catalogue officiel.
 
-Usage simple :
+Usage :
     from preset_builder import PresetBuilder, get_catalog
 
-    cat = get_catalog()  # chargé une seule fois en mémoire
-
     pb = PresetBuilder("Smells LT Spirit", tempo=116.0)
-    pb.add_block("HD2_GateNoiseGate", slot=0)
-    pb.add_block("HD2_DistVerminDist", slot=1)   # ProCo Rat
+    pb.add_block("HD2_GateNoiseGate",    slot=0)
+    pb.add_block("HD2_DistVerminDist",   slot=1)
     pb.add_block("HD2_DelaySimpleDelay", slot=2)
-    pb.add_block("HD2_ReverbTile", slot=3)
+    pb.add_block("HD2_ReverbGanymede",   slot=3)
 
     pb.add_snapshot(0, "Intro",   blocks_on=[0, 3])
-    pb.add_snapshot(1, "Couplet", blocks_on=[0, 1, 3], params={1: {"Distortion": 0.5}})
-    ...
+    pb.add_snapshot(1, "Couplet", blocks_on=[0, 1, 3], params={1: {"Gain": 0.55}})
 
     preset = pb.build()
 """
@@ -25,29 +22,18 @@ from pathlib import Path
 import catalog as cat_module
 
 
-# ─────────────────────────────────────────────────────────
-# CHARGEMENT GLOBAL DU CATALOGUE (lazy, singleton)
-# ─────────────────────────────────────────────────────────
-
 _CATALOG = None
 _ROOT = Path(__file__).parent.parent
-_CATALOG_PATH  = str(_ROOT / "data" / "HX_ModelCatalog.json")
-_REFERENCE_HLS = str(_ROOT / "data" / "HX Effects.hls")
+_CATALOG_PATH = str(_ROOT / "data" / "models_catalog.json")
 
 
-def get_catalog(catalog_path: str = None, reference_hls: str = None) -> dict:
-    """Retourne le catalogue (chargé une seule fois)."""
+def get_catalog(catalog_path: str = None) -> dict:
+    """Retourne le catalogue (charge une seule fois)."""
     global _CATALOG
     if _CATALOG is None:
-        cp = catalog_path or _CATALOG_PATH
-        rh = reference_hls or _REFERENCE_HLS
-        _CATALOG = cat_module.build_full_catalog(cp, rh)
+        _CATALOG = cat_module.build_full_catalog(catalog_path or _CATALOG_PATH)
     return _CATALOG
 
-
-# ─────────────────────────────────────────────────────────
-# CONSTANTES
-# ─────────────────────────────────────────────────────────
 
 LED_COLORS = {
     "off":    0,
@@ -76,135 +62,66 @@ MAX_BLOCKS    = 8
 MAX_SNAPSHOTS = 8
 
 
-# ─────────────────────────────────────────────────────────
-# DÉFAUTS HEURISTIQUES (quand non observés dans les presets)
-# ─────────────────────────────────────────────────────────
-
-def _guess_default(param_name: str):
-    """Heuristique pour deviner une valeur par défaut raisonnable."""
-    name = param_name.lower()
-
-    # Booléens fréquents
-    if name in ("bypass", "stereo", "trails", "polarity", "type",
-                "tempo_sync", "tempo_sync1", "tempo_sync2", "volumetaper"):
-        return False
-
-    # Niveaux : 0 dB
-    if name in ("level", "gain", "volume"):
-        return 0.0
-    if name in ("mix", "blend"):
-        return 0.5
-
-    # Fréquences
-    if "highcut" in name or "high_cut" in name:
-        return 8000.0
-    if "lowcut" in name or "low_cut" in name:
-        return 100.0
-
-    # Time / Delay
-    if "time" in name or "delay" in name:
-        return 0.4
-
-    # SyncSelect : 6 = quart de note (observé)
-    if "syncselect" in name:
-        return 6
-
-    # Sélecteurs
-    if "select" in name or "mode" in name or "version" in name:
-        return 0
-
-    # Par défaut : milieu de course
-    return 0.5
-
-
-# ─────────────────────────────────────────────────────────
-# CONSTRUCTION D'UN BLOC
-# ─────────────────────────────────────────────────────────
-
 def make_block(model_id: str, position: int, path: int = 0,
                enabled: bool = True, overrides: dict = None) -> dict:
     """
-    Construit un bloc à partir d'un model_id officiel.
-
-    Le bloc est rempli avec :
-      1. Les valeurs par défaut OBSERVÉES (depuis HX_Effects.hls de référence)
-      2. À défaut, des valeurs heuristiques
-
-    Surcharges utilisateur validées contre les paramètres officiels.
+    Construit un bloc a partir d'un model_id officiel.
+    Les valeurs par defaut viennent directement de models_catalog.json.
     """
     catalog = get_catalog()
 
     if model_id not in catalog:
         suggestions = cat_module.search(catalog, model_id)[:5]
-        msg = f"Modèle inconnu : '{model_id}'."
+        msg = f"Modele inconnu : '{model_id}'."
         if suggestions:
-            msg += "\nPeut-être :\n" + "\n".join(
+            msg += "\nPeut-etre :\n" + "\n".join(
                 f"   - {m.id}  ({m.name})" for m in suggestions)
         raise ValueError(msg)
 
     info = catalog[model_id]
 
     block = {
-        "@enabled":  enabled,
-        "@model":    model_id,
-        "@no_snapshot_bypass": False,
-        "@path":     path,
-        "@position": position,
-        "@type":     info.type_id,
+        "@enabled":              enabled,
+        "@model":                model_id,
+        "@no_snapshot_bypass":   False,
+        "@path":                 path,
+        "@position":             position,
+        "@type":                 info.type_id,
     }
 
-    # Extras observés (@stereo, @trails…)
-    extras = info.defaults.get("__extras__", {}) if info.defaults else {}
-    for k, v in extras.items():
-        block[k] = v
+    for p in info.params:
+        block[p.id] = p.default
 
-    # Paramètres : ordre officiel du catalogue
-    for pname in info.param_names:
-        if info.defaults and pname in info.defaults:
-            block[pname] = info.defaults[pname]
-        else:
-            block[pname] = _guess_default(pname)
-
-    # Surcharges utilisateur
     if overrides:
+        valid_ids = {p.id for p in info.params}
         for k, v in overrides.items():
-            if k not in info.param_names and not k.startswith("@"):
-                print(f"⚠️  Paramètre '{k}' non documenté pour {model_id} "
-                      f"(officiels : {info.param_names})")
+            if k not in valid_ids and not k.startswith("@"):
+                print(f"WARNING: parametre '{k}' non documente pour {model_id} "
+                      f"(officiels : {info.param_ids()})")
             block[k] = v
 
     return block
 
 
-# ─────────────────────────────────────────────────────────
-# PRESET BUILDER
-# ─────────────────────────────────────────────────────────
-
 class PresetBuilder:
 
     def __init__(self, name: str, tempo: float = 120.0):
-        self.name      = name.strip()[:32]
-        self.tempo     = tempo
-        self._blocks   = {}      # slot → bloc dict
-        self._block_models = {}  # slot → model_id
-        self._snapshots = {}     # idx → snapshot def
-
-    # ── BLOCS ─────────────────────────────────────────────
+        self.name         = name.strip()[:32]
+        self.tempo        = tempo
+        self._blocks      = {}   # slot -> bloc dict
+        self._block_models = {}  # slot -> model_id
+        self._snapshots   = {}   # idx  -> snapshot def
 
     def add_block(self, model_id: str, slot: int,
                   enabled_default: bool = True,
                   overrides: dict = None) -> "PresetBuilder":
-        """Ajoute un effet par son model_id officiel (ex: 'HD2_DistRamsHead')."""
         if not (0 <= slot < MAX_BLOCKS):
             raise ValueError(f"Slot invalide : {slot}")
-
         block = make_block(model_id, position=slot + 1,
                            enabled=enabled_default, overrides=overrides)
-        self._blocks[slot] = block
+        self._blocks[slot]       = block
         self._block_models[slot] = model_id
         return self
-
-    # ── SNAPSHOTS ─────────────────────────────────────────
 
     def add_snapshot(self, index: int, name: str,
                      blocks_on: list,
@@ -223,20 +140,23 @@ class PresetBuilder:
 
         blocks_state = {slot: (slot in blocks_on) for slot in self._blocks}
 
-        # Validation des params surchargés
         catalog = get_catalog()
         if params:
             for slot, ovr in params.items():
                 if slot not in self._block_models:
-                    print(f"⚠️  Snapshot '{name}' : slot {slot} sans bloc")
+                    print(f"WARNING: snapshot '{name}' : slot {slot} sans bloc")
                     continue
                 model_id = self._block_models[slot]
                 info = catalog[model_id]
-                for p_name in ovr:
-                    if p_name not in info.param_names:
-                        print(f"⚠️  Snapshot '{name}', slot {slot} ({info.name}) : "
-                              f"param '{p_name}' inconnu. "
-                              f"Disponibles : {info.param_names}")
+                for p_name, value in ovr.items():
+                    p = info.param(p_name)
+                    if p is None:
+                        print(f"WARNING: snapshot '{name}', slot {slot} ({info.name}) : "
+                              f"param '{p_name}' inconnu. Disponibles : {info.param_ids()}")
+                    elif isinstance(p.min, (int, float)) and isinstance(value, (int, float)):
+                        if not (p.min <= value <= p.max):
+                            print(f"WARNING: {p_name}={value} hors bornes "
+                                  f"[{p.min}..{p.max}] pour {model_id} ({p.display_type})")
 
         self._snapshots[index] = {
             "name":         name.strip()[:16],
@@ -247,12 +167,9 @@ class PresetBuilder:
         }
         return self
 
-    # ── BUILD ─────────────────────────────────────────────
-
     def build(self) -> dict:
         tone = {}
 
-        # 1. dsp0
         dsp0 = {}
         for slot, block in self._blocks.items():
             dsp0[f"block{slot}"] = copy.deepcopy(block)
@@ -264,14 +181,12 @@ class PresetBuilder:
                            "gain": 0.0, "pan": 0.5}
         tone["dsp0"] = dsp0
 
-        # 2. dsp1 minimal
         tone["dsp1"] = {
             "inputA":  {"@model": "HelixFx_AppDSPFlowInput",  "@input": 0},
             "outputA": {"@model": "HelixFx_AppDSPFlowOutput", "@output": 0,
                         "gain": 0.0, "pan": 0.5},
         }
 
-        # 3. global
         tone["global"] = {
             "@DtSelect": 2, "@PowercabMode": 0, "@PowercabSelect": 2,
             "@PowercabVoicing": 0, "@current_snapshot": 0,
@@ -282,18 +197,15 @@ class PresetBuilder:
             "@tempo": self.tempo, "@topology0": "A", "@topology1": 0,
         }
 
-        # 4. snapshots
         for idx in range(MAX_SNAPSHOTS):
             if idx in self._snapshots:
-                tone[f"snapshot{idx}"] = _build_snapshot(
-                    self._snapshots[idx], dsp0)
+                tone[f"snapshot{idx}"] = _build_snapshot(self._snapshots[idx], dsp0)
             else:
                 tone[f"snapshot{idx}"] = _empty_snapshot(idx)
 
-        # 5. footswitch
-        tone["footswitch"]  = _build_footswitch(self._blocks, self._block_models)
-        tone["controller"]  = {"dsp0": {}}
-        tone["variax"]      = {}
+        tone["footswitch"] = _build_footswitch(self._blocks, self._block_models)
+        tone["controller"] = {"dsp0": {}}
+        tone["variax"]     = {}
 
         return {
             "device":         2162693,
@@ -312,8 +224,8 @@ class PresetBuilder:
             model_id = self._block_models[slot]
             info = catalog[model_id]
             state = "ON " if self._blocks[slot].get("@enabled") else "OFF"
-            tag = " [Legacy]" if info.is_legacy() else ""
-            lines.append(f"  [{slot}] {state}  {info.name}{tag} ({info.category})")
+            flag = " [Legacy]" if info.is_legacy() else ""
+            lines.append(f"  [{slot}] {state}  {info.name}{flag} ({info.category})")
 
         lines.append("\nSNAPSHOTS :")
         for idx in range(MAX_SNAPSHOTS):
@@ -323,10 +235,6 @@ class PresetBuilder:
                 lines.append(f"  [{idx}] {snap['name']:<16} actifs: {on_slots}")
         return "\n".join(lines)
 
-
-# ─────────────────────────────────────────────────────────
-# HELPERS INTERNES
-# ─────────────────────────────────────────────────────────
 
 def _build_snapshot(snap_def: dict, dsp0_blocks: dict) -> dict:
     blocks_dsp0 = {}
@@ -377,11 +285,10 @@ def _build_footswitch(blocks: dict, models: dict) -> dict:
     fs_dsp0 = {}
     for slot, block in blocks.items():
         info = catalog[models[slot]]
-        label = info.name[:12]
         fs_dsp0[f"block{slot}"] = {
             "@fs_enabled":   block.get("@enabled", False),
             "@fs_index":     slot,
-            "@fs_label":     label,
+            "@fs_label":     info.name[:12],
             "@fs_ledcolor":  DEFAULT_SNAPSHOT_COLORS[slot % len(DEFAULT_SNAPSHOT_COLORS)],
             "@fs_momentary": False,
             "@fs_primary":   True,
@@ -389,26 +296,22 @@ def _build_footswitch(blocks: dict, models: dict) -> dict:
     return {"dsp0": fs_dsp0}
 
 
-# ─────────────────────────────────────────────────────────
-# TEST
-# ─────────────────────────────────────────────────────────
-
 if __name__ == "__main__":
-    pb = PresetBuilder("Smells LT Spirit", tempo=116.0)
-    pb.add_block("HD2_GateNoiseGate",     slot=0)
-    pb.add_block("HD2_DistVerminDist",    slot=1)  # ProCo Rat
-    pb.add_block("HD2_Chorus",            slot=2)
-    pb.add_block("HD2_DelaySimpleDelay",  slot=3)
-    pb.add_block("HD2_ReverbTile",        slot=4)
+    pb = PresetBuilder("Test", tempo=116.0)
+    pb.add_block("HD2_GateNoiseGate",    slot=0)
+    pb.add_block("HD2_DistVerminDist",   slot=1)
+    pb.add_block("HD2_Chorus",           slot=2)
+    pb.add_block("HD2_DelaySimpleDelay", slot=3)
+    pb.add_block("HD2_ReverbGanymede",   slot=4)
 
     pb.add_snapshot(0, "Intro Clean",  blocks_on=[0, 4])
     pb.add_snapshot(1, "Couplet",      blocks_on=[0, 1, 2, 4],
-                    params={1: {"Distortion": 0.55}})
+                    params={1: {"Gain": 0.55}})
     pb.add_snapshot(2, "Refrain",      blocks_on=[0, 1, 4],
-                    params={1: {"Distortion": 0.75}})
+                    params={1: {"Gain": 0.75}})
     pb.add_snapshot(3, "Solo",         blocks_on=[0, 1, 3, 4],
-                    params={1: {"Distortion": 0.80}})
+                    params={1: {"Gain": 1.5}})   # hors bornes -> warning
 
     print(pb.summary())
     preset = pb.build()
-    print("\n✅ Preset construit")
+    print("\nPreset construit OK")

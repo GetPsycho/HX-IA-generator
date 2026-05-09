@@ -1,7 +1,7 @@
 """
 generate_reference.py
-Génère REFERENCE.md : un document listant tous les effets disponibles
-sur HX Effects avec leurs paramètres officiels.
+Genere REFERENCE.md : liste de tous les effets HX Effects avec
+leurs parametres officiels (min, max, default, displayType).
 """
 
 import sys
@@ -14,59 +14,80 @@ from catalog import build_full_catalog, by_category, list_categories
 
 
 CATEGORY_ORDER = [
-    "Distortion", "Dynamics", "EQ", "Modulation", "Delay", "Reverb",
-    "Pitch/Synth", "Filter", "Wah", "Volume/Pan", "Send/Return", "Looper",
-    "Input", "Output", "Split", "Merge",
+    "distortion", "compressor", "gate", "eq", "modulation", "delay", "reverb",
+    "pitch-synth", "filter", "wah", "volumepan", "sendreturn", "fixed", "io",
 ]
+
+CATEGORY_LABELS = {
+    "distortion":  "Distortion",
+    "compressor":  "Dynamics",
+    "gate":        "Gate",
+    "eq":          "EQ",
+    "modulation":  "Modulation",
+    "delay":       "Delay",
+    "reverb":      "Reverb",
+    "pitch-synth": "Pitch/Synth",
+    "filter":      "Filter",
+    "wah":         "Wah",
+    "volumepan":   "Volume/Pan",
+    "sendreturn":  "Send/Return",
+    "fixed":       "Fixed",
+    "io":          "I/O",
+}
 
 
 def generate(catalog: dict, output_path: str) -> None:
     lines = []
-    lines.append("# HX Effects — Référence des modèles\n")
-    lines.append("Liste générée automatiquement depuis `HX_ModelCatalog.json`\n")
-    lines.append("(modèles Mono + Legacy uniquement — Stereo et Amp/Cab/Preamp/IR exclus)\n")
+    lines.append("# HX Effects -- Reference des modeles\n")
+    lines.append("Liste generee automatiquement depuis `models_catalog.json`\n")
+    lines.append("(preamp exclus -- non disponible sur HX Effects)\n")
 
-    lines.append(f"**Total : {len(catalog)} modèles**\n")
+    total = len(catalog)
+    lines.append(f"**Total : {total} modeles**\n")
 
-    # Stats par catégorie
     lines.append("## Sommaire\n")
     for cat in CATEGORY_ORDER:
         items = by_category(catalog, cat)
         if not items:
             continue
-        n_mono   = sum(1 for m in items if not m.is_legacy())
+        label = CATEGORY_LABELS.get(cat, cat)
+        n_modern = sum(1 for m in items if not m.is_legacy())
         n_legacy = sum(1 for m in items if m.is_legacy())
-        anchor = cat.lower().replace("/", "").replace(" ", "-")
-        lines.append(f"- [{cat}](#{anchor}) — {n_mono} mono, {n_legacy} legacy")
+        anchor = label.lower().replace("/", "").replace(" ", "-")
+        lines.append(f"- [{label}](#{anchor}) -- {n_modern} modernes, {n_legacy} legacy")
     lines.append("")
 
-    # Détails par catégorie
     for cat in CATEGORY_ORDER:
         items = by_category(catalog, cat)
         if not items:
             continue
-
-        lines.append(f"## {cat}\n")
-        lines.append("| Nom affiché | Model ID | Sub | Paramètres |")
-        lines.append("|---|---|---|---|")
+        label = CATEGORY_LABELS.get(cat, cat)
+        lines.append(f"## {label}\n")
+        lines.append("| Nom | Model ID | Parametre | Type | Min | Max | Default |")
+        lines.append("|---|---|---|---|---|---|---|")
 
         for m in items:
-            sub = "Legacy" if m.is_legacy() else "Mono"
-            params = ", ".join(f"`{p}`" for p in m.param_names)
-            params = params or "_(aucun)_"
-            obs = " ✓" if m.defaults else ""
-            lines.append(f"| {m.name}{obs} | `{m.id}` | {sub} | {params} |")
+            flag = " [L]" if m.is_legacy() else ""
+            if not m.params:
+                lines.append(f"| {m.name}{flag} | `{m.id}` | _(aucun)_ | | | | |")
+                continue
+            for i, p in enumerate(m.params):
+                name_col = f"{m.name}{flag}" if i == 0 else ""
+                id_col   = f"`{m.id}`"       if i == 0 else ""
+                lines.append(
+                    f"| {name_col} | {id_col} | `{p.id}` | {p.display_type} "
+                    f"| {p.min} | {p.max} | {p.default} |"
+                )
+
         lines.append("")
-        lines.append("_✓ = valeurs par défaut observées dans HX_Effects.hls_\n")
 
     Path(output_path).write_text("\n".join(lines), encoding="utf-8")
-    print(f"✅ Référence écrite : {output_path}")
-    print(f"   {len(catalog)} modèles documentés")
+    print(f"Reference ecrite : {output_path}")
+    print(f"   {total} modeles documentes")
 
 
 if __name__ == "__main__":
     catalog = build_full_catalog(
-        str(_ROOT / "data" / "HX_ModelCatalog.json"),
-        str(_ROOT / "data" / "HX Effects.hls"),
+        str(_ROOT / "data" / "models_catalog.json"),
     )
     generate(catalog, str(_ROOT / "REFERENCE.md"))

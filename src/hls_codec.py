@@ -70,9 +70,11 @@ def encode_hls(inner: dict, meta: dict, output_path: str) -> None:
     inner_json_str = json.dumps(inner, separators=(",", " : "), indent=1)
     inner_bytes = inner_json_str.encode("utf-8")
 
-    # Compression zlib (niveau 6 = defaut)
-    compressed = zlib.compress(inner_bytes, level=6)
-    crc = zlib.crc32(compressed) & 0xFFFFFFFF
+    # CRC32 calcule sur les donnees DECOMPRESSEES (comportement HX Edit)
+    crc = zlib.crc32(inner_bytes) & 0xFFFFFFFF
+
+    # Compression zlib niveau 9 (identique a HX Edit)
+    compressed = zlib.compress(inner_bytes, level=9)
 
     # Encodage Base64
     encoded = base64.b64encode(compressed).decode("ascii")

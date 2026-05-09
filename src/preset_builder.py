@@ -52,14 +52,13 @@ DEFAULT_SNAPSHOT_COLORS = [
     LED_COLORS["yellow"],
     LED_COLORS["orange"],
     LED_COLORS["red"],
-    LED_COLORS["cyan"],
-    LED_COLORS["blue"],
-    LED_COLORS["pink"],
-    LED_COLORS["white"],
 ]
 
 MAX_BLOCKS    = 8
-MAX_SNAPSHOTS = 8
+MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
+
+# Categories dont les blocs ont un champ @trails
+_TRAILS_CATEGORIES = {"delay", "reverb", "sendreturn"}
 
 
 def make_block(model_id: str, position: int, path: int = 0,
@@ -81,13 +80,18 @@ def make_block(model_id: str, position: int, path: int = 0,
     info = catalog[model_id]
 
     block = {
-        "@enabled":              enabled,
-        "@model":                model_id,
-        "@no_snapshot_bypass":   False,
-        "@path":                 path,
-        "@position":             position,
-        "@type":                 info.type_id,
+        "@enabled":            enabled,
+        "@model":              model_id,
+        "@no_snapshot_bypass": False,
+        "@path":               path,
+        "@position":           position,
+        "@stereo":             False,
+        "@type":               info.type_id,
     }
+
+    # Les blocs delay/reverb/sendreturn ont un flag @trails
+    if info.category in _TRAILS_CATEGORIES:
+        block["@trails"] = False
 
     for p in info.params:
         block[p.id] = p.default
@@ -170,22 +174,41 @@ class PresetBuilder:
     def build(self) -> dict:
         tone = {}
 
+        # dsp0 : split + blocs utilisateur + join + inputs/outputs
         dsp0 = {}
+        dsp0["split"] = {
+            "@enabled":            True,
+            "@model":              "HD2_AppDSPFlowSplitY",
+            "@no_snapshot_bypass": False,
+            "@position":           0,
+            "BalanceA":            0.5,
+            "BalanceB":            0.5,
+            "bypass":              False,
+        }
         for slot, block in self._blocks.items():
             dsp0[f"block{slot}"] = copy.deepcopy(block)
-        dsp0["inputA"]  = {"@model": "HelixFx_AppDSPFlowInput",  "@input": 1}
-        dsp0["inputB"]  = {"@model": "HelixFx_AppDSPFlowInput",  "@input": 0}
+        dsp0["join"] = {
+            "@enabled":            True,
+            "@model":              "HD2_AppDSPFlowJoin",
+            "@no_snapshot_bypass": False,
+            "@position":           9,
+            "A Level":             0.0,
+            "A Pan":               0.5,
+            "B Level":             0.0,
+            "B Pan":               0.5,
+            "B Polarity":          False,
+            "Level":               0.0,
+        }
+        dsp0["inputA"]  = {"@input": 1, "@model": "HelixFx_AppDSPFlowInput"}
+        dsp0["inputB"]  = {"@input": 0, "@model": "HelixFx_AppDSPFlowInput"}
         dsp0["outputA"] = {"@model": "HelixFx_AppDSPFlowOutput", "@output": 1,
                            "gain": 0.0, "pan": 0.5}
         dsp0["outputB"] = {"@model": "HelixFx_AppDSPFlowOutput", "@output": 0,
                            "gain": 0.0, "pan": 0.5}
         tone["dsp0"] = dsp0
 
-        tone["dsp1"] = {
-            "inputA":  {"@model": "HelixFx_AppDSPFlowInput",  "@input": 0},
-            "outputA": {"@model": "HelixFx_AppDSPFlowOutput", "@output": 0,
-                        "gain": 0.0, "pan": 0.5},
-        }
+        # dsp1 : vide pour HX Effects
+        tone["dsp1"] = {}
 
         tone["global"] = {
             "@DtSelect": 2, "@PowercabMode": 0, "@PowercabSelect": 2,
@@ -197,6 +220,7 @@ class PresetBuilder:
             "@tempo": self.tempo, "@topology0": "A", "@topology1": 0,
         }
 
+        # 4 snapshots (limite hardware HX Effects)
         for idx in range(MAX_SNAPSHOTS):
             if idx in self._snapshots:
                 tone[f"snapshot{idx}"] = _build_snapshot(self._snapshots[idx], dsp0)
@@ -294,24 +318,3 @@ def _build_footswitch(blocks: dict, models: dict) -> dict:
             "@fs_primary":   True,
         }
     return {"dsp0": fs_dsp0}
-
-
-if __name__ == "__main__":
-    pb = PresetBuilder("Test", tempo=116.0)
-    pb.add_block("HD2_GateNoiseGate",    slot=0)
-    pb.add_block("HD2_DistVerminDist",   slot=1)
-    pb.add_block("HD2_Chorus",           slot=2)
-    pb.add_block("HD2_DelaySimpleDelay", slot=3)
-    pb.add_block("HD2_ReverbGanymede",   slot=4)
-
-    pb.add_snapshot(0, "Intro Clean",  blocks_on=[0, 4])
-    pb.add_snapshot(1, "Couplet",      blocks_on=[0, 1, 2, 4],
-                    params={1: {"Gain": 0.55}})
-    pb.add_snapshot(2, "Refrain",      blocks_on=[0, 1, 4],
-                    params={1: {"Gain": 0.75}})
-    pb.add_snapshot(3, "Solo",         blocks_on=[0, 1, 3, 4],
-                    params={1: {"Gain": 1.5}})   # hors bornes -> warning
-
-    print(pb.summary())
-    preset = pb.build()
-    print("\nPreset construit OK")

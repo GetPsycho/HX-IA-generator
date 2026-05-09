@@ -64,11 +64,13 @@ def encode_hls(inner: dict, meta: dict, output_path: str) -> None:
                            device_version, modifieddate, name)
     output_path : str   – chemin de sortie du fichier .hls
     """
-    # Sérialiser avec le même style que HX Edit (séparateurs, indent)
-    inner_json_str = json.dumps(inner, separators=(", ", " : "), indent=1)
+    # Serialiser avec le meme style que HX Edit :
+    #   - separateur items : "," (pas d'espace, la newline suit l'indentation)
+    #   - separateur cle   : " : " (espaces autour des deux-points)
+    inner_json_str = json.dumps(inner, separators=(",", " : "), indent=1)
     inner_bytes = inner_json_str.encode("utf-8")
 
-    # Compression zlib (niveau 6 = défaut)
+    # Compression zlib (niveau 6 = defaut)
     compressed = zlib.compress(inner_bytes, level=6)
     crc = zlib.crc32(compressed) & 0xFFFFFFFF
 
@@ -88,8 +90,11 @@ def encode_hls(inner: dict, meta: dict, output_path: str) -> None:
         "version": 2
     }
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(outer, f, indent=1, separators=(",", " : "))
+    # newline='\n' : force les fins de ligne Unix comme HX Edit
+    # (le mode texte Windows convertirait \n en \r\n, ce qui casse l'import)
+    outer_str = json.dumps(outer, indent=1, separators=(",", " : "))
+    with open(output_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(outer_str)
 
     print(f"Fichier ecrit : {output_path}")
     print(f"   {len(inner['presets'])} presets | "

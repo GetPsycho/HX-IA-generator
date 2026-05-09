@@ -261,9 +261,10 @@ def stats(catalog: dict) -> dict:
 # ─────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    _root = Path(__file__).parent.parent
     catalog = build_full_catalog(
-        "/mnt/user-data/uploads/HX_ModelCatalog.json",
-        "/mnt/user-data/uploads/HX_Effects.hls"
+        str(_root / "data" / "HX_ModelCatalog.json"),
+        str(_root / "data" / "HX Effects.hls"),
     )
 
     s = stats(catalog)

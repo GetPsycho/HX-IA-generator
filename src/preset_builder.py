@@ -30,8 +30,9 @@ import catalog as cat_module
 # ─────────────────────────────────────────────────────────
 
 _CATALOG = None
-_CATALOG_PATH  = "/mnt/user-data/uploads/HX_ModelCatalog.json"
-_REFERENCE_HLS = "/mnt/user-data/uploads/HX_Effects.hls"
+_ROOT = Path(__file__).parent.parent
+_CATALOG_PATH  = str(_ROOT / "data" / "HX_ModelCatalog.json")
+_REFERENCE_HLS = str(_ROOT / "data" / "HX Effects.hls")
 
 
 def get_catalog(catalog_path: str = None, reference_hls: str = None) -> dict:
@@ -305,7 +306,7 @@ class PresetBuilder:
     def summary(self) -> str:
         catalog = get_catalog()
         lines = [f"\n{'='*55}",
-                 f"PRESET : {self.name}  (♩={self.tempo})",
+                 f"PRESET : {self.name}  (tempo={self.tempo})",
                  "="*55, "\nBLOCS :"]
         for slot in sorted(self._blocks):
             model_id = self._block_models[slot]

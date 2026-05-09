@@ -91,10 +91,10 @@ def encode_hls(inner: dict, meta: dict, output_path: str) -> None:
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(outer, f, indent=1, separators=(",", " : "))
 
-    print(f"✅ Fichier écrit : {output_path}")
-    print(f"   {len(inner['presets'])} presets — "
-          f"{len(inner_bytes):,} octets décompressés — "
-          f"{len(compressed):,} octets compressés")
+    print(f"Fichier ecrit : {output_path}")
+    print(f"   {len(inner['presets'])} presets | "
+          f"{len(inner_bytes):,} octets decompresses | "
+          f"{len(compressed):,} octets comprimes")
 
 
 # ──────────────────────────────────────────────

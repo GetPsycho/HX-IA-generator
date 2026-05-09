@@ -6,7 +6,9 @@ sur HX Effects avec leurs paramètres officiels.
 
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent))
+
+_ROOT = Path(__file__).parent
+sys.path.insert(0, str(_ROOT / "src"))
 
 from catalog import build_full_catalog, by_category, list_categories
 
@@ -64,7 +66,7 @@ def generate(catalog: dict, output_path: str) -> None:
 
 if __name__ == "__main__":
     catalog = build_full_catalog(
-        "/mnt/user-data/uploads/HX_ModelCatalog.json",
-        "/mnt/user-data/uploads/HX_Effects.hls"
+        str(_ROOT / "data" / "HX_ModelCatalog.json"),
+        str(_ROOT / "data" / "HX Effects.hls"),
     )
-    generate(catalog, "/mnt/user-data/outputs/REFERENCE.md")
+    generate(catalog, str(_ROOT / "REFERENCE.md"))

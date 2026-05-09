@@ -7,14 +7,16 @@ USAGE : python generate_setlist.py
 
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent))
+
+_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(_ROOT / "src"))
 
 from hls_codec import decode_hls, encode_hls
 from preset_builder import PresetBuilder, get_catalog
 
 
-SOURCE_FILE = "/mnt/user-data/uploads/HX_Effects.hls"
-OUTPUT_FILE = "/mnt/user-data/outputs/setlist_output.hls"
+SOURCE_FILE = str(_ROOT / "data" / "HX Effects.hls")
+OUTPUT_FILE = str(_ROOT / "output" / "setlist_output.hls")
 
 META = {
     "application":    "HX Edit",
@@ -76,22 +78,22 @@ def main():
     print("=" * 55)
 
     cat = get_catalog()
-    print(f"\n📚 {len(cat)} modèles disponibles")
+    print(f"\n{len(cat)} modeles disponibles")
 
-    print(f"\n📂 Chargement du fichier source : {SOURCE_FILE}")
+    print(f"\nChargement : {SOURCE_FILE}")
     inner = decode_hls(SOURCE_FILE)
 
-    print(f"\n🎸 Génération de {len(SETLIST)} preset(s)...")
+    print(f"\nGeneration de {len(SETLIST)} preset(s)...")
     for idx, builder_fn in SETLIST.items():
         pb = builder_fn()
         print(pb.summary())
         inner["presets"][idx] = pb.build()
-        print(f"  → Injecté au slot [{idx:03d}]")
+        print(f"  -> Injecte au slot [{idx:03d}]")
 
-    print(f"\n💾 Écriture vers : {OUTPUT_FILE}")
+    print(f"\nEcriture vers : {OUTPUT_FILE}")
     encode_hls(inner, META, OUTPUT_FILE)
 
-    print("\n✅ Terminé. Importer setlist_output.hls dans HX Edit.")
+    print("\nTermine. Importer setlist_output.hls dans HX Edit.")
 
 
 if __name__ == "__main__":

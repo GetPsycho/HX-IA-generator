@@ -88,6 +88,6 @@ def generate(catalog: dict, output_path: str) -> None:
 
 if __name__ == "__main__":
     catalog = build_full_catalog(
-        str(_ROOT / "data" / "models_catalog.json"),
+        str(_ROOT / "data" / "catalog" / "models_catalog.json"),
     )
     generate(catalog, str(_ROOT / "REFERENCE.md"))

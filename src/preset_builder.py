@@ -24,7 +24,7 @@ import catalog as cat_module
 
 _CATALOG = None
 _ROOT = Path(__file__).parent.parent
-_CATALOG_PATH = str(_ROOT / "data" / "models_catalog.json")
+_CATALOG_PATH = str(_ROOT / "data" / "catalog" / "models_catalog.json")
 
 
 def get_catalog(catalog_path: str = None) -> dict:

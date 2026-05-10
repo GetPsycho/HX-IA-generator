@@ -142,7 +142,7 @@ def stats(catalog: dict) -> dict:
 
 if __name__ == "__main__":
     _root = Path(__file__).parent.parent
-    catalog = build_full_catalog(str(_root / "data" / "models_catalog.json"))
+    catalog = build_full_catalog(str(_root / "data" / "catalog" / "models_catalog.json"))
 
     s = stats(catalog)
     print(f"\n{s['total']} modeles charges\n")

@@ -153,7 +153,7 @@ def preset_be_yourself():
     # pas de succession d'echos perceptibles
     # enabled_default=False : pas actif sur l'Intro
     pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
-                 overrides={"Time": 0.51, "Feedback": 0.07, "Mix": 0.28,
+                 overrides={"Time": 0.51, "Feedback": 0.07, "Mix": 0.10,
                             "TempoSync1": False})
 
     # Reverb hall : un peu plus ouverte sur l'Intro (Mix monte via snap params)

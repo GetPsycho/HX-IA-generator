@@ -6,10 +6,22 @@
    "application" : "HX Edit",
    "appversion" : 58851328,
    "build_sha" : "d972399",
-   "modifieddate" : 1778412848,
-   "name" : " AYGGMW "
+   "modifieddate" : 1778427879,
+   "name" : " AYGGMW"
   },
   "tone" : {
+   "controller" : {
+    "dsp0" : {
+     "block1" : {
+      "Tone" : {
+       "@controller" : 10,
+       "@max" : 1.0,
+       "@min" : 0.0,
+       "@snapshot_disable" : false
+      }
+     }
+    }
+   },
    "dsp0" : {
     "block0" : {
      "@enabled" : true,
@@ -19,30 +31,30 @@
      "@position" : 1,
      "@stereo" : false,
      "@type" : 0,
-     "Decay" : 0.30,
+     "Decay" : 0.220,
      "Level" : 0.0,
-     "Threshold" : -60.0
+     "Threshold" : -48.0
     },
     "block1" : {
      "@enabled" : true,
-     "@model" : "HD2_DistStuporOD",
+     "@model" : "HD2_DistRamsHead",
      "@no_snapshot_bypass" : false,
      "@path" : 0,
      "@position" : 2,
      "@stereo" : false,
      "@type" : 0,
-     "Drive" : 0.720,
-     "Level" : 0.720,
-     "Tone" : 0.550
+     "Level" : 0.750,
+     "Sustain" : 0.820,
+     "Tone" : 0.40
     },
     "block2" : {
-     "@enabled" : true,
+     "@enabled" : false,
      "@model" : "HD2_FlangerGrayFlanger",
      "@no_snapshot_bypass" : false,
      "@path" : 0,
      "@position" : 3,
      "@stereo" : false,
-     "@type" : 2,
+     "@type" : 0,
      "Headroom" : 0.0,
      "Level" : 0.0,
      "Manual" : 0.770,
@@ -61,7 +73,7 @@
      "@path" : 0,
      "@position" : 4,
      "@stereo" : false,
-     "@type" : 1,
+     "@type" : 0,
      "HighGain" : 0.0,
      "Level" : 0.0,
      "LowGain" : 0.0,
@@ -149,16 +161,16 @@
      "block1" : {
       "@fs_enabled" : true,
       "@fs_index" : 1,
-      "@fs_label" : "Stupor OD",
-      "@fs_ledcolor" : 16776960,
+      "@fs_label" : "Bighorn Fuzz",
+      "@fs_ledcolor" : 13676288,
       "@fs_momentary" : false,
       "@fs_primary" : true
      },
      "block2" : {
-      "@fs_enabled" : true,
+      "@fs_enabled" : false,
       "@fs_index" : 2,
       "@fs_label" : "Gray Flanger",
-      "@fs_ledcolor" : 16744448,
+      "@fs_ledcolor" : 1037,
       "@fs_momentary" : false,
       "@fs_primary" : true
      },
@@ -174,7 +186,7 @@
       "@fs_enabled" : true,
       "@fs_index" : 4,
       "@fs_label" : "Simple Delay",
-      "@fs_ledcolor" : 65408,
+      "@fs_ledcolor" : 458496,
       "@fs_momentary" : false,
       "@fs_primary" : true
      },
@@ -193,11 +205,11 @@
     "@PowercabMode" : 0,
     "@PowercabSelect" : 2,
     "@PowercabVoicing" : 0,
-    "@current_snapshot" : 0,
+    "@current_snapshot" : 2,
     "@cursor_dsp" : 0,
-    "@cursor_group" : "block0",
+    "@cursor_group" : "block1",
     "@cursor_path" : 0,
-    "@cursor_position" : 1,
+    "@cursor_position" : 2,
     "@guitarinputZ" : 0,
     "@guitarpad" : 0,
     "@model" : "@global_params",
@@ -217,10 +229,20 @@
      "dsp0" : {
       "block0" : true,
       "block1" : true,
-      "block2" : true,
+      "block2" : false,
       "block3" : true,
-      "block4" : true,
+      "block4" : false,
       "block5" : true
+     }
+    },
+    "controllers" : {
+     "dsp0" : {
+      "block1" : {
+       "Tone" : {
+        "@fs_enabled" : false,
+        "@value" : 0.570
+       }
+      }
      }
     }
    },
@@ -240,6 +262,16 @@
       "block4" : false,
       "block5" : true
      }
+    },
+    "controllers" : {
+     "dsp0" : {
+      "block1" : {
+       "Tone" : {
+        "@fs_enabled" : false,
+        "@value" : 0.570
+       }
+      }
+     }
     }
    },
    "snapshot2" : {
@@ -257,6 +289,16 @@
       "block3" : true,
       "block4" : true,
       "block5" : true
+     }
+    },
+    "controllers" : {
+     "dsp0" : {
+      "block1" : {
+       "Tone" : {
+        "@fs_enabled" : false,
+        "@value" : 0.40
+       }
+      }
      }
     }
    },
@@ -276,6 +318,16 @@
       "block4" : false,
       "block5" : true
      }
+    },
+    "controllers" : {
+     "dsp0" : {
+      "block1" : {
+       "Tone" : {
+        "@fs_enabled" : false,
+        "@value" : 0.570
+       }
+      }
+     }
     }
    },
    "variax" : {
@@ -283,17 +335,11 @@
     "@variax_lockctrls" : 0,
     "@variax_magmode" : true,
     "@variax_model" : 0,
-    "@variax_str1level" : 1.0,
     "@variax_str1tuning" : 0,
-    "@variax_str2level" : 1.0,
     "@variax_str2tuning" : 0,
-    "@variax_str3level" : 1.0,
     "@variax_str3tuning" : 0,
-    "@variax_str4level" : 1.0,
     "@variax_str4tuning" : 0,
-    "@variax_str5level" : 1.0,
     "@variax_str5tuning" : 0,
-    "@variax_str6level" : 1.0,
     "@variax_str6tuning" : 0,
     "@variax_toneknob" : -0.10,
     "@variax_volumeknob" : -0.10

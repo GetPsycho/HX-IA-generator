@@ -110,6 +110,32 @@
 
 ---
 
+## Red Hot Chili Peppers - Dani California (2006)
+
+### Informations confirmées
+
+- BPM : 97 | Tonalité : Do majeur (C major) | Album : Stadium Arcadium
+- Guitare : Fender Stratocaster 1954 (neck pickup sur les verses clean)
+- Ampli : Marshall Major 200W 1978 (canaux bridgés — Presence 6, Bass 10, Mid 7, Treble 4)
+- Verse : Moog MF-101 Low-Pass Filter (envelope follower) → HX: Auto Filter (`HD2_FilterAutoFilter`)
+- Chorus/Solo : Boss DS-2 Turbo Distortion → HX: Deez One Mod (`HD2_DistDeezOneMod`)
+- Wah (solo) : Ibanez WH-10 → pédale externe pour Eric (MC404 CAE)
+- Note studio : effets de verse enregistrés avec modular Doepfer A-100, reproduits live avec MF-101
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://www.groundguitar.com/tone-breakdown/john-frusciantes-gear-on-stadium-arcadium-guitars-amps-pedals-and-effects-explained/ | Gear complet Stadium Arcadium, détails par pédale |
+| https://equipboard.com/pros/john-frusciante | Inventaire complet matériel Frusciante |
+| https://musicstrive.com/john-frusciante-amp-settings/ | Réglages ampli Marshall Major |
+| https://www.guitarchalk.com/dani-california-amp-settings/ | Réglages amp et effets par section pour Dani California |
+| https://guitarfxdepot.com/rigs/john-frusciantes-stadium-arcadium-guitar-rig/ | Rig Stadium Arcadium détaillé |
+| https://rockguitaruniverse.com/john-frusciante-gear-effects-tone/ | Gear et effets par période |
+| https://www.guitarlobby.com/john-frusciante-guitars-and-gear/ | Guitares et pédales par album |
+
+---
+
 ## Sites généraux à réutiliser pour futurs presets
 
 | URL | Description |

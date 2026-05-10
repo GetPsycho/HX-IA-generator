@@ -176,12 +176,12 @@ def preset_be_yourself():
     # = grain a peine perceptible, signal lisse sans mordant
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.02, "Tone": 0.48,
-                                "LPHP": False, "Level": 0.62}},
+                                "LPHP": False, "Level": 0.48}},
                     color="yellow")
 
     # Snap 2 — Chorus : crunch present
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.73}},
+                    params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.58}},
                     color="orange")
 
     # Snap 3 — Solo : crunch pousse (wah = pedale externe)

@@ -120,7 +120,66 @@ def preset_beggin():
 # Utilise par generate_presets.py pour les .hlx individuels.
 # ─────────────────────────────────────────────────────────
 
+def preset_be_yourself():
+    """Audioslave - Be Yourself (117 BPM) — Tom Morello
+
+    Son : Marshall JCM800 crunch. Be Yourself est sobre pour Morello :
+    clean + delay en verse, crunch + delay en chorus, crunch en solo.
+    Wah uniquement sur le solo → pedal externe (Cry Baby MC404), pas dans le preset.
+
+    Delay : quarter note a 117 BPM = 512ms = 0.51s (interne)
+
+    Chaine : Gate > OD > Delay > Reverb
+    Slots  :  0     1    2       3
+
+    Snap 0 Verse   : clean + delay atmosph.  (intro/couplets)
+    Snap 1 Chorus  : crunch leger + delay    (refrain)
+    Snap 2 Solo    : crunch + boost volume   (solo, wah ext.)
+    Snap 3 Standby : gate + reverb seuls
+    """
+    pb = PresetBuilder("Be Yourself", tempo=117.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.35})
+
+    # Compulsive Drive = Fulltone OCD : crunch JCM800 leger
+    # enabled_default=False : bypasse en Verse (son clean)
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.40, "Tone": 0.58, "LPHP": True, "Level": 0.73})
+
+    # Delay atmospherique : quarter note a 117 BPM (0.51s)
+    # Feedback modere, mix discret — laisse la voix respirer
+    pb.add_block("HD2_DelaySimpleDelay", slot=2,
+                 overrides={"Time": 0.51, "Feedback": 0.25, "Mix": 0.28,
+                            "TempoSync1": False})
+
+    # Reverb hall legere : coherence volume avec les autres presets
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.18})
+
+    # Snap 0 — Verse : clean + delay + reverb (intro et couplets)
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3],
+                    color="green")
+
+    # Snap 1 — Chorus : crunch OCD + delay + reverb
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
+                    color="yellow")
+
+    # Snap 2 — Solo : crunch + boost gain/level (wah = pedale externe)
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.55, "Level": 0.80}},
+                    color="red")
+
+    # Snap 3 — Standby : accordage / attente
+    pb.add_snapshot(3, "Standby", blocks_on=[0, 3],
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
     "Maneskin - Beggin":                       preset_beggin,
+    "Audioslave - Be Yourself":                preset_be_yourself,
 }

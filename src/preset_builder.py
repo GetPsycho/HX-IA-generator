@@ -244,7 +244,7 @@ class PresetBuilder:
             else:
                 pmin, pmax = float(p_info.min), float(p_info.max)
             controller_dsp0[block_key][pname] = {
-                "@controller":        2,
+                "@controller":        10,
                 "@max":               pmax,
                 "@min":               pmin,
                 "@snapshot_disable":  False,

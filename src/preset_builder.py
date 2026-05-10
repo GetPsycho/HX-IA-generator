@@ -266,6 +266,8 @@ class PresetBuilder:
                 )
             else:
                 tone[f"snapshot{idx}"] = _empty_snapshot(idx)
+
+        tone["footswitch"] = _build_footswitch(self._blocks, self._block_models)
         tone["variax"]     = {}
 
         return {

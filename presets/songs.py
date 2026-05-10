@@ -233,7 +233,7 @@ def preset_black_hole_sun():
     # Boost=True (+3 dB supplementaire), Bright=False (plus chaud, adapte aux humbuckers)
     # enabled_default=False : actif uniquement sur Verse
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.68, "Boost": True, "Bright": False})
+                 overrides={"Drive": 1.0, "Boost": True, "Bright": False})
 
     # Slapback 80ms : differencie le Solo du Refrain
     # enabled_default=False : actif uniquement sur Solo

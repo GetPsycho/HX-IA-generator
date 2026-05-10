@@ -156,34 +156,35 @@ def preset_be_yourself():
                  overrides={"Time": 0.51, "Feedback": 0.07, "Mix": 0.10,
                             "TempoSync1": False})
 
-    # Reverb plus presente sur l'ensemble (Mix 0.18->0.25)
+    # Reverb plus presente sur l'ensemble
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.25})
 
-    # Snap 0 — Intro : clean, reverb ouverte.
-    # Boost cumule : gate Level +6 dB (max) + reverb Level +3 dB = ~+9 dB
-    # pour compenser la perte de densite sonore percue vs sons satures.
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 3],
-                    params={
-                        0: {"Level": 6.0},
-                        3: {"Mix": 0.32, "Decay": 0.58, "Level": 3.0},
-                    },
+    # Bloc de boost propre pour l'Intro : bypasse par defaut
+    # Compense la perte de densite sonore percue du son clean vs sature
+    pb.add_block("HD2_VolPanGain", slot=4, enabled_default=False,
+                 overrides={"Gain": 10.0})
+
+    # Snap 0 — Intro : clean + reverb ouverte + boost volume (+10 dB)
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 4],
+                    params={3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Snap 1 — Verse : OD tres discret.
-    # Gain bas + Tone neutre + Level reduit = OD presque inaudible,
-    # coloration minimale du signal.
+    # Snap 1 — Verse : OD ultra-discret, lisse et chaud.
+    # Gain=0.02 + LPHP=False (mode LP, plus chaud) + Level reduit
+    # = grain a peine perceptible, signal lisse sans mordant
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.05, "Tone": 0.48, "Level": 0.55}},
+                    params={1: {"Gain": 0.02, "Tone": 0.48,
+                                "LPHP": False, "Level": 0.62}},
                     color="yellow")
 
-    # Snap 2 — Chorus : crunch present, params OD explicites.
+    # Snap 2 — Chorus : crunch present
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.73}},
                     color="orange")
 
-    # Snap 3 — Solo : crunch pousse + delay "reverb" (wah = pedale externe)
+    # Snap 3 — Solo : crunch pousse (wah = pedale externe)
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.62, "Level": 0.80}},
                     color="red")

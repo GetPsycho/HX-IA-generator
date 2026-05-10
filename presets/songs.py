@@ -411,11 +411,11 @@ def preset_drive():
 
 
 PRESETS = {
-    "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
-    "Maneskin - Beggin":                       preset_beggin,
-    "Audioslave - Be Yourself":                preset_be_yourself,
-    "Soundgarden - Black Hole Sun":            preset_black_hole_sun,
-    "Radiohead - Creep":                       preset_creep,
-    "Red Hot Chili Peppers - Dani California": preset_dani_california,
-    "Incubus - Drive":                         preset_drive,
+    "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
+    "Beggin - Maneskin":                       preset_beggin,
+    "Be Yourself - Audioslave":                preset_be_yourself,
+    "Black Hole Sun - Soundgarden":            preset_black_hole_sun,
+    "Creep - Radiohead":                       preset_creep,
+    "Dani California - Red Hot Chili Peppers": preset_dani_california,
+    "Drive - Incubus":                         preset_drive,
 }

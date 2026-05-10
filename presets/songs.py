@@ -197,15 +197,16 @@ def preset_black_hole_sun():
 
     Son signature : H&K Rotosphere (rotary fast) exclusivement sur le verse clean.
     Big Muff pour refrain/solo, sans rotary (le rotary noie la BigMuff sur HX Effects).
+    Intro : OD legere epaisse (riff grave sans rotary, joue par Cornell sur l'enregistrement).
     Slapback 80ms sur le solo pour se distinguer du refrain.
 
-    Chaine : Gate > BigMuff > Rotary > Reverb > Boost > Slapback
-    Slots  :  0      1         2        3        4       5
+    Chaine : Gate > BigMuff > Rotary > Reverb > KinkyBoost > Slapback > OD-Intro
+    Slots  :  0      1         2        3        4             5          6
 
-    Snap 0 Verse  : clean + rotary fort + reverb + boost (+8 dB, compense l'absence de dist)
-    Snap 1 Refrain: Big Muff + reverb (sans rotary)
-    Snap 2 Solo   : Big Muff pousse + slapback 80ms + reverb
-    Snap 3 Clean  : accordage / attente
+    Snap 0 Intro  : OD legere + reverb (riff epais intro, sans rotary)
+    Snap 1 Verse  : clean + rotary fort + reverb + Kinky Boost
+    Snap 2 Refrain: Big Muff + reverb (sans rotary)
+    Snap 3 Solo   : Big Muff pousse + slapback 80ms + reverb
     """
     pb = PresetBuilder("Black Hole Sun", tempo=105.0)
 
@@ -213,13 +214,13 @@ def preset_black_hole_sun():
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
     # Bighorn Fuzz = Ram's Head Big Muff : distorsion epaisse pour refrain/solo
-    # enabled_default=False : bypasse en Verse (son clean)
+    # enabled_default=False : bypasse en Intro et Verse
     pb.add_block("HD2_DistRamsHead", slot=1, enabled_default=False,
                  overrides={"Sustain": 0.75, "Tone": 0.45, "Level": 0.50})
 
     # Rotary Drum/Horn = Leslie 145 : simule le H&K Rotosphere de Kim Thayil
-    # Speed=True (fast), Mix=0.85 et Depth/Horn eleves pour un swirl bien perceptible
-    # Bypasse sur Refrain et Solo : le rotary noie la BigMuff sans ampli tube
+    # Speed=True (fast), Mix=0.85 pour un swirl bien perceptible
+    # Bypasse sur Intro, Refrain et Solo
     pb.add_block("HD2_MM4RotaryDrumHorn", slot=2,
                  overrides={"Speed": True, "Depth": 0.82, "Horn Depth": 0.88,
                             "Drive": 0.08, "Mix": 0.85})
@@ -228,9 +229,7 @@ def preset_black_hole_sun():
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
 
-    # Kinky Boost = Xotic EP Booster : fattens le son clean du verse
-    # Ajoute corps et harmoniques (preampli), pas juste du volume
-    # Boost=True (+3 dB supplementaire), Bright=False (plus chaud, adapte aux humbuckers)
+    # Kinky Boost = Xotic EP Booster : corps et harmoniques sur le verse clean
     # enabled_default=False : actif uniquement sur Verse
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
                  overrides={"Drive": 1.0, "Boost": True, "Bright": False})
@@ -241,18 +240,23 @@ def preset_black_hole_sun():
                  overrides={"Time": 0.08, "Feedback": 0.0, "Mix": 0.18,
                             "TempoSync1": False})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 4], color="green")
+    # Compulsive Drive = OCD : OD legere epaisse pour l'intro
+    # Gain bas = crunch chaud, Tone neutre, sans rotary
+    # enabled_default=False : actif uniquement sur Intro
+    pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
+                 overrides={"Gain": 0.35, "Tone": 0.50, "Level": 0.45})
 
-    # Level baisse (0.50->0.42) : sans rotary le signal BigMuff est plus direct
-    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 3],
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6], color="yellow")
+
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
+
+    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 3],
                     params={1: {"Level": 0.42}},
                     color="orange")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 5],
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 5],
                     params={1: {"Sustain": 0.85, "Level": 0.48}},
                     color="red")
-
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3], color="blue")
 
     return pb
 

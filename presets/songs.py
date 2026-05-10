@@ -32,8 +32,10 @@ def preset_are_you_gonna_go_my_way():
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0)
 
+    # Gate adapte au Bighorn Fuzz : seuil plus haut pour couper le bruit
+    # residuel de la fuzz quand on ne joue pas
     pb.add_block("HD2_GateNoiseGate", slot=0,
-                 overrides={"Threshold": -60.0, "Decay": 0.3})
+                 overrides={"Threshold": -48.0, "Decay": 0.22})
 
     # Bighorn Fuzz (Ram's Head Big Muff) : fuzz epais et crasseux
     # Regie sur le son Riff ; snapshots affinent via params
@@ -46,7 +48,8 @@ def preset_are_you_gonna_go_my_way():
 
     pb.add_block("HD2_EQSimple3Band", slot=3)
 
-    pb.add_block("HD2_DelaySimpleDelay", slot=4,
+    # enabled_default=False : bypasse au chargement, actif uniquement sur Solo
+    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
                  overrides={"Time": 0.12, "Feedback": 0.0, "Mix": 0.22,
                             "TempoSync1": False})
 

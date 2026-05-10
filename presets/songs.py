@@ -78,31 +78,35 @@ def preset_are_you_gonna_go_my_way():
 def preset_beggin():
     """Maneskin - Beggin' (134 BPM)
 
-    Jeu funky/rythmique avec grain leger de l'OCD a faible gain.
-    Fulltone OCD (Compulsive Drive) : juste assez de mordant pour
-    craqueler sans saturer — les accords restent clairs et percussifs.
-    Avec le DiMarzio Super Distortion, gain abaisse en consequence.
+    Jeu funky rythmique : compresseur Ross + OCD a tres faible gain.
+    Le Red Squeeze apporte le "squish" funk et regularise l'attaque
+    du Super Distortion. L'OCD donne juste le grain du mordant sans saturer.
 
-    Chaine : Gate > CompulsiveDrive > Reverb
-    1 seul snapshot actif (son unique tout le long du morceau).
+    Chaine : Gate > RedSqueeze > CompulsiveDrive > Reverb
+    1 seul snapshot actif.
     """
     pb = PresetBuilder("Beggin'", tempo=134.0)
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.40})
 
-    # Compulsive Drive = Fulltone OCD en leger grain funky
-    # Gain bas : le Super Distortion pousse deja le circuit
-    # LPHP=True (mode HP) : reponse dynamique, pas de compression
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.35, "Tone": 0.60, "LPHP": True, "Level": 0.73})
+    # Red Squeeze = Ross Compressor : squish funky, regularise l'attaque
+    # Sensitivity moderee pour ne pas ecraser la dynamique
+    pb.add_block("HD2_CompressorRedSqueeze", slot=1,
+                 overrides={"Sensitivity": 0.60, "Mix": 1.0, "Level": 3.0})
 
-    # Reverb de salle discrete : coherence de volume avec les autres presets
-    pb.add_block("HD2_ReverbGanymede", slot=2,
+    # Compulsive Drive = Fulltone OCD, gain tres bas
+    # Le compresseur en amont regularise le signal du Super Distortion
+    # LPHP=True (mode HP) : attaque seche et percussive
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.22, "Tone": 0.60, "LPHP": True, "Level": 0.73})
+
+    # Reverb discrete : meme reglages pour coherence de volume
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.65, "Modulation": 0.20, "Mix": 0.15})
 
-    pb.add_snapshot(0, "Beggin", blocks_on=[0, 1, 2],
+    pb.add_snapshot(0, "Beggin", blocks_on=[0, 1, 2, 3],
                     color="yellow")
 
     return pb

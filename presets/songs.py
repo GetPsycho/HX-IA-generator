@@ -156,21 +156,22 @@ def preset_be_yourself():
                  overrides={"Time": 0.51, "Feedback": 0.07, "Mix": 0.10,
                             "TempoSync1": False})
 
-    # Reverb hall : un peu plus ouverte sur l'Intro (Mix monte via snap params)
+    # Reverb plus presente sur l'ensemble (Mix 0.18->0.25)
     pb.add_block("HD2_ReverbGanymede", slot=3,
-                 overrides={"Decay": 0.45, "Predelay": 0.02,
-                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.18})
+                 overrides={"Decay": 0.50, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.25})
 
-    # Snap 0 — Intro : quasi clean, reverb plus ouverte, pas de delay
+    # Snap 0 — Intro : quasi clean, reverb ouverte, sans delay ni OD
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.28, "Decay": 0.55}},
+                    params={3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Snap 1 — Verse : clean + delay "reverb" (une seule repetition discrete)
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3],
+    # Snap 1 — Verse : OD tres leger (grain subtil) + delay "reverb"
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.20}},
                     color="yellow")
 
-    # Snap 2 — Chorus : crunch OCD + delay + reverb
+    # Snap 2 — Chorus : crunch OCD (gain defaut 0.40) + delay + reverb
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
                     color="orange")
 

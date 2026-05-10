@@ -35,8 +35,10 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -60.0, "Decay": 0.3})
 
-    pb.add_block("HD2_DistStuporOD", slot=1,
-                 overrides={"Drive": 0.72, "Tone": 0.55, "Level": 0.72})
+    # Bighorn Fuzz (Ram's Head Big Muff) : fuzz epais et crasseux
+    # Regie sur le son Riff ; snapshots affinent via params
+    pb.add_block("HD2_DistRamsHead", slot=1,
+                 overrides={"Sustain": 0.82, "Tone": 0.58, "Level": 0.75})
 
     pb.add_block("HD2_FlangerGrayFlanger", slot=2,
                  overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.40})
@@ -55,14 +57,14 @@ def preset_are_you_gonna_go_my_way():
 
     pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3, 5],
                     params={
-                        1: {"Drive": 0.60, "Level": 0.68},
+                        1: {"Sustain": 0.75, "Level": 0.70},
                         3: {"MidFreq": 800.0, "MidGain": -2.0, "HighGain": -3.0},
                     },
                     color="blue")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4, 5],
                     params={
-                        1: {"Drive": 0.80, "Level": 0.82},
+                        1: {"Sustain": 0.90, "Level": 0.82},
                         3: {"MidFreq": 1000.0, "MidGain": 4.0, "HighGain": 2.0},
                     },
                     color="red")

@@ -349,6 +349,67 @@ def preset_dani_california():
     return pb
 
 
+def preset_drive():
+    """Incubus - Drive (91 BPM) — Mike Einziger
+
+    Son : PRS McCarty Archtop II → Boss PH-2 Super Phaser (Deluxe Phaser)
+    → Boss CE-2 Chorus (70s Chorus, intro et refrain) → Mesa Boogie Dual Rectifier clean.
+    Morceau entierement clean : le phaser est l'effet signature du titre.
+    Rate du phaser en Hz (range 0-10) : 0.3 Hz intro (dreamy), 0.8 Hz verse/refrain.
+
+    Chaine : Gate > Phaser > Chorus > Reverb
+    Slots  :  0      1         2        3
+
+    Snap 0 Intro  : phaser tres lent (0.3 Hz) + CE-2 + reverb large (arpeges swell)
+    Snap 1 Verse  : phaser modere (0.8 Hz) sans chorus (couplets directs)
+    Snap 2 Refrain: phaser modere + CE-2 + reverb (son plus large et ouvert)
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Drive", tempo=91.0)
+
+    # Seuil bas : morceau clean et doux, ne pas couper les queues de reverb
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -54.0, "Decay": 0.40})
+
+    # Deluxe Phaser = approx. Boss PH-2 Super Phaser : Stages=4, Feedback=0.28
+    # Rate en Hz (0-10) : regle sur le son Verse (0.8 Hz), ajuste par snapshot
+    pb.add_block("HD2_PhaserDeluxePhaser", slot=1,
+                 overrides={"Rate": 0.8, "Depth": 0.80, "Feedback": 0.28,
+                            "Stages": 4, "Mix": 0.50, "Level": 0.0})
+
+    # 70s Chorus = BOSS CE-1 : tres proche du CE-2 (version directe du CE-1)
+    # enabled_default=False : bypasse au chargement, actif sur Intro et Refrain
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.50, "VibratoRate": 0.40,
+                            "VibratoDepth": 0.40, "Mix": 0.45, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.52, "Predelay": 0.02,
+                            "Tone": 0.62, "Modulation": 0.20, "Mix": 0.22})
+
+    # Intro : phaser tres lent + CE-2 + reverb plus large (arpeges atmospheriques)
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2, 3],
+                    params={
+                        1: {"Rate": 0.3, "Depth": 0.85},
+                        3: {"Decay": 0.62, "Mix": 0.26},
+                    },
+                    color="green")
+
+    # Verse : phaser seul, son plus sec et direct
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 3], color="yellow")
+
+    # Refrain : phaser + CE-2 = son plus large, reverb legerement plus ouverte
+    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3],
+                    params={3: {"Mix": 0.24}},
+                    color="orange")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
     "Maneskin - Beggin":                       preset_beggin,
@@ -356,4 +417,5 @@ PRESETS = {
     "Soundgarden - Black Hole Sun":            preset_black_hole_sun,
     "Radiohead - Creep":                       preset_creep,
     "Red Hot Chili Peppers - Dani California": preset_dani_california,
+    "Incubus - Drive":                         preset_drive,
 }

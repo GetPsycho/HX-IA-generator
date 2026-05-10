@@ -136,6 +136,30 @@
 
 ---
 
+## Incubus - Drive (1999)
+
+### Informations confirmées
+
+- BPM : 91 | Tonalité : Mi mineur (E minor) | Album : Make Yourself
+- Guitare : PRS McCarty Archtop II (humbuckers, neck pickup pour les sections clean)
+- Ampli : Mesa Boogie Dual Rectifier, canal clean (Gain très bas, Bass/Mid/Treble à 12h)
+- Effet signature : Boss PH-2 Super Phaser → HX: Deluxe Phaser (`HD2_PhaserDeluxePhaser`, Stages=4, Rate en Hz)
+- Shimmer intro/refrain : Boss CE-2 Chorus → HX: 70s Chorus (`HD2_Chorus70sChorus`)
+- Morceau entièrement clean, pas de distorsion
+- Technique intro : arpèges avec volume guitare roulé à zéro (swell), phaser très lent (~0.3 Hz)
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://equipboard.com/pros/mike-einziger-incubus | Inventaire complet matériel Mike Einziger |
+| https://www.guitarchalk.com/amp-settings-drive-incubus/ | Réglages amp et effets par section pour Drive |
+| https://www.guitarchalk.com/incubus-mike-einziger-amp-settings/ | Réglages ampli Mesa Boogie Dual Rectifier |
+| https://mixdownmag.com.au/features/gear-rundown-mike-einziger-of-incubus/ | Gear rundown complet Einziger |
+| https://www.uberproaudio.com/who-plays-what/206-incubus-mike-einziger-guitar-gear-rig-and-equipment | Rig complet par album |
+
+---
+
 ## Sites généraux à réutiliser pour futurs presets
 
 | URL | Description |

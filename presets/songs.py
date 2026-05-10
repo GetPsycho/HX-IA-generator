@@ -192,8 +192,57 @@ def preset_be_yourself():
     return pb
 
 
+def preset_black_hole_sun():
+    """Soundgarden - Black Hole Sun (105 BPM) — Kim Thayil
+
+    Son signature : H&K Rotosphere (rotary fast) sur clean/crunch.
+    Big Muff pour les parties lourdes (refrain/solo).
+
+    Chaine : Gate > BigMuff > Rotary > Reverb
+    Slots  :  0      1         2        3
+
+    Snap 0 Verse  : clean + rotary rapide (swirl psychedelique signature)
+    Snap 1 Refrain: Big Muff + rotary (heavy)
+    Snap 2 Solo   : Big Muff pousse + rotary
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Black Hole Sun", tempo=105.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -52.0, "Decay": 0.35})
+
+    # Bighorn Fuzz = Ram's Head Big Muff : distorsion epaisse pour refrain/solo
+    # enabled_default=False : bypasse en Verse (son clean)
+    pb.add_block("HD2_DistRamsHead", slot=1, enabled_default=False,
+                 overrides={"Sustain": 0.75, "Tone": 0.45, "Level": 0.50})
+
+    # Rotary Drum/Horn = Leslie 145 : simule le H&K Rotosphere de Kim Thayil
+    # Speed=True (fast) : reglage utilise par Kim sur Black Hole Sun
+    # Mix=0.70 : melange dry/rotary pour garder la lisibilite
+    pb.add_block("HD2_MM4RotaryDrumHorn", slot=2,
+                 overrides={"Speed": True, "Depth": 0.65, "Horn Depth": 0.70,
+                            "Drive": 0.08, "Mix": 0.70})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.50, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
+
+    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 2, 3], color="orange")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Sustain": 0.85, "Level": 0.55}},
+                    color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3], color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
     "Maneskin - Beggin":                       preset_beggin,
     "Audioslave - Be Yourself":                preset_be_yourself,
+    "Soundgarden - Black Hole Sun":            preset_black_hole_sun,
 }

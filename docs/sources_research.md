@@ -102,3 +102,27 @@
 | https://guitaralliance.net/ | Analyses de solos et sons |
 | https://www.fluidsolo.com/ | Patches HX Effects/Helix communauté |
 | https://neuraldsp.com/articles/ | Articles amp/pédale/tone par artiste |
+
+---
+
+## Soundgarden - Black Hole Sun (1994)
+
+### Informations confirmées
+
+- BPM : 105
+- Tonalité : Eb majeur (accordage demi-ton en dessous)
+- Guitare : Guild S-100 (SG-style, humbuckers)
+- Ampli : Mesa Boogie Electra Dyne + Trem-o-Verb | Marshall JMP (Gain 7, Bass 7, Mid 6, Tre 5)
+- Effet signature : Hughes & Kettner Rotosphere (rotary fast) → HX: Rotary Drum/Horn (HD2_MM4RotaryDrumHorn)
+- Distorsion : EHX Big Muff Pi → HX: Bighorn Fuzz (HD2_DistRamsHead)
+- Verse : gain ampli bas (~3), Rotosphere fast, son quasi-clean
+- Refrain/Solo : Big Muff activé + Rotosphere
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/amp-settings-black-hole-sun-soundgarden/ | Réglages ampli Black Hole Sun, effets par section |
+| https://www.guitarchalk.com/soundgarden-kim-thayil-amp-settings/ | Réglages ampli Kim Thayil, gear général |
+| https://musicstrive.com/soundgarden-guitar-tone/ | Gear Soundgarden, secret de Black Hole Sun (chorus fast + gain bas) |
+| https://equipboard.com/pros/kim-thayil | Inventaire complet pédales Kim Thayil |

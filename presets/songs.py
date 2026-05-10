@@ -161,14 +161,19 @@ def preset_be_yourself():
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.25})
 
-    # Snap 0 — Intro : quasi clean, reverb ouverte, sans delay ni OD
+    # Snap 0 — Intro : clean, reverb ouverte.
+    # Boost +3.5 dB sur le gate (Level) pour compenser la perte de densite
+    # sonore percue par rapport aux sons satures (technique standard clean boost).
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.32, "Decay": 0.58}},
+                    params={
+                        0: {"Level": 3.5},
+                        3: {"Mix": 0.32, "Decay": 0.58},
+                    },
                     color="green")
 
-    # Snap 1 — Verse : OD tres leger (grain subtil) + delay "reverb"
+    # Snap 1 — Verse : grain tres leger + delay "reverb"
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.10}},
+                    params={1: {"Gain": 0.05}},
                     color="yellow")
 
     # Snap 2 — Chorus : crunch leger + delay + reverb

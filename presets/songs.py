@@ -162,23 +162,25 @@ def preset_be_yourself():
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.25})
 
     # Snap 0 — Intro : clean, reverb ouverte.
-    # Boost +3.5 dB sur le gate (Level) pour compenser la perte de densite
-    # sonore percue par rapport aux sons satures (technique standard clean boost).
+    # Boost cumule : gate Level +6 dB (max) + reverb Level +3 dB = ~+9 dB
+    # pour compenser la perte de densite sonore percue vs sons satures.
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3],
                     params={
-                        0: {"Level": 3.5},
-                        3: {"Mix": 0.32, "Decay": 0.58},
+                        0: {"Level": 6.0},
+                        3: {"Mix": 0.32, "Decay": 0.58, "Level": 3.0},
                     },
                     color="green")
 
-    # Snap 1 — Verse : grain tres leger + delay "reverb"
+    # Snap 1 — Verse : OD tres discret.
+    # Gain bas + Tone neutre + Level reduit = OD presque inaudible,
+    # coloration minimale du signal.
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.05}},
+                    params={1: {"Gain": 0.05, "Tone": 0.48, "Level": 0.55}},
                     color="yellow")
 
-    # Snap 2 — Chorus : crunch leger + delay + reverb
+    # Snap 2 — Chorus : crunch present, params OD explicites.
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.32}},
+                    params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.73}},
                     color="orange")
 
     # Snap 3 — Solo : crunch pousse + delay "reverb" (wah = pedale externe)

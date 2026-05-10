@@ -35,33 +35,6 @@ META = {
 # Voir REFERENCE.md pour la liste complète des modèles & params.
 # ─────────────────────────────────────────────────────────
 
-def preset_smells_like_teen_spirit():
-    """Nirvana – Smells Like Teen Spirit (116 BPM)"""
-    pb = PresetBuilder("Smells LT Spirit", tempo=116.0)
-
-    pb.add_block("HD2_GateNoiseGate",     slot=0)
-    pb.add_block("HD2_DistVerminDist",    slot=1)   # ProCo Rat
-    pb.add_block("HD2_Chorus",            slot=2)   # Small Clone-style
-    pb.add_block("HD2_DelaySimpleDelay",  slot=3)
-    pb.add_block("HD2_ReverbGanymede",    slot=4)
-
-    pb.add_snapshot(0, "Intro Clean", blocks_on=[0, 4],
-                    color="green")
-
-    pb.add_snapshot(1, "Couplet",     blocks_on=[0, 1, 2, 4],
-                    params={1: {"Gain": 0.55}},
-                    color="yellow")
-
-    pb.add_snapshot(2, "Refrain",     blocks_on=[0, 1, 4],
-                    params={1: {"Gain": 0.75}},
-                    color="orange")
-
-    pb.add_snapshot(3, "Solo",        blocks_on=[0, 1, 3, 4],
-                    params={1: {"Gain": 0.80}, 3: {"Mix": 0.20}},
-                    color="red")
-
-    return pb
-
 
 def preset_are_you_gonna_go_my_way():
     """Lenny Kravitz - Are You Gonna Go My Way (130 BPM)
@@ -128,8 +101,7 @@ def preset_are_you_gonna_go_my_way():
 # ─────────────────────────────────────────────────────────
 
 SETLIST = {
-    0: preset_smells_like_teen_spirit,
-    1: preset_are_you_gonna_go_my_way,
+    0: preset_are_you_gonna_go_my_way,
 }
 
 

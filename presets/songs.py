@@ -168,11 +168,12 @@ def preset_be_yourself():
 
     # Snap 1 — Verse : OD tres leger (grain subtil) + delay "reverb"
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.20}},
+                    params={1: {"Gain": 0.10}},
                     color="yellow")
 
-    # Snap 2 — Chorus : crunch OCD (gain defaut 0.40) + delay + reverb
+    # Snap 2 — Chorus : crunch leger + delay + reverb
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.32}},
                     color="orange")
 
     # Snap 3 — Solo : crunch pousse + delay "reverb" (wah = pedale externe)

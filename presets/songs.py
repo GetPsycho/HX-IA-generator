@@ -40,7 +40,8 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_DistRamsHead", slot=1,
                  overrides={"Sustain": 0.82, "Tone": 0.58, "Level": 0.75})
 
-    pb.add_block("HD2_FlangerGrayFlanger", slot=2,
+    # enabled_default=False : bypasse au chargement, actif uniquement sur Bridge
+    pb.add_block("HD2_FlangerGrayFlanger", slot=2, enabled_default=False,
                  overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.40})
 
     pb.add_block("HD2_EQSimple3Band", slot=3)
@@ -80,5 +81,5 @@ def preset_are_you_gonna_go_my_way():
 # ─────────────────────────────────────────────────────────
 
 PRESETS = {
-    "AYGGMW": preset_are_you_gonna_go_my_way,
+    "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
 }

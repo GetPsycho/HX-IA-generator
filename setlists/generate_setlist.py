@@ -39,7 +39,7 @@ META = {
 # ─────────────────────────────────────────────────────────
 
 SETLIST = {
-    0: "AYGGMW",
+    0: "Lenny Kravitz - Are You Gonna Go My Way",
 }
 
 

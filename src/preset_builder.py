@@ -220,15 +220,52 @@ class PresetBuilder:
             "@tempo": self.tempo, "@topology0": "A", "@topology1": 0,
         }
 
+        # Params qui varient entre snapshots -> doivent etre declares dans tone.controller
+        catalog = get_catalog()
+        snap_controlled = {}  # (slot, pname) -> ParamInfo or None
+        for snap_def in self._snapshots.values():
+            for slot, overrides in snap_def["params"].items():
+                model_id = self._block_models[slot]
+                info = catalog[model_id]
+                for pname in overrides:
+                    key = (slot, pname)
+                    if key not in snap_controlled:
+                        snap_controlled[key] = info.param(pname)
+
+        controller_dsp0 = {}
+        for (slot, pname), p_info in snap_controlled.items():
+            block_key = f"block{slot}"
+            if block_key not in controller_dsp0:
+                controller_dsp0[block_key] = {}
+            if p_info is None:
+                pmin, pmax = 0.0, 1.0
+            elif isinstance(p_info.min, bool):
+                pmin, pmax = False, True
+            else:
+                pmin, pmax = float(p_info.min), float(p_info.max)
+            controller_dsp0[block_key][pname] = {
+                "@controller":        2,
+                "@max":               pmax,
+                "@min":               pmin,
+                "@snapshot_disable":  False,
+            }
+
+        tone["controller"] = {"dsp0": controller_dsp0}
+
+        # Valeurs de base des blocs (pour les snapshots qui ne specifient pas un param controle)
+        block_base_params = {
+            slot: {k: v for k, v in block.items() if not k.startswith("@")}
+            for slot, block in self._blocks.items()
+        }
+
         # 4 snapshots (limite hardware HX Effects)
         for idx in range(MAX_SNAPSHOTS):
             if idx in self._snapshots:
-                tone[f"snapshot{idx}"] = _build_snapshot(self._snapshots[idx], dsp0)
+                tone[f"snapshot{idx}"] = _build_snapshot(
+                    self._snapshots[idx], dsp0, snap_controlled, block_base_params
+                )
             else:
                 tone[f"snapshot{idx}"] = _empty_snapshot(idx)
-
-        tone["footswitch"] = _build_footswitch(self._blocks, self._block_models)
-        tone["controller"] = {"dsp0": {}}
         tone["variax"]     = {}
 
         return {
@@ -260,7 +297,8 @@ class PresetBuilder:
         return "\n".join(lines)
 
 
-def _build_snapshot(snap_def: dict, dsp0_blocks: dict) -> dict:
+def _build_snapshot(snap_def: dict, dsp0_blocks: dict,
+                    snap_controlled: dict, block_base_params: dict) -> dict:
     blocks_dsp0 = {}
     for block_key in dsp0_blocks:
         if not block_key.startswith("block"):
@@ -268,16 +306,31 @@ def _build_snapshot(snap_def: dict, dsp0_blocks: dict) -> dict:
         slot = int(block_key.replace("block", ""))
         blocks_dsp0[block_key] = snap_def["blocks_state"].get(slot, False)
 
-    controllers_dsp0 = {}
+    # Valeurs explicitement definies pour ce snapshot
+    explicit = {}  # (slot, pname) -> value
     for slot, overrides in snap_def["params"].items():
+        for pname, value in overrides.items():
+            explicit[(slot, pname)] = value
+
+    # Tous les params declares dans tone.controller doivent avoir une valeur
+    # dans chaque snapshot (valeur explicite ou valeur de base du bloc)
+    controllers_dsp0 = {}
+    for (slot, _pname), _ in snap_controlled.items():
         block_key = f"block{slot}"
         if block_key not in dsp0_blocks:
             continue
-        ctrl = {}
-        for pname, value in overrides.items():
-            ctrl[pname] = {"@fs_enabled": False, "@value": value}
-        if ctrl:
-            controllers_dsp0[block_key] = ctrl
+        if block_key not in controllers_dsp0:
+            controllers_dsp0[block_key] = {}
+
+    for (slot, pname), _ in snap_controlled.items():
+        block_key = f"block{slot}"
+        if block_key not in dsp0_blocks:
+            continue
+        if (slot, pname) in explicit:
+            value = explicit[(slot, pname)]
+        else:
+            value = block_base_params.get(slot, {}).get(pname, 0.0)
+        controllers_dsp0[block_key][pname] = {"@fs_enabled": False, "@value": value}
 
     return {
         "@custom_name":  True,

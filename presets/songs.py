@@ -228,10 +228,12 @@ def preset_black_hole_sun():
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
 
-    # Boost clean verse : compense l'absence de BigMuff face aux autres presets
+    # Kinky Boost = Xotic EP Booster : fattens le son clean du verse
+    # Ajoute corps et harmoniques (preampli), pas juste du volume
+    # Boost=True (+3 dB supplementaire), Bright=False (plus chaud, adapte aux humbuckers)
     # enabled_default=False : actif uniquement sur Verse
-    pb.add_block("HD2_VolPanGain", slot=4, enabled_default=False,
-                 overrides={"Gain": 8.0})
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.68, "Boost": True, "Bright": False})
 
     # Slapback 80ms : differencie le Solo du Refrain
     # enabled_default=False : actif uniquement sur Solo
@@ -241,10 +243,13 @@ def preset_black_hole_sun():
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 4], color="green")
 
-    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 3], color="orange")
+    # Level baisse (0.50->0.42) : sans rotary le signal BigMuff est plus direct
+    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 3],
+                    params={1: {"Level": 0.42}},
+                    color="orange")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 5],
-                    params={1: {"Sustain": 0.85, "Level": 0.60}},
+                    params={1: {"Sustain": 0.85, "Level": 0.48}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3], color="blue")

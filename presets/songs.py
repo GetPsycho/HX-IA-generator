@@ -240,9 +240,63 @@ def preset_black_hole_sun():
     return pb
 
 
+def preset_creep():
+    """Radiohead - Creep (93 BPM) — Jonny Greenwood
+
+    Son : Fender Telecaster Plus → Marshall ShredMaster (Vermin Dist)
+    → Fender Eighty-Five clean (solid-state, tres scoop : Bass 11, Mid 1, Treble 11).
+    Verse : Roland Dimension D (chorus large et transparent, mode SW4).
+    Les "stabs" percussifs avant le refrain = jeu mute agressif + kill-switch,
+    pas de reglage specifique (technique de jeu).
+
+    Chaine : Gate > VerminDist > Dimension > Reverb
+    Slots  :  0      1            2            3
+
+    Snap 0 Verse  : clean + Roland Dimension D + reverb discrete (G-B-C-Cm arpege)
+    Snap 1 Stabs  : dist seule, son sec et percussif (avant le refrain)
+    Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm)
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Creep", tempo=93.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # Vermin Dist = Pro Co RAT : plus proche du Marshall ShredMaster disponible
+    # (meme architecture opamp, gain eleve, filtre passe-bas = ton mi-grave agressif)
+    # Filter=0.38 : coupe les aigus pour renforcer les mids, caractere britannique
+    # enabled_default=False : bypasse au chargement (verse clean par defaut)
+    pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.52})
+
+    # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
+    # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s
+    pb.add_block("HD2_MM4Dimension", slot=2,
+                 overrides={"SW1": False, "SW2": False, "SW3": False, "SW4": True,
+                            "Mix": 1.0, "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.20, "Mix": 0.16})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
+
+    # Stabs : dist seule sans reverb = son sec, impact direct
+    pb.add_snapshot(1, "Stabs", blocks_on=[0, 1], color="orange")
+
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3], color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
     "Maneskin - Beggin":                       preset_beggin,
     "Audioslave - Be Yourself":                preset_be_yourself,
     "Soundgarden - Black Hole Sun":            preset_black_hole_sun,
+    "Radiohead - Creep":                       preset_creep,
 }

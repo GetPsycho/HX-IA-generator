@@ -82,6 +82,34 @@
 
 ---
 
+## Radiohead - Creep (1992)
+
+### Informations confirmées
+
+- BPM : 93
+- Tonalité : Sol majeur (G - B - C - Cm)
+- Guitare : Fender Telecaster Plus 1990 (bridge pickup, Lace Sensor), avec kill-switch
+- Ampli : Fender Eighty-Five 1989 (solid-state, canal clean — Bass 11, Mid 1, Treble 11)
+- Distorsion refrain : Marshall ShredMaster (high gain) → HX: Vermin Dist (`HD2_DistVerminDist`)
+- Chorus verse : Roland Dimension D (mode 4) → HX: Dimension Legacy (`HD2_MM4Dimension`)
+- Stabs percussifs = technique de jeu (cordes étouffées + frappe forte + kill-switch), pas un effet
+- Studio : ampli dans la salle de batterie, microphé avec un micro de grosse caisse
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://equipboard.com/pros/jonny-greenwood | Inventaire complet matériel Jonny Greenwood |
+| https://thekingofgear.com/post/182457587775/hey-kog-so-that-chunk-chunk-part-of-creep-right | Technique des stabs, kill-switch, ShredMaster |
+| https://thekingofgear.com/jonny/amplifiers | Amplis Jonny Greenwood par période |
+| https://mixdownmag.com.au/features/30-years-of-pablo-honey-radiohead-creep/ | Rétrospective 30 ans, détails studio |
+| https://guitarchalk.com/amp-settings-creep-radiohead/ | Réglages ampli Fender Eighty-Five |
+| https://www.kuassa.com/radiohead-creep-guitar-tone-breakdown/ | Analyse détaillée du son de Creep |
+| https://ironageaccessories.com/blogs/iron-age-general-blog/jonny-greenwood-killswitch | Kill-switch Telecaster Jonny Greenwood |
+| https://poeticwax.substack.com/p/radiohead-and-the-sabotage-that-made | Anecdote du sabotage + citation de Jonny |
+
+---
+
 ## Sites généraux à réutiliser pour futurs presets
 
 | URL | Description |

@@ -195,15 +195,16 @@ def preset_be_yourself():
 def preset_black_hole_sun():
     """Soundgarden - Black Hole Sun (105 BPM) — Kim Thayil
 
-    Son signature : H&K Rotosphere (rotary fast) sur clean/crunch.
-    Big Muff pour les parties lourdes (refrain/solo).
+    Son signature : H&K Rotosphere (rotary fast) exclusivement sur le verse clean.
+    Big Muff pour refrain/solo, sans rotary (le rotary noie la BigMuff sur HX Effects).
+    Slapback 80ms sur le solo pour se distinguer du refrain.
 
-    Chaine : Gate > BigMuff > Rotary > Reverb
-    Slots  :  0      1         2        3
+    Chaine : Gate > BigMuff > Rotary > Reverb > Boost > Slapback
+    Slots  :  0      1         2        3        4       5
 
-    Snap 0 Verse  : clean + rotary rapide (swirl psychedelique signature)
-    Snap 1 Refrain: Big Muff + rotary (heavy)
-    Snap 2 Solo   : Big Muff pousse + rotary
+    Snap 0 Verse  : clean + rotary fort + reverb + boost (+8 dB, compense l'absence de dist)
+    Snap 1 Refrain: Big Muff + reverb (sans rotary)
+    Snap 2 Solo   : Big Muff pousse + slapback 80ms + reverb
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Black Hole Sun", tempo=105.0)
@@ -217,22 +218,33 @@ def preset_black_hole_sun():
                  overrides={"Sustain": 0.75, "Tone": 0.45, "Level": 0.50})
 
     # Rotary Drum/Horn = Leslie 145 : simule le H&K Rotosphere de Kim Thayil
-    # Speed=True (fast) : reglage utilise par Kim sur Black Hole Sun
-    # Mix=0.70 : melange dry/rotary pour garder la lisibilite
+    # Speed=True (fast), Mix=0.85 et Depth/Horn eleves pour un swirl bien perceptible
+    # Bypasse sur Refrain et Solo : le rotary noie la BigMuff sans ampli tube
     pb.add_block("HD2_MM4RotaryDrumHorn", slot=2,
-                 overrides={"Speed": True, "Depth": 0.65, "Horn Depth": 0.70,
-                            "Drive": 0.08, "Mix": 0.70})
+                 overrides={"Speed": True, "Depth": 0.82, "Horn Depth": 0.88,
+                            "Drive": 0.08, "Mix": 0.85})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
+    # Boost clean verse : compense l'absence de BigMuff face aux autres presets
+    # enabled_default=False : actif uniquement sur Verse
+    pb.add_block("HD2_VolPanGain", slot=4, enabled_default=False,
+                 overrides={"Gain": 8.0})
 
-    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 2, 3], color="orange")
+    # Slapback 80ms : differencie le Solo du Refrain
+    # enabled_default=False : actif uniquement sur Solo
+    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
+                 overrides={"Time": 0.08, "Feedback": 0.0, "Mix": 0.18,
+                            "TempoSync1": False})
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Sustain": 0.85, "Level": 0.55}},
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 4], color="green")
+
+    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 3], color="orange")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 5],
+                    params={1: {"Sustain": 0.85, "Level": 0.60}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3], color="blue")

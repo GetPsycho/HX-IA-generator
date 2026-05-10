@@ -75,6 +75,62 @@ def preset_are_you_gonna_go_my_way():
     return pb
 
 
+def preset_beggin():
+    """Maneskin - Beggin' (134 BPM)
+
+    Son : crunch mid-gain OCD (Compulsive Drive = Fulltone OCD),
+    caractere Marshall Plexi sec et percussif.
+    Gain modere : DiMarzio Super Distortion pousse deja fort le circuit.
+
+    Chaine : Gate > CompulsiveDrive > Chorus > Delay > Reverb
+    Slots  :  0          1              2         3       4
+
+    Snap 0 Rythme     : crunch sec verse/refrain
+    Snap 1 Pre-chorus : crunch + chorus subtil
+    Snap 2 Lead       : crunch + delay 250ms pour le climax
+    Snap 3 Clean      : accordage / attente
+    """
+    pb = PresetBuilder("Beggin'", tempo=134.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -55.0, "Decay": 0.35})
+
+    # Compulsive Drive = Fulltone OCD : gain modere (humbucker chaud)
+    # LPHP=True : mode HP, attaque seche et dynamique (style Plexi)
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.55, "Tone": 0.58, "LPHP": True, "Level": 0.73})
+
+    # Chorus subtil : sections pre-chorus uniquement, bypasse par defaut
+    pb.add_block("HD2_Chorus", slot=2, enabled_default=False,
+                 overrides={"Speed": 0.20, "Depth": 0.55, "Mix": 0.25})
+
+    # Delay analogique : lead / climax final, bypasse par defaut
+    # 250ms = 0.25s, quelques repetitions courtes
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
+                 overrides={"Time": 0.25, "Feedback": 0.20, "Mix": 0.28,
+                            "TempoSync1": False})
+
+    # Reverb hall legere : meme reglages que AYGGMW pour coherence de volume
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.18})
+
+    pb.add_snapshot(0, "Rythme", blocks_on=[0, 1, 4],
+                    color="yellow")
+
+    pb.add_snapshot(1, "Pre-chorus", blocks_on=[0, 1, 2, 4],
+                    color="blue")
+
+    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 3, 4],
+                    params={1: {"Gain": 0.65, "Level": 0.78}},
+                    color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    color="green")
+
+    return pb
+
+
 # ─────────────────────────────────────────────────────────
 # PRESETS — nom de fichier -> fonction
 # Utilise par generate_presets.py pour les .hlx individuels.
@@ -82,4 +138,5 @@ def preset_are_you_gonna_go_my_way():
 
 PRESETS = {
     "Lenny Kravitz - Are You Gonna Go My Way": preset_are_you_gonna_go_my_way,
+    "Maneskin - Beggin":                       preset_beggin,
 }

@@ -109,9 +109,16 @@ def make_block(model_id: str, position: int, path: int = 0,
 
 class PresetBuilder:
 
-    def __init__(self, name: str, tempo: float = 120.0):
+    def __init__(self, name: str, tempo: float = 120.0,
+                 volume_offset_db: float = 0.0):
+        # volume_offset_db : offset global applique en sortie (bloc join.Level).
+        # Sert a egaliser les volumes percus entre presets en live.
+        # Plage HX Effects : -60.0 a +6.0 dB.
+        if not (-60.0 <= volume_offset_db <= 6.0):
+            raise ValueError(f"volume_offset_db hors plage [-60, +6] : {volume_offset_db}")
         self.name         = name.strip()[:32]
         self.tempo        = tempo
+        self.volume_offset_db = volume_offset_db
         self._blocks      = {}   # slot -> bloc dict
         self._block_models = {}  # slot -> model_id
         self._snapshots   = {}   # idx  -> snapshot def
@@ -207,7 +214,7 @@ class PresetBuilder:
             "B Level":             0.0,
             "B Pan":               0.5,
             "B Polarity":          False,
-            "Level":               0.0,
+            "Level":               self.volume_offset_db,
         }
         dsp0["inputA"]  = {"@input": 1, "@model": "HelixFx_AppDSPFlowInput"}
         dsp0["inputB"]  = {"@input": 0, "@model": "HelixFx_AppDSPFlowInput"}
@@ -290,8 +297,9 @@ class PresetBuilder:
 
     def summary(self) -> str:
         catalog = get_catalog()
+        offset_str = f"  offset={self.volume_offset_db:+.1f}dB" if self.volume_offset_db != 0.0 else ""
         lines = [f"\n{'='*55}",
-                 f"PRESET : {self.name}  (tempo={self.tempo})",
+                 f"PRESET : {self.name}  (tempo={self.tempo}){offset_str}",
                  "="*55, "\nBLOCS :"]
         for slot in sorted(self._blocks):
             model_id = self._block_models[slot]

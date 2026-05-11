@@ -223,7 +223,7 @@ def preset_black_hole_sun():
     # enabled_default=False : doit etre explicitement dans blocks_on pour etre actif
     pb.add_block("HD2_MM4RotaryDrumHorn", slot=2, enabled_default=False,
                  overrides={"Speed": True, "Depth": 0.82, "Horn Depth": 0.88,
-                            "Drive": 0.08, "Mix": 0.85})
+                            "Drive": 0.5, "Mix": 0.85, "Level": 4.0})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.50, "Predelay": 0.02,

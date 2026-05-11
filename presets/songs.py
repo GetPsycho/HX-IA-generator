@@ -249,7 +249,9 @@ def preset_black_hole_sun():
 
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6], color="yellow")
 
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4, 6],
+                    params={6: {"Gain": 0.05}},
+                    color="green")
 
     pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 3],
                     params={1: {"Level": 0.42}},

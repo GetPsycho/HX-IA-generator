@@ -172,6 +172,16 @@ class PresetBuilder:
         return self
 
     def build(self) -> dict:
+        # Sync @enabled de chaque bloc avec l'etat du snapshot 0 (snapshot par defaut
+        # au chargement du preset). Sinon le HX Effects laisse le bloc bypasse meme
+        # si le snapshot 0 dit qu'il doit etre actif : la LED suit le snapshot mais
+        # le bypass reste a son etat initial -> incoherence visible (LED ON mais
+        # nom du bloc grise sur l'ecran).
+        if 0 in self._snapshots:
+            for slot, state in self._snapshots[0]["blocks_state"].items():
+                if slot in self._blocks:
+                    self._blocks[slot]["@enabled"] = state
+
         tone = {}
 
         # dsp0 : split + blocs utilisateur + join + inputs/outputs

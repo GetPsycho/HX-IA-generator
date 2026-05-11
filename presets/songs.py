@@ -130,13 +130,13 @@ def preset_be_yourself():
     qui se noie dans la reverb, pas d'echos distincts perceptibles.
     Delay quarter note 117 BPM = 512ms = 0.51s (interne).
 
-    Chaine : Gate > OD > Delay > Reverb
-    Slots  :  0     1    2       3
+    Chaine : Gate > OD > Delay > Reverb > KinkyBoost
+    Slots  :  0     1    2       3        4
 
-    Snap 0 Intro  : quasi clean, reverb seule (pas de delay)
-    Snap 1 Verse  : clean + delay "reverb" (feedback tres bas)
+    Snap 0 Intro  : clean + reverb large + Kinky Boost (compense l'absence d'OD)
+    Snap 1 Verse  : OD ultra-discret + delay + reverb
     Snap 2 Chorus : crunch leger + delay + reverb
-    Snap 3 Solo   : crunch + boost gain + delay "reverb"
+    Snap 3 Solo   : crunch pousse + delay + reverb (wah = pedale externe)
     """
     pb = PresetBuilder("Be Yourself", tempo=117.0)
 
@@ -144,49 +144,47 @@ def preset_be_yourself():
                  overrides={"Threshold": -50.0, "Decay": 0.35})
 
     # Compulsive Drive = Fulltone OCD : crunch JCM800 leger
-    # enabled_default=False : bypasse en Intro et Verse (son clean)
+    # enabled_default=False : bypasse en Intro (son clean)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.40, "Tone": 0.58, "LPHP": True, "Level": 0.73})
+                 overrides={"Gain": 0.40, "Tone": 0.58, "LPHP": True, "Level": 0.55})
 
     # Delay "reverb" : quarter note a 117 BPM (0.51s)
     # Feedback 0.07 = une seule repetition discrete, effet ambiance
-    # pas de succession d'echos perceptibles
     # enabled_default=False : pas actif sur l'Intro
     pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
                  overrides={"Time": 0.51, "Feedback": 0.07, "Mix": 0.10,
                             "TempoSync1": False})
 
-    # Reverb plus presente sur l'ensemble
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.25})
 
-    # Bloc de boost propre pour l'Intro : bypasse par defaut
-    # Compense la perte de densite sonore percue du son clean vs sature
-    pb.add_block("HD2_VolPanGain", slot=4, enabled_default=False,
-                 overrides={"Gain": 10.0})
+    # Kinky Boost = Xotic EP Booster : compense l'absence d'OD sur Intro
+    # Drive moyen + Boost=True pour amener le clean au niveau perçu des snaps OCD
+    # enabled_default=False : actif uniquement sur Intro
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.5, "Boost": True, "Bright": False})
 
-    # Snap 0 — Intro : clean + reverb ouverte + boost volume (+10 dB)
+    # Intro : clean + reverb ouverte + Kinky Boost (compense le gain manquant)
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 4],
                     params={3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Snap 1 — Verse : OD ultra-discret, lisse et chaud.
-    # Gain=0.02 + LPHP=False (mode LP, plus chaud) + Level reduit
-    # = grain a peine perceptible, signal lisse sans mordant
+    # Verse : OD ultra-discret, lisse et chaud
+    # Gain=0.05 + LPHP=False (mode LP, plus chaud) = grain a peine perceptible
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.02, "Tone": 0.48,
-                                "LPHP": False, "Level": 0.48}},
+                    params={1: {"Gain": 0.05, "Tone": 0.48,
+                                "LPHP": False, "Level": 0.55}},
                     color="yellow")
 
-    # Snap 2 — Chorus : crunch present
+    # Chorus : crunch leger, meme niveau perçu que le Verse
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.58}},
+                    params={1: {"Gain": 0.32, "Tone": 0.55, "Level": 0.55}},
                     color="orange")
 
-    # Snap 3 — Solo : crunch pousse (wah = pedale externe)
+    # Solo : crunch pousse, legerement plus fort pour les leads
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.62, "Level": 0.80}},
+                    params={1: {"Gain": 0.58, "Tone": 0.60, "Level": 0.65}},
                     color="red")
 
     return pb

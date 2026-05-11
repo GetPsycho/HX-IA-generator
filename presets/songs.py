@@ -247,11 +247,11 @@ def preset_black_hole_sun():
     pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
                  overrides={"Gain": 0.50, "Tone": 0.50, "Level": 0.80})
 
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6], color="yellow")
-
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4, 6],
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 4, 6],
                     params={6: {"Gain": 0.05}},
-                    color="green")
+                    color="yellow")
+
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
 
     pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 3],
                     params={1: {"Level": 0.42}},

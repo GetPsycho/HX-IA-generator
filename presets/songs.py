@@ -346,14 +346,14 @@ def preset_dani_california():
     # Gain bas = grain discret qui evite le son trop sec du clean pur
     # LPHP=False (mode LP) : plus chaud, adapte a la Strat single-coil
     pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.52})
+                 overrides={"Gain": 0.04, "Tone": 0.55, "LPHP": False, "Level": 0.52})
 
     # Auto Filter = Moog MF-101 Low-Pass Filter approx. : envelope follower LP
     # Actif uniquement sur le Lick (notes filtrees dans le verse)
     pb.add_block("HD2_FilterAutoFilter", slot=2, enabled_default=False,
-                 overrides={"Mode": 0, "FilterGain": 14.0, "FilterQ": 6.0,
+                 overrides={"Mode": 1, "FilterGain": 14.0, "FilterQ": 6.0,
                             "Sens": 0.55, "Attack": 0.01, "Decay": 0.30,
-                            "Frequency": 80.0, "FreqDepth": 4500.0,
+                            "Frequency": 200.0, "FreqDepth": 4500.0,
                             "Direction": True, "Mix": 1.0, "Level": 0.0})
 
     # Deez One Mod = BOSS DS-1 Keeley modded : approx. Boss DS-2 Turbo Distortion

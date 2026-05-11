@@ -325,55 +325,54 @@ def preset_creep():
 def preset_dani_california():
     """RHCP - Dani California (97 BPM) — John Frusciante
 
-    Son : Fender Strat 1954 → Moog MF-101 LPF (Auto Filter, verse)
+    Son : Fender Strat 1954 → OD legere (crunch verse) → Moog MF-101 LPF
     → Boss DS-2 Turbo (Deez One Mod, chorus/solo) → Marshall Major 200W bridgé.
-    Verse : filtre passe-bas avec envelope follower = son "wobbly" signature.
-    Wah (solo) : pédale externe (Ibanez WH-10 de Frusciante / MC404 d'Eric).
+    Wah (solo) : pédale externe.
 
-    Chaine : Gate > AutoFilter > DeezOneMod > Reverb
-    Slots  :  0      1            2              3
+    Chaine : Gate > OCD > AutoFilter > DeezOneMod > Reverb
+    Slots  :  0     1      2            3              4
 
-    Snap 0 Verse  : filter envelope + reverb, dist bypasse (intro + couplets)
-    Snap 1 Chorus : dist + reverb, filter bypasse
-    Snap 2 Solo   : dist gain plus eleve + reverb (wah = pedale externe)
-    Snap 3 Clean  : accordage / attente
+    Snap 0 Verse  : OD legere + reverb (accords, pas de filtre)
+    Snap 1 Lick   : OD legere + auto filter + reverb (lick wobbly dans le verse)
+    Snap 2 Chorus : dist DS-2 + reverb
+    Snap 3 Solo   : dist DS-2 gain pousse + reverb (wah = pedale externe)
     """
     pb = PresetBuilder("Dani California", tempo=97.0)
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
+    # Compulsive Drive = OCD : crunch leger pour le verse (accords + lick)
+    # Gain bas = grain discret qui evite le son trop sec du clean pur
+    # LPHP=False (mode LP) : plus chaud, adapte a la Strat single-coil
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.52})
+
     # Auto Filter = Moog MF-101 Low-Pass Filter approx. : envelope follower LP
-    # Mode=0 (LP), s'ouvre dynamiquement selon l'intensite du jeu (Sens=0.55)
-    # enabled_default=False : bypasse au chargement, actif uniquement sur Verse
-    pb.add_block("HD2_FilterAutoFilter", slot=1, enabled_default=False,
+    # Actif uniquement sur le Lick (notes filtrees dans le verse)
+    pb.add_block("HD2_FilterAutoFilter", slot=2, enabled_default=False,
                  overrides={"Mode": 0, "FilterGain": 14.0, "FilterQ": 6.0,
                             "Sens": 0.55, "Attack": 0.01, "Decay": 0.30,
                             "Frequency": 80.0, "FreqDepth": 4500.0,
                             "Direction": True, "Mix": 1.0, "Level": 0.0})
 
     # Deez One Mod = BOSS DS-1 Keeley modded : approx. Boss DS-2 Turbo Distortion
-    # (DS-2 non modelise directement dans HX Effects)
-    # enabled_default=False : bypasse au chargement
-    pb.add_block("HD2_DistDeezOneMod", slot=2, enabled_default=False,
+    pb.add_block("HD2_DistDeezOneMod", slot=3, enabled_default=False,
                  overrides={"Drive": 0.62, "Tone": 0.52, "Level": 0.52})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.14})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 4], color="green")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 2, 3], color="orange")
+    pb.add_snapshot(1, "Lick", blocks_on=[0, 1, 2, 4], color="yellow")
 
-    # Solo : gain un peu plus eleve pour les leads (wah = pedale externe)
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 2, 3],
-                    params={2: {"Drive": 0.72, "Level": 0.55}},
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 3, 4], color="orange")
+
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 3, 4],
+                    params={3: {"Drive": 0.72, "Level": 0.55}},
                     color="red")
-
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
-                    color="blue")
 
     return pb
 

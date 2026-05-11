@@ -176,12 +176,12 @@ def preset_be_yourself():
     # = grain a peine perceptible, signal lisse sans mordant
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.02, "Tone": 0.48,
-                                "LPHP": False, "Level": 0.35}},
+                                "LPHP": False, "Level": 0.48}},
                     color="yellow")
 
     # Snap 2 — Chorus : crunch present
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.45}},
+                    params={1: {"Gain": 0.32, "Tone": 0.58, "Level": 0.58}},
                     color="orange")
 
     # Snap 3 — Solo : crunch pousse (wah = pedale externe)
@@ -220,8 +220,8 @@ def preset_black_hole_sun():
 
     # Rotary Drum/Horn = Leslie 145 : simule le H&K Rotosphere de Kim Thayil
     # Speed=True (fast), Mix=0.85 pour un swirl bien perceptible
-    # Bypasse sur Intro, Refrain et Solo
-    pb.add_block("HD2_MM4RotaryDrumHorn", slot=2,
+    # enabled_default=False : doit etre explicitement dans blocks_on pour etre actif
+    pb.add_block("HD2_MM4RotaryDrumHorn", slot=2, enabled_default=False,
                  overrides={"Speed": True, "Depth": 0.82, "Horn Depth": 0.88,
                             "Drive": 0.08, "Mix": 0.85})
 
@@ -230,9 +230,10 @@ def preset_black_hole_sun():
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
 
     # Kinky Boost = Xotic EP Booster : corps et harmoniques sur le verse clean
+    # Drive reduit (1.0->0.80) + Boost=False : verse un peu moins fort
     # enabled_default=False : actif uniquement sur Verse
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 1.0, "Boost": True, "Bright": False})
+                 overrides={"Drive": 0.80, "Boost": False, "Bright": False})
 
     # Slapback 80ms : differencie le Solo du Refrain
     # enabled_default=False : actif uniquement sur Solo
@@ -240,11 +241,11 @@ def preset_black_hole_sun():
                  overrides={"Time": 0.08, "Feedback": 0.0, "Mix": 0.18,
                             "TempoSync1": False})
 
-    # Compulsive Drive = OCD : OD legere epaisse pour l'intro
-    # Gain bas = crunch chaud, Tone neutre, sans rotary
+    # Compulsive Drive = OCD : OD epaisse pour l'intro (riff grave Cornell)
+    # Gain monte (0.35->0.48) pour plus de grain et de corps
     # enabled_default=False : actif uniquement sur Intro
     pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
-                 overrides={"Gain": 0.35, "Tone": 0.50, "Level": 0.45})
+                 overrides={"Gain": 0.48, "Tone": 0.50, "Level": 0.45})
 
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6], color="yellow")
 

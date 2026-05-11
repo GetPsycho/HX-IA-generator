@@ -267,14 +267,13 @@ def preset_creep():
     Son : Fender Telecaster Plus → Marshall ShredMaster (Vermin Dist)
     → Fender Eighty-Five clean (solid-state, tres scoop : Bass 11, Mid 1, Treble 11).
     Verse : Roland Dimension D (chorus large et transparent, mode SW4).
-    Les "stabs" percussifs avant le refrain = jeu mute agressif + kill-switch,
-    pas de reglage specifique (technique de jeu).
+    Stabs : compresseur Dyna Comp + dist gain pousse = "gros coup" produit, fort.
 
-    Chaine : Gate > VerminDist > Dimension > Reverb
-    Slots  :  0      1            2            3
+    Chaine : Gate > VerminDist > Dimension > Reverb > RedSqueeze
+    Slots  :  0      1            2            3        4
 
     Snap 0 Verse  : clean + Roland Dimension D + reverb discrete (G-B-C-Cm arpege)
-    Snap 1 Stabs  : dist seule, son sec et percussif (avant le refrain)
+    Snap 1 Stabs  : dist gain pousse + compresseur (gros coup mute, sec et fort)
     Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm)
     Snap 3 Clean  : accordage / attente
     """
@@ -300,10 +299,19 @@ def preset_creep():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.16})
 
+    # Red Squeeze = MXR Dyna Comp : compression forte + makeup gain pour les Stabs
+    # Sensitivity haute = ecrase l'attaque, sustain le coup mute
+    # Level +6 dB = makeup, donne le "gros coup fort" demande
+    # enabled_default=False : actif uniquement sur Stabs
+    pb.add_block("HD2_CompressorRedSqueeze", slot=4, enabled_default=False,
+                 overrides={"Sensitivity": 0.78, "Mix": 1.0, "Level": 6.0})
+
     pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
 
-    # Stabs : dist seule sans reverb = son sec, impact direct
-    pb.add_snapshot(1, "Stabs", blocks_on=[0, 1], color="orange")
+    # Stabs : dist gain pousse (0.75->0.85) + comp = gros coup mute compresse
+    pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 4],
+                    params={1: {"Gain": 0.85}},
+                    color="orange")
 
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3], color="red")
 

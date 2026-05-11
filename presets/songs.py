@@ -172,7 +172,7 @@ def preset_be_yourself():
 
     # Verse : OD ultra-discret + Kinky Boost (renforce le clean discret)
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Gain": 0.05, "Tone": 0.48,
+                    params={1: {"Gain": 0.10, "Tone": 0.48,
                                 "LPHP": False, "Level": 0.55}},
                     color="yellow")
 

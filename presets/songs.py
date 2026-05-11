@@ -165,21 +165,20 @@ def preset_be_yourself():
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
                  overrides={"Drive": 0.5, "Boost": True, "Bright": False})
 
-    # Intro : clean + reverb ouverte + Kinky Boost (compense le gain manquant)
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 4],
+    # Intro : clean + reverb ouverte (sans boost ni OD)
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 3],
                     params={3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Verse : OD ultra-discret, lisse et chaud
-    # Gain=0.05 + LPHP=False (mode LP, plus chaud) = grain a peine perceptible
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
+    # Verse : OD ultra-discret + Kinky Boost (renforce le clean discret)
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3, 4],
                     params={1: {"Gain": 0.05, "Tone": 0.48,
                                 "LPHP": False, "Level": 0.55}},
                     color="yellow")
 
-    # Chorus : crunch leger, meme niveau perçu que le Verse
+    # Chorus : crunch present, Level monte pour ressortir
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.32, "Tone": 0.55, "Level": 0.55}},
+                    params={1: {"Gain": 0.32, "Tone": 0.55, "Level": 0.65}},
                     color="orange")
 
     # Solo : crunch pousse, legerement plus fort pour les leads

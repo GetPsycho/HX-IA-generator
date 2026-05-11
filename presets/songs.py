@@ -233,7 +233,7 @@ def preset_black_hole_sun():
     # Drive reduit (1.0->0.80) + Boost=False : verse un peu moins fort
     # enabled_default=False : actif uniquement sur Verse
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.80, "Boost": False, "Bright": False})
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
     # Slapback 80ms : differencie le Solo du Refrain
     # enabled_default=False : actif uniquement sur Solo
@@ -245,7 +245,7 @@ def preset_black_hole_sun():
     # Gain monte (0.35->0.48) pour plus de grain et de corps
     # enabled_default=False : actif uniquement sur Intro
     pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
-                 overrides={"Gain": 0.48, "Tone": 0.50, "Level": 0.45})
+                 overrides={"Gain": 0.50, "Tone": 0.50, "Level": 0.80})
 
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6], color="yellow")
 

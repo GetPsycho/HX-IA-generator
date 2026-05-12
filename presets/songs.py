@@ -628,16 +628,17 @@ def preset_i_wanna_be_your_slave():
 
 
 def preset_le_reste():
-    """Clara Luciani - Le Reste (113 BPM)
+    """Clara Luciani - Le Reste (113 BPM) — Sage (Ambroise Willaume)
 
-    Son : guitare electrique propre et chaude, reverb ample.
-    Pop francaise acoustique/electrique, pas de distorsion.
+    Son : Strat clean compressée, inspiration Nile Rodgers.
+    Red Squeeze (Dyna Comp) = compression snappy, attaque articulee.
+    Pas de distorsion, reverb ambiante.
 
-    Chaine : Gate > KinkyBoost > Reverb
+    Chaine : Gate > RedSqueeze > Reverb
     Slots  :  0      1            2
 
-    Snap 0 Verse  : clean chaud (Kinky Boost = preampli) + reverb
-    Snap 1 Chorus : clean + reverb plus ouverte
+    Snap 0 Verse  : Strat compressee + reverb
+    Snap 1 Chorus : meme son + reverb plus ouverte
     Snap 2 Clean  : accordage / attente
     """
     pb = PresetBuilder("Le Reste", tempo=113.0)
@@ -645,18 +646,19 @@ def preset_le_reste():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
-    # Kinky Boost = EP Booster : preampli chaud, ajoute corps sans grain
-    pb.add_block("HD2_DistKinkyBoost", slot=1,
-                 overrides={"Drive": 0.55, "Boost": False, "Bright": False})
+    # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers
+    # Sensitivity moderee = attaque snappy sans ecraser les transitoires
+    pb.add_block("HD2_CompressorRedSqueeze", slot=1,
+                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 4.0})
 
     pb.add_block("HD2_ReverbGanymede", slot=2,
-                 overrides={"Decay": 0.55, "Predelay": 0.02,
-                            "Tone": 0.65, "Modulation": 0.15, "Mix": 0.25})
+                 overrides={"Decay": 0.52, "Predelay": 0.02,
+                            "Tone": 0.68, "Modulation": 0.12, "Mix": 0.22})
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2], color="green")
 
     pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
-                    params={2: {"Mix": 0.32, "Decay": 0.62}},
+                    params={2: {"Mix": 0.30, "Decay": 0.60}},
                     color="yellow")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
@@ -717,15 +719,16 @@ def preset_no_one_knows():
 
 
 def preset_nue():
-    """Clara Luciani - Nue (132 BPM)
+    """Clara Luciani - Nue (132 BPM) — Sage (Ambroise Willaume)
 
-    Son : guitare electrique clean, arrangements epures, reverb spatiale.
+    Son : Strat clean compressée, inspiration Nile Rodgers.
+    Chorus discret (CE-1) sur le refrain pour le shimmer.
 
-    Chaine : Gate > KinkyBoost > Chorus70s > Reverb
+    Chaine : Gate > RedSqueeze > Chorus70s > Reverb
     Slots  :  0      1            2            3
 
-    Snap 0 Verse  : clean + reverb
-    Snap 1 Chorus : clean + chorus leger + reverb plus large
+    Snap 0 Verse  : Strat compressee + reverb
+    Snap 1 Chorus : Strat compressee + chorus leger + reverb plus large
     Snap 2 Clean  : accordage / attente
     """
     pb = PresetBuilder("Nue", tempo=132.0)
@@ -733,17 +736,18 @@ def preset_nue():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
-    pb.add_block("HD2_DistKinkyBoost", slot=1,
-                 overrides={"Drive": 0.50, "Boost": False, "Bright": False})
+    # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers (son snappy et articule)
+    pb.add_block("HD2_CompressorRedSqueeze", slot=1,
+                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 4.0})
 
-    # Chorus discret pour le refrain
+    # 70s Chorus = CE-1 : shimmer discret sur le refrain
     pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
                  overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
                             "VibratoDepth": 0.35, "Mix": 0.35, "Level": 1.0})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
-                 overrides={"Decay": 0.52, "Predelay": 0.02,
-                            "Tone": 0.65, "Modulation": 0.15, "Mix": 0.24})
+                 overrides={"Decay": 0.50, "Predelay": 0.02,
+                            "Tone": 0.68, "Modulation": 0.12, "Mix": 0.22})
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
 

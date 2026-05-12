@@ -438,6 +438,559 @@ def preset_drive():
     return pb
 
 
+def preset_even_flow():
+    """Pearl Jam - Even Flow (103 BPM) — Mike McCready
+
+    Son : Fender Strat 1958 → Ibanez TS9 (Scream 808) → Marshall JCM800.
+    Wah (solo) : pedale externe (MC404 d'Eric).
+
+    Chaine : Gate > Scream808 > ScriptModPhase > SimpleDelay > Reverb
+    Slots  :  0      1           2                 3              4
+
+    Snap 0 Verse  : TS9 modere + reverb
+    Snap 1 Chorus : TS9 plus pousse + reverb
+    Snap 2 Solo   : TS9 + phase + delay + reverb (wah = pedale externe)
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Even Flow", tempo=103.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.32})
+
+    pb.add_block("HD2_DistScream808", slot=1,
+                 overrides={"Gain": 0.55, "Tone": 0.60, "Level": 0.52})
+
+    pb.add_block("HD2_PhaserScriptModPhase", slot=2, enabled_default=False,
+                 overrides={"Rate": 0.22, "Mix": 0.45, "Level": 0.0})
+
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
+                 overrides={"Time": 0.29, "Feedback": 0.12, "Mix": 0.18,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.20, "Mix": 0.18})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 4], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 4],
+                    params={1: {"Gain": 0.68, "Level": 0.58}},
+                    color="orange")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4],
+                    params={1: {"Gain": 0.65, "Level": 0.60}},
+                    color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_how_you_remind_me():
+    """Nickelback - How You Remind Me (86 BPM) — Ryan Peake
+
+    Son signature : Boss HM-2 (Swedish Chainsaw) tous parametres au maximum.
+    Son "chainsaw" saturé, palm-muting agressif.
+
+    Chaine : Gate > SwedishChainsaw > Reverb
+    Slots  :  0      1                  2
+
+    Snap 0 Verse  : HM-2 + gate serre + reverb (palm-muting sature)
+    Snap 1 Chorus : HM-2 + reverb (full saturation)
+    Snap 2 Solo   : HM-2 + reverb (lead sustain)
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("How You Remind Me", tempo=86.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -48.0, "Decay": 0.22})
+
+    # Swedish Chainsaw = Boss HM-2 : tous parametres dimes = son chainsaw classique
+    pb.add_block("HD2_DistSwedishChainsaw", slot=1,
+                 overrides={"Drive": 0.95, "Bass": 0.90, "Treble": 0.80,
+                            "Level": 0.50})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.35, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.12})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2], color="orange")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
+                    params={1: {"Level": 0.55}},
+                    color="red")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2],
+                    params={1: {"Drive": 0.85, "Level": 0.58}},
+                    color="yellow")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_hysteria():
+    """Muse - Hysteria (93 BPM) — Matt Bellamy
+
+    Son : Manson custom → KWB (high gain) → Diezel VH4.
+    Note : Hysteria est une chanson de basse ; la guitare joue en soutien.
+    Son mur de distorsion compresse et epais.
+
+    Chaine : Gate > KWB > SimpleDelay > Reverb
+    Slots  :  0     1      2              3
+
+    Snap 0 Riff   : dist haute + reverb (riff principal)
+    Snap 1 Chorus : dist + delay court + reverb
+    Snap 2 Solo   : dist pousse + delay + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Hysteria", tempo=93.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.25})
+
+    # KWB = Kowloon Walled Bunny Dist : high-gain, caractere Diezel
+    pb.add_block("HD2_DistKWB", slot=1,
+                 overrides={"Gain": 0.72, "Bass": 2.0, "Treble": 1.0, "Level": 0.52})
+
+    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+                 overrides={"Time": 0.16, "Feedback": 0.08, "Mix": 0.15,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.38, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3], color="orange")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3], color="red")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.82, "Level": 0.58}},
+                    color="yellow")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_i_wanna_be_your_slave():
+    """Maneskin - I Wanna Be Your Slave (131 BPM) — Thomas Raggi
+
+    Son : Telecaster → Klon (Minotaur) → OCD (Compulsive Drive) → Marshall Plexi.
+    Rock glam agressif, saturation stackee.
+
+    Chaine : Gate > Minotaur > CompulsiveDrive > Reverb
+    Slots  :  0      1          2                  3
+
+    Snap 0 Verse  : Klon crunch + reverb
+    Snap 1 Chorus : Klon + OCD = saturation stackee + reverb
+    Snap 2 Solo   : Klon + OCD pousse + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("I Wanna Be Slave", tempo=131.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # Minotaur = Klon Centaur : boost transparent mid-heavy, crunch pour le verse
+    pb.add_block("HD2_DistMinotaur", slot=1,
+                 overrides={"Gain": 0.48, "Tone": 0.60, "Level": 0.55})
+
+    # Compulsive Drive = OCD : saturation additionnelle pour chorus/solo
+    # enabled_default=False : bypasse en Verse
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.45, "Tone": 0.58, "Level": 0.52})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.38, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.18, "Mix": 0.14})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="yellow")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3], color="orange")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.55}, 2: {"Gain": 0.55, "Level": 0.58}},
+                    color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_le_reste():
+    """Clara Luciani - Le Reste (113 BPM)
+
+    Son : guitare electrique propre et chaude, reverb ample.
+    Pop francaise acoustique/electrique, pas de distorsion.
+
+    Chaine : Gate > KinkyBoost > Reverb
+    Slots  :  0      1            2
+
+    Snap 0 Verse  : clean chaud (Kinky Boost = preampli) + reverb
+    Snap 1 Chorus : clean + reverb plus ouverte
+    Snap 2 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Le Reste", tempo=113.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -54.0, "Decay": 0.40})
+
+    # Kinky Boost = EP Booster : preampli chaud, ajoute corps sans grain
+    pb.add_block("HD2_DistKinkyBoost", slot=1,
+                 overrides={"Drive": 0.55, "Boost": False, "Bright": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.55, "Predelay": 0.02,
+                            "Tone": 0.65, "Modulation": 0.15, "Mix": 0.25})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
+                    params={2: {"Mix": 0.32, "Decay": 0.62}},
+                    color="yellow")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_no_one_knows():
+    """Queens of the Stone Age - No One Knows (171 BPM) — Josh Homme
+
+    Son : Epiphone Dot baritone → SD-1 (Level/Tone max, Drive min) → Ampeg V4B.
+    Pas de reverb sur l'enregistrement. Son epais et mid-heavy, palm-muting serre.
+
+    Chaine : Gate > StuporOD > EQ10Band > Reverb
+    Slots  :  0      1          2           3
+
+    Snap 0 Riff   : SD-1 boost + EQ mids + reverb minimal
+    Snap 1 Chorus : meme son, Level legerement plus haut
+    Snap 2 Solo   : SD-1 + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("No One Knows", tempo=171.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -48.0, "Decay": 0.22})
+
+    # Stupor OD = BOSS SD-1 : reglage Josh Homme = Level/Tone max, Drive minimal
+    # Son clean boost mid-heavy plutot que distorsion
+    pb.add_block("HD2_DistStuporOD", slot=1,
+                 overrides={"Drive": 0.18, "Tone": 0.88, "Level": 0.68})
+
+    # 10 Band Graphic = MXR 10-Band EQ : boost mids (800 Hz-1 kHz) comme Josh
+    pb.add_block("HD2_EQGraphic10Band", slot=2,
+                 overrides={"500Hz": 3.0, "1kHz": 4.0, "2kHz": 2.0,
+                            "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.30, "Predelay": 0.01,
+                            "Tone": 0.55, "Modulation": 0.10, "Mix": 0.08})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="orange")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Level": 0.75}},
+                    color="red")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3],
+                    params={1: {"Drive": 0.28, "Level": 0.70}},
+                    color="yellow")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_nue():
+    """Clara Luciani - Nue (132 BPM)
+
+    Son : guitare electrique clean, arrangements epures, reverb spatiale.
+
+    Chaine : Gate > KinkyBoost > Chorus70s > Reverb
+    Slots  :  0      1            2            3
+
+    Snap 0 Verse  : clean + reverb
+    Snap 1 Chorus : clean + chorus leger + reverb plus large
+    Snap 2 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Nue", tempo=132.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -54.0, "Decay": 0.40})
+
+    pb.add_block("HD2_DistKinkyBoost", slot=1,
+                 overrides={"Drive": 0.50, "Boost": False, "Bright": False})
+
+    # Chorus discret pour le refrain
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.35, "Mix": 0.35, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.52, "Predelay": 0.02,
+                            "Tone": 0.65, "Modulation": 0.15, "Mix": 0.24})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
+                    params={3: {"Mix": 0.28, "Decay": 0.58}},
+                    color="yellow")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_plug_in_baby():
+    """Muse - Plug In Baby (136 BPM) — Matt Bellamy
+
+    Son signature : Z.Vex Fuzz Factory (Industrial Fuzz) pour le riff.
+    Fuzz gated et instable, tres agressif. Gate eleve pour effet saccade.
+
+    Chaine : Gate > IndustrialFuzz > Reverb
+    Slots  :  0      1                2
+
+    Snap 0 Riff   : fuzz gated (le riff signature)
+    Snap 1 Chorus : fuzz + reverb plus ouverte
+    Snap 2 Solo   : fuzz pousse + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Plug In Baby", tempo=136.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.20})
+
+    # Industrial Fuzz = Z.Vex Fuzz Factory : Compress + Gate pour effet "gated fuzz"
+    # Gate eleve = coupure nette entre les notes (caracteristique du riff)
+    # Stability bas = instabilite voulue du Fuzz Factory
+    pb.add_block("HD2_DistIndustrialFuzz", slot=1,
+                 overrides={"Compress": 0.72, "Gate": 0.68, "Drive": 0.90,
+                            "Stability": 0.58, "Oscillator": False, "Level": 0.52})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.38, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2], color="orange")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
+                    params={2: {"Mix": 0.20, "Decay": 0.48}},
+                    color="red")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2],
+                    params={1: {"Drive": 1.0, "Level": 0.58}},
+                    color="yellow")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_radio_song():
+    """Superbus - Radio Song (158 BPM) — Patrice Focone
+
+    Son : Fender Telecaster → OD legere → pop-rock entrainent.
+    Brillant et punchy, delay pour l'espace.
+
+    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :  0      1                  2              3
+
+    Snap 0 Verse  : OD legere + delay discret + reverb
+    Snap 1 Chorus : OD plus presente + reverb
+    Snap 2 Lead   : OD + delay + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Radio Song", tempo=158.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -52.0, "Decay": 0.30})
+
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.28, "Tone": 0.62, "Level": 0.52})
+
+    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+                 overrides={"Time": 0.19, "Feedback": 0.10, "Mix": 0.16,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.38, "Predelay": 0.02,
+                            "Tone": 0.62, "Modulation": 0.15, "Mix": 0.16})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
+                    params={1: {"Gain": 0.38, "Level": 0.58}},
+                    color="orange")
+
+    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.42, "Level": 0.60}},
+                    color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_sex_on_fire():
+    """Kings of Leon - Sex on Fire (153 BPM) — Matthew Followill
+
+    Son : Gibson ES-335 → OCD (Compulsive Drive) → Vox AC30.
+    Reverb ambiante importante (Holy Grail). Phaser pour le bridge.
+
+    Chaine : Gate > CompulsiveDrive > PebblePhaser > Reverb
+    Slots  :  0      1                  2              3
+
+    Snap 0 Verse  : OCD crunch leger + reverb ample
+    Snap 1 Chorus : OCD plus chaud + reverb
+    Snap 2 Bridge : OCD + phaser + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Sex on Fire", tempo=153.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -52.0, "Decay": 0.35})
+
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.38, "Tone": 0.55, "Level": 0.52})
+
+    # Pebble Phaser = EHX Small Stone : Bad Stone Phaser de Followill
+    pb.add_block("HD2_PhaserPebblePhaser", slot=2, enabled_default=False,
+                 overrides={"Rate": 0.30, "Color": False, "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.55, "Predelay": 0.02,
+                            "Tone": 0.65, "Modulation": 0.20, "Mix": 0.28})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
+                    params={1: {"Gain": 0.48, "Level": 0.58}},
+                    color="orange")
+
+    pb.add_snapshot(2, "Bridge", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.45, "Level": 0.55}},
+                    color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_toxicity():
+    """System of a Down - Toxicity (115 BPM) — Daron Malakian
+
+    Son : Ibanez Iceman (Drop C) → Boss HM-2 (Swedish Chainsaw) → Mesa Boogie.
+    Gate serre pour le palm-muting rapide caracteristique.
+
+    Chaine : Gate > SwedishChainsaw > Reverb
+    Slots  :  0      1                  2
+
+    Snap 0 Riff   : HM-2 + gate serre + reverb (palm-muting serre)
+    Snap 1 Chorus : HM-2 + reverb (full saturation)
+    Snap 2 Solo   : HM-2 + reverb (lead)
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Toxicity", tempo=115.0)
+
+    # Gate tres serre pour le palm-muting rapide de Malakian
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -46.0, "Decay": 0.18})
+
+    # Swedish Chainsaw = Boss HM-2 : son chainsaw de Malakian
+    # Drive et basses un peu moins que Nickelback pour garder la lisibilite en Drop C
+    pb.add_block("HD2_DistSwedishChainsaw", slot=1,
+                 overrides={"Drive": 0.90, "Bass": 0.75, "Treble": 0.75,
+                            "Level": 0.50})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.30, "Predelay": 0.01,
+                            "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2], color="orange")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
+                    params={1: {"Level": 0.55}},
+                    color="red")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2],
+                    params={1: {"Drive": 0.80, "Bass": 0.65, "Level": 0.58}},
+                    color="yellow")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_travel_the_world():
+    """Superbus - Travel The World (120 BPM) — Patrice Focone
+
+    Son : Fender Telecaster → clean a crunch leger → pop-rock.
+    Chorus CE-1 pour le bridge, delay pour la profondeur.
+
+    Chaine : Gate > CompulsiveDrive > Chorus70s > Reverb
+    Slots  :  0      1                  2           3
+
+    Snap 0 Verse  : clean leger + reverb
+    Snap 1 Chorus : OD + reverb
+    Snap 2 Bridge : OD + CE-1 chorus + reverb
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Travel The World", tempo=120.0)
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -52.0, "Decay": 0.35})
+
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.58, "Level": 0.52})
+
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.38,
+                            "VibratoDepth": 0.38, "Mix": 0.40, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.62, "Modulation": 0.18, "Mix": 0.20})
+
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 3], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
+                    color="orange")
+
+    pb.add_snapshot(2, "Bridge", blocks_on=[0, 1, 2, 3],
+                    color="yellow")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -446,4 +999,16 @@ PRESETS = {
     "Creep - Radiohead":                       preset_creep,
     "Dani California - Red Hot Chili Peppers": preset_dani_california,
     "Drive - Incubus":                         preset_drive,
+    "Even Flow - Pearl Jam":                   preset_even_flow,
+    "How You Remind Me - Nickelback":          preset_how_you_remind_me,
+    "Hysteria - Muse":                         preset_hysteria,
+    "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
+    "Le Reste - Clara Luciani":                preset_le_reste,
+    "No One Knows - QOTSA":                    preset_no_one_knows,
+    "Nue - Clara Luciani":                     preset_nue,
+    "Plug In Baby - Muse":                     preset_plug_in_baby,
+    "Radio Song - Superbus":                   preset_radio_song,
+    "Sex on Fire - Kings of Leon":             preset_sex_on_fire,
+    "Toxicity - System of a Down":             preset_toxicity,
+    "Travel The World - Superbus":             preset_travel_the_world,
 }

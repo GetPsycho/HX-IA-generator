@@ -33,6 +33,9 @@ Justifie chaque choix par rapport à ce que la recherche a révélé.
 - Identifie les pédales réelles du guitariste sur ce titre
 - Trouve les model IDs HX les plus proches (consulte `data/catalog/models_catalog.json`)
 - Consulte `docs/pedal_guides/` pour les paramètres de référence
+- **Consulte `docs/gear/eric_gear.md`** pour les incidences du matériel d'Eric sur le son
+  (Super Distortion chevalet = haute sortie, Mesa Boogie clean = tight/brillant,
+  micro manche single-coil pour solos, micro milieu pour funk)
 - **Règle d'architecture — répliquer le flux signal original :**
   - Saturation venant d'une pédale togglée → `enabled_default=False`
   - Saturation venant d'un canal d'ampli permanent (pas de canal clean, pas de pédale OD) →

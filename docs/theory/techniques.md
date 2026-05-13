@@ -174,14 +174,54 @@ Chorus **avant** Reverb : le chorus est "dans l'espace" de la reverb → plus na
 
 ## Volume en Live — Compensation Clean vs Saturé
 
-Un signal propre est intrinsèquement moins présent qu'un signal distordu
-(la disto ajoute des harmoniques = énergie perçue accrue).
+Un son clean aligné au VU avec un son distordu sonnera **2 à 4 dB plus faible**
+à volume de scène. Le RMS du clean est intrinsèquement plus bas (crête ≠ sonie perçue)
+et la distorsion génère des harmoniques dans la zone 2–5 kHz où l'oreille est la plus
+sensible (Fletcher-Munson). Voir aussi `docs/theory/gain_staging.md`.
 
-Solutions pour compenser un snapshot clean face à un snapshot distordu :
-1. **Red Squeeze** (Dyna Comp) : compression + makeup gain = snapshot clean présent
-2. **Kinky Boost** (EP Booster) : preampli chaud, ajoute corps et harmoniques
-3. **volume_offset_db** du PresetBuilder : décale tout le preset de N dB en sortie
-4. **VolPanGain** : boost dB pur — efficace mais sans couleur
+### Technique 1 — Kinky Boost après la reverb (recommandée)
+
+```
+Gate → OD → Reverb → KinkyBoost (Drive=0, Boost=True)
+```
+
+- Placement **après** la reverb : +6 dB de volume pur, sans modifier le son
+- `enabled_default=False` : activé uniquement sur les snaps clean
+- Drive=0 = pas de coloration / Boost=True = +6 dB interne
+- **Règle absolue :** boost **après** l'OD = volume uniquement.
+  Boost **avant** l'OD = change le taux de saturation.
+
+### Technique 2 — Compresseur sur le snap clean
+
+```
+Gate → Compresseur → OD (off) → Reverb
+```
+
+- Red Squeeze : Sensitivity 0.45–0.55, Level +3 à +5 dB, Mix 1.0
+- Remonte le RMS (niveau moyen) en réduisant les transitoires
+- Résultat : le clean "tient" mieux dans un mix avec batterie/basse
+- Attack lente recommandée : laisse passer le transitoire de picking (naturel)
+
+### Technique 3 — EQ mid boost en complément
+
+Un boost de médiums (1–2 kHz, +2–3 dB) améliore la **présence** dans le mix
+sans augmenter le volume brut. À combiner avec le KinkyBoost ou le compresseur.
+
+### Méthode de calibration pratique (ingés FoH)
+
+1. Aligner les presets au VU en jouant rythmiquement (palm mute)
+2. Ajouter **+2 à +4 dB supplémentaires** sur les snaps clean au-delà de l'égalité VU
+3. Valider **en répétition avec le groupe complet** — jamais au casque seul
+4. Écart acceptable entre presets : ±3 dB. Au-delà de 5 dB → corriger obligatoirement
+
+### Quand NE PAS compenser
+
+Le contraste clean/distordu est parfois voulu : **Lithium (Nirvana)**, philosophie
+quiet/loud — le verse clean DOIT être plus faible. Ne pas compenser : la différence
+de volume est le message musical.
+
+Critère : si le delta de volume gêne le public ou noie la guitare dans le mix
+→ compenser. Si le delta fait partie de l'arrangement → ne pas compenser.
 
 ---
 

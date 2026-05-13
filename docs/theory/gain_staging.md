@@ -106,15 +106,47 @@ a monté le Gain sans baisser le Level.
 
 ### Compensation du son clean
 
-Un signal propre est intrinsèquement moins "présent" qu'un signal distordu
-(la disto ajoute des harmoniques = énergie perçue). Solutions :
+#### Pourquoi le clean paraît plus faible (physique)
 
-- **Compresseur** : nourrit le signal clean avec plus d'attaque et sustain (Red Squeeze)
-- **Kinky Boost (EP Booster)** : preampli qui ajoute corps et chaleur (+harmonic richness)
-- **VolPanGain** : boost dB pur (moins coloré) — attention au bug footswitch si mal géré
+**RMS vs crête.** Un son clean a une grande plage dynamique : les pics d'attaque sont bien
+au-dessus du niveau moyen (RMS). La distorsion écrête ces pics → le RMS se rapproche
+du niveau de crête. À SPL de crête égal, le son distordu a un RMS 6 à 12 dB plus élevé.
+C'est le RMS que l'oreille perçoit comme sonie, pas les pics.
 
-**Dans ce projet** : on utilise le `volume_offset_db` du `PresetBuilder` pour l'égalisation
-globale entre presets, et les Level des effets pour l'égalisation interne par snapshot.
+**Fletcher-Munson.** La distorsion génère des harmoniques dans la zone 2–5 kHz, là où
+l'oreille est la plus sensible. Le son clean, riche en fondamentales graves, active moins
+cette zone → il paraît plus faible à niveau mesuré identique.
+
+**Conséquence pratique :** un clean aligné au VU avec un preset distordu sonnera encore
+**2 à 4 dB plus faible** à volume de scène avec batterie et basse. La correction doit
+dépasser la simple égalité mesurée.
+
+#### Solutions par ordre de pertinence
+
+| Technique | Mécanisme | Cas d'usage |
+|---|---|---|
+| **Compresseur (Red Squeeze)** | Remonte le RMS en réduisant les transitoires | Snaps clean avec jeu dynamique (funk, arpèges) |
+| **Kinky Boost après reverb** | +6 dB volume pur (Drive=0, Boost=True) | Snaps clean simples, rapide à câbler |
+| **EQ mid boost (1–2 kHz, +2–3 dB)** | Améliore la présence dans le mix sans volume brut | En complément d'un boost de volume |
+| **volume_offset_db** | Décale tout le preset en sortie | Compensation inter-presets (pas intra-snapshots) |
+
+#### Règle empirique validée en live (ingés FoH)
+
+- Écart acceptable entre deux presets : **±1 à 2 dB**
+- Seuil de correction obligatoire : **au-delà de 3 dB**
+- Lift intentionnel pour solo lead : **+1 à +3 dB** (voulu)
+- Boost clean pour compenser gain élevé : **+6 à +12 dB**
+- **+2 à +4 dB supplémentaires** au-delà de l'égalité VU sur les snaps clean — à valider
+  en répétition avec le groupe, pas au casque seul
+
+#### Quand NE PAS compenser
+
+Le contraste dynamique clean/distordu est parfois le **langage musical du morceau**.
+Lithium (Nirvana) = philosophie quiet/loud Pixies — le verse clean DOIT être plus faible.
+Ne pas compenser dans ce cas : la différence de volume est le message.
+
+**Dans ce projet** : `volume_offset_db` du `PresetBuilder` pour l'égalisation inter-presets.
+Kinky Boost ou compresseur pour l'égalisation intra-snapshot (Verse vs Chorus).
 
 ---
 

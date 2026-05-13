@@ -102,6 +102,43 @@ de reverb. Sur les sons clean ou avec reverb longue, utiliser un Threshold bas (
 
 ---
 
+## Compresseur comme boost de RMS — Sons Clears en Live
+
+En live, un son clean paraît 2 à 4 dB plus faible qu'un son distordu à volume mesuré
+égal (phénomène RMS / Fletcher-Munson — voir `docs/theory/gain_staging.md`).
+Le compresseur est l'outil le plus musical pour corriger cet écart.
+
+### Principe
+
+Le compresseur réduit les pics d'attaque (transitoires) et relève le plancher de signal.
+Résultat : le niveau moyen (RMS) remonte sans que le volume de crête augmente.
+Le son clean se "densifie" et tient mieux dans le mix avec batterie et basse.
+
+### Réglages Red Squeeze pour boost RMS clean
+
+| Param | Valeur | Raison |
+|---|---|---|
+| **Sensitivity** | 0.45–0.55 | Compression modérée — pas de squish funk, juste densification |
+| **Level** | +3 à +5 dB | Makeup gain pour compenser la réduction de crête |
+| **Mix** | 1.0 | Full wet — on veut toute la compression |
+
+**Attack implicite** du Dyna Comp : relativement rapide. Pour préserver le transitoire
+de picking (naturel et musical), garder Sensitivity sous 0.55 — au-delà, le transitoire
+est écrasé et le son perd de l'articulation.
+
+### Différence avec le LA Studio Comp pour cet usage
+
+- **Red Squeeze** : squish plus perceptible, niveau de RMS remonte vite. Bon pour funk/rock.
+- **LA Studio Comp** : plus transparent, RMS remonte progressivement. Meilleur pour
+  les sons clean fins (arpèges, fingerpicking) où le squish du Dyna Comp serait trop évident.
+
+### Placement
+
+Toujours **avant** les autres effets (slot le plus bas disponible après le Gate).
+Le compresseur doit voir le signal le plus propre possible.
+
+---
+
 ## Compression parallèle (NY Compression)
 
 Technique studio adaptable sur HX Effects via le paramètre Mix du Red Squeeze.

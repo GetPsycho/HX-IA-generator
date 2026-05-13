@@ -331,13 +331,13 @@ def preset_dani_california():
 
     Verse clean : confirme par Butch Vig / interviews — "straight into amp, no pedal".
     Filtre verse : Doepfer A-100 modular studio, reproduit live avec Moog MF-101.
-    Pas d'OD au verse : supprimee (incorrecte par rapport a la source).
+    KinkyBoost : compense le delta RMS clean/distordu sur Verse et Lick (pas Chorus/Solo).
 
-    Chaine : Gate > AutoFilter > DeezOneMod > Reverb
-    Slots  :  0      1            2              3
+    Chaine : Gate > AutoFilter > DeezOneMod > Reverb > KinkyBoost
+    Slots  :  0      1            2              3        4
 
-    Snap 0 Verse  : clean pur + reverb
-    Snap 1 Lick   : clean + AutoFilter (MF-101) + reverb
+    Snap 0 Verse  : clean pur + reverb + KinkyBoost (+6 dB RMS)
+    Snap 1 Lick   : clean + AutoFilter (MF-101) + reverb + KinkyBoost
     Snap 2 Chorus : DS-2 Turbo + reverb
     Snap 3 Solo   : DS-2 Turbo gain pousse + reverb (wah = pedale externe)
     """
@@ -365,17 +365,23 @@ def preset_dani_california():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.16})
 
-    # Verse : clean pur — confirme : pas d'OD, straight into Marshall
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 3], color="green")
+    # Kinky Boost = Xotic EP Booster : boost de volume +6 dB sur les snaps clean
+    # Drive=0 = pas de coloration / Boost=True = +6 dB interne
+    # Place apres la reverb : agit comme trimmer de volume pur, ne recolore pas la queue
+    # enabled_default=False : actif sur Verse/Lick, bypasse sur Chorus/Solo
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Lick : AutoFilter dynamique sur signal clean (Moog MF-101 live)
-    pb.add_snapshot(1, "Lick", blocks_on=[0, 1, 3], color="yellow")
+    # Verse : clean pur + boost RMS pour tenir dans le mix live
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 3, 4], color="green")
 
-    # Chorus : DS-2 Turbo engage au pre-chorus
+    # Lick : AutoFilter dynamique + boost RMS (signal clean filtre dans les mids)
+    pb.add_snapshot(1, "Lick", blocks_on=[0, 1, 3, 4], color="yellow")
+
+    # Chorus : DS-2 Turbo engage — pas de KinkyBoost (distorsion = RMS naturellement haut)
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 2, 3], color="orange")
 
-    # Solo : DS-2 gain pousse (confirme : "gain legerement plus eleve sur le solo")
-    # Wah = pedale externe MC404 CAE, pas dans la chaine
+    # Solo : DS-2 gain pousse — wah externe MC404 CAE, pas dans la chaine
     pb.add_snapshot(3, "Solo", blocks_on=[0, 2, 3],
                     params={2: {"Drive": 0.72, "Level": 0.55}},
                     color="red")

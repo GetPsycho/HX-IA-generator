@@ -30,7 +30,7 @@ def preset_are_you_gonna_go_my_way():
     Snap 2 Solo   : boost sustain + EQ lead + slapback 120ms
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("AYGGMW", tempo=130.0)
+    pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
 
     # Gate adapte au Bighorn Fuzz : seuil plus haut pour couper le bruit
     # residuel de la fuzz quand on ne joue pas
@@ -88,7 +88,7 @@ def preset_beggin():
     Chaine : Gate > RedSqueeze > CompulsiveDrive > Reverb
     1 seul snapshot actif.
     """
-    pb = PresetBuilder("Beggin'", tempo=134.0)
+    pb = PresetBuilder("Beggin'", tempo=134.0, styles=["rock", "funk_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.40})
@@ -138,7 +138,7 @@ def preset_be_yourself():
     Snap 2 Chorus : crunch leger + delay + reverb
     Snap 3 Solo   : crunch pousse + delay + reverb (wah = pedale externe)
     """
-    pb = PresetBuilder("Be Yourself", tempo=117.0)
+    pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["funk_rock", "alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.35})
@@ -205,7 +205,7 @@ def preset_black_hole_sun():
     Snap 2 Refrain: Big Muff + reverb (sans rotary)
     Snap 3 Solo   : Big Muff pousse + slapback 80ms + reverb
     """
-    pb = PresetBuilder("Black Hole Sun", tempo=105.0)
+    pb = PresetBuilder("Black Hole Sun", tempo=105.0, styles=["grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
@@ -277,7 +277,7 @@ def preset_creep():
     Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm)
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Creep", tempo=93.0)
+    pb = PresetBuilder("Creep", tempo=93.0, styles=["grunge", "alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
@@ -337,7 +337,7 @@ def preset_dani_california():
     Snap 2 Chorus : dist DS-2 + reverb
     Snap 3 Solo   : dist DS-2 gain pousse + reverb (wah = pedale externe)
     """
-    pb = PresetBuilder("Dani California", tempo=97.0)
+    pb = PresetBuilder("Dani California", tempo=97.0, styles=["funk_rock", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
@@ -393,7 +393,7 @@ def preset_drive():
     Snap 2 Refrain: phaser modere + CE-2 + reverb (son plus large et ouvert)
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Drive", tempo=91.0)
+    pb = PresetBuilder("Drive", tempo=91.0, styles=["alt_rock"])
 
     # Seuil bas : morceau clean et doux, ne pas couper les queues de reverb
     pb.add_block("HD2_GateNoiseGate", slot=0,
@@ -452,7 +452,7 @@ def preset_even_flow():
     Snap 2 Solo   : TS9 + phase + delay + reverb (wah = pedale externe)
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Even Flow", tempo=103.0)
+    pb = PresetBuilder("Even Flow", tempo=103.0, styles=["grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.32})
@@ -502,7 +502,7 @@ def preset_how_you_remind_me():
     Snap 2 Solo   : HM-2 + reverb (lead sustain)
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("How You Remind Me", tempo=86.0)
+    pb = PresetBuilder("How You Remind Me", tempo=86.0, styles=["post_grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
@@ -548,7 +548,7 @@ def preset_hysteria():
     Snap 2 Solo   : dist pousse + delay + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Hysteria", tempo=93.0)
+    pb = PresetBuilder("Hysteria", tempo=93.0, styles=["nu_metal"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.25})
@@ -594,7 +594,7 @@ def preset_i_wanna_be_your_slave():
     Snap 2 Solo   : Klon + OCD pousse + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("I Wanna Be Slave", tempo=131.0)
+    pb = PresetBuilder("I Wanna Be Slave", tempo=131.0, styles=["rock", "funk_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
@@ -641,7 +641,7 @@ def preset_le_reste():
     Snap 1 Chorus : meme son + reverb plus ouverte
     Snap 2 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Le Reste", tempo=113.0)
+    pb = PresetBuilder("Le Reste", tempo=113.0, styles=["pop_rock_fr", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
@@ -682,7 +682,7 @@ def preset_no_one_knows():
     Snap 2 Solo   : SD-1 + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("No One Knows", tempo=171.0)
+    pb = PresetBuilder("No One Knows", tempo=171.0, styles=["stoner_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
@@ -731,7 +731,7 @@ def preset_nue():
     Snap 1 Chorus : Strat compressee + chorus leger + reverb plus large
     Snap 2 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Nue", tempo=132.0)
+    pb = PresetBuilder("Nue", tempo=132.0, styles=["pop_rock_fr", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
@@ -776,7 +776,7 @@ def preset_plug_in_baby():
     Snap 2 Solo   : fuzz pousse + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Plug In Baby", tempo=136.0)
+    pb = PresetBuilder("Plug In Baby", tempo=136.0, styles=["nu_metal", "alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.20})
@@ -823,7 +823,7 @@ def preset_radio_song():
     Snap 2 Lead   : OD + delay + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Radio Song", tempo=158.0)
+    pb = PresetBuilder("Radio Song", tempo=158.0, styles=["pop_rock_fr", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
@@ -870,7 +870,7 @@ def preset_sex_on_fire():
     Snap 2 Bridge : OCD + phaser + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Sex on Fire", tempo=153.0)
+    pb = PresetBuilder("Sex on Fire", tempo=153.0, styles=["indie_rock", "post_grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
@@ -917,7 +917,7 @@ def preset_toxicity():
     Snap 2 Solo   : HM-2 + reverb (lead)
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Toxicity", tempo=115.0)
+    pb = PresetBuilder("Toxicity", tempo=115.0, styles=["nu_metal"])
 
     # Gate tres serre pour le palm-muting rapide de Malakian
     pb.add_block("HD2_GateNoiseGate", slot=0,
@@ -964,7 +964,7 @@ def preset_travel_the_world():
     Snap 2 Bridge : OD + CE-1 chorus + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Travel The World", tempo=120.0)
+    pb = PresetBuilder("Travel The World", tempo=120.0, styles=["pop_rock_fr", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})

@@ -6,61 +6,111 @@
 
 ## Guitares principales
 
-| Guitare | Détail |
-|---|---|
-| Fender Strat "Soul Power" | Principale chez Audioslave (1er/2e album). Seymour Duncan Hotrails (chevalet), Fender Noiseless (manche/médium). Killswitch 2 positions, tremolo Ibanez Edge. |
-| Gibson Les Paul "Budweiser" | Principale sur **Revelations** (2006). DiMarzio Super Distortion (chevalet) + DiMarzio P.A.F. (manche). |
-| Fender Telecaster "Sendero Luminoso" | Drop-D, usage ponctuel. |
+| Guitare | Album | Détail |
+|---|---|---|
+| **Fender Soul Power Strat** | Audioslave (2002), **Out of Exile (2005)** | Trouvée au Guitar Center Hollywood. Modifiée : Seymour Duncan Hot Rails (bridge), Fender Noiseless (neck/mid), killswitch, tremolo Ibanez Edge locking. |
+| **Gibson Les Paul Custom Shop "Budweiser"** | **Revelations (2006)** | DiMarzio Super Distortion (bridge) + DiMarzio P.A.F. (neck). |
+| Fender Telecaster "Sendero Luminoso" | RATM | Drop-D, usage ponctuel. |
+
+**"Be Yourself" (Out of Exile, 2005) : Soul Power Strat.** Accordage standard E.
+
+Cordes : GHS Boomers 9-46. Médiator : Dunlop Tortex Jazz Purple 1.14mm.
+
+---
 
 ## Amplis
 
 | Ampli | Notes |
 |---|---|
-| Marshall JCM 800 2205 (50W) | **Principal depuis 1988, canal overdrive uniquement.** Cabinet Peavey 4x12 straight. |
-| Vox AC30 TB(X) | Introduit pour **Revelations** (prod. Brendan O'Brien). Overdubs et doublages. |
+| **Marshall JCM 800 2205 (50W)** | **Principal depuis 1988.** Canal boost/overdrive uniquement — jamais le canal clean. Cabinet Peavey 4×12 1987 avec Celestion G12K-85. |
+| Vox AC30 TB(X) | Introduit pour Revelations. Overdubs et doublages. |
 
-## Réglages Marshall JCM 800 (référence)
-- Gain : 7-9 (crunch/overdrive, pas saturation max)
-- Treble : 7-10 (très haut, signature Marshall)
-- Middle : 4-5
-- Bass : 4-6
-- Reverb : 0
+**Réglages JCM800 documentés (photo + déclarations Morello) :**
 
-## Pédales (ère Audioslave)
+| Param | Valeur |
+|---|---|
+| Gain | 9 |
+| Bass | 10 |
+| Middle | 10 |
+| Treble | 6–7 |
+| Presence | 1–7 (sources divergent) |
+| Master Volume | 6 |
+| Reverb | **0** |
+
+Morello n'utilise **que le canal overdrive** — aucune pédale de distorsion ou d'OD.
+Toute la saturation vient du préampli du JCM800.
+
+---
+
+## Pédales et chaîne de signal (ère Audioslave)
+
+**Architecture clé : toutes les pédales sont dans la boucle d'effets (FX loop) du JCM800.**
+Rien avant l'ampli (pas de boost d'entrée, pas d'OD frontale).
+
+```
+Guitare → JCM800 (canal overdrive, Gain 9)
+  → FX Send
+    → Boss TR-2 Tremolo
+    → Dunlop GCB-95 Cry Baby Wah
+    → DigiTech WH-1 Whammy (original V1)
+    → Boss DD-2 / DD-3 Digital Delay
+    → DOD FX40B EQ (boost de solo : EQ flat, Level +)
+    → MXR Phase 90
+  → FX Return → Cabinet
+```
 
 | Pédale | Rôle |
 |---|---|
-| Dunlop GCB-95 Cry Baby | Wah-wah (solos expressifs) |
-| DigiTech WH-1 Whammy (original) | Pitch-shift, harmonies (Cochise, Like a Stone…) |
-| Boss DD-3 Digital Delay (x2) | Délai principal (slap-back + séquenceur) |
-| MXR Phase 90 | Phaser lent |
-| DOD FX40B EQ | Boost de solo (EQ flat, level +) |
-| Boss TR-2 Tremolo | Trémolo (Like a Stone, Gasoline) |
+| **Dunlop GCB-95 Cry Baby** | Wah solos expressifs (balayage lent et lyrique) |
+| **DigiTech WH-1 Whammy** | Pitch-shift, harmonies (Cochise, Like a Stone) |
+| **Boss DD-2/DD-3** | Delay principal (slap-back ou séquences) |
+| **DOD FX40B EQ** | **Boost de solo uniquement** — EQ flat, Level au-dessus de l'ampli |
+| MXR Phase 90 | Phaser lent (ponctuel) |
+| Boss TR-2 Tremolo | Like a Stone, Gasoline |
 | DigiTech XP-300 Space Station | Effets spéciaux ponctuels |
 
-**Chaîne signal :** Guitare → Ampli JCM800 (préamp) → FX Loop → TR-2 → Wah → Whammy → DD-3 → DOD EQ → Phase 90 → Retour ampli
+---
 
-Cordes : GHS Boomers 9-46. Médiator : Dunlop Tortex Jazz Purple 1.14mm.
+## Sons par titre
 
-## Style de jeu (points clés pour les presets)
-- Jeu très atypique : killswitch, whammy, wah expressif
-- "Be Yourself" = morceau sobre : clean + delay, wah uniquement sur le solo
-- Sur les morceaux heavy (Cochise, Killing in the Name) : overdrive fort + Whammy
-- Le wah de Morello = balayage **lent et expressif** (pas un quack rapide)
+| Titre | Album | Son | Notes |
+|---|---|---|---|
+| **Be Yourself** | Out of Exile | Crunch très léger intro (vol. guitare roulé) → crunch modéré verse → crunch fort chorus → crunch + DOD boost solo | Pas de delay documenté sur ce titre. Wah = GCB-95 sur solo. |
+| Like a Stone | Audioslave | Clean + tremolo (verse), crunch (chorus), Whammy + wah (solo) | |
+| Cochise | Audioslave | Overdrive fort + Whammy (riff intro), wah solo | |
+| Show Me How to Live | Audioslave | Crunch fort, riff puissant | |
+| Gasoline | Audioslave | Clean + tremolo, crunch modéré | |
+| Killing in the Name | RATM | Overdrive élevé + Whammy | |
 
-## Titres Audioslave — aperçu des sons
+---
 
-| Titre | Son principal |
-|---|---|
-| Be Yourself | Clean + delay (verse), crunch + delay (chorus), crunch + wah (solo) |
-| Like a Stone | Clean + tremolo (verse), crunch (chorus), Whammy + wah (solo) |
-| Cochise | Overdrive fort + Whammy (intro/riff), wah (solo) |
-| Show Me How to Live | Crunch fort, riff puissant |
-| Gasoline | Clean + tremolo |
+## Technique — Sons clairs sans canal clean
 
-## Sources fiables pour approfondir
-- https://guitargearfinder.com/guides/tom-morello-guitar-gear-rig-audioslave/
-- https://www.groundguitar.com/tom-morellos-guitars-and-gear/
-- https://equipboard.com/pros/tom-morello
-- https://www.guitarchalk.com/amp-settings-tom-morello/
-- https://neuraldsp.com/articles/tom-morello-pedalboard-and-amp-settings/
+Morello n'a pas de canal clean sur le JCM800. Il obtient ses sons quasi-propres en
+**roulant le potentiomètre de volume de la guitare** sur le canal overdrive.
+Résultat : crunch très léger (pas un clean pur), typique des arpèges de Be Yourself.
+
+Cette technique est cruciale pour les presets : l'OCD ne doit **pas** être bypassée
+sur les snaps "intro" — elle doit rester active avec un Gain très bas (~0.08).
+
+---
+
+## Notes pour les presets
+
+- **Be Yourself :** OCD `enabled_default=True` (toujours active, simule le canal gain permanent). Gain variable par snapshot : Intro 0.08, Verse 0.22, Chorus 0.38, Solo 0.55.
+- **LPHP switch OCD :** False (LP) sur Intro/Verse = chaleur ; True (HP) sur Chorus/Solo = punch Marshall britannique.
+- **KinkyBoost = DOD FX40B** sur Solo uniquement (Drive=0, Boost=True = +6 dB propre).
+- **Pas de delay** sur Be Yourself — non documenté sur ce titre.
+- **Wah externe** : Cry Baby GCB95 de Morello ≈ Cry Baby MC404 CAE d'Eric.
+
+---
+
+## Sources
+
+- Guitar World — Soul Power Strat (Morello)
+- Guitar Gear Finder — Tom Morello Audioslave Rig
+- Ground Guitar — Tom Morello Guitars & Gear
+- Guitar Chalk — Tom Morello Amp Settings
+- Neural DSP — Tom Morello Pedalboard and Amp Settings
+- Rig Diagram — Tom Morello Audioslave 2004 (guitar.com)
+- Equipboard — Tom Morello

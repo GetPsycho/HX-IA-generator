@@ -141,49 +141,49 @@ def preset_be_yourself():
     pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["funk_rock", "alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
-                 overrides={"Threshold": -50.0, "Decay": 0.35})
+                 overrides={"Threshold": -50.0, "Decay": 0.32})
 
-    # Compulsive Drive = Fulltone OCD : crunch JCM800 leger
-    # enabled_default=False : bypasse en Intro (son clean)
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.40, "Tone": 0.58, "LPHP": True, "Level": 0.55})
+    # Compulsive Drive = OCD : simule le canal overdrive permanent du Marshall JCM800
+    # Morello n'a pas de pedale OD — toute la saturation vient du canal gain de l'ampli.
+    # enabled_default=True : toujours active, variation du Gain par snapshot uniquement
+    # (simule le potentiometre de volume guitare qui nettoie/ouvre le canal gain)
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.55})
 
-    # Delay "reverb" : quarter note a 117 BPM (0.51s)
-    # Feedback 0.07 = une seule repetition discrete, effet ambiance
-    # enabled_default=False : pas actif sur l'Intro
-    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
-                 overrides={"Time": 0.51, "Feedback": 0.07, "Mix": 0.10,
-                            "TempoSync1": False})
-
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=2,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
-                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.25})
+                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.22})
 
-    # Kinky Boost = Xotic EP Booster : compense l'absence d'OD sur Intro
-    # Drive moyen + Boost=True pour amener le clean au niveau perçu des snaps OCD
-    # enabled_default=False : actif uniquement sur Intro
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.5, "Boost": True, "Bright": False})
+    # Kinky Boost = approx. DOD FX40B (EQ flat + Level boost) : boost de solo uniquement
+    # Drive=0 = pas de coloration / Boost=True = +6 dB pur (simule le boost de niveau)
+    # enabled_default=False : actif uniquement sur Solo
+    pb.add_block("HD2_DistKinkyBoost", slot=3, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Intro : clean + reverb ouverte (sans boost ni OD)
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.32, "Decay": 0.58}},
+    # Intro : crunch tres leger (volume guitare roule sur canal gain JCM800)
+    # LPHP=False (LP) : plus chaud et rond pour les arpeges atmospheriques
+    # Reverb plus ouverte pour l'ambiance de l'intro
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2],
+                    params={1: {"Gain": 0.08, "Tone": 0.50, "LPHP": False, "Level": 0.55},
+                            2: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Verse : OD ultra-discret + Kinky Boost (renforce le clean discret)
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Gain": 0.10, "Tone": 0.48,
-                                "LPHP": False, "Level": 0.55}},
+    # Verse : crunch modere — canal gain progressivement ouvert
+    # LPHP=False : chaleur pour le jeu rythmique discret
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2],
+                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.58}},
                     color="yellow")
 
-    # Chorus : crunch present, Level monte pour ressortir
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.32, "Tone": 0.55, "Level": 0.65}},
+    # Chorus : crunch present — volume guitare plein sur canal gain
+    # LPHP=True (HP) : punch Marshall britannique sur les riffs d'accords
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2],
+                    params={1: {"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.65}},
                     color="orange")
 
-    # Solo : crunch pousse, legerement plus fort pour les leads
+    # Solo : crunch pousse + DOD FX40B boost (KinkyBoost +6 dB)
+    # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.58, "Tone": 0.60, "Level": 0.65}},
+                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.65}},
                     color="red")
 
     return pb

@@ -219,6 +219,34 @@ Bass et Treble en **dB** (pas 0-1) — attention à la valeur absolue.
 
 ---
 
+## Simulation d'ampli — Table de matching
+
+Quand un guitariste n'utilise pas de pédale OD externe et que toute la saturation
+vient du canal gain de l'ampli, un bloc HX doit simuler ce canal de façon permanente
+(`enabled_default=True`, Gain variable par snapshot selon l'intensité voulue).
+
+Le choix de la pédale HX doit correspondre au **caractère sonore de l'ampli** :
+timbre, réponse aux transitoires, compression naturelle.
+
+| Ampli réel | Pédale HX recommandée | Model ID | Caractère | Source |
+|---|---|---|---|---|
+| **Marshall JCM800** (canal overdrive, Gain 7–9) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Crunch dynamique, LPHP=True pour le punch britannique | Be Yourself — Tom Morello |
+
+**À compléter au fil des presets.** Quand un nouveau cas de simulation d'ampli est
+rencontré, ajouter une ligne à ce tableau avec l'ampli, la pédale choisie, le
+caractère, et le titre/guitariste source.
+
+**Réglages OCD pour simulation JCM800 :**
+
+| Section | Gain | LPHP | Caractère |
+|---|---|---|---|
+| Intro / son quasi-propre | 0.05–0.10 | False (LP) | Très léger crunch, chaleur |
+| Verse / crunch discret | 0.18–0.25 | False (LP) | Crunch modéré, rond |
+| Chorus / crunch présent | 0.32–0.42 | True (HP) | Punch Marshall, mordant |
+| Solo / crunch poussé | 0.50–0.60 | True (HP) | Gain élevé, présence lead |
+
+---
+
 ## Résumé : Compensation Gain → Level
 
 Pour chaque pédale, quand le Gain monte de 0.20 :

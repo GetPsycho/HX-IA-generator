@@ -325,53 +325,59 @@ def preset_creep():
 def preset_dani_california():
     """RHCP - Dani California (97 BPM) — John Frusciante
 
-    Son : Fender Strat 1954 → OD legere (crunch verse) → Moog MF-101 LPF
+    Son : Fender Strat 1954/1962 → Moog MF-101 LPF (verse lick)
     → Boss DS-2 Turbo (Deez One Mod, chorus/solo) → Marshall Major 200W bridgé.
-    Wah (solo) : pédale externe.
+    Wah (solo) : pédale externe (MC404 CAE).
 
-    Chaine : Gate > OCD > AutoFilter > DeezOneMod > Reverb
-    Slots  :  0     1      2            3              4
+    Verse clean : confirme par Butch Vig / interviews — "straight into amp, no pedal".
+    Filtre verse : Doepfer A-100 modular studio, reproduit live avec Moog MF-101.
+    Pas d'OD au verse : supprimee (incorrecte par rapport a la source).
 
-    Snap 0 Verse  : OD legere + reverb (accords, pas de filtre)
-    Snap 1 Lick   : OD legere + auto filter + reverb (lick wobbly dans le verse)
-    Snap 2 Chorus : dist DS-2 + reverb
-    Snap 3 Solo   : dist DS-2 gain pousse + reverb (wah = pedale externe)
+    Chaine : Gate > AutoFilter > DeezOneMod > Reverb
+    Slots  :  0      1            2              3
+
+    Snap 0 Verse  : clean pur + reverb
+    Snap 1 Lick   : clean + AutoFilter (MF-101) + reverb
+    Snap 2 Chorus : DS-2 Turbo + reverb
+    Snap 3 Solo   : DS-2 Turbo gain pousse + reverb (wah = pedale externe)
     """
     pb = PresetBuilder("Dani California", tempo=97.0, styles=["funk_rock", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
-    # Compulsive Drive = OCD : crunch leger pour le verse (accords + lick)
-    # Gain bas = grain discret qui evite le son trop sec du clean pur
-    # LPHP=False (mode LP) : plus chaud, adapte a la Strat single-coil
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.04, "Tone": 0.55, "LPHP": False, "Level": 0.52})
-
-    # Auto Filter = Moog MF-101 Low-Pass Filter approx. : envelope follower LP
-    # Actif uniquement sur le Lick (notes filtrees dans le verse)
-    pb.add_block("HD2_FilterAutoFilter", slot=2, enabled_default=False,
+    # Auto Filter = Moog MF-101 LPF (approximation live du Doepfer A-100 studio)
+    # Mode BP (1) retenu : Mode LP (0) trop grave sur le lick (valide par test)
+    # Le MF-101 original est un LPF mais le BP est plus fonctionnel sur le HX
+    pb.add_block("HD2_FilterAutoFilter", slot=1, enabled_default=False,
                  overrides={"Mode": 1, "FilterGain": 14.0, "FilterQ": 6.0,
                             "Sens": 0.55, "Attack": 0.01, "Decay": 0.30,
                             "Frequency": 200.0, "FreqDepth": 4500.0,
                             "Direction": True, "Mix": 1.0, "Level": 0.0})
 
-    # Deez One Mod = BOSS DS-1 Keeley modded : approx. Boss DS-2 Turbo Distortion
-    pb.add_block("HD2_DistDeezOneMod", slot=3, enabled_default=False,
-                 overrides={"Drive": 0.62, "Tone": 0.52, "Level": 0.52})
+    # Deez One Mod = approx. Boss DS-2 Turbo Distortion (mode Turbo II)
+    # DS-2 non modelise en HX ; DS-1 Keeley est l'approximation la plus proche
+    # Drive 0.65 = Turbo mode (plus de saturation que DS-1 standard)
+    pb.add_block("HD2_DistDeezOneMod", slot=2, enabled_default=False,
+                 overrides={"Drive": 0.65, "Tone": 0.52, "Level": 0.52})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
-                 overrides={"Decay": 0.38, "Predelay": 0.02,
-                            "Tone": 0.60, "Modulation": 0.20, "Mix": 0.14})
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.20, "Mix": 0.16})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 4], color="green")
+    # Verse : clean pur — confirme : pas d'OD, straight into Marshall
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 3], color="green")
 
-    pb.add_snapshot(1, "Lick", blocks_on=[0, 1, 2, 4], color="yellow")
+    # Lick : AutoFilter dynamique sur signal clean (Moog MF-101 live)
+    pb.add_snapshot(1, "Lick", blocks_on=[0, 1, 3], color="yellow")
 
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 3, 4], color="orange")
+    # Chorus : DS-2 Turbo engage au pre-chorus
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 2, 3], color="orange")
 
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 3, 4],
-                    params={3: {"Drive": 0.72, "Level": 0.55}},
+    # Solo : DS-2 gain pousse (confirme : "gain legerement plus eleve sur le solo")
+    # Wah = pedale externe MC404 CAE, pas dans la chaine
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 2, 3],
+                    params={2: {"Drive": 0.72, "Level": 0.55}},
                     color="red")
 
     return pb

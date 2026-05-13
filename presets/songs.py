@@ -995,6 +995,56 @@ def preset_travel_the_world():
     return pb
 
 
+def preset_lithium():
+    """Nirvana - Lithium (124 BPM) — Kurt Cobain
+
+    Son : Fender Mustang 1969 → EHX Big Muff Pi → Fender Bassman (Butch Vig, Nevermind).
+    Verse : quasi-clean + EHX Small Clone discret (Chorus70s = approx. Small Clone).
+    Chorus : Big Muff plein, pas de modulation — explosion dynamique quiet/loud.
+
+    Chaine : Gate > RamsHead > Chorus70s > Reverb
+    Slots  :  0      1          2            3
+
+    Snap 0 Verse  : quasi-clean + Small Clone + reverb
+    Snap 1 Chorus : Big Muff + reverb (drop distorsion)
+    Snap 2 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Lithium", tempo=124.0, styles=["grunge"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.30})
+
+    # Bighorn Fuzz = EHX Big Muff Pi : confirme par Butch Vig pour Lithium
+    # Big Muff → Fender Bassman = son sombre et epais → Tone bas (0.45)
+    # enabled_default=False : verse quasi-clean par defaut
+    pb.add_block("HD2_DistRamsHead", slot=1, enabled_default=False,
+                 overrides={"Sustain": 0.80, "Tone": 0.45, "Level": 0.50})
+
+    # 70s Chorus = approx. EHX Small Clone : chorus analogique du verse clean
+    # Cobain : 5 exemplaires du Small Clone, utilise sur les parties clean Nevermind
+    # enabled_default=False : uniquement sur Verse, bypasse sur Chorus distordu
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.35, "Mix": 0.40, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.20, "Mix": 0.20})
+
+    # Verse : quasi-clean + Small Clone + reverb
+    # Contraste volontaire avec le chorus — ne pas compenser le delta de volume
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
+
+    # Chorus : Big Muff plein, pas de modulation = drop dynamique quiet/loud
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3], color="red")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -1014,5 +1064,6 @@ PRESETS = {
     "Radio Song - Superbus":                   preset_radio_song,
     "Sex on Fire - Kings of Leon":             preset_sex_on_fire,
     "Toxicity - System of a Down":             preset_toxicity,
+    "Lithium - Nirvana":                        preset_lithium,
     "Travel The World - Superbus":             preset_travel_the_world,
 }

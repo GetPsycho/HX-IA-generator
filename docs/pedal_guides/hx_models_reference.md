@@ -56,7 +56,12 @@ Toutes les entrées de ce fichier sont ✅ confirmées par le manuel officiel.
 | **Obsidian 7000** | `HD2_DistObsidian7000` | Darkglass Electronics Microtubes B7K Ultra |
 | **Clawthorn Drive** | `HD2_DistClawthornDrive` | Wounded Paw Battering Ram |
 
-### Notes distorsion HD2
+### Notes distorsion HD2 — comportements spécifiques
+
+- **Arbitrator Fuzz (`HD2_DistArbitratorFuzz`) — déficit d'output structurel** :
+  Même au Level=1.0 (max, affiché "10" dans HX Edit), le signal reste en dessous
+  du niveau clean. Fix : Level=0.90 + KinkyBoost always-on (Drive=0, Boost=True)
+  sur les snaps distorsion, exclu du snap Clean (référence niveau). Validé sur AYGGMW.
 
 - **Ratatouille vs Vermin** : deux versions du RAT. Ratatouille = LM308 NPN (vintage, plus
   chaud, plus de sustain) ; Vermin = opamp standard. Pour Jonny Greenwood sur Creep,

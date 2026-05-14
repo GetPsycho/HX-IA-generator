@@ -53,6 +53,20 @@ Justifie chaque choix par rapport à ce que la recherche a révélé.
   (section "Volume en Live"). Ajouter KinkyBoost (Drive=0, Boost=True) sur les snaps
   clean/quasi-clean, sauf si le contraste dynamique est intentionnel (ex: Lithium).
 
+### Référence de volume — règle absolue
+Le snap **Clean** (Gate + Reverb seule, utilisé pour l'accordage) est la **référence
+de niveau 0 dB** du rig d'Eric. Tous les snaps distorsion/overdrive doivent s'aligner
+sur ce niveau. C'est la référence commune à **tous les presets**.
+
+**Si une pédale de saturation baisse le volume sous le snap Clean :**
+→ Ajouter un KinkyBoost always-on (Drive=0, Boost=True) après la reverb,
+  actif sur tous les snaps distorsion, **exclu du snap Clean**.
+
+**Cas connu — Arbitrator Fuzz (`HD2_DistArbitratorFuzz`)** :
+Déficit d'output structurel — même au Level=1.0 (max), le signal reste sous
+le niveau clean. Fix validé : Level=0.90 + KinkyBoost always-on.
+Voir `docs/pedal_guides/hx_models_reference.md` (section Notes Arbitrator Fuzz).
+
 ---
 
 ## 3. Validation utilisateur

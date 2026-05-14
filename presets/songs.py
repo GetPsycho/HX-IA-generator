@@ -145,18 +145,18 @@ def preset_be_yourself():
     OCD always-on simule ce canal gain. Gain variable par snapshot
     (simule le potentiometre de volume guitare qui nettoie le JCM800).
 
-    KinkyBoost = DOD FX40B (level boost flat) always-on sauf Solo.
-    L'OCD a faible Gain (Intro/Verse/Chorus) produit moins que le signal
-    clean de reference → KinkyBoost compensatoire sur ces 3 snaps.
-    Solo sans KinkyBoost : Gain=0.55 suffit a atteindre la reference.
+    Volume : Level different par snapshot pour compenser l'interaction
+    Gain/volume de l'OCD — faible Gain = faible output naturel.
+    Level eleve sur Intro/Verse pour atteindre la reference clean.
+    Pas de KinkyBoost : Level par snap est le levier le plus direct.
 
-    Chaine : Gate > CompulsiveDrive > Ganymede > KinkyBoost
-    Slots  :  0       1                 2           3
+    Chaine : Gate > CompulsiveDrive > Ganymede
+    Slots  :  0       1                 2
 
-    Snap 0 Intro  : Gain=0.04, LPHP=False, reverb large, KinkyBoost ON
-    Snap 1 Verse  : Gain=0.22, LPHP=False, KinkyBoost ON
-    Snap 2 Chorus : Gain=0.38, LPHP=True,  KinkyBoost ON
-    Snap 3 Solo   : Gain=0.55, LPHP=True,  KinkyBoost OFF (wah = pedale externe)
+    Snap 0 Intro  : Gain=0.03, Level=0.85, LPHP=False (quasi-clair, reverb large)
+    Snap 1 Verse  : Gain=0.22, Level=0.75, LPHP=False (crunch leger)
+    Snap 2 Chorus : Gain=0.38, Level=0.68, LPHP=True  (crunch present)
+    Snap 3 Solo   : Gain=0.55, Level=0.65, LPHP=True  (lead, wah = pedale externe)
     """
     pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["alt_rock"])
 
@@ -164,38 +164,30 @@ def preset_be_yourself():
                  overrides={"Threshold": -50.0, "Decay": 0.32})
 
     # CompulsiveDrive = OCD : simule canal overdrive permanent JCM800
-    # enabled_default=True : canal d'ampli permanent, Gain variable par snapshot
-    # Level=0.60 : base commune, KinkyBoost compense le reste
+    # Level variable par snapshot : compense l'output plus faible a faible Gain
+    # Base = valeurs du Chorus (snap de reference inter-preset)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.60})
+                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.68})
 
     pb.add_block("HD2_ReverbGanymede", slot=2,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.22})
 
-    # KinkyBoost = DOD FX40B (level boost) : compense le deficit de volume
-    # de l'OCD a faible Gain par rapport au signal clean de reference
-    # enabled_default=True : actif par defaut, exclu du Solo uniquement
-    pb.add_block("HD2_DistKinkyBoost", slot=3,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.04, "Tone": 0.50, "LPHP": False},
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2],
+                    params={1: {"Gain": 0.03, "Tone": 0.50, "LPHP": False, "Level": 0.85},
                             2: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False}},
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2],
+                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.75}},
                     color="yellow")
 
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.38, "Tone": 0.58, "LPHP": True}},
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2],
                     color="orange")
 
-    # Solo : KinkyBoost exclu — Gain=0.55 suffit pour le niveau de reference
     # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True}},
+                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.65}},
                     color="red")
 
     return pb

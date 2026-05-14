@@ -57,7 +57,7 @@ def preset_are_you_gonna_go_my_way():
     # Level=1.0 : max — le Fuzz Face a un output structurellement bas (deficit connu)
     # enabled_default=True : canal d'ampli permanent (pas de pedale de disto sur ce titre)
     pb.add_block("HD2_DistArbitratorFuzz", slot=1,
-                 overrides={"Fuzz": 0.62, "Level": 1.0})
+                 overrides={"Fuzz": 0.62, "Level": 0.90})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
@@ -80,7 +80,7 @@ def preset_are_you_gonna_go_my_way():
                     color="blue")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4],
-                    params={1: {"Fuzz": 0.50}},
+                    params={1: {"Fuzz": 0.70}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

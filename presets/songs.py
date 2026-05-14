@@ -285,13 +285,16 @@ def preset_creep():
     Verse : Roland Dimension D (chorus large et transparent, mode SW4).
     Stabs : compresseur Dyna Comp + dist gain pousse = "gros coup" produit, fort.
 
-    Chaine : Gate > VerminDist > Dimension > Reverb > RedSqueeze
-    Slots  :  0      1            2            3        4
+    Chaine : Gate > VerminDist > Dimension > Reverb > RedSqueeze > KinkyBoost
+    Slots  :  0      1            2            3        4             5
 
-    Snap 0 Verse  : clean + Roland Dimension D + reverb discrete (G-B-C-Cm arpege)
+    Snap 0 Verse  : clean + Roland Dimension D + reverb discrete + KinkyBoost (ref volume)
     Snap 1 Stabs  : dist gain pousse + compresseur (gros coup mute, sec et fort)
     Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm)
     Snap 3 Clean  : accordage / attente
+
+    Volume : RAT sous unity a Level=0.52 → Level monte a 0.68 (Chorus = ref).
+    Verse clean + KinkyBoost = ref. Stabs Level=0.80 via params + RedSqueeze = le plus fort.
     """
     pb = PresetBuilder("Creep", tempo=93.0, styles=["grunge", "alt_rock"])
 
@@ -301,9 +304,10 @@ def preset_creep():
     # Vermin Dist = Pro Co RAT : plus proche du Marshall ShredMaster disponible
     # (meme architecture opamp, gain eleve, filtre passe-bas = ton mi-grave agressif)
     # Filter=0.38 : coupe les aigus pour renforcer les mids, caractere britannique
+    # Level 0.52 → 0.68 : RAT sous unity a faible Level, 0.68 amene le Chorus a ref
     # enabled_default=False : bypasse au chargement (verse clean par defaut)
     pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.52})
+                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.68})
 
     # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
     # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s
@@ -322,11 +326,16 @@ def preset_creep():
     pb.add_block("HD2_CompressorRedSqueeze", slot=4, enabled_default=False,
                  overrides={"Sensitivity": 0.78, "Mix": 1.0, "Level": 6.0})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
+    # KinkyBoost = Xotic EP Booster : monte le verse clean au niveau de reference
+    # enabled_default=False : actif uniquement sur Verse
+    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Stabs : dist gain pousse (0.75->0.85) + comp = gros coup mute compresse
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 5], color="green")
+
+    # Stabs : Gain=0.85 + Level=0.80 via params + RedSqueeze = le plus fort des snaps
     pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 4],
-                    params={1: {"Gain": 0.85}},
+                    params={1: {"Gain": 0.85, "Level": 0.80}},
                     color="orange")
 
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3], color="red")

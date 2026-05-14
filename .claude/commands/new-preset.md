@@ -54,13 +54,19 @@ Justifie chaque choix par rapport à ce que la recherche a révélé.
   clean/quasi-clean, sauf si le contraste dynamique est intentionnel (ex: Lithium).
 
 ### Référence de volume — règle absolue
-Le snap **Clean** (Gate + Reverb seule, utilisé pour l'accordage) est la **référence
-de niveau 0 dB** du rig d'Eric. Tous les snaps distorsion/overdrive doivent s'aligner
-sur ce niveau. C'est la référence commune à **tous les presets**.
+La **référence de niveau** est le signal guitare propre passant par le Mesa Boogie
+(aucun bloc de saturation actif). C'est le "0 dB" du rig d'Eric, commun à tous les presets.
 
-**Si une pédale de saturation baisse le volume sous le snap Clean :**
+**Quand un preset a un snap Clean** (Gate + Reverb seule) : il sert de référence
+auto-contenue — les snaps distorsion s'alignent sur lui.
+
+**Quand un preset n'a pas de snap Clean** : calibrer les snaps distorsion par oreille
+par rapport aux presets adjacents dans la setlist, ou par rapport au snap Clean
+de n'importe quel autre morceau chargé sur l'appareil.
+
+**Si une pédale de saturation baisse le volume sous la référence clean :**
 → Ajouter un KinkyBoost always-on (Drive=0, Boost=True) après la reverb,
-  actif sur tous les snaps distorsion, **exclu du snap Clean**.
+  actif sur tous les snaps distorsion, **exclu du snap Clean si présent**.
 
 **Cas connu — Arbitrator Fuzz (`HD2_DistArbitratorFuzz`)** :
 Déficit d'output structurel — même au Level=1.0 (max), le signal reste sous

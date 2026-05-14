@@ -33,17 +33,19 @@ def preset_are_you_gonna_go_my_way():
     ampli tube sature : saturation asymetrique, harmoniques impaires.
     Matching documente : Gibson Skylark -> Arbitrator Fuzz.
 
-    Fuzz=0.62 pour Riff/Bridge. Solo : Fuzz=0.50 (micro chevalet bridge,
-    moins de fuzz = solo plus defini — micro manche trop baveux avec le Fuzz Face).
-    Level=0.72 : unity gain approximatif par rapport au snap Clean de reference.
+    Fuzz=0.62 pour Riff/Bridge. Solo : Fuzz=0.50 (bridge, moins baveux).
+    Level=1.0 (max) : le Fuzz Face a un deficit d'output structurel, meme
+    au Level maximum il reste en dessous du signal clean.
+    KinkyBoost always-on (+6 dB) compense ce deficit sur tous les snaps
+    distorsion. Clean snap exclut le KinkyBoost (reference niveau accordage).
 
-    Chaine : Gate > ArbitratorFuzz > GrayFlanger > Reverb
-    Slots  :  0       1                 2             3
+    Chaine : Gate > ArbitratorFuzz > GrayFlanger > Reverb > KinkyBoost
+    Slots  :  0       1                 2             3        4
 
-    Snap 0 Riff   : ArbitratorFuzz + flanger discret (Mix=0.28) + reverb
-    Snap 1 Bridge : ArbitratorFuzz + flanger prononce (Mix=0.48) + reverb
-    Snap 2 Solo   : ArbitratorFuzz (Fuzz=0.50) + reverb — micro chevalet bridge
-    Snap 3 Clean  : reverb seule (accordage)
+    Snap 0 Riff   : ArbitratorFuzz + flanger discret (Mix=0.28) + reverb + boost
+    Snap 1 Bridge : ArbitratorFuzz + flanger prononce (Mix=0.48) + reverb + boost
+    Snap 2 Solo   : ArbitratorFuzz (Fuzz=0.50) + reverb + boost — bridge
+    Snap 3 Clean  : reverb seule (accordage, reference volume)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
 
@@ -52,13 +54,13 @@ def preset_are_you_gonna_go_my_way():
 
     # Arbitrator Fuzz = Fuzz Face germanium : simulation Gibson Skylark pousse a fond
     # Fuzz=0.62 : modere — "fuzz sur les bords" sans mur de fuzz
-    # Level=0.72 : monte au niveau du snap Clean (reference volume live)
+    # Level=1.0 : max — le Fuzz Face a un output structurellement bas (deficit connu)
     # enabled_default=True : canal d'ampli permanent (pas de pedale de disto sur ce titre)
     pb.add_block("HD2_DistArbitratorFuzz", slot=1,
-                 overrides={"Fuzz": 0.62, "Level": 0.72})
+                 overrides={"Fuzz": 0.62, "Level": 1.0})
 
-    # Gray Flanger = approximation du tape flanging studio (Henry Hirsch, deux magnetophones)
-    # Mix variable par snapshot : discret sur Riff (0.28), prononce sur Bridge (0.48 via params)
+    # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
+    # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
     pb.add_block("HD2_FlangerGrayFlanger", slot=2, enabled_default=False,
                  overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.28})
 
@@ -66,14 +68,18 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="yellow")
+    # KinkyBoost always-on : compense le deficit d'output du Fuzz Face (+6 dB)
+    # Actif sur tous les snaps distorsion, exclu du snap Clean (reference)
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3],
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3, 4], color="yellow")
+
+    pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3, 4],
                     params={2: {"Mix": 0.48}},
                     color="blue")
 
-    # Solo : Fuzz reduit (0.50) — micro chevalet bridge, son plus defini
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3],
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4],
                     params={1: {"Fuzz": 0.50}},
                     color="red")
 

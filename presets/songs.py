@@ -265,11 +265,12 @@ def preset_black_hole_sun():
     pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
 
     # Rotary SLOW sur le refrain : Speed=False via params
-    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3],
+    # KinkyBoost (4) : compense le deficit d'output du Big Muff (meme cause qu'Arbitrator Fuzz)
+    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3, 4],
                     params={1: {"Level": 0.42}, 2: {"Speed": False}},
                     color="orange")
 
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 5],
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 4, 5],
                     params={1: {"Sustain": 0.85, "Level": 0.48}},
                     color="red")
 

@@ -28,16 +28,16 @@ def preset_are_you_gonna_go_my_way():
     Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
     Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
 
-    OCD (always-on) = simulation du canal gain permanent du Gibson Skylark.
-    LPHP=False (LP) : soft clipping chaud, plus proche du tube naturellement sature.
-    Matching documente : Gibson Skylark -> OCD LPHP=False.
+    Valve Driver (Chandler Tube Driver, always-on) = simulation Gibson Skylark.
+    Circuit a tubes -> saturation chaude et comprimee, reponse dynamique naturelle.
+    Matching documente : Gibson Skylark -> Valve Driver.
 
-    Chaine : Gate > OCD > GrayFlanger > Reverb > KinkyBoost
-    Slots  :  0      1      2             3        4
+    Chaine : Gate > ValveDriver > GrayFlanger > Reverb > KinkyBoost
+    Slots  :  0       1              2             3        4
 
-    Snap 0 Riff   : OCD + flanger discret (Mix=0.28) + reverb
-    Snap 1 Bridge : OCD + flanger prononce (Mix=0.48) + reverb
-    Snap 2 Solo   : OCD + reverb + KinkyBoost (micro manche Eric = single-coil faible sortie)
+    Snap 0 Riff   : ValveDriver + flanger discret (Mix=0.28) + reverb
+    Snap 1 Bridge : ValveDriver + flanger prononce (Mix=0.48) + reverb
+    Snap 2 Solo   : ValveDriver + reverb + KinkyBoost (micro manche Eric = single-coil faible sortie)
     Snap 3 Clean  : reverb seule
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -45,12 +45,12 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Compulsive Drive = OCD : simulation Gibson Skylark (tube naturellement sature)
-    # LPHP=False (LP) = soft clipping chaud, approximation de la saturation tube
-    # enabled_default=True : canal d'ampli permanent (pas de pedale toglee)
-    # Tone=0.52 : conservateur car Mesa Boogie clean deja brillant + Les Paul vintage chaude
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.58, "Tone": 0.52, "LPHP": False, "Level": 0.55})
+    # Valve Driver = Chandler Tube Driver : simulation Gibson Skylark (petit combo tube sature)
+    # Circuit a tubes -> chaleur et compression naturelle proches du Skylark pousse a fond
+    # Bass=0.52 / Treble=0.48 : conservateur, Les Paul vintage chaude + Mesa Boogie brillant
+    # enabled_default=True : canal d'ampli permanent (aucune pedale de disto sur ce titre)
+    pb.add_block("HD2_DistValveDriver", slot=1,
+                 overrides={"Gain": 0.68, "Bass": 0.52, "Treble": 0.48, "Level": 0.55})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch, deux magnetophones)
     # Mix variable par snapshot : discret sur Riff (0.28), prononce sur Bridge (0.48 via params)

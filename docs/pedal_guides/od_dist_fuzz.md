@@ -219,6 +219,34 @@ Bass et Treble en **dB** (pas 0-1) — attention à la valeur absolue.
 
 ---
 
+## Valve Driver = Chandler Tube Driver
+
+**HX Effects model ID :** `HD2_DistValveDriver`
+
+Circuit à tubes (réel, pas à semi-conducteurs) → saturation chaude, compressée, très dynamique.
+Utilisé par David Gilmour, Billy Corgan, Trent Reznor. Son organiquement "tube".
+
+### Paramètres
+| Param | Plage | Ce que ça fait vraiment |
+|---|---|---|
+| **Gain** | 0–1 | Saturation. Répond très bien à la dynamique de jeu — attaque légère = clean-up naturel |
+| **Bass** | 0–1 | Graves. 0.5 = neutre ; > 0.6 = chaleur/lourdeur ; < 0.4 = serré |
+| **Treble** | 0–1 | Aigus. 0.5 = neutre ; > 0.6 = présence/mordant ; < 0.4 = chaud/sombre |
+| **Level** | 0–1 | Volume de sortie |
+
+### Sweet spots
+| Contexte | Gain | Bass | Treble | Level | Notes |
+|---|---|---|---|---|---|
+| Simulation ampli tube chaud | 0.65–0.72 | 0.52 | 0.48 | 0.55 | Gibson Skylark style : chaleur, compression naturelle |
+| OD transparente | 0.40–0.50 | 0.50 | 0.50 | 0.55 | Neutre, laisse le caractère de l'ampli |
+| Lead expressif | 0.75–0.82 | 0.48 | 0.55 | 0.50 | Présence lead, dynamique conservée |
+
+**Caractéristique clé :** Contrairement aux OD à semi-conducteurs, le Valve Driver nettoie
+naturellement quand on joue piano — comportement identique à un vrai ampli tube saturé.
+Idéal pour simuler des petits combos tube (Skylark, Champ, Princeton) poussés à fond.
+
+---
+
 ## Simulation d'ampli — Table de matching
 
 Quand un guitariste n'utilise pas de pédale OD externe et que toute la saturation
@@ -231,7 +259,7 @@ timbre, réponse aux transitoires, compression naturelle.
 | Ampli réel | Pédale HX recommandée | Model ID | Caractère | Source |
 |---|---|---|---|---|
 | **Marshall JCM800** (canal overdrive, Gain 7–9) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Crunch dynamique, LPHP=True pour le punch britannique | Be Yourself — Tom Morello |
-| **Gibson Skylark** (petit combo tube ~4W, saturé à fond) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | LPHP=False (LP) : soft clipping chaud, saturation tube naturelle. Gain 0.55–0.65 | Are You Gonna Go My Way — Craig Ross |
+| **Gibson Skylark** (petit combo tube ~4W, saturé à fond) | Valve Driver | `HD2_DistValveDriver` | Circuit à tubes → chaleur et compression naturelle. Gain 0.65–0.72, Bass 0.52, Treble 0.48 | Are You Gonna Go My Way — Craig Ross |
 
 **À compléter au fil des presets.** Quand un nouveau cas de simulation d'ampli est
 rencontré, ajouter une ligne à ce tableau avec l'ampli, la pédale choisie, le

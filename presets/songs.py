@@ -28,16 +28,20 @@ def preset_are_you_gonna_go_my_way():
     Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
     Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
 
-    Valve Driver (Chandler Tube Driver, always-on) = simulation Gibson Skylark.
-    Circuit a tubes -> saturation chaude et comprimee, reponse dynamique naturelle.
-    Matching documente : Gibson Skylark -> Valve Driver.
+    Arbitrator Fuzz (Fuzz Face germanium, always-on) = simulation Gibson Skylark.
+    Le Fuzz Face a gain modere reproduit le cote "fuzz sur les bords" d'un petit
+    ampli tube sature : saturation asymetrique, harmoniques impaires, transitoires
+    qui "baventa" legerement. Plus fidele que le Valve Driver (trop lisse/hi-fi).
+    Fuzz=0.62 : modere, garde la dynamique. Le Super Distortion d'Eric (plus chaud
+    qu'un P-90) pousse davantage — calibrer en dessous du seuil full-fuzz.
+    Matching documente : Gibson Skylark -> Arbitrator Fuzz.
 
-    Chaine : Gate > ValveDriver > GrayFlanger > Reverb > KinkyBoost
-    Slots  :  0       1              2             3        4
+    Chaine : Gate > ArbitratorFuzz > GrayFlanger > Reverb > KinkyBoost
+    Slots  :  0       1                 2             3        4
 
-    Snap 0 Riff   : ValveDriver + flanger discret (Mix=0.28) + reverb
-    Snap 1 Bridge : ValveDriver + flanger prononce (Mix=0.48) + reverb
-    Snap 2 Solo   : ValveDriver + reverb + KinkyBoost (micro manche Eric = single-coil faible sortie)
+    Snap 0 Riff   : ArbitratorFuzz + flanger discret (Mix=0.28) + reverb
+    Snap 1 Bridge : ArbitratorFuzz + flanger prononce (Mix=0.48) + reverb
+    Snap 2 Solo   : ArbitratorFuzz + reverb + KinkyBoost (micro manche = single-coil)
     Snap 3 Clean  : reverb seule
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -45,12 +49,12 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Valve Driver = Chandler Tube Driver : simulation Gibson Skylark (petit combo tube sature)
-    # Circuit a tubes -> chaleur et compression naturelle proches du Skylark pousse a fond
-    # Bass=0.52 / Treble=0.48 : conservateur, Les Paul vintage chaude + Mesa Boogie brillant
-    # enabled_default=True : canal d'ampli permanent (aucune pedale de disto sur ce titre)
-    pb.add_block("HD2_DistValveDriver", slot=1,
-                 overrides={"Gain": 0.68, "Bass": 0.52, "Treble": 0.48, "Level": 0.55})
+    # Arbitrator Fuzz = Fuzz Face germanium : simulation Gibson Skylark pousse a fond
+    # Fuzz=0.62 : modere — "fuzz sur les bords" sans mur de fuzz
+    # Super Distortion Eric > P-90 Craig Ross -> Fuzz calibre en dessous du default (0.9)
+    # enabled_default=True : canal d'ampli permanent (pas de pedale de disto sur ce titre)
+    pb.add_block("HD2_DistArbitratorFuzz", slot=1,
+                 overrides={"Fuzz": 0.62, "Level": 0.55})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch, deux magnetophones)
     # Mix variable par snapshot : discret sur Riff (0.28), prononce sur Bridge (0.48 via params)
@@ -62,21 +66,18 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
-    # Kinky Boost = boost de solo +6 dB : compense le delta micro manche (single-coil)
+    # Kinky Boost : compense le delta micro manche (single-coil faible sortie)
     # vs micro chevalet (Super Distortion) utilise sur le riff
     # enabled_default=False : actif uniquement sur Solo
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Riff : OCD + flanger discret (Mix=0.28 = tape flanging leger)
     pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="yellow")
 
-    # Bridge : meme OCD + flanger prononce (Mix=0.48)
     pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3],
                     params={2: {"Mix": 0.48}},
                     color="blue")
 
-    # Solo : OCD + KinkyBoost (pas de flanger documente sur le solo)
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4], color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

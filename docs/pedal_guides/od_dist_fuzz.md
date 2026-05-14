@@ -259,7 +259,7 @@ timbre, réponse aux transitoires, compression naturelle.
 | Ampli réel | Pédale HX recommandée | Model ID | Caractère | Source |
 |---|---|---|---|---|
 | **Marshall JCM800** (canal overdrive, Gain 7–9) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Crunch dynamique, LPHP=True pour le punch britannique | Be Yourself — Tom Morello |
-| **Gibson Skylark** (petit combo tube ~4W, saturé à fond) | Valve Driver | `HD2_DistValveDriver` | Circuit à tubes → chaleur et compression naturelle. Gain 0.65–0.72, Bass 0.52, Treble 0.48 | Are You Gonna Go My Way — Craig Ross |
+| **Gibson Skylark** (petit combo tube ~4W, saturé à fond) | Arbitrator Fuzz | `HD2_DistArbitratorFuzz` | Fuzz Face germanium à gain modéré → "fuzz sur les bords" d'un petit tube saturé. Fuzz 0.62. Plus fidèle que le Valve Driver (trop lisse). | Are You Gonna Go My Way — Craig Ross |
 
 **À compléter au fil des presets.** Quand un nouveau cas de simulation d'ampli est
 rencontré, ajouter une ligne à ce tableau avec l'ampli, la pédale choisie, le

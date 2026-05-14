@@ -206,17 +206,17 @@ def preset_be_yourself():
 def preset_black_hole_sun():
     """Soundgarden - Black Hole Sun (105 BPM) — Kim Thayil
 
-    Son signature : H&K Rotosphere (rotary fast) exclusivement sur le verse clean.
-    Big Muff pour refrain/solo, sans rotary (le rotary noie la BigMuff sur HX Effects).
-    Intro : OD legere epaisse (riff grave sans rotary, joue par Cornell sur l'enregistrement).
-    Slapback 80ms sur le solo pour se distinguer du refrain.
+    Son signature : H&K Rotosphere emule le Leslie Model 16 de l'enregistrement.
+    Rotary FAST sur le verse clean, SLOW sur le refrain (avec Big Muff).
+    Source : "fast setting for the verses, slow setting for the choruses" (Premier Guitar).
+    Intro : arpèges clean Cornell sans rotary. Slapback 80ms differencie le solo.
 
     Chaine : Gate > BigMuff > Rotary > Reverb > KinkyBoost > Slapback > OD-Intro
     Slots  :  0      1         2        3        4             5          6
 
-    Snap 0 Intro  : OD legere + reverb (riff epais intro, sans rotary)
-    Snap 1 Verse  : clean + rotary fort + reverb + Kinky Boost
-    Snap 2 Refrain: Big Muff + reverb (sans rotary)
+    Snap 0 Intro  : clean + reverb + KinkyBoost (arpèges Cornell, pas de rotary)
+    Snap 1 Verse  : clean + rotary FAST + reverb + KinkyBoost
+    Snap 2 Refrain: Big Muff + rotary SLOW (Speed=False via params) + reverb
     Snap 3 Solo   : Big Muff pousse + slapback 80ms + reverb
     """
     pb = PresetBuilder("Black Hole Sun", tempo=105.0, styles=["grunge"])
@@ -264,8 +264,9 @@ def preset_black_hole_sun():
 
     pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
 
-    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 3],
-                    params={1: {"Level": 0.42}},
+    # Rotary SLOW sur le refrain : Speed=False via params
+    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Level": 0.42}, 2: {"Speed": False}},
                     color="orange")
 
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 5],

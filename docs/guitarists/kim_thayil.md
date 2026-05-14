@@ -10,7 +10,7 @@
 | Guild S-100 | **Principale depuis les débuts.** Style SG, humbuckers. Cordes très basses — résonance harmonique derrière le chevalet exploitée (Black Hole Sun). |
 | Gibson Les Paul Custom | Usage ponctuel, humbuckers épais. |
 
-Accordages : Drop D, Eb, Drop B (accordages alternatifs très fréquents).
+Accordages : Drop D, Drop B (accordages alternatifs très fréquents). **Black Hole Sun = Drop D** (D A D G B E).
 
 ## Amplis (ère Superunknown, 1994)
 
@@ -29,7 +29,7 @@ Enceintes : 4×12 avec Celestion Vintage 30.
 
 | Pédale | Rôle |
 |---|---|
-| Hughes & Kettner Rotosphere | **Rotary speaker simulator — exclusivement sur Black Hole Sun, réglage Fast.** |
+| Hughes & Kettner Rotosphere | **Rotary speaker simulator — Black Hole Sun. Fast sur le verse, Slow sur le refrain.** |
 | EHX Electric Mistress (Flanger) | Passages clairs, textures psychédéliques |
 | EHX Big Muff Pi | Distorsion / fuzz principale |
 | Pro Co RAT | Distorsion alternative |
@@ -42,7 +42,7 @@ Enceintes : 4×12 avec Celestion Vintage 30.
 
 | Titre | Son principal |
 |---|---|
-| Black Hole Sun | Clean + Rotosphere fast (verse), Big Muff + Rotosphere (refrain/solo) |
+| Black Hole Sun | Clean + Rotosphere **fast** (verse), Big Muff + Rotosphere **slow** (refrain), Big Muff + slapback (solo) |
 | Spoonman | Riff heavy Big Muff, open tuning |
 | Superunknown | Riff lourd, crunch Boogie |
 | Fell on Black Days | Clean + chorus, crunch modéré |
@@ -50,7 +50,7 @@ Enceintes : 4×12 avec Celestion Vintage 30.
 
 ## Notes pour les presets
 
-- Black Hole Sun : **abaisser le gain de l'ampli à 3** pour la partie verse/clean, rotary fast pour le swirl signature. Refrain : Big Muff activé.
+- Black Hole Sun : tuning Drop D. Verse = clean + rotary FAST. Refrain = Big Muff + rotary SLOW (Speed=False). Solo = Big Muff poussé + slapback. Intro = clean sans rotary (arpèges Cornell).
 - La Guild S-100 a des humbuckers au chevalet très chauds → tone légèrement sombre (pas trop de highs).
 - Accordage Eb sur Black Hole Sun (demi-ton en dessous).
 

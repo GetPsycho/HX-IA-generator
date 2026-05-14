@@ -85,8 +85,11 @@ Guitare → MC404 CAE → HX Effects → Mesa
 3. **Solos** : Micro manche (single-coil faible sortie) = delta de volume avec le chevalet.
    Le KinkyBoost de solo est d'autant plus justifié.
 
-4. **Funk / positions mixtes** : Micro milieu, son naturellement plus propre et quacky.
+4. **Funk pur** : Micro milieu (single-coil d'origine) — sortie faible, son quacky et articulé.
+   Compresseur Sensitivity : 0.55–0.70 (sortie faible → plus de compression nécessaire).
    L'AutoFilter (Dani California Lick) sera plus efficace sur ce micro.
+   **Funk-rock** : Super Distortion chevalet — sortie haute, chaîne comp → OD.
+   Compresseur Sensitivity : 0.45–0.55 (sortie élevée → comprimer moins pour garder le punch).
 
 5. **Pas de 4CM** : Tous les effets (OD, modulation, delay, reverb) passent par le préampli
    du Mesa. Aucune séparation pre/post ampli possible sans reconfiguration du câblage.

@@ -74,21 +74,78 @@ Il maintient un niveau constant, ajoute du sustain, et régularise les attaques.
 
 Réglage "invisible" : Sensitivity basse (0.3–0.4), Level neutre.
 
-### Funk / Nile Rodgers (Dyna Comp)
-- Sensitivity : 0.6–0.75 (compression bien présente mais pas excessive)
-- Level : +3 à +6 dB de makeup
-- Le "squish" caractéristique des accords grattés (chucking) vient de là
-- Couplé à une Strat neck pickup → son clean funk articulé
+### Funk pur — micro milieu single-coil (Nile Rodgers, Frusciante)
+
+Contexte : signal faible sortie → le compresseur travaille plus.
+
+| Param | Valeur | Pourquoi |
+|---|---|---|
+| **Sensitivity** | 0.55–0.70 | Sortie single-coil faible → compression plus marquée nécessaire |
+| **Level** | +2 à +5 dB | Makeup gain pour compenser la perte de volume de la compression |
+| **Attack** (si dispo) | Lente–moyenne | Préserve le transitoire de picking — le "click" initial est fondamental en funk |
+
+- Le **"squish"** caractéristique des accords grattés (chucking) vient d'une Sensitivity élevée
+  qui écrase les crêtes puis relâche → rebond rythmique perceptible
+- En funk, la **compression EST le son** — pas juste un outil de dynamique
+- Modèles HX adaptés : **Red Squeeze** (MXR Dyna Comp, squish musical), **Kinky Comp**
+  (Xotic SP, plus transparent et naturel)
+
+**Réglage type micro milieu Eric :**
+```
+Red Squeeze : Sensitivity=0.62, Level=3.0, Mix=1.0
+```
+
+### Funk-rock — Super Distortion bridge + OD dans la chaîne
+
+Contexte : signal haute sortie + pédale OD en aval → rôle du compresseur change.
+
+```
+Guitare (SD bridge) → Comp → OD → Ampli
+```
+
+| Param | Valeur | Pourquoi |
+|---|---|---|
+| **Sensitivity** | 0.45–0.55 | Sortie élevée → moins de compression pour ne pas tuer le punch |
+| **Level** | +1 à +2 dB | Makeup modéré — l'OD en aval remonte le niveau de toute façon |
+| **Attack** | Lente | Même logique : laisser passer le transitoire de picking |
+
+Le compresseur ici remplit un rôle de **"tightening"** : il régularise le signal chaud
+du Super Distortion **avant** qu'il entre dans l'OD, pour que l'OD réponde de façon
+uniforme quelle que soit la force de picking. Sans comp, l'OD est moins prévisible.
+
+**Réglage type Super Distortion bridge Eric + OCD (Beggin' style) :**
+```
+Red Squeeze : Sensitivity=0.50, Level=2.0, Mix=1.0
+```
+
+### Distinction Red Squeeze vs Red Comp vs Kinky Comp
+
+| Modèle HX | Pédale réelle | Caractère | Usage idéal |
+|---|---|---|---|
+| **Red Squeeze** | MXR Dyna Comp (HD2) | Squish musical, légère coloration | Funk pur, funk-rock comp+OD |
+| **Red Comp** *(Legacy)* | MXR Dyna Comp (legacy) | Même circuit, rendu légèrement différent | Alternative à Red Squeeze |
+| **Kinky Comp** | Xotic SP Compressor | Plus transparent, attaque plus naturelle | Toujours actif "invisible", country |
+
+### Sortie du micro et Sensitivity : règle générale
+
+Plus la sortie du micro est élevée, **moins** il faut de Sensitivity pour le même effet perçu.
+Un humbucker haute sortie (Super Distortion ~13.7 kΩ) compressé à Sensitivity=0.60
+sonnera étouffé et sans vie. Un single-coil milieu à Sensitivity=0.60 sonnera naturel.
+
+| Micro | Sensitivity cible (funk) |
+|---|---|
+| Single-coil milieu/manche (Strat standard) | 0.55–0.70 |
+| Humbucker standard (PAF, ~8 kΩ) | 0.50–0.60 |
+| Humbucker haute sortie (Super Distortion, ~13.7 kΩ) | 0.45–0.55 |
 
 ### Compresseur avant OD
 - Signal régularisé → l'OD reçoit un signal plus uniforme
-- Les notes fortes et faibles saturationnent pareil → son plus "studio"
+- Les notes fortes et faibles saturent pareil → son plus "studio"
 - Moins de dynamique de jeu (peut être perçu comme négatif ou positif)
 
 ### Compresseur après OD
 - Contrôle le volume de sortie de la disto
 - Ajoute du sustain à la fin de la chaîne de gain
-- Le sustain de la disto est "collé" et prolongé
 - Risque : amplifie aussi le bruit de fond de la disto
 
 ### Slapback + Comp (Country)

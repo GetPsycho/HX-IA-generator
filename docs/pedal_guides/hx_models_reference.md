@@ -1,7 +1,7 @@
 # HX Effects — Référence des modèles (v3.80)
 
 Source officielle : HX Effects 3.80 Owner's Manual (40-00-0399 Rev D).
-PDF à stocker : `docs/HX_Effects_380_Owners_Manual.pdf`
+PDF : `docs/HX Effects 3.80 Owner's Manual - English .pdf`
 
 Toutes les entrées de ce fichier sont ✅ confirmées par le manuel officiel.
 

@@ -141,67 +141,61 @@ def preset_beggin():
 def preset_be_yourself():
     """Audioslave - Be Yourself (117 BPM) — Tom Morello
 
-    Son : Marshall JCM800 crunch. Sobre pour Morello.
-    Wah uniquement sur le solo → pedale externe (Cry Baby MC404).
+    JCM800 canal overdrive permanent — pas de pedale OD externe.
+    OCD always-on simule ce canal gain. Gain variable par snapshot
+    (simule le potentiometre de volume guitare qui nettoie le JCM800).
 
-    Delay "reverb" : feedback tres bas (0.07) = une seule repetition
-    qui se noie dans la reverb, pas d'echos distincts perceptibles.
-    Delay quarter note 117 BPM = 512ms = 0.51s (interne).
+    KinkyBoost = DOD FX40B (level boost flat) always-on sauf Solo.
+    L'OCD a faible Gain (Intro/Verse/Chorus) produit moins que le signal
+    clean de reference → KinkyBoost compensatoire sur ces 3 snaps.
+    Solo sans KinkyBoost : Gain=0.55 suffit a atteindre la reference.
 
-    Chaine : Gate > OD > Delay > Reverb > KinkyBoost
-    Slots  :  0     1    2       3        4
+    Chaine : Gate > CompulsiveDrive > Ganymede > KinkyBoost
+    Slots  :  0       1                 2           3
 
-    Snap 0 Intro  : clean + reverb large + Kinky Boost (compense l'absence d'OD)
-    Snap 1 Verse  : OD ultra-discret + delay + reverb
-    Snap 2 Chorus : crunch leger + delay + reverb
-    Snap 3 Solo   : crunch pousse + delay + reverb (wah = pedale externe)
+    Snap 0 Intro  : Gain=0.04, LPHP=False, reverb large, KinkyBoost ON
+    Snap 1 Verse  : Gain=0.22, LPHP=False, KinkyBoost ON
+    Snap 2 Chorus : Gain=0.38, LPHP=True,  KinkyBoost ON
+    Snap 3 Solo   : Gain=0.55, LPHP=True,  KinkyBoost OFF (wah = pedale externe)
     """
-    pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["funk_rock", "alt_rock"])
+    pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.32})
 
-    # Compulsive Drive = OCD : simule le canal overdrive permanent du Marshall JCM800
-    # Morello n'a pas de pedale OD — toute la saturation vient du canal gain de l'ampli.
-    # enabled_default=True : toujours active, variation du Gain par snapshot uniquement
-    # (simule le potentiometre de volume guitare qui nettoie/ouvre le canal gain)
+    # CompulsiveDrive = OCD : simule canal overdrive permanent JCM800
+    # enabled_default=True : canal d'ampli permanent, Gain variable par snapshot
+    # Level=0.60 : base commune, KinkyBoost compense le reste
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.55})
+                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.60})
 
     pb.add_block("HD2_ReverbGanymede", slot=2,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.22})
 
-    # Kinky Boost = approx. DOD FX40B (EQ flat + Level boost) : boost de solo uniquement
-    # Drive=0 = pas de coloration / Boost=True = +6 dB pur (simule le boost de niveau)
-    # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_DistKinkyBoost", slot=3, enabled_default=False,
+    # KinkyBoost = DOD FX40B (level boost) : compense le deficit de volume
+    # de l'OCD a faible Gain par rapport au signal clean de reference
+    # enabled_default=True : actif par defaut, exclu du Solo uniquement
+    pb.add_block("HD2_DistKinkyBoost", slot=3,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Intro : crunch tres leger (volume guitare roule sur canal gain JCM800)
-    # LPHP=False (LP) : plus chaud et rond pour les arpeges atmospheriques
-    # Reverb plus ouverte pour l'ambiance de l'intro
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.08, "Tone": 0.50, "LPHP": False, "Level": 0.55},
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.04, "Tone": 0.50, "LPHP": False},
                             2: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Verse : crunch modere — canal gain progressivement ouvert
-    # LPHP=False : chaleur pour le jeu rythmique discret
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.58}},
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False}},
                     color="yellow")
 
-    # Chorus : crunch present — volume guitare plein sur canal gain
-    # LPHP=True (HP) : punch Marshall britannique sur les riffs d'accords
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.65}},
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.38, "Tone": 0.58, "LPHP": True}},
                     color="orange")
 
-    # Solo : crunch pousse + DOD FX40B boost (KinkyBoost +6 dB)
+    # Solo : KinkyBoost exclu — Gain=0.55 suffit pour le niveau de reference
     # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.65}},
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2],
+                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True}},
                     color="red")
 
     return pb

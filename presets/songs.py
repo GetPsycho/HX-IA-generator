@@ -130,6 +130,14 @@ def preset_beggin():
                     params={2: {"Gain": 0.24}},
                     color="orange")
 
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="white")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="white")
+
     return pb
 
 

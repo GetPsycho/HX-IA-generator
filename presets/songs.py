@@ -20,60 +20,68 @@ from preset_builder import PresetBuilder
 # ─────────────────────────────────────────────────────────
 
 def preset_are_you_gonna_go_my_way():
-    """Lenny Kravitz - Are You Gonna Go My Way (130 BPM)
+    """Lenny Kravitz - Are You Gonna Go My Way (130 BPM) — Craig Ross
 
-    Chaine : Gate > OD > Flanger > EQ > Delay > Reverb
-    Slots  :  0      1     2        3    4        5
+    Craig Ross a joue TOUTES les parties (riff, rhythm, solo) — une seule prise.
+    Guitare : Gibson Les Paul Goldtop 1953 (appartenant a Kravitz).
+    Ampli : Gibson Skylark (petit combo tube annees 50) pousse a fond.
+    Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
+    Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
 
-    Snap 0 Riff   : son principal, intro/couplet/refrain/outro
-    Snap 1 Bridge : flanger + EQ chaud (Drive reduit)
-    Snap 2 Solo   : boost sustain + EQ lead + slapback 120ms
-    Snap 3 Clean  : accordage / attente
+    OCD (always-on) = simulation du canal gain permanent du Gibson Skylark.
+    LPHP=False (LP) : soft clipping chaud, plus proche du tube naturellement sature.
+    Matching documente : Gibson Skylark -> OCD LPHP=False.
+
+    Chaine : Gate > OCD > GrayFlanger > Reverb > KinkyBoost
+    Slots  :  0      1      2             3        4
+
+    Snap 0 Riff   : OCD + flanger discret (Mix=0.28) + reverb
+    Snap 1 Bridge : OCD + flanger prononce (Mix=0.48) + reverb
+    Snap 2 Solo   : OCD + reverb + KinkyBoost (micro manche Eric = single-coil faible sortie)
+    Snap 3 Clean  : reverb seule
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
 
-    # Gate adapte au Bighorn Fuzz : seuil plus haut pour couper le bruit
-    # residuel de la fuzz quand on ne joue pas
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Bighorn Fuzz (Ram's Head Big Muff) : fuzz epais et crasseux
-    # Regie sur le son Riff ; snapshots affinent via params
-    pb.add_block("HD2_DistRamsHead", slot=1,
-                 overrides={"Sustain": 0.82, "Tone": 0.58, "Level": 0.75})
+    # Compulsive Drive = OCD : simulation Gibson Skylark (tube naturellement sature)
+    # LPHP=False (LP) = soft clipping chaud, approximation de la saturation tube
+    # enabled_default=True : canal d'ampli permanent (pas de pedale toglee)
+    # Tone=0.52 : conservateur car Mesa Boogie clean deja brillant + Les Paul vintage chaude
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.58, "Tone": 0.52, "LPHP": False, "Level": 0.55})
 
-    # enabled_default=False : bypasse au chargement, actif uniquement sur Bridge
+    # Gray Flanger = approximation du tape flanging studio (Henry Hirsch, deux magnetophones)
+    # Mix variable par snapshot : discret sur Riff (0.28), prononce sur Bridge (0.48 via params)
+    # enabled_default=False : actif sur Riff et Bridge, bypasse sur Solo et Clean
     pb.add_block("HD2_FlangerGrayFlanger", slot=2, enabled_default=False,
-                 overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.40})
+                 overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.28})
 
-    pb.add_block("HD2_EQSimple3Band", slot=3)
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
-    # enabled_default=False : bypasse au chargement, actif uniquement sur Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
-                 overrides={"Time": 0.12, "Feedback": 0.0, "Mix": 0.22,
-                            "TempoSync1": False})
+    # Kinky Boost = boost de solo +6 dB : compense le delta micro manche (single-coil)
+    # vs micro chevalet (Super Distortion) utilise sur le riff
+    # enabled_default=False : actif uniquement sur Solo
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=5,
-                 overrides={"Decay": 0.45, "Predelay": 0.02,
-                            "Tone": 0.60, "Modulation": 0.25, "Mix": 0.18})
+    # Riff : OCD + flanger discret (Mix=0.28 = tape flanging leger)
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="yellow")
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 5], color="yellow")
-
-    pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3, 5],
-                    params={
-                        1: {"Sustain": 0.75, "Level": 0.70},
-                        3: {"MidFreq": 800.0, "MidGain": -2.0, "HighGain": -3.0},
-                    },
+    # Bridge : meme OCD + flanger prononce (Mix=0.48)
+    pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3],
+                    params={2: {"Mix": 0.48}},
                     color="blue")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4, 5],
-                    params={
-                        1: {"Sustain": 0.90, "Level": 0.82},
-                        3: {"MidFreq": 1000.0, "MidGain": 4.0, "HighGain": 2.0},
-                    },
-                    color="red")
+    # Solo : OCD + KinkyBoost (pas de flanger documente sur le solo)
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4], color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 5], color="green")
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="green")
 
     return pb
 

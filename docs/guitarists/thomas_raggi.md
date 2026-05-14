@@ -19,7 +19,7 @@ Son rock/glam avec saturation naturelle de tube.
 ## Sons par titre
 | Titre | Section | Son | Notes |
 |---|---|---|---|
-| **Beggin'** | Principal | OCD low gain + Red Squeeze | Funky, compressé |
+| **Beggin'** | Tout le morceau | OCD low gain + Red Squeeze | Ton homogène, pas de rupture propre/saturé. Compresseur + OCD en permanence. Verse (Gain ~0.18) / Refrain (Gain ~0.24). |
 | **I Wanna Be Your Slave** | Verse | Klon + OCD crunch | Rock agressif, glam |
 | **I Wanna Be Your Slave** | Chorus | Klon + OCD pushed | Plus de saturation |
 | **I Wanna Be Your Slave** | Solo | Klon + OCD + DS-1 | Lead chargé |

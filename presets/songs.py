@@ -87,14 +87,18 @@ def preset_are_you_gonna_go_my_way():
 
 
 def preset_beggin():
-    """Maneskin - Beggin' (134 BPM)
+    """Maneskin - Beggin' (134 BPM) — Thomas Raggi
 
-    Jeu funky rythmique : compresseur Ross + OCD a tres faible gain.
-    Le Red Squeeze apporte le "squish" funk et regularise l'attaque
-    du Super Distortion. L'OCD donne juste le grain du mordant sans saturer.
+    Ton funky compresse tout au long du morceau : pas de section propre.
+    Ross Compressor + OCD low gain toujours actifs (enabled_default=True).
+    Sensitivity abaissee a 0.50 : Super Distortion chevalet Eric
+    = sortie plus elevee qu'une Telecaster single-coil de reference.
 
-    Chaine : Gate > RedSqueeze > CompulsiveDrive > Reverb
-    1 seul snapshot actif.
+    Chaine : Gate > RedSqueeze > CompulsiveDrive > Ganymede
+    Slots  :  0      1            2                  3
+
+    Snap 0 Verse  : OCD Gain=0.18 (funky minimal, attaque seche)
+    Snap 1 Refrain: OCD Gain=0.24 (meme ton, legerement plus de corps)
     """
     pb = PresetBuilder("Beggin'", tempo=134.0, styles=["rock", "funk_rock"])
 
@@ -102,23 +106,25 @@ def preset_beggin():
                  overrides={"Threshold": -52.0, "Decay": 0.40})
 
     # Red Squeeze = Ross Compressor : squish funky, regularise l'attaque
-    # Sensitivity moderee pour ne pas ecraser la dynamique
+    # Sensitivity 0.50 : compense la sortie elevee du Super Distortion d'Eric
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
-                 overrides={"Sensitivity": 0.60, "Mix": 1.0, "Level": 3.0})
+                 overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
 
-    # Compulsive Drive = Fulltone OCD, gain tres bas
-    # Le compresseur en amont regularise le signal du Super Distortion
-    # LPHP=True (mode HP) : attaque seche et percussive
+    # OCD always-on : grain minimal fondu dans le compresseur, pas de saturation
+    # LPHP=True (HP) : attaque percussive et seche, colle avec le Mesa Boogie tight
+    # Gain variable par snapshot
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.22, "Tone": 0.60, "LPHP": True, "Level": 0.73})
+                 overrides={"Gain": 0.18, "Tone": 0.60, "LPHP": True, "Level": 0.72})
 
-    # Reverb discrete : meme reglages pour coherence de volume
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.65, "Modulation": 0.20, "Mix": 0.15})
 
-    pb.add_snapshot(0, "Beggin", blocks_on=[0, 1, 2, 3],
-                    color="yellow")
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
+
+    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 2, 3],
+                    params={2: {"Gain": 0.24}},
+                    color="orange")
 
     return pb
 

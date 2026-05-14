@@ -307,7 +307,7 @@ def preset_creep():
     # Level 0.52 → 0.68 : RAT sous unity a faible Level, 0.68 amene le Chorus a ref
     # enabled_default=False : bypasse au chargement (verse clean par defaut)
     pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.82})
+                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.85})
 
     # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
     # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s
@@ -326,20 +326,19 @@ def preset_creep():
     pb.add_block("HD2_CompressorRedSqueeze", slot=4, enabled_default=False,
                  overrides={"Sensitivity": 0.78, "Mix": 1.0, "Level": 6.0})
 
-    # KinkyBoost = Xotic EP Booster : monte le verse clean au niveau de reference
-    # enabled_default=False : actif uniquement sur Verse
+    # KinkyBoost = Xotic EP Booster : boost volume sur Verse, Chorus et Stabs
+    # enabled_default=False : exclu du snap Clean (reference)
     pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 5], color="green")
 
-    # Stabs : Level=1.0 (max) + Sensitivity 0.78->0.62 (moins de compression = plus d'attaque)
-    pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 4],
-                    params={1: {"Gain": 0.85, "Level": 1.0},
-                            4: {"Sensitivity": 0.62}},
+    # Stabs : dist + KinkyBoost seul (pas de compresseur), Gain=0.85 + Level=1.0 via params
+    pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 5],
+                    params={1: {"Gain": 0.85, "Level": 1.0}},
                     color="orange")
 
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3], color="red")
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3, 5], color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},

@@ -118,7 +118,7 @@ def preset_beggin():
     # LPHP=True (HP) : attaque percussive et seche, colle avec le Mesa Boogie tight
     # Gain variable par snapshot
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.18, "Tone": 0.60, "LPHP": True, "Level": 0.72})
+                 overrides={"Gain": 0.18, "Tone": 0.60, "LPHP": True, "Level": 0.77})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,

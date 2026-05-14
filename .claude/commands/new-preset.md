@@ -35,7 +35,10 @@ Justifie chaque choix par rapport à ce que la recherche a révélé.
   - Les modèles sont en deux sous-catégories : **Mono/Stereo** (HD2, modèles modernes)
     et **Legacy** (DM4, MM4, DL4, FM4 — IDs contenant `_DM4`, `_MM4`, `_DL4`, `_FM4`).
     Considérer les deux : certains sons classiques n'existent qu'en Legacy.
-- Consulte `docs/pedal_guides/` pour les paramètres de référence
+- Consulte `docs/pedal_guides/` pour les paramètres de référence :
+  - `hx_models_reference.md` : pédale réelle → Model ID (lookup inversé inclus)
+  - `od_dist_fuzz.md` : sweet spots OD/dist/fuzz + table simulation ampli
+  - `compressors.md`, `modulation.md`, `delay.md`, `reverb.md`, `filters.md`, `eq.md`
 - **Consulte `docs/gear/eric_gear.md`** pour les incidences du matériel d'Eric sur le son
   (Super Distortion chevalet = haute sortie, Mesa Boogie clean = tight/brillant,
   micro manche single-coil pour solos, micro milieu pour funk)
@@ -113,7 +116,25 @@ Lance `python presets/generate_presets.py` et vérifie l'absence d'erreur ou WAR
 
 ---
 
-## 6. Commit
+## 6. Mise à jour sources_research.md
+
+Ajouter ou compléter l'entrée dans `docs/sources_research.md` :
+
+```markdown
+## Artiste - Titre (année)
+
+### Informations confirmées
+- BPM, tonalité, guitare, ampli, pédales, sons par section
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| ... | ... |
+```
+
+---
+
+## 7. Commit
 
 Message : `Titre - Artiste : preset + fiche <guitariste>`
 Inclure les changements clés (chaîne, snaps, matching ampli si nouveau).

@@ -234,3 +234,123 @@ Nonlinear, Double Tank, Dynamic Hall/Room/Plate/Ambience/Bloom, Shimmer) sont de
 | **10 Band Graphic** | `HD2_EQGraphic10Band` | MXR 10-Band Graphic EQ |
 | **Cali Q Graphic** | `HD2_CaliQ` | MESA/Boogie Mark IV Graphic EQ |
 | Tous les autres EQ HD2 | — | Original Line 6 |
+
+---
+
+## Pitch / Synth
+
+| Nom HX | Model ID | Équivalent réel |
+|---|---|---|
+| **Pitch Wham** | `HD2_PitchPitchWham` | Digitech Whammy |
+| **Twin Harmony** | `HD2_PitchTwinHarmony` | Eventide H3000 |
+| **Simple Pitch** | `HD2_PitchSimplePitch` | Original Line 6 |
+| **Dual Pitch** | `HD2_PitchDualPitch` | Original Line 6 |
+| **Boctaver** | `VIC_PitchBoctaver` | Boss OC-2 Octaver |
+| **Bass Octaver** *(Legacy)* | `HD2_DM4BassOctaver` | EBS OctaBass |
+| **Smart Harmony** *(Legacy)* | `HD2_M13TwoVoiceHarmony` | Eventide H3000 |
+| **Attack Synth** *(Legacy)* | `HD2_FM4AttackSynth` | Korg X911 Guitar Synth |
+| **Synth String** *(Legacy)* | `HD2_FM4SynthString` | Roland GR700 Guitar Synth |
+
+---
+
+## Lookup inversé — Pédale réelle → HX Model ID
+
+Pour partir d'une pédale réelle et trouver l'équivalent HX rapidement.
+
+| Pédale réelle | Nom HX | Model ID |
+|---|---|---|
+| A/DA Flanger | Harmonic Flanger | `HD2_FlangerHarmonicFlanger` |
+| Analogman King of Tone | Tone Sovereign | `HD2_DistToneSovereign` |
+| Analogman Prince of Tone | Heir Apparent | `HD2_DistHeirApparent` |
+| Ampeg Opto Comp | Ampeg Opto Comp | `HD2_CompressorOptoComp` |
+| Arbiter Fuzz Face | Arbitrator Fuzz | `HD2_DistArbitratorFuzz` |
+| Arbiter Fuzz Face (Legacy) | Facial Fuzz | `HD2_DM4FacialFuzz` |
+| Ampeg Scrambler Bass OD | Ampeg Scrambler | `HD2_DistAmpegScramblerOD` |
+| Benadrian KWB | KWB | `HD2_DistKWB` |
+| Binson EchoRec | Echo Platter *(Legacy)* | `HD2_DL4EchoPlatterStereo` |
+| BOSS CE-1 | 70s Chorus | `HD2_Chorus70sChorus` |
+| BOSS CS-1 | Blue Comp *(Legacy)* | `HD2_DM4BlueComp` |
+| BOSS DM-2 | Bucket Brigade | `HD2_DelayBucketBrigade` |
+| BOSS DM-2 w/mod | Adriatic Delay | `HD2_DelayAdriaticDelay` |
+| BOSS DM-2 (Legacy) | Analog Echo | `HD2_DL4AnalogDelayStereo` |
+| BOSS DS-1 (MIJ) | Deez One Vintage | `HD2_DistDeezOneVintage` |
+| BOSS DS-1 (Keeley) | Deez One Mod | `HD2_DistDeezOneMod` |
+| BOSS FZ-2 (Garbage) | Wringer Fuzz | `HD2_DistWringerFuzz` |
+| BOSS HM-2 | Swedish Chainsaw | `HD2_DistSwedishChainsaw` |
+| BOSS Metal Zone (Legacy) | Heavy Dist | `HD2_DM4HeavyDistortion` |
+| BOSS Metal Zone MT-2 (Legacy) | Killer Z | `KillerZ` |
+| BOSS OC-2 | Boctaver | `VIC_PitchBoctaver` |
+| BOSS SD-1 | Stupor OD | `HD2_DistStuporOD` |
+| BOSS VB-2 | Bubble Vibrato | `HD2_VibratoBubbleVibrato` |
+| Carvin VLD1 | Legendary Drive | `HD2_DistLegendaryDrive` |
+| Chandler Tube Driver | Valve Driver | `HD2_DistValveDriver` |
+| Chandler Tube Driver (Legacy) | Tube Drive | `HD2_DM4TubeDrive` |
+| Colorsound Overdriver (Legacy) | Colordrive | `HD2_DM4ColorDrive` |
+| Dallas Rangemaster | Deranged Master | `HD2_DistDerangedMaster` |
+| Darkglass B7K Ultra | Obsidian 7000 | `HD2_DistObsidian7000` |
+| Digitech Whammy | Pitch Wham | `HD2_PitchPitchWham` |
+| DOD OD-250 | Top Secret OD | `HD2_DistTopSecretOD` |
+| DOD OD-250 (Legacy) | Overdrive | `HD2_DM4Overdrive` |
+| Dunlop Cry Baby Super | Fassel | `HD2_WahFassel` |
+| Earthquaker Plumes | Pillars | `HD2_DistPillars` |
+| EBS OctaBass (Legacy) | Bass Octaver | `HD2_DM4BassOctaver` |
+| EHX Big Muff Pi (Legacy) | Fuzz Pi | `HD2_DM4FuzzPi` |
+| EHX Big Muff Triangle | Triangle Fuzz | `HD2_DistTriangleFuzz` |
+| EHX Deluxe Memory Man | Elephant Man | `HD2_DelayElephantMan` |
+| EHX Deluxe Memory Man (Legacy) | Analog w/Mod | `HD2_DL4AnalogDelayStereoMod` |
+| EHX Ram's Head Big Muff '73 | Bighorn Fuzz | `HD2_DistRamsHead` |
+| EHX Russian Big Muff | Dark Dove Fuzz | `HD2_DistDarkDoveFuzz` |
+| Electrix Filter Factory | Throbber *(Legacy)* | `HD2_FM4Throbber` |
+| Eventide H3000 | Twin Harmony | `HD2_PitchTwinHarmony` |
+| Fulltone OCD | Compulsive Drive | `HD2_DistCompulsiveDrive` |
+| Hermida Zendrive | Dhyana Drive | `HD2_DistDhyanaDrive` |
+| Horizon Precision Drive | Horizon Drive | `HD2_DistHorizonDrive` |
+| Ibanez TS808 | Scream 808 | `HD2_DistScream808` |
+| Ibanez Tube Screamer (Legacy) | Screamer | `HD2_DM4Screamer` |
+| Jordan Boss Tone | Pocket Fuzz | `HD2_DistPocketFuzz` |
+| Klon Centaur | Minotaur | `HD2_DistMinotaur` |
+| Korg A3 | Mystery Filter | `HD2_FilterMysterFilter` |
+| Korg X911 (Legacy) | Attack Synth | `HD2_FM4AttackSynth` |
+| Leslie 122 | 122 Rotary | `HD2_MM4RotaryDrumHorn` |
+| Leslie 145 | 145 Rotary | `HD2_MM4RotaryDrumHorn` |
+| Maestro Bass Brassmaster (Legacy) | Bronze Master | `Line6BronzeMaster` |
+| Maestro Echoplex EP-1 (Legacy) | Tube Echo | `HD2_DL4TubeEchoStereo` |
+| Maestro Echoplex EP-3 | Transistor Tape | `HD2_DelayTransistorTape` |
+| Maestro Fuzz Tone (Legacy) | Buzz Saw | `HD2_DM4BuzzSaw` |
+| MAXON SD9 | Hedgehog D9 | `HD2_DistHedgehogD9` |
+| Moog MuRF MF-105M | Asheville Pattrn | `HD2_FilterAshevillePattrn` |
+| Musitronics Mu-Tron III | Mutant Filter | `HD2_FilterMutantFilter` |
+| MXR 10-Band EQ | 10 Band Graphic | `HD2_EQGraphic10Band` |
+| MXR 117 Flanger | Gray Flanger | `HD2_FlangerGrayFlanger` |
+| MXR Dyna Comp | Red Squeeze | `HD2_CompressorRedSqueeze` |
+| MXR Dyna Comp (Legacy) | Red Comp | `HD2_DM4RedComp` |
+| MXR Micro Amp (Legacy) | Boost Comp | `HD2_DM4BoostComp` |
+| MXR Phase 90 | Script Mod Phase | `HD2_PhaserScriptModPhase` |
+| Nobels ODR-1 | Prize Drive | `HD2_DistPrizeDrive` |
+| Noble Bass DI | Regal Bass DI | `HD2_DistRegalBassDI` |
+| PAiA Roctave (Legacy) | Sub Oct Fuzz | `HD2_DM4SubOctFuzz` |
+| Paul Cochrane Timmy | Teemah! | `HD2_DistTeemah` |
+| Pro Co RAT | Vermin Dist | `HD2_DistVerminDist` |
+| Pro Co RAT LM308 | Ratatouille Dist | `HD2_DistRatatouilleDist` |
+| Pro Co RAT (Legacy) | Classic Dist | `HD2_DM4ClassicDistortion` |
+| RMC Real McCoy 1 | Throaty | `HD2_WahThroaty` |
+| Roland Dimension D (Legacy) | Dimension | `HD2_MM4Dimension` |
+| Roland GR700 (Legacy) | Synth String | `HD2_FM4SynthString` |
+| Roland Jet Phaser (Legacy) | Jet Fuzz | `HD2_DM4JetFuzz` |
+| Roland RE-201 Space Echo | Cosmos Echo | `HD2_DelayCosmosEcho` |
+| Roland RE-101 (Legacy) | Multi-Head | `HD2_DL4MultiheadStereo` |
+| Shin-ei Uni-Vibe | Ubiquitous Vibe | `HD2_PhaserUbiquitousVibe` |
+| Subdecay Harmonic Antagonizer | Xenomorph Fuzz | `HD2_DistXenomorphFuzz` |
+| TC Electronic 2290 | Ducked Delay | `HD2_DelayDuckedDelay` |
+| Tech 21 SansAmp Bass DI | ZeroAmp Bass DI | `HD2_DistZeroAmpBassDI` |
+| Teletronix LA-2A | LA Studio Comp | `HD2_CompressorLAStudioComp` |
+| Tycobrahe Octavia | Tycoctavia Fuzz | `HD2_DistTycoctaviaFuzz` |
+| Vox Tone Bender (Legacy) | Jumbo Fuzz | `HD2_DM4JumboFuzz` |
+| Vox V846 | UK Wah 846 | `HD2_WahUKWah846` |
+| Vox V847 | Chrome | `HD2_WahChrome` |
+| Way Huge Red Llama (mod) | Alpaca Rouge | `HD2_DistAlpacaRouge` |
+| Wounded Paw Battering Ram | Clawthorn Drive | `HD2_DistClawthornDrive` |
+| Xotic EP Booster | Kinky Boost | `HD2_DistKinkyBoost` |
+| Xotic SP Compressor | Kinky Comp | `HD2_CompressorKinkyComp` |
+| Z.Vex Fuzz Factory | Industrial Fuzz | `HD2_DistIndustrialFuzz` |
+| Z.Vex Seek Wah (Legacy) | Seeker | `HD2_FM4Seeker` |

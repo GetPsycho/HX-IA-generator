@@ -4,6 +4,27 @@ Suis ces étapes dans l'ordre strict. Ne modifie aucun fichier avant l'étape 4.
 
 ---
 
+## 0. Preset déjà existant ? → Mode audit
+
+Avant toute chose, cherche le titre dans `presets/songs.py` (dict `PRESETS` et fonctions `preset_*`).
+
+**Si le preset existe déjà**, bascule en **mode audit** — ne pas recréer from scratch :
+
+1. Lis le code de la fonction `preset_*` correspondante.
+2. Audite-le contre **toutes les règles actuelles** du skill :
+   - Volume : KinkyBoost présent sur les snaps distorsion si fuzz ? Cas connu Arbitrator Fuzz + Big Muff ?
+   - Architecture signal : pédale togglée vs canal ampli permanent, `enabled_default` correct ?
+   - Snaps Clean inutilisés remplis avec le son accordage (Gate + Reverb, Mix=0.10) ?
+   - Styles conformes à `docs/theory/eras_and_styles.md` ?
+   - Docstring à jour (rôle de chaque snap, justifications) ?
+   - Sources dans `docs/sources_research.md` ?
+3. Présente les écarts constatés avec les corrections proposées. **Attends la validation.**
+4. Applique les corrections validées, génère, commite.
+
+**Si le preset n'existe pas**, continue avec l'étape 1 ci-dessous.
+
+---
+
 ## 1. Recherche
 
 ### Fiche guitariste

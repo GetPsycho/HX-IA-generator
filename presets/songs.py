@@ -30,19 +30,20 @@ def preset_are_you_gonna_go_my_way():
 
     Arbitrator Fuzz (Fuzz Face germanium, always-on) = simulation Gibson Skylark.
     Le Fuzz Face a gain modere reproduit le cote "fuzz sur les bords" d'un petit
-    ampli tube sature : saturation asymetrique, harmoniques impaires, transitoires
-    qui "baventa" legerement. Plus fidele que le Valve Driver (trop lisse/hi-fi).
-    Fuzz=0.62 : modere, garde la dynamique. Le Super Distortion d'Eric (plus chaud
-    qu'un P-90) pousse davantage — calibrer en dessous du seuil full-fuzz.
+    ampli tube sature : saturation asymetrique, harmoniques impaires.
     Matching documente : Gibson Skylark -> Arbitrator Fuzz.
 
-    Chaine : Gate > ArbitratorFuzz > GrayFlanger > Reverb > KinkyBoost
-    Slots  :  0       1                 2             3        4
+    Fuzz=0.62 pour Riff/Bridge. Solo : Fuzz=0.50 (micro chevalet bridge,
+    moins de fuzz = solo plus defini — micro manche trop baveux avec le Fuzz Face).
+    Level=0.72 : unity gain approximatif par rapport au snap Clean de reference.
+
+    Chaine : Gate > ArbitratorFuzz > GrayFlanger > Reverb
+    Slots  :  0       1                 2             3
 
     Snap 0 Riff   : ArbitratorFuzz + flanger discret (Mix=0.28) + reverb
     Snap 1 Bridge : ArbitratorFuzz + flanger prononce (Mix=0.48) + reverb
-    Snap 2 Solo   : ArbitratorFuzz + reverb + KinkyBoost (micro manche = single-coil)
-    Snap 3 Clean  : reverb seule
+    Snap 2 Solo   : ArbitratorFuzz (Fuzz=0.50) + reverb — micro chevalet bridge
+    Snap 3 Clean  : reverb seule (accordage)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
 
@@ -51,14 +52,13 @@ def preset_are_you_gonna_go_my_way():
 
     # Arbitrator Fuzz = Fuzz Face germanium : simulation Gibson Skylark pousse a fond
     # Fuzz=0.62 : modere — "fuzz sur les bords" sans mur de fuzz
-    # Super Distortion Eric > P-90 Craig Ross -> Fuzz calibre en dessous du default (0.9)
+    # Level=0.72 : monte au niveau du snap Clean (reference volume live)
     # enabled_default=True : canal d'ampli permanent (pas de pedale de disto sur ce titre)
     pb.add_block("HD2_DistArbitratorFuzz", slot=1,
-                 overrides={"Fuzz": 0.62, "Level": 0.55})
+                 overrides={"Fuzz": 0.62, "Level": 0.72})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch, deux magnetophones)
     # Mix variable par snapshot : discret sur Riff (0.28), prononce sur Bridge (0.48 via params)
-    # enabled_default=False : actif sur Riff et Bridge, bypasse sur Solo et Clean
     pb.add_block("HD2_FlangerGrayFlanger", slot=2, enabled_default=False,
                  overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.28})
 
@@ -66,19 +66,16 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
-    # Kinky Boost : compense le delta micro manche (single-coil faible sortie)
-    # vs micro chevalet (Super Distortion) utilise sur le riff
-    # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
     pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="yellow")
 
     pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3],
                     params={2: {"Mix": 0.48}},
                     color="blue")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4], color="red")
+    # Solo : Fuzz reduit (0.50) — micro chevalet bridge, son plus defini
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3],
+                    params={1: {"Fuzz": 0.50}},
+                    color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},

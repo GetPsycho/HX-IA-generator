@@ -32,6 +32,9 @@ Justifie chaque choix par rapport à ce que la recherche a révélé.
 ### Sélection des pédales
 - Identifie les pédales réelles du guitariste sur ce titre
 - Trouve les model IDs HX les plus proches (consulte `data/catalog/models_catalog.json`)
+  - Les modèles sont en deux sous-catégories : **Mono/Stereo** (HD2, modèles modernes)
+    et **Legacy** (DM4, MM4, DL4, FM4 — IDs contenant `_DM4`, `_MM4`, `_DL4`, `_FM4`).
+    Considérer les deux : certains sons classiques n'existent qu'en Legacy.
 - Consulte `docs/pedal_guides/` pour les paramètres de référence
 - **Consulte `docs/gear/eric_gear.md`** pour les incidences du matériel d'Eric sur le son
   (Super Distortion chevalet = haute sortie, Mesa Boogie clean = tight/brillant,
@@ -95,6 +98,12 @@ Ajoute `preset_<nom_snake_case>()` dans `presets/songs.py` :
 - `add_block()` pour chaque effet dans l'ordre de la chaîne signal
 - `add_snapshot()` avec `blocks_on`, `params` si variation par snap, `color`
 - Entrée dans le dict `PRESETS` au format `"Titre - Artiste"`
+
+**Règles techniques HX Effects :**
+- **Slots** : 9 blocs disponibles, indices **0 à 8**. Ne pas hésiter à utiliser 6, 7, 8.
+- **Échelle paramètres** : les valeurs lues sur l'appareil ou dans HX Edit sont sur
+  une échelle ×10. Valeur interne = valeur affichée ÷ 10.
+  Ex : l'utilisateur dit "level à 8" → écrire `"Level": 0.8` dans le preset.
 
 ---
 

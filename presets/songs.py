@@ -307,7 +307,7 @@ def preset_creep():
     # Level 0.52 → 0.68 : RAT sous unity a faible Level, 0.68 amene le Chorus a ref
     # enabled_default=False : bypasse au chargement (verse clean par defaut)
     pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.68})
+                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.82})
 
     # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
     # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s
@@ -333,9 +333,10 @@ def preset_creep():
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 5], color="green")
 
-    # Stabs : Gain=0.85 + Level=0.80 via params + RedSqueeze = le plus fort des snaps
+    # Stabs : Level=1.0 (max) + Sensitivity 0.78->0.62 (moins de compression = plus d'attaque)
     pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 4],
-                    params={1: {"Gain": 0.85, "Level": 0.80}},
+                    params={1: {"Gain": 0.85, "Level": 1.0},
+                            4: {"Sensitivity": 0.62}},
                     color="orange")
 
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3], color="red")

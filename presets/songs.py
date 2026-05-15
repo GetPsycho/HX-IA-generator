@@ -446,14 +446,15 @@ def preset_drive():
     # Deluxe Phaser = Boss PH-2 Super Phaser : utilise sur le solo
     # Stages=4, Feedback=0.28 ; Rate modere pour sweep organique (pas trop lent)
     pb.add_block("HD2_PhaserDeluxePhaser", slot=2, enabled_default=False,
-                 overrides={"Rate": 0.6, "Depth": 0.75, "Feedback": 0.28,
-                            "Stages": 4, "Mix": 0.45, "Level": 0.0})
+                 overrides={"Rate": 0.6, "Depth": 0.82, "Feedback": 0.28,
+                            "Stages": 4, "Mix": 0.62, "Level": 0.0})
 
     # Rotary Drum/Horn = H&K Tube Rotosphere MkII : signature du solo de Drive
     # Speed=False (slow) : rotation lente, organique, solo melodique
+    # Mix=0.88 : effet dominant, c'est lui qu'on doit entendre le plus
     pb.add_block("HD2_MM4RotaryDrumHorn", slot=3, enabled_default=False,
-                 overrides={"Speed": False, "Depth": 0.75, "Horn Depth": 0.80,
-                            "Drive": 0.3, "Mix": 0.70, "Level": 4.0})
+                 overrides={"Speed": False, "Depth": 0.85, "Horn Depth": 0.90,
+                            "Drive": 0.3, "Mix": 0.88, "Level": 4.0})
 
     # Compulsive Drive = OCD a faible gain : chaleur germanium-style sur le solo
     # Gain=0.28 : ajoute du corps sans distorsion marquee

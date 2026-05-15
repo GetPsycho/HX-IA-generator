@@ -494,10 +494,13 @@ def preset_even_flow():
     Le son ne change pas entre Verse/Chorus/Bridge — un seul snap principal.
     Wah (licks et solo) : pedale externe (MC404 CAE d'Eric).
 
-    Chaine : Gate > Scream808 > ScriptModPhase > SimpleDelay > Reverb
-    Slots  :  0      1           2                 3              4
+    Gain stacking : Scream808 (TS9, push mid) → CompulsiveDrive (OCD, JCM800 cranked).
+    Les deux always-on : le TS9 pousse l'entree de l'OCD comme dans le rig original.
 
-    Snap 0 Principal : TS9 high gain + reverb (Intro/Verse/Chorus/Bridge/Licks)
+    Chaine : Gate > Scream808 > CompulsiveDrive > ScriptModPhase > SimpleDelay > Reverb
+    Slots  :  0      1           2                 3                 4              5
+
+    Snap 0 Principal : TS9 + OCD + reverb (Intro/Verse/Chorus/Bridge/Licks)
     Snap 1 Solo      : + Phase 90 + DD-3 delay (wah = pedale externe)
     Snap 2 Clean     : accordage / attente
     Snap 3 Clean     : accordage / attente
@@ -507,39 +510,45 @@ def preset_even_flow():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.32})
 
-    # Scream 808 = Ibanez TS9 : simule TS9 poussant le JCM800 cranked
-    # Gain=0.82 : son tres sature, JCM800 n'a pas de canal clean
-    # always-on : saturation permanente sur tous les snaps actifs
+    # Scream 808 = Ibanez TS9 : role de "push" → mid boost + compression
+    # Gain modere : le TS9 n'est pas la source de saturation principale
+    # Level eleve : pousse fort dans l'entree de l'OCD (comme dans le rig original)
     pb.add_block("HD2_DistScream808", slot=1,
-                 overrides={"Gain": 0.82, "Tone": 0.60, "Level": 0.55})
+                 overrides={"Gain": 0.40, "Tone": 0.62, "Level": 0.70})
+
+    # Compulsive Drive = OCD : simule le canal preamp JCM800 cranked
+    # LPHP=True (HP) : punch britannique, attack seche
+    # Gain=0.72 : JCM800 a gain eleve, pas de canal clean
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.72, "Tone": 0.58, "LPHP": True, "Level": 0.58})
 
     # Script Mod Phase = MXR Phase 90 (script logo) : modulation sur le solo
     # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_PhaserScriptModPhase", slot=2, enabled_default=False,
+    pb.add_block("HD2_PhaserScriptModPhase", slot=3, enabled_default=False,
                  overrides={"Rate": 0.25, "Mix": 0.50, "Level": 0.0})
 
-    # Simple Delay = Boss DD-3 : delay sparse pour profondeur sur le solo
+    # Simple Delay = Boss DD-3 : delay sparse sur le solo
     # Time 0.29s ≈ double croche a 103 BPM
     # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
                  overrides={"Time": 0.29, "Feedback": 0.12, "Mix": 0.18,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.18})
 
-    pb.add_snapshot(0, "Principal", blocks_on=[0, 1, 4], color="orange")
+    pb.add_snapshot(0, "Principal", blocks_on=[0, 1, 2, 5], color="orange")
 
     # Solo : Phase90 + DD-3 sparse + wah externe MC404 CAE
-    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
+    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="white")
 
     return pb

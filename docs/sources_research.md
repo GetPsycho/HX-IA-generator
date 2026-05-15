@@ -136,6 +136,30 @@
 
 ---
 
+## Pearl Jam - Even Flow (1991)
+
+### Informations confirmées
+
+- BPM : 103 | Tonalité : Ré (D) | Album : Ten (1991)
+- **Accordage : Drop D (D A D G B E)** — enregistrement un quart de ton plus bas
+- Guitare : Fender Stratocaster 1958 (McCready) + Stone Gossard riff rythmique Drop D
+- Ampli : Marshall JCM800 2203 cranked (son très saturé, pas de canal clean)
+- OD : Ibanez TS9 Tube Screamer → HX: Scream 808 (`HD2_DistScream808`, Gain=0.82)
+- Solo : TS9 + Wah (externe) + MXR Phase 90 → HX: Script Mod Phase + Boss DD-3 → HX: Simple Delay
+- Son principal identique sur toutes les sections (Verse/Chorus/Bridge) — un seul snap
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/even-flow-amp-settings/ | Réglages amp et ton par section |
+| https://equipboard.com/pros/mike-mccready | Inventaire complet matériel McCready |
+| https://www.groundguitar.com/mike-mccready/ | Gear complet McCready |
+| https://community.pearljam.com/discussion/177040/even-flow-tuning | Accordage Drop D confirmé |
+| https://www.guitarworld.com/news/pearl-jams-mike-mccready-wishes-he-could-re-record-his-even-flow-solo | McCready sur le solo Even Flow (wah, SRV influence) |
+
+---
+
 ## Incubus - Drive (1999)
 
 ### Informations confirmées

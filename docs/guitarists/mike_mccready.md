@@ -6,6 +6,8 @@
 | Fender Stratocaster 1958 (3-tone sunburst) | Single-coil vintage | Guitare principale Even Flow |
 | Gibson Les Paul | Humbuckers | Usage alternatif |
 
+**Even Flow — accordage : Drop D (D A D G B E).** L'enregistrement est un quart de ton plus bas, mais Drop D standard est la référence live.
+
 ## Ampli — Marshall JCM800 2203
 | Paramètre | Réglage (Even Flow) |
 |---|---|

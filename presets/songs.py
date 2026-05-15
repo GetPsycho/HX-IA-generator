@@ -1111,6 +1111,73 @@ def preset_lithium():
     return pb
 
 
+def preset_figure_it_out():
+    """Royal Blood - Figure It Out (108 BPM) — Mike Kerr
+
+    Instrument original : basse (Fender Jaguar short-scale) → deux chemins :
+      - chemin basse : ampli basse (Fender Bassman) pour le bas du spectre
+      - chemin guitare : POG2 (+1 oct) + fuzz → ampli guitare (Fender Supersonic)
+    Adaptation Eric (guitare) : logique inversee — Boctaver (-1 oct) ajoute le registre
+    grave manquant sur guitare, Industrial Fuzz (EHX Bass Big Muff) = le mur de son.
+
+    Boctaver avant la fuzz : tracking analog fiable sur notes simples (riff Figure It Out
+    = ligne melodique, pas d'accords → tracking optimal).
+
+    Chaine : Gate > Boctaver > IndustrialFuzz > Reverb > KinkyBoost
+    Slots  :  0      1           2                3         4
+
+    Snap 0 Riff  : son plein — Boctaver Oct1=0.75 (Intro/Chorus)
+    Snap 1 Verse : Boctaver Oct1=0.40 via params (octave plus legere, son plus aere)
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+
+    Volume : Industrial Fuzz (Bass Big Muff) = deficit output structurel
+    → KinkyBoost always-on compense, exclu du snap Clean.
+    """
+    pb = PresetBuilder("Figure It Out", tempo=108.0, styles=["hard_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.30})
+
+    # Boctaver = Boss OC-2 Octaver : ajoute -1 oct et -2 oct sous la guitare
+    # Simule le registre grave de la basse de Kerr
+    # Oct1Level variable par snapshot (fort sur Riff, leger sur Verse)
+    pb.add_block("VIC_PitchBoctaver", slot=1,
+                 overrides={"Oct1Level": 0.75, "Oct2Level": 0.20, "DryLevel": 0.55})
+
+    # Industrial Fuzz = EHX Bass Big Muff Pi : retient le bas du spectre
+    # Drive=0.85, Gate bas (0.15) : sustain long, pas de coupure gated
+    # Plus adapte que le Bighorn (guitar Big Muff) pour simuler le son basse fuzz
+    pb.add_block("HD2_DistIndustrialFuzz", slot=2,
+                 overrides={"Compress": 0.65, "Gate": 0.15, "Drive": 0.85,
+                            "Stability": 0.75, "Oscillator": False, "Level": 0.90})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.50, "Modulation": 0.20, "Mix": 0.16})
+
+    # KinkyBoost : compense le deficit d'output du Bass Big Muff
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3, 4], color="red")
+
+    # Verse : Oct1Level reduit = octave plus legere, son plus aere
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3, 4],
+                    params={1: {"Oct1Level": 0.40}},
+                    color="orange")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="white")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="white")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -1120,6 +1187,7 @@ PRESETS = {
     "Dani California - Red Hot Chili Peppers": preset_dani_california,
     "Drive - Incubus":                         preset_drive,
     "Even Flow - Pearl Jam":                   preset_even_flow,
+    "Figure It Out - Royal Blood":             preset_figure_it_out,
     "How You Remind Me - Nickelback":          preset_how_you_remind_me,
     "Hysteria - Muse":                         preset_hysteria,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,

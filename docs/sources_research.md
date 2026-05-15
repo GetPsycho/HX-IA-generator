@@ -1,5 +1,29 @@
 # Sources de recherche - Presets guitare
 
+## Royal Blood - Figure It Out (2014)
+
+### Informations confirmées
+
+- BPM : 108 | Tonalité : Ré (D) | Album : Royal Blood (2014)
+- Instrument : **basse** (Fender Jaguar short-scale) — pas de guitare dans Royal Blood
+- Accordage : standard basse (E-B-G-D)
+- Rig : signal splitté en 2 chemins — basse clean (Fender Bassman) + POG2 +1oct → Fuzz → ampli guitare (Fender Supersonic)
+- Fuzz : ZVex Mastotron + EHX Germanium 4 Big Muff Pi → HX: Industrial Fuzz (`HD2_DistIndustrialFuzz`)
+- Octave : EHX POG2 → HX adaptation inversée : Boctaver (`VIC_PitchBoctaver`) -1 oct sur guitare
+- Adaptation Eric : Boctaver -1 oct (ajoute registre basse) + Industrial Fuzz (retient bas spectre)
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarworld.com/features/royal-blood-mike-kerr-gear | Mike Kerr révèle (partiellement) son rig |
+| https://blog.andertons.co.uk/sound-like/sound-like-royal-blood | Guide complet pour reproduire le son Royal Blood |
+| https://deplike.com/blog/rig-detective-royal-blood/ | Rig Detective Royal Blood — détail pédales |
+| https://equipboard.com/pros/mike-kerr | Inventaire matériel Mike Kerr |
+| https://www.cogeffects.co.uk/royal-blood.php | Pédales custom Cog Effects pour Royal Blood |
+
+---
+
 ## Måneskin - Beggin' (reprise rock 2017)
 
 ### Sources consultées / à consulter

@@ -423,11 +423,11 @@ def preset_drive():
 
     Micro manche recommande pour le snap Acoustique (plus chaud, meilleur rendu sim).
 
-    Chaine : Gate > AcousSim > Rotosphere > KinkyBoost > Delay > Reverb
-    Slots  :  0      1          3             4            5       6
+    Chaine : Gate > AcousSim > Phaser > Rotosphere > KinkyBoost > Delay > Reverb
+    Slots  :  0      1          2         3             4            5       6
 
     Snap 0 Acoustique : simulation acoustique + reverb ambiante (Intro/Verse/Chorus)
-    Snap 1 Solo       : Rotosphere FAST + KinkyBoost (boost pur) + delay sparse + reverb
+    Snap 1 Solo       : Phaser + Rotosphere FAST + KinkyBoost (Drive=0.3) + delay + reverb
     Snap 2 Clean      : accordage / attente
     Snap 3 Clean      : accordage / attente
     """
@@ -443,6 +443,12 @@ def preset_drive():
                  overrides={"Mode": 1, "Body": 0.65, "Top": 0.55,
                             "Shimmer": 0.25, "Level": 0.0})
 
+    # Deluxe Phaser = Boss PH-2 Super Phaser : sweep organique sur le solo
+    # Mix=0.75 : bien present, contribue au caractere avec le Rotosphere
+    pb.add_block("HD2_PhaserDeluxePhaser", slot=2, enabled_default=False,
+                 overrides={"Rate": 0.6, "Depth": 0.82, "Feedback": 0.28,
+                            "Stages": 4, "Mix": 0.75, "Level": 0.0})
+
     # Rotary Drum/Horn = H&K Tube Rotosphere MkII : signature du solo de Drive
     # Speed=True (fast) : rotation rapide, swirl present
     # Mix=0.88 : effet dominant
@@ -450,10 +456,9 @@ def preset_drive():
                  overrides={"Speed": True, "Depth": 0.85, "Horn Depth": 0.90,
                             "Drive": 0.3, "Mix": 0.88, "Level": 4.0})
 
-    # KinkyBoost = Xotic EP Booster : boost pur (+6 dB) sans grain
-    # Gonfle le son sans alterer le caractere du Rotosphere
+    # KinkyBoost = Xotic EP Booster : boost + leger grain (Drive=0.3) pour gonfler le solo
     pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+                 overrides={"Drive": 0.3, "Boost": True, "Bright": False})
 
     # Delay sparse : eco unique, profondeur sans surcharger le Rotosphere
     pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
@@ -466,8 +471,8 @@ def preset_drive():
 
     pb.add_snapshot(0, "Acoustique", blocks_on=[0, 1, 6], color="green")
 
-    # Solo : Rotosphere (FAST) + KinkyBoost + delay + reverb
-    pb.add_snapshot(1, "Solo", blocks_on=[0, 3, 4, 5, 6], color="red")
+    # Solo : Phaser + Rotosphere (FAST) + KinkyBoost + delay + reverb
+    pb.add_snapshot(1, "Solo", blocks_on=[0, 2, 3, 4, 5, 6], color="red")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 6],
                     params={6: {"Mix": 0.10}},

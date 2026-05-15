@@ -45,6 +45,12 @@ Avant de regarder les effets, établir ces 4 points factuels pour CE titre :
 4. **Adaptation live vs studio** : si le son studio n'est pas reproductible en live (triple-tracking,
    instruments impossibles à répliquer), documenter l'adaptation retenue et pourquoi.
 
+5. **Contexte du groupe d'Eric** : si le morceau original utilise un instrument qu'un autre
+   membre du groupe joue déjà (ex : basse, second guitariste), Eric ne simule PAS cet instrument.
+   Il joue uniquement la partie qui lui revient dans l'arrangement live du groupe.
+   Ex : Royal Blood = basse + guitare-fuzz → bassiste joue la basse, Eric joue le chemin fuzz.
+   → Supprimer tout bloc de simulation d'instrument (Boctaver, octave-down, etc.) si redondant.
+
 ### Fiche guitariste
 Vérifie si une fiche existe dans `docs/guitarists/` pour le guitariste concerné.
 - **Si elle existe** : lis-la pour t'imprégner du son, du matos et des sons par titre.

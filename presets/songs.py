@@ -520,7 +520,7 @@ def preset_even_flow():
     # LPHP=True (HP) : punch britannique, attack seche
     # Gain=0.72 : JCM800 a gain eleve, pas de canal clean
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.72, "Tone": 0.58, "LPHP": True, "Level": 0.58})
+                 overrides={"Gain": 0.85, "Tone": 0.58, "LPHP": True, "Level": 0.58})
 
     # Script Mod Phase = MXR Phase 90 (script logo) : modulation sur le solo
     # enabled_default=False : actif uniquement sur Solo

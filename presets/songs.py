@@ -566,11 +566,15 @@ def preset_how_you_remind_me():
     KinkyBoost Bright=True : approxime le caractere brillant/metallique du Fender Super 60
     de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
-    Chaine : Gate > SwedishChainsaw > Chorus70s > Reverb > KinkyBoost
-    Slots  :  0       1                 2           3         4
+    Gain stacking Verse : SwedishChainsaw (HM-2) → KWB (Mesa Dual Rectifier Modern).
+    Le KWB simule le canal Modern du Dual Rec : tres haute saturation, EQ neutre (HM-2 sculpte).
+    KWB Gain=0.78, Bass=0.0, Treble=0.0 = "metal serre" sweet spot (table od_dist_fuzz.md).
+
+    Chaine : Gate > SwedishChainsaw > KWB > Chorus70s > Reverb > KinkyBoost
+    Slots  :  0       1                 2      3           4         5
 
     Snap 0 Chorus : clean brillant + KinkyBoost (Bright=True) + reverb (intro/refrain)
-    Snap 1 Verse  : HM-2 chainsaw plein + reverb seche (saturation massive serree)
+    Snap 1 Verse  : HM-2 + Dual Rec (KWB) — saturation massive serree
     Snap 2 Arpeges: clean + 70s Chorus (Boss CH-1) + KinkyBoost + reverb
     Snap 3 Clean  : accordage / attente
     """
@@ -585,37 +589,43 @@ def preset_how_you_remind_me():
                  overrides={"Drive": 0.95, "Bass": 0.90, "Treble": 0.80,
                             "Level": 0.50})
 
+    # KWB = Benadrian KWB Dist : simule canal Modern Mesa Boogie Dual Rectifier
+    # Gain=0.78 = Dual Rec a Gain=7 (tres haute saturation metal)
+    # Bass=0.0, Treble=0.0 : EQ neutre — le HM-2 (Bass 0.90, Treble 0.80) sculpte le ton
+    # enabled_default=False : uniquement sur Verse (gain stacking HM-2 → Dual Rec)
+    pb.add_block("HD2_DistKWB", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.50})
+
     # 70s Chorus = approx. Boss CH-1 Super Chorus (Kroeger) : modulation legere arpeges
-    # Intensity bas = effet subtil et transparent
     # enabled_default=False : uniquement sur Arpeges
-    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+    pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
                  overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.32,
                             "VibratoDepth": 0.28, "Mix": 0.35, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.12})
 
     # KinkyBoost Bright=True : simule le caractere scintillant du Fender Super 60 rack
     # enabled_default=False : actif sur Chorus + Arpeges, exclu Verse et Clean
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": True})
 
     # Chorus : clean + reverb plus ouverte + KinkyBoost brillant
-    pb.add_snapshot(0, "Chorus", blocks_on=[0, 3, 4],
-                    params={3: {"Mix": 0.20}},
+    pb.add_snapshot(0, "Chorus", blocks_on=[0, 4, 5],
+                    params={4: {"Mix": 0.20}},
                     color="green")
 
-    # Verse : HM-2 chainsaw plein, reverb seche (base Mix=0.12)
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 3], color="red")
+    # Verse : HM-2 + KWB (Dual Rec Modern) = saturation massive et serree
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 4], color="red")
 
     # Arpeges : clean + chorus leger + reverb ouverte + KinkyBoost
-    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 2, 3, 4],
-                    params={3: {"Mix": 0.20}},
+    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 3, 4, 5],
+                    params={4: {"Mix": 0.20}},
                     color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

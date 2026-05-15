@@ -555,17 +555,23 @@ def preset_even_flow():
 
 
 def preset_how_you_remind_me():
-    """Nickelback - How You Remind Me (86 BPM) — Ryan Peake
+    """Nickelback - How You Remind Me (86 BPM) — Chad Kroeger + Ryan Peake
 
-    Son signature : Boss HM-2 (Swedish Chainsaw) tous parametres au maximum.
-    Son "chainsaw" saturé, palm-muting agressif.
+    Accordage : standard (E A D G B E). Source : Ultimate Guitar.
+    Deux guitaristes distincts :
+    - Chad Kroeger : accords clairs (intro/chorus) via Fender Super 60 rack + Boss CH-1/BF-2
+    - Ryan Peake : arpeges propres sur le verse + les deux saturent sur le verse (HM-2)
+    Pas de solo guitare dans ce morceau.
 
-    Chaine : Gate > SwedishChainsaw > Reverb
-    Slots  :  0      1                  2
+    KinkyBoost Bright=True : approxime le caractere brillant/metallique du Fender Super 60
+    de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
-    Snap 0 Verse  : HM-2 + gate serre + reverb (palm-muting sature)
-    Snap 1 Chorus : HM-2 + reverb (full saturation)
-    Snap 2 Solo   : HM-2 + reverb (lead sustain)
+    Chaine : Gate > SwedishChainsaw > Chorus70s > Reverb > KinkyBoost
+    Slots  :  0       1                 2           3         4
+
+    Snap 0 Chorus : clean brillant + KinkyBoost (Bright=True) + reverb (intro/refrain)
+    Snap 1 Verse  : HM-2 chainsaw plein + reverb seche (saturation massive serree)
+    Snap 2 Arpeges: clean + 70s Chorus (Boss CH-1) + KinkyBoost + reverb
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("How You Remind Me", tempo=86.0, styles=["post_grunge"])
@@ -573,27 +579,43 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Swedish Chainsaw = Boss HM-2 : tous parametres dimes = son chainsaw classique
-    pb.add_block("HD2_DistSwedishChainsaw", slot=1,
+    # Swedish Chainsaw = Boss HM-2 : tous params dimes = son chainsaw signature
+    # enabled_default=False : uniquement sur Verse
+    pb.add_block("HD2_DistSwedishChainsaw", slot=1, enabled_default=False,
                  overrides={"Drive": 0.95, "Bass": 0.90, "Treble": 0.80,
                             "Level": 0.50})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
-                 overrides={"Decay": 0.35, "Predelay": 0.02,
-                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.12})
+    # 70s Chorus = approx. Boss CH-1 Super Chorus (Kroeger) : modulation legere arpeges
+    # Intensity bas = effet subtil et transparent
+    # enabled_default=False : uniquement sur Arpeges
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.32,
+                            "VibratoDepth": 0.28, "Mix": 0.35, "Level": 1.0})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2], color="orange")
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.38, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.12})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
-                    params={1: {"Level": 0.55}},
-                    color="red")
+    # KinkyBoost Bright=True : simule le caractere scintillant du Fender Super 60 rack
+    # enabled_default=False : actif sur Chorus + Arpeges, exclu Verse et Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": True})
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2],
-                    params={1: {"Drive": 0.85, "Level": 0.58}},
+    # Chorus : clean + reverb plus ouverte + KinkyBoost brillant
+    pb.add_snapshot(0, "Chorus", blocks_on=[0, 3, 4],
+                    params={3: {"Mix": 0.20}},
+                    color="green")
+
+    # Verse : HM-2 chainsaw plein, reverb seche (base Mix=0.12)
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 3], color="red")
+
+    # Arpeges : clean + chorus leger + reverb ouverte + KinkyBoost
+    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 2, 3, 4],
+                    params={3: {"Mix": 0.20}},
                     color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
     return pb

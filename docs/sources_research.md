@@ -184,6 +184,30 @@
 
 ---
 
+## Nickelback - How You Remind Me (2001)
+
+### Informations confirmées
+
+- BPM : 86 | Tonalité : Mi (E) | Album : Silver Side Up (2001)
+- **Accordage : standard (E A D G B E)** — Source : Ultimate Guitar
+- Deux guitaristes : Chad Kroeger (clean chords) + Ryan Peake (arpeggios + saturation)
+- **Pas de solo guitare** dans ce morceau
+- Clean intro/chorus : Fender Super 60 rack (Kroeger) + Boss CH-1/BF-2 → brillant et métallique
+- Saturation verse : Boss HM-2 + Mesa/Boogie Dual Rectifier Modern (Peake + Kroeger)
+- Arpeggios sur le verse : son propre + Boss CH-1 léger (Ryan Peake)
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://www.premierguitar.com/articles/Rig_Rundown_Nickelbacks_Chad_Kroeger_Ryan_Peake | Rig Rundown complet — Fender Super 60, effets Kroeger, Mesa Boogie |
+| https://equipboard.com/pros/chad-kroeger | Inventaire gear Kroeger |
+| https://equipboard.com/pros/ryan-peake | Inventaire gear Peake |
+| https://www.guitarchalk.com/amp-settings-how-you-remind-me-nickelback/ | Réglages amp et ton par section |
+| https://tabs.ultimate-guitar.com/tab/nickelback/how-you-remind-me-tabs-6626 | Tab guitare — accordage standard confirmé |
+
+---
+
 ## Pearl Jam - Even Flow (1991)
 
 ### Informations confirmées

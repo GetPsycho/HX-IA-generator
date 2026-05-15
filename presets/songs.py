@@ -525,7 +525,7 @@ def preset_even_flow():
     # Script Mod Phase = MXR Phase 90 (script logo) : modulation sur le solo
     # enabled_default=False : actif uniquement sur Solo
     pb.add_block("HD2_PhaserScriptModPhase", slot=3, enabled_default=False,
-                 overrides={"Rate": 0.25, "Mix": 0.50, "Level": 0.0})
+                 overrides={"Rate": 0.25, "Mix": 0.32, "Level": 0.0})
 
     # Simple Delay = Boss DD-3 : delay sparse sur le solo
     # Time 0.29s ≈ double croche a 103 BPM

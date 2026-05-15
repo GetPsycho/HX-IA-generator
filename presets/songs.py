@@ -594,7 +594,7 @@ def preset_how_you_remind_me():
     # Bass=0.0, Treble=0.0 : EQ neutre — le HM-2 (Bass 0.90, Treble 0.80) sculpte le ton
     # enabled_default=False : uniquement sur Verse (gain stacking HM-2 → Dual Rec)
     pb.add_block("HD2_DistKWB", slot=2, enabled_default=False,
-                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.50})
+                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.72})
 
     # 70s Chorus = approx. Boss CH-1 Super Chorus (Kroeger) : modulation legere arpeges
     # enabled_default=False : uniquement sur Arpeges

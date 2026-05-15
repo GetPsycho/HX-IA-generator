@@ -141,12 +141,13 @@
 ### Informations confirmées
 
 - BPM : 91 | Tonalité : Mi mineur (E minor) | Album : Make Yourself
-- Guitare : PRS McCarty Archtop II (humbuckers, neck pickup pour les sections clean)
-- Ampli : Mesa Boogie Dual Rectifier, canal clean (Gain très bas, Bass/Mid/Treble à 12h)
-- Effet signature : Boss PH-2 Super Phaser → HX: Deluxe Phaser (`HD2_PhaserDeluxePhaser`, Stages=4, Rate en Hz)
-- Shimmer intro/refrain : Boss CE-2 Chorus → HX: 70s Chorus (`HD2_Chorus70sChorus`)
-- Morceau entièrement clean, pas de distorsion
-- Technique intro : arpèges avec volume guitare roulé à zéro (swell), phaser très lent (~0.3 Hz)
+- **Intro/Verse/Chorus : guitare acoustique** — progression Em–G–C–Am
+- **Solo : guitare électrique** (PRS McCarty Archtop II, neck pickup)
+- Ampli : Mesa Boogie Dual Rectifier, canal clean
+- Solo effets : H&K Tube Rotosphere MkII (SLOW) + Boss PH-2 Super Phaser + overdrive léger + delay sparse
+- Acoustic Sim HX : `L6SPB_AcousGtrSim` (Mode=1, micro manche recommandé)
+- Rotosphere HX : `HD2_MM4RotaryDrumHorn` Speed=False (slow)
+- Note : recherche initiale incorrecte (phaser everywhere + pas d'acoustique) — corrigée après feedback utilisateur
 
 ### Sources consultées
 

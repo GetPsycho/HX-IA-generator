@@ -417,60 +417,70 @@ def preset_dani_california():
 def preset_drive():
     """Incubus - Drive (91 BPM) — Mike Einziger
 
-    Son : PRS McCarty Archtop II → Boss PH-2 Super Phaser (Deluxe Phaser)
-    → Boss CE-2 Chorus (70s Chorus, intro et refrain) → Mesa Boogie Dual Rectifier clean.
-    Morceau entierement clean : le phaser est l'effet signature du titre.
-    Rate du phaser en Hz (range 0-10) : 0.3 Hz intro (dreamy), 0.8 Hz verse/refrain.
+    Morceau majoritairement acoustique : Intro/Verse/Chorus joues a la guitare acoustique.
+    Solo : guitare electrique (PRS McCarty) avec H&K Tube Rotosphere MkII (Leslie simulator),
+    Boss PH-2 Super Phaser, overdrive leger germanium-style, delay sparse.
 
-    Chaine : Gate > Phaser > Chorus > Reverb
-    Slots  :  0      1         2        3
+    Micro manche recommande pour le snap Acoustique (plus chaud, meilleur rendu sim).
 
-    Snap 0 Intro  : phaser tres lent (0.3 Hz) + CE-2 + reverb large (arpeges swell)
-    Snap 1 Verse  : phaser modere (0.8 Hz) sans chorus (couplets directs)
-    Snap 2 Refrain: phaser modere + CE-2 + reverb (son plus large et ouvert)
-    Snap 3 Clean  : accordage / attente
+    Chaine : Gate > AcousSim > Phaser > Rotosphere > OD > Delay > Reverb
+    Slots  :  0      1          2          3           4     5       6
+
+    Snap 0 Acoustique : simulation acoustique + reverb ambiante (Intro/Verse/Chorus)
+    Snap 1 Solo       : Rotosphere SLOW + PH-2 + OD leger + delay sparse + reverb
+    Snap 2 Clean      : accordage / attente
+    Snap 3 Clean      : accordage / attente
     """
     pb = PresetBuilder("Drive", tempo=91.0, styles=["alt_rock"])
 
-    # Seuil bas : morceau clean et doux, ne pas couper les queues de reverb
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
-    # Deluxe Phaser = approx. Boss PH-2 Super Phaser : Stages=4, Feedback=0.28
-    # Rate en Hz (0-10) : regle sur le son Verse (0.8 Hz), ajuste par snapshot
-    pb.add_block("HD2_PhaserDeluxePhaser", slot=1,
-                 overrides={"Rate": 0.8, "Depth": 0.80, "Feedback": 0.28,
-                            "Stages": 4, "Mix": 0.50, "Level": 0.0})
+    # Acoustic Sim : simulation caisse de resonance sur guitare electrique
+    # Mode=1 (Medium body), micro manche recommande pour maximiser l'effet
+    # Level en dB (range -60/+6) : 0.0 = unite
+    pb.add_block("L6SPB_AcousGtrSim", slot=1, enabled_default=False,
+                 overrides={"Mode": 1, "Body": 0.65, "Top": 0.55,
+                            "Shimmer": 0.25, "Level": 0.0})
 
-    # 70s Chorus = BOSS CE-1 : tres proche du CE-2 (version directe du CE-1)
-    # enabled_default=False : bypasse au chargement, actif sur Intro et Refrain
-    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
-                 overrides={"ChorusIntensity": 0.50, "VibratoRate": 0.40,
-                            "VibratoDepth": 0.40, "Mix": 0.45, "Level": 1.0})
+    # Deluxe Phaser = Boss PH-2 Super Phaser : utilise sur le solo
+    # Stages=4, Feedback=0.28 ; Rate modere pour sweep organique (pas trop lent)
+    pb.add_block("HD2_PhaserDeluxePhaser", slot=2, enabled_default=False,
+                 overrides={"Rate": 0.6, "Depth": 0.75, "Feedback": 0.28,
+                            "Stages": 4, "Mix": 0.45, "Level": 0.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # Rotary Drum/Horn = H&K Tube Rotosphere MkII : signature du solo de Drive
+    # Speed=False (slow) : rotation lente, organique, solo melodique
+    pb.add_block("HD2_MM4RotaryDrumHorn", slot=3, enabled_default=False,
+                 overrides={"Speed": False, "Depth": 0.75, "Horn Depth": 0.80,
+                            "Drive": 0.3, "Mix": 0.70, "Level": 4.0})
+
+    # Compulsive Drive = OCD a faible gain : chaleur germanium-style sur le solo
+    # Gain=0.28 : ajoute du corps sans distorsion marquee
+    pb.add_block("HD2_DistCompulsiveDrive", slot=4, enabled_default=False,
+                 overrides={"Gain": 0.28, "Tone": 0.55, "LPHP": False, "Level": 0.80})
+
+    # Delay sparse : eco unique, profondeur sans surcharger le Rotosphere
+    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
+                 overrides={"Time": 0.40, "Feedback": 0.15, "Mix": 0.18,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=6,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
-                            "Tone": 0.62, "Modulation": 0.20, "Mix": 0.22})
+                            "Tone": 0.60, "Modulation": 0.20, "Mix": 0.22})
 
-    # Intro : phaser tres lent + CE-2 + reverb plus large (arpeges atmospheriques)
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2, 3],
-                    params={
-                        1: {"Rate": 0.3, "Depth": 0.85},
-                        3: {"Decay": 0.62, "Mix": 0.26},
-                    },
-                    color="green")
+    pb.add_snapshot(0, "Acoustique", blocks_on=[0, 1, 6], color="green")
 
-    # Verse : phaser seul, son plus sec et direct
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 3], color="yellow")
+    # Solo : Phaser + Rotosphere (SLOW) + OD leger + delay + reverb
+    pb.add_snapshot(1, "Solo", blocks_on=[0, 2, 3, 4, 5, 6], color="red")
 
-    # Refrain : phaser + CE-2 = son plus large, reverb legerement plus ouverte
-    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3],
-                    params={3: {"Mix": 0.24}},
-                    color="orange")
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 6],
+                    params={6: {"Mix": 0.10}},
+                    color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
-                    color="blue")
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 6],
+                    params={6: {"Mix": 0.10}},
+                    color="white")
 
     return pb
 

@@ -1,5 +1,29 @@
 # Sources de recherche - Presets guitare
 
+## Lenny Kravitz - Fly Away (1998)
+
+### Informations confirmées
+
+- BPM : 80 | Tonalité : La (A) | Album : 5 (1998)
+- Guitare : Gibson (Flying V / Les Paul Custom ère "5") — accordage standard
+- Amp studio : **Park head** (fabriqué par Marshall, circuit Plexi/JTM45) — Kravitz raconte qu'il a composé le riff en testant le Park
+- Philosophie Kravitz : guitare branchée directement dans l'ampli, aucune pédale guitare sur les sons rythmiques
+- Flanger audible sur l'enregistrement : sur la **basse**, pas la guitare
+- Bridge : section basse seule (pas de solo guitare)
+- Son guitare unique tout au long (Intro/Verse/Chorus identiques)
+- Kravitz joue tout en studio ; Craig Ross joue live
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/amp-settings-fly-away-lenny-kravitz/ | Réglages amp et ton Fly Away |
+| https://www.guitarworld.com/features/lenny-kravitz-blue-electric-light | Interview Kravitz : "guitar into a Deluxe, turned to 10" (philosophie no-pedals) |
+| https://www.guitarworld.com/artists/lenny-kravitz-high-5 | Kravitz décrit la composition de Fly Away avec le Park head |
+| https://tabs.ultimate-guitar.com/tab/lenny-kravitz/fly-away-tabs-23465 | Structure et sections confirmées (pas de solo guitare) |
+
+---
+
 ## Royal Blood - Figure It Out (2014)
 
 ### Informations confirmées

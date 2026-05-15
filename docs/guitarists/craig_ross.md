@@ -58,7 +58,7 @@ Gibson Les Paul Goldtop 1953
 |---|---|---|
 | **Are You Gonna Go My Way** | Saturation ampli naturelle + tape flanger | Toutes les parties (riff, rhythm, solo) — une seule prise pour le solo |
 | Like a Stone | Clean + crunch | Kravitz joue la partie principale |
-| Fly Away | Rock crunch | |
+| **Fly Away** | Crunch Park head (Plexi/JTM45), son identique tout au long | Kravitz en studio (Park head, pas de pédales guitare). Le flanger entendu est sur la BASSE. Le bridge = section basse seule, pas de solo guitare. |
 
 ## Notes pour les presets
 

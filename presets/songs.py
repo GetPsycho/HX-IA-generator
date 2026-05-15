@@ -1166,6 +1166,58 @@ def preset_figure_it_out():
     return pb
 
 
+def preset_fly_away():
+    """Lenny Kravitz - Fly Away (80 BPM) — Craig Ross (live) / Kravitz (studio)
+
+    Accordage : standard. Son simple : guitare branchee directement dans le Park head,
+    pas de pedales sur le signal guitare (philosophie Kravitz : "guitar into amp, nothing in between").
+    Le flanger entendu sur l'enregistrement est sur la BASSE, pas la guitare.
+    La section bridge est une partie basse seule (pas de solo guitare).
+
+    Park head (fabrique par Marshall, circuit Plexi/JTM45) = canal unique toujours crunch.
+    OCD always-on simule le preamp Park : Gain=0.48 (moins sature que JCM800 Gain=0.72),
+    LPHP=True pour le punch britannique.
+
+    Chaine : Gate > CompulsiveDrive > Reverb
+    Slots  :  0      1                 2
+
+    Snap 0 Riff  : son unique tout au long (Intro/Verse/Chorus)
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+    """
+    pb = PresetBuilder("Fly Away", tempo=80.0, styles=["hard_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.30})
+
+    # OCD always-on : simule le Park head (Plexi/JTM45) — canal unique crunch
+    # Gain=0.48 : Plexi plus modere que JCM800, crunch rock sans haute saturation
+    # LPHP=True (HP) : punch et attaque britannique
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.48, "Tone": 0.55, "LPHP": True, "Level": 0.72})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.20, "Mix": 0.18})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2], color="orange")
+
+    pb.add_snapshot(1, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="white")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="white")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="white")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -1176,6 +1228,7 @@ PRESETS = {
     "Drive - Incubus":                         preset_drive,
     "Even Flow - Pearl Jam":                   preset_even_flow,
     "Figure It Out - Royal Blood":             preset_figure_it_out,
+    "Fly Away - Lenny Kravitz":                preset_fly_away,
     "How You Remind Me - Nickelback":          preset_how_you_remind_me,
     "Hysteria - Muse":                         preset_hysteria,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,

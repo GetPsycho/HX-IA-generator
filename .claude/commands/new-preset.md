@@ -12,11 +12,13 @@ Avant toute chose, cherche le titre dans `presets/songs.py` (dict `PRESETS` et f
 
 1. Lis le code de la fonction `preset_*` correspondante.
 2. Audite-le contre **toutes les règles actuelles** du skill :
+   - **Spécificités du morceau** : type d'instrument par section (acoustique/électrique ?) correct ?
+     Accordage alternatif documenté ? Partie jouée identifiée ? Adaptation live/studio explicite ?
    - Volume : KinkyBoost présent sur les snaps distorsion si fuzz ? Cas connu Arbitrator Fuzz + Big Muff ?
    - Architecture signal : pédale togglée vs canal ampli permanent, `enabled_default` correct ?
    - Snaps Clean inutilisés remplis avec le son accordage (Gate + Reverb, Mix=0.10) ?
    - Styles conformes à `docs/theory/eras_and_styles.md` ?
-   - Docstring à jour (rôle de chaque snap, justifications) ?
+   - Docstring à jour (rôle de chaque snap, justifications, accordage si alternatif) ?
    - Sources dans `docs/sources_research.md` ?
 3. Présente les écarts constatés avec les corrections proposées. **Attends la validation.**
 4. Applique les corrections validées, génère, commite.
@@ -26,6 +28,22 @@ Avant toute chose, cherche le titre dans `presets/songs.py` (dict `PRESETS` et f
 ---
 
 ## 1. Recherche
+
+### Spécificités du morceau — à déterminer en priorité absolue
+
+Avant de regarder les effets, établir ces 4 points factuels pour CE titre :
+
+1. **Type d'instrument par section** : acoustique / électrique / les deux — et pour quelle(s) section(s).
+   Si acoustique présent → prévoir `L6SPB_AcousGtrSim` et recommander micro manche.
+
+2. **Accordage alternatif** : standard / Drop D / Eb / Open / autre.
+   À documenter dans la fiche guitariste et mentionner dans la docstring.
+
+3. **Quelle partie guitare on reproduit** : quand il y a plusieurs pistes (rythmique + lead,
+   deux guitares, overdubs), préciser laquelle Eric joue seul en live.
+
+4. **Adaptation live vs studio** : si le son studio n'est pas reproductible en live (triple-tracking,
+   instruments impossibles à répliquer), documenter l'adaptation retenue et pourquoi.
 
 ### Fiche guitariste
 Vérifie si une fiche existe dans `docs/guitarists/` pour le guitariste concerné.
@@ -43,8 +61,12 @@ Vérifie si une fiche existe dans `docs/guitarists/` pour le guitariste concern�
 
 ## 2. Analyse — à exposer à l'utilisateur AVANT tout
 
-Présente et justifie les 4 points suivants. **Attends la validation avant de passer à l'étape 3.**
+Présente et justifie les 5 points suivants. **Attends la validation avant de passer à l'étape 3.**
 Justifie chaque choix par rapport à ce que la recherche a révélé.
+
+### Spécificités du morceau
+Rappelle les 4 points établis en étape 1 (instrument, accordage, partie jouée, adaptation live/studio).
+C'est le premier point présenté — il conditionne tout le reste.
 
 ### Parties guitare et snapshots
 - Liste les sections du morceau et le son par section

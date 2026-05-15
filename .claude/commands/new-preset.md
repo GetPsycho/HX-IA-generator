@@ -86,12 +86,25 @@ C'est le premier point présenté — il conditionne tout le reste.
   (Super Distortion chevalet = haute sortie, Mesa Boogie clean = tight/brillant,
   micro manche single-coil pour solos, micro milieu pour funk)
 - **Règle d'architecture — répliquer le flux signal original :**
-  - Saturation venant d'une pédale togglée → `enabled_default=False`
-  - Saturation venant d'un canal d'ampli permanent (pas de canal clean, pas de pédale OD) →
-    bloc toujours actif, Gain variable par snapshot. Choisir la pédale HX dont le
-    caractère correspond le mieux à cet ampli (consulte la table de simulation ampli
-    dans `docs/pedal_guides/od_dist_fuzz.md`). Si c'est un nouveau matching ampli→pédale,
-    le documenter dans ce fichier.
+
+  **Étape préalable obligatoire : déterminer le type de canal de l'ampli.**
+  - Ampli **canal clean** (Mesa Boogie clean, Fender Twin, etc.) → la saturation vient
+    exclusivement des pédales. Chaque pédale OD/dist est togglée (`enabled_default=False`).
+  - Ampli **canal unique saturé / cranked** (Marshall JCM800, Plexi, Vox AC30 poussé…) →
+    l'ampli EST la source principale de saturation. Même à Gain modéré sur le knob,
+    le son de base est déjà très saturé pour des styles grunge/hard rock.
+    → Simuler avec un bloc always-on à **haut gain** (OCD Gain 0.65+, ou pédale équivalente).
+  - Ampli **2 canaux** (clean + saturé) → vérifier quel canal est utilisé sur CE titre,
+    puis appliquer la règle correspondante.
+
+  **Cas OD + ampli saturé (ex: TS9 → JCM800) :**
+  Une OD comme la TS9 dans un ampli déjà cranked n'ajoute pas de saturation principale —
+  elle compresse et booste les mids d'un préampli déjà saturé.
+  → **Gain stacking** : deux blocs always-on en série.
+    - Bloc 1 (OD pédal) : Gain faible (0.35–0.45), Level élevé (0.65–0.75) — rôle de push
+    - Bloc 2 (sim ampli) : Gain élevé (0.65–0.82), LPHP selon caractère — rôle de saturation principale
+  → Consulte la table de simulation ampli dans `docs/pedal_guides/od_dist_fuzz.md`.
+    Si c'est un nouveau matching ampli→pédale, le documenter dans ce fichier.
 
 ### Style
 - Assigne les styles depuis `docs/theory/eras_and_styles.md`

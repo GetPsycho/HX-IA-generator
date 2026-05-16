@@ -1085,7 +1085,7 @@ def preset_sex_on_fire():
     pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3, 4], color="green")
 
     # Chorus : OCD plus chaud + delay pour les bends + reverb plus ouverte
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4],
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.58, "Level": 0.88},
                             3: {"Decay": 0.65, "Mix": 0.35}},
                     color="orange")

@@ -596,11 +596,12 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_DistKWB", slot=2, enabled_default=False,
                  overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.72})
 
-    # 70s Chorus = approx. Boss CH-1 Super Chorus (Kroeger) : modulation legere arpeges
+    # 70s Chorus (CE-1) en mode Vibrato : ChorusIntensity=0 = vibrato pur (pas de chorus)
+    # VibratoRate=0.60 (6), VibratoDepth=0.50 (5), Mix=0.50 (5)
     # enabled_default=False : uniquement sur Arpeges
     pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
-                 overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.32,
-                            "VibratoDepth": 0.28, "Mix": 0.35, "Level": 1.0})
+                 overrides={"ChorusIntensity": 0.0, "VibratoRate": 0.60,
+                            "VibratoDepth": 0.50, "Mix": 0.50, "Level": 1.0})
 
     pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,

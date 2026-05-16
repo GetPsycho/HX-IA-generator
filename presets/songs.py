@@ -567,7 +567,7 @@ def preset_how_you_remind_me():
     de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
     Chorus : Heavy Dist seule (Boss Metal Zone Legacy) — suffisamment massive sans gain stacking.
-    Reglages valides a l'oreille : Drive=0.85, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80.
+    Reglages valides a l'oreille : Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80.
 
     Chaine : Gate > HeavyDist > Chorus70s > Reverb > KinkyBoost
     Slots  :  0       1           2           3         4
@@ -586,7 +586,7 @@ def preset_how_you_remind_me():
     # Reglages confirmes a l'oreille : Drive=0.85, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80
     # enabled_default=False : uniquement sur Chorus
     pb.add_block("HD2_DM4HeavyDistortion", slot=1, enabled_default=False,
-                 overrides={"Drive": 0.85, "Bass": 0.80, "Mid": 0.40,
+                 overrides={"Drive": 0.70, "Bass": 0.80, "Mid": 0.40,
                             "Treble": 0.55, "Output": 0.80})
 
     # 70s Chorus (CE-1) en mode Vibrato : ChorusIntensity=0 = vibrato pur (pas de chorus)

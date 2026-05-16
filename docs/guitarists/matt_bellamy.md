@@ -4,6 +4,7 @@
 
 | Guitare | Micros | Notes |
 |---|---|---|
+| **Manson DL-1 "Delorean"** | P90 (neck) + Kent Armstrong Motherbucker (bridge) + Roland GK2a MIDI | Enregistrement Origin of Symmetry (2001) — Plug In Baby. Aluminium cladding, Fuzz Factory intégrée. |
 | **Gibson SG Standard** (rouge, 1960s) | Humbuckers | Enregistrement Absolution (2003) — Hysteria |
 | Manson MB-1 (custom) | DiMarzio + MIDI intégré | Live post-2004, ère Absolution tournée |
 | Manson MA Series | Humbuckers | Alternatif live |
@@ -35,9 +36,10 @@ Les Manson ont souvent un kill-switch et des contrôleurs MIDI intégrés.
 ### Plug In Baby (Origin of Symmetry, 2001)
 | Pédale | Usage |
 |---|---|
-| **Z.Vex Fuzz Factory** | Riff signature (fuzz gated instable) |
-| Boss DS-1/DS-2 | Dist alternative sections |
-| DigiTech Whammy | Pitch shifts |
+| **Z.Vex Fuzz Factory** (intégrée DL-1) | Riff signature — fuzz **ouverte et sustain** (Compress~0, Gate~0, Drive max, Stability bas) |
+| **MXR Phase 90** (intégré DL-1) | Actif tout au long du morceau, sweep lent (~9h) |
+| DigiTech Whammy IV | Solos/pitch shifts |
+| Boss DS-1/DS-2 | Dist alternative (sections rythmiques) |
 
 ---
 
@@ -46,7 +48,8 @@ Les Manson ont souvent un kill-switch et des contrôleurs MIDI intégrés.
 | Titre | Section | Son | Notes |
 |---|---|---|---|
 | **Hysteria** | Tout | Saturation Marshall power amp, son mur compressé | Gibson SG + JCM 2000 DSL gain bas/vol fort |
-| **Plug In Baby** | Riff | Fuzz Factory gated instable | Compress+Gate élevés, Stability modéré |
+| **Plug In Baby** | Riff/Chorus | Fuzz Factory ouverte + Phase 90 lent | Compress~0, Gate~0, Drive max, Stability bas (9h) — PAS gated |
+| **Plug In Baby** | Verse (arpeges) | Son léger (synthé original) + Phase 90 | Clean + phaser + chorus |
 
 ---
 
@@ -55,7 +58,7 @@ Les Manson ont souvent un kill-switch et des contrôleurs MIDI intégrés.
 | Élément original | Modèle HX | Model ID | Notes |
 |---|---|---|---|
 | Marshall JCM 2000 DSL (power amp sat.) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | LPHP=True, Gain=0.68 — lignée JCM800 britannique |
-| Z.Vex Fuzz Factory | Industrial Fuzz | `HD2_DistIndustrialFuzz` | Gate élevé = son gated saccadé |
+| Z.Vex Fuzz Factory (Plug In Baby) | Industrial Fuzz | `HD2_DistIndustrialFuzz` | Compress=0.10, Gate=0.10, Drive=1.0, Stability=0.25 — fuzz ouverte (pas gated) |
 | Boss DD-3 | Simple Delay | `HD2_DelaySimpleDelay` | Time=0.16s pour Hysteria |
 | DigiTech Whammy | Pitch Wham | `HD2_PitchPitchWham` | |
 

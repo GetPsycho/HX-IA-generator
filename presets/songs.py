@@ -638,12 +638,12 @@ def preset_hysteria():
     Hysteria est principalement une chanson de basse (Chris Wolstenholme).
     La guitare joue en soutien — le bassiste du groupe d'Eric couvre la ligne de basse.
 
-    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb > KinkyBoost
+    Chaine : Gate > CompulsiveDrive > DuckedDelay > Reverb > KinkyBoost
     Slots  :  0       1                 2             3         4
 
     Snap 0 Riff   : OCD + reverb (riff principal)
-    Snap 1 Chorus : OCD + delay + reverb
-    Snap 2 Solo   : OCD gain monte + delay + reverb
+    Snap 1 Chorus : OCD + delay (subtle) + reverb
+    Snap 2 Solo   : OCD gain monte + DuckedDelay (duck quand on joue, monte entre phrases) + reverb ample
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Hysteria", tempo=93.0, styles=["alt_rock", "hard_rock"])
@@ -657,15 +657,20 @@ def preset_hysteria():
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
                  overrides={"Gain": 0.68, "Tone": 0.58, "LPHP": True, "Level": 0.72})
 
-    # Simple Delay = Boss DD-3 (confirme live Hysteria)
+    # Ducked Delay : duck quand on joue (note seche et presente), remonte entre les phrases
+    # LowCut=150Hz / HighCut=6000Hz : repeats plus chauds et moins envahissants
+    # Defaults orientés Chorus (subtle) — overrides Solo ci-dessous
     # enabled_default=False : actif uniquement sur Chorus et Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
-                 overrides={"Time": 0.16, "Feedback": 0.08, "Mix": 0.15,
-                            "TempoSync1": False})
+    pb.add_block("HD2_DelayDuckedDelay", slot=2, enabled_default=False,
+                 overrides={"Time": 0.16, "Feedback": 0.06, "LowCut": 150.0,
+                            "HighCut": 6000.0, "Mix": 0.25, "Threshold": 0.45,
+                            "Ducking": 0.75, "DynAttack": 0.02, "DynRel": 0.30,
+                            "TempoSync1": False, "@trails": True})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
-                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14})
+                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14,
+                            "@trails": True})
 
     # KinkyBoost : compense le volume OCD vs reference clean
     # enabled_default=False : exclu du snap Clean
@@ -677,7 +682,9 @@ def preset_hysteria():
     pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4], color="red")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Gain": 0.78, "Level": 0.68}},
+                    params={1: {"Gain": 0.78, "Level": 0.92},
+                            2: {"Time": 0.32, "Feedback": 0.04, "Mix": 0.55},
+                            3: {"Decay": 0.55, "Predelay": 0.05, "Mix": 0.28}},
                     color="yellow")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
@@ -878,39 +885,72 @@ def preset_plug_in_baby():
     Chaine : Gate > IndustrialFuzz > Reverb
     Slots  :  0      1                2
 
-    Snap 0 Riff   : fuzz gated (le riff signature)
-    Snap 1 Chorus : fuzz + reverb plus ouverte
-    Snap 2 Solo   : fuzz pousse + reverb
-    Snap 3 Clean  : accordage / attente
+    Accordage : standard (E A D G B E). Tonalite : F# (Si mineur harmonique).
+    Guitare : Manson DL-1 "Delorean" (aluminium, Fuzz Factory integree, P90 neck,
+              Kent Armstrong Motherbucker bridge) — era Origin of Symmetry (2001).
+    Ampli : Marshall JCM 2000 DSL 100.
+
+    Industrial Fuzz = Z.Vex Fuzz Factory : fuzz ouverte et sustain avec instabilite douce.
+    Compress=0.10 / Gate=0.10 (tres bas, 6-7h) = fuzz fluide, PAS gated/saccade.
+    Drive=1.0 (max, 3h) / Stability=0.25 (9h) = instabilite douce sans oscillation.
+    MXR Phase 90 = ScriptModPhase Rate=0.15 (sweep lent, confirme sur tout le morceau).
+
+    Structure : Riff (intro/transitions/outro) — Chorus — Arpeges (verse, synthé original)
+    Pas de solo, pas de tremolo.
+
+    Chaine : Gate > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb > KinkyBoost
+    Slots  :  0       1                  2                3           4         5
+
+    Snap 0 Riff    : Fuzz + Phaser + Reverb + KWB
+    Snap 1 Chorus  : Fuzz + Phaser + Reverb (plus ouverte) + KWB
+    Snap 2 Arpeges : Phaser + CE-1 Chorus + Reverb longue (son synthé, sans fuzz)
+    Snap 3 Clean   : accordage / attente
     """
-    pb = PresetBuilder("Plug In Baby", tempo=136.0, styles=["nu_metal", "alt_rock"])
+    pb = PresetBuilder("Plug In Baby", tempo=136.0, styles=["alt_rock", "hard_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.20})
 
-    # Industrial Fuzz = Z.Vex Fuzz Factory : Compress + Gate pour effet "gated fuzz"
-    # Gate eleve = coupure nette entre les notes (caracteristique du riff)
-    # Stability bas = instabilite voulue du Fuzz Factory
+    # Industrial Fuzz = Z.Vex Fuzz Factory : fuzz ouverte (pas gated)
+    # Compress=0.10 / Gate=0.10 : tres bas (6-7h) = sustain fluide (source : The Pedal Lab)
+    # Drive=1.0 (3h, max) / Stability=0.25 (9h) = instabilite douce caracteristique
     pb.add_block("HD2_DistIndustrialFuzz", slot=1,
-                 overrides={"Compress": 0.72, "Gate": 0.68, "Drive": 0.90,
-                            "Stability": 0.58, "Oscillator": False, "Level": 0.52})
+                 overrides={"Compress": 0.10, "Gate": 0.10, "Drive": 1.0,
+                            "Stability": 0.25, "Oscillator": False, "Level": 0.85})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
-                 overrides={"Decay": 0.38, "Predelay": 0.02,
-                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14})
+    # ScriptModPhase = MXR Phase 90 : sweep lent confirme tout au long du morceau
+    pb.add_block("HD2_PhaserScriptModPhase", slot=2,
+                 overrides={"Rate": 0.15, "Mix": 0.50})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2], color="orange")
+    # 70s Chorus (CE-1) : actif uniquement sur Arpeges — texture synthé/pad
+    # Mode chorus (pas vibrato) : Mix=0.65 = epaississement clavier sur arpeges claires
+    pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.60, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.45, "Mix": 0.65, "Level": 1.0})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
-                    params={2: {"Mix": 0.20, "Decay": 0.48}},
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.40, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.15, "Mix": 0.16,
+                            "@trails": True})
+
+    # KinkyBoost : compense volume fuzz vs reference clean
+    # Actif sur Riff et Chorus, exclu sur Arpeges (clean = reference) et Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=5,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 4, 5], color="orange")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4, 5],
+                    params={4: {"Decay": 0.50, "Mix": 0.22}},
                     color="red")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2],
-                    params={1: {"Drive": 1.0, "Level": 0.58}},
-                    color="yellow")
+    # Arpeges : sans fuzz, sans KWB — phaser + CE-1 + reverb longue = texture synthé
+    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 2, 3, 4],
+                    params={4: {"Decay": 0.65, "Mix": 0.40}},
+                    color="green")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

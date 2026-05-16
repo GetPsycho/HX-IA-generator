@@ -1,5 +1,22 @@
 # Sources de recherche - Presets guitare
 
+## Clara Luciani - Nue (2021)
+
+### Informations confirmées
+- BPM : 132 | Tonalité : Do majeur (C) | Album : Cœur (2021)
+- Accordage : standard (E A D G B E)
+- La guitare ne joue QUE sur le chorus — lick funk (2 notes alternées + ghost notes sur 1 corde)
+- Verse : pas de guitare — attente clean
+- Micro recommandé : milieu (single-coil) pour le style funk
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://tabs.ultimate-guitar.com/tab/clara-luciani/nue-chords-2601294 | Accordage, tonalité C |
+| https://fr.wikipedia.org/wiki/Sage_(musicien) | Guitariste / producteur |
+
+---
+
 ## Clara Luciani - Le Reste (2021)
 
 ### Informations confirmées

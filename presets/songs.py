@@ -850,26 +850,31 @@ def preset_no_one_knows():
 def preset_nue():
     """Clara Luciani - Nue (132 BPM) — Sage (Ambroise Willaume)
 
-    Son : Strat clean compressée, inspiration Nile Rodgers.
-    Chorus discret (CE-1) sur le refrain pour le shimmer.
+    Accordage : standard (E A D G B E). Tonalite : Do majeur (C).
+    Micro recommande : micro milieu (single-coil) — style Nile Rodgers.
+
+    Structure : la guitare ne joue que sur le chorus — lick funk simple
+    (2 notes alternees sur 1 corde avec ghost notes). Verse = attente clean.
+    CE-1 Chorus permanent sur le snap actif.
 
     Chaine : Gate > RedSqueeze > Chorus70s > Reverb
     Slots  :  0      1            2            3
 
-    Snap 0 Verse  : Strat compressee + reverb
-    Snap 1 Chorus : Strat compressee + chorus leger + reverb plus large
-    Snap 2 Clean  : accordage / attente
+    Snap 0 Lick  : lick funk chorus — Comp + CE-1 + Reverb
+    Snap 1 Clean : accordage / attente (verse et reste)
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
     """
     pb = PresetBuilder("Nue", tempo=132.0, styles=["pop_rock_fr", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
-    # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers (son snappy et articule)
+    # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
-                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 4.0})
+                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 6.0})
 
-    # 70s Chorus = CE-1 : shimmer discret sur le refrain
+    # 70s Chorus = CE-1 : shimmer permanent sur le snap actif (lick chorus)
     pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
                  overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
                             "VibratoDepth": 0.35, "Mix": 0.35, "Level": 1.0})
@@ -878,13 +883,18 @@ def preset_nue():
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.68, "Modulation": 0.12, "Mix": 0.22})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+    # Lick funk : seul snap actif — chorus, comp, reverb
+    pb.add_snapshot(0, "Lick", blocks_on=[0, 1, 2, 3], color="yellow")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={3: {"Mix": 0.28, "Decay": 0.58}},
-                    color="yellow")
+    pb.add_snapshot(1, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 

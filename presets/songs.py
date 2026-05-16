@@ -566,15 +566,14 @@ def preset_how_you_remind_me():
     KinkyBoost Bright=True : approxime le caractere brillant/metallique du Fender Super 60
     de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
-    Gain stacking Chorus : Scream808 (TS9, push) → HeavyDist (Boss Metal Zone Legacy).
-    TS9 a faible gain resserre les palm mutes avant le Metal Zone.
-    Metal Zone = saturation metal massive avec EQ active (Bass/Mid/Treble).
+    Chorus : Heavy Dist seule (Boss Metal Zone Legacy) — suffisamment massive sans gain stacking.
+    Reglages valides a l'oreille : Drive=0.85, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80.
 
-    Chaine : Gate > Scream808 > HeavyDist > Chorus70s > Reverb > KinkyBoost
-    Slots  :  0       1            2           3           4         5
+    Chaine : Gate > HeavyDist > Chorus70s > Reverb > KinkyBoost
+    Slots  :  0       1           2           3         4
 
     Snap 0 Verse  : clean brillant + KinkyBoost (Bright=True) + reverb (intro/verse/bridge)
-    Snap 1 Chorus : TS9 → Metal Zone — saturation metal lourde
+    Snap 1 Chorus : Metal Zone — saturation metal massive
     Snap 2 Arpeges: clean + CE-1 vibrato + KinkyBoost + reverb
     Snap 3 Clean  : accordage / attente
     """
@@ -583,50 +582,44 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Scream 808 = TS9 : push leger avant le Metal Zone, resserre les palm mutes
-    # Gain bas (0.20) : role de tightener, pas de dist principale
+    # Heavy Dist = Boss Metal Zone (Legacy DM4) : saturation metal massive validee
+    # Reglages confirmes a l'oreille : Drive=0.85, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80
     # enabled_default=False : uniquement sur Chorus
-    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.20, "Tone": 0.65, "Level": 0.70})
-
-    # Heavy Dist = Boss Metal Zone (Legacy DM4) : saturation metal massive
-    # Drive=0.85, Mid=0.35 (scoop leger), Bass=0.68, Treble=0.58
-    # enabled_default=False : uniquement sur Chorus
-    pb.add_block("HD2_DM4HeavyDistortion", slot=2, enabled_default=False,
-                 overrides={"Drive": 0.85, "Bass": 0.68, "Mid": 0.35,
-                            "Treble": 0.58, "Output": 0.70})
+    pb.add_block("HD2_DM4HeavyDistortion", slot=1, enabled_default=False,
+                 overrides={"Drive": 0.85, "Bass": 0.80, "Mid": 0.40,
+                            "Treble": 0.55, "Output": 0.80})
 
     # 70s Chorus (CE-1) en mode Vibrato : ChorusIntensity=0 = vibrato pur (pas de chorus)
     # VibratoRate=0.60 (6), VibratoDepth=0.50 (5), Mix=0.50 (5)
     # enabled_default=False : uniquement sur Arpeges
-    pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
                  overrides={"ChorusIntensity": 0.0, "VibratoRate": 0.60,
                             "VibratoDepth": 0.50, "Mix": 0.50, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.12})
 
     # KinkyBoost Bright=True : simule le caractere scintillant du Fender Super 60 rack
-    # enabled_default=False : actif sur Chorus + Arpeges, exclu Verse et Clean
-    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
+    # enabled_default=False : actif sur Verse + Arpeges, exclu Chorus et Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": True})
 
     # Verse/Intro : clean brillant + KinkyBoost (Bright=True) + reverb ouverte
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 4, 5],
-                    params={4: {"Mix": 0.20}},
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 3, 4],
+                    params={3: {"Mix": 0.20}},
                     color="green")
 
-    # Chorus : HM-2 + KWB (Dual Rec Modern) = saturation massive et serree
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4], color="red")
+    # Chorus : Metal Zone seule = saturation metal massive
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3], color="red")
 
-    # Arpeges : clean + chorus leger + reverb ouverte + KinkyBoost (par-dessus le verse)
-    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 3, 4, 5],
-                    params={4: {"Mix": 0.20}},
+    # Arpeges : clean + CE-1 vibrato + reverb ouverte + KinkyBoost
+    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 2, 3, 4],
+                    params={3: {"Mix": 0.20}},
                     color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
     return pb

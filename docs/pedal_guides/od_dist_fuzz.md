@@ -116,6 +116,38 @@ Le Treble booste simultanément les mids et l'aigu — pas un simple EQ treble.
 
 ---
 
+## Heavy Dist = Boss Metal Zone (Legacy DM4)
+
+**HX Effects model ID :** `HD2_DM4HeavyDistortion`
+
+Circuit semi-conducteur high-gain avec EQ active 3 bandes. Très saturé même à Drive modéré.
+Différent du Metal Zone MT-2 (qui a un EQ semi-paramétrique en plus).
+
+### Paramètres
+| Param | Plage | Ce que ça fait vraiment |
+|---|---|---|
+| **Drive** | 0–1 | Gain. 0.5 = déjà très saturé ; 0.7–0.9 = territoire metal massif |
+| **Bass** | 0–1 | Graves. 0.7–0.8 = basses lourdes ; 0.5 = neutre |
+| **Mid** | 0–1 | Mids. **0.3–0.4 = scoop metal** ; 0.5 = neutre ; 0.6+ = son plus présent |
+| **Treble** | 0–1 | Aigus. 0.5–0.6 = présence sans agressivité |
+| **Output** | 0–1 | Volume de sortie. Default haut (0.73) — souvent suffisant |
+
+### Sweet spots
+| Contexte | Drive | Bass | Mid | Treble | Output | Notes |
+|---|---|---|---|---|---|---|
+| Post-grunge / Nickelback | 0.70 | 0.80 | 0.40 | 0.55 | 0.80 | Validé sur How You Remind Me — Ryan Peake |
+| Nu-metal tight | 0.80 | 0.70 | 0.35 | 0.58 | 0.73 | Mid scoop prononcé, palm mutes définis |
+| Modern metal | 0.85 | 0.72 | 0.38 | 0.60 | 0.70 | Plus agressif, scoop léger |
+| Death metal sombre | 0.90 | 0.85 | 0.30 | 0.45 | 0.65 | Très grave, mid scoopé |
+
+**Particularité :** Le Mid à 0.30–0.40 crée le "V-shape" typique metal (basses + aigus, mids creusés).
+Monter le Mid à 0.50+ donne plus de présence dans le mix mais perd le caractère "metal".
+
+**Piège :** Drive élevé + Bass élevé + Mid bas = palm mutes qui bavent.
+Solution : baisser Bass (0.70 → 0.60) ou Gate plus serré.
+
+---
+
 ## Industrial Fuzz = Z.Vex Fuzz Factory
 
 **HX Effects model ID :** `HD2_DistIndustrialFuzz`
@@ -247,6 +279,61 @@ Idéal pour simuler des petits combos tube (Skylark, Champ, Princeton) poussés 
 
 ---
 
+## Gain Stacking Metal — Principes et Approches
+
+Le gain stacking = deux pédales de saturation en série. Résultat plus musical qu'une seule pédale
+à saturation maximale : plus dynamique, moins compressé, meilleure définition des palm mutes.
+
+### Règle générale : ordre des pédales
+
+```
+Guitare → [Tightener/Boost] → [Saturation principale] → Ampli
+```
+
+- **1ère pédale** (avant la dist) : tighten + boost d'entrée → plus d'attaque, graves resserrés
+- **2ème pédale** (saturation principale) : caractère du son, clip principal
+
+### Approches validées
+
+| Combo | 1ère pédale | 2ème pédale | Caractère | Usage |
+|---|---|---|---|---|
+| **TS9 → amp hi-gain** | Scream808 Gain=0.10–0.15, Level=0.80 | Ampli saturé ou pédale high-gain | Tight, attaque percussive, palm mutes définis | Thrash, metalcore, modern metal |
+| **TS9 → Metal Zone** | Scream808 Gain=0.20, Level=0.70 | Heavy Dist Drive=0.70–0.85 | Massif et lourd avec présence | Post-grunge, nu-metal |
+| **TS9 → HM-2** | Scream808 Gain=0.15, Level=0.70 | SwedishChainsaw Drive=0.90+ | Ultra-saturé, bass très lourde | Death metal suédois |
+| **OCD → amp hi-gain** | CompulsiveDrive Gain=0.10, Level=0.80 | KWB ou Heavy Dist | Attaque tight, mid-focus | Modern metal, djent-adjacent |
+
+### TS9 en boost "clean" — technique classique thrash/metal
+
+Réglage spécifique (confirmé SevenString.org / Wampler) :
+- TS9 : **Gain=0 (min), Tone=1.0 (max), Level=1.0 (max)**
+- Rôle : sculpteur de ton, pas de saturation — serre les graves et ajoute de la cohérence
+- Résultat : amp hi-gain + TS9 = palm mutes beaucoup plus définis et percussifs
+
+### Palm mutes baveux — diagnostic et remèdes
+
+| Symptôme | Cause probable | Remède |
+|---|---|---|
+| Palm mutes indéfinis, gras | Bass trop élevé sur la dist | Baisser Bass de 0.1–0.15 |
+| Palm mutes flottants, mous | Level de sortie trop élevé | Baisser Level, augmenter Gate |
+| Palm mutes qui disparaissent | Trop de compression | Baisser Sensitivity compresseur |
+| Palm mutes qui bavent en sustain | Gate trop doux | Augmenter Threshold du Noise Gate |
+
+---
+
+## Styles Metal — EQ typique par genre
+
+| Style | Drive | Bass | Mid | Treble | Caractère ampli | Exemples setlist |
+|---|---|---|---|---|---|---|
+| Thrash | 0.75–0.85 | 0.65 | 0.50 | 0.65 | JCM800 / Marshall | — |
+| Post-grunge | 0.65–0.75 | 0.78 | 0.40 | 0.55 | Mesa Dual Rec | How You Remind Me |
+| Nu-metal | 0.80–0.90 | 0.70 | 0.35 | 0.60 | 5150 / Mesa | Hysteria, Toxicity |
+| Death metal | 0.90–1.0 | 0.85 | 0.30 | 0.50 | HM-2 + amp | — |
+| Doom/Stoner | 0.70–0.80 | 0.85 | 0.45 | 0.40 | Big Muff + ampli chaud | — |
+
+**Note HX Effects vs Helix :** Helix et HX Stomp ont des **modèles d'ampli dédiés** (Cali Rectifire = Mesa Dual Rec, PV Panama = Peavey 5150/6505). Ces modèles ne sont **pas disponibles** dans HX Effects (pédales uniquement). L'approche HX Effects = simuler le canal d'ampli avec une pédale de distorsion haute-gain (voir table de matching ci-dessous).
+
+---
+
 ## Simulation d'ampli — Table de matching
 
 Quand un guitariste n'utilise pas de pédale OD externe et que toute la saturation
@@ -302,3 +389,11 @@ Toujours vérifier à l'oreille.
 - Premier Guitar — Overdrives and Distortions guide
 - Z.Vex — Fuzz Factory documentation
 - Wikipedia — Pro Co RAT, Boss HM-2, Klon Centaur
+- Line 6 Community — Metal tones HX Effects (https://line6.com/support/topic/63310)
+- SevenString.org — HX Stomp thrash/modern metal settings
+- Wampler Pedals — Gain stacking 101 (https://www.wamplerpedals.com/blog/music/2020/05/gain-stacking-101/)
+- JHS Pedals — How to stack pedals (https://jhspedals.info/blogs/news/how-to-stack-pedals)
+- Line 6 Blog — Gainful Deployment: Stacking Overdrives (https://blog.line6.com/2020/04/27/gainful-deployment-stacking-overdrives/)
+- MusicRadar — Pedal gain stacking guide (https://www.musicradar.com/how-to/pedal-gain-stacking-order-and-more-explained)
+- Metal Guitarist Forums — Stoner/Doom tone discussion
+- RiffHard — Doom metal tone guide

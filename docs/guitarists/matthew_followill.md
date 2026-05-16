@@ -28,9 +28,10 @@
 ## Sons par titre
 | Titre | Section | Son | Notes |
 |---|---|---|---|
-| **Sex on Fire** | Verse | Crunch tube AC30 + reverb | Semi-hollow chaud, réverbe spacieuse |
-| **Sex on Fire** | Chorus | OCD + AC30 breakup | Drive modéré 60–70%, bridge pickup |
-| **Sex on Fire** | Bridge | Phaser + OCD | Mouvement de modulation |
+| **Sex on Fire** | Riff/Verse | OCD crunch + reverb ample | Semi-hollow, AC30 Top Boost driven |
+| **Sex on Fire** | Chorus | OCD plus chaud + delay 8ème + reverb | Bends qui "crient" grâce au delay 196ms |
+
+**2 guitaristes :** Caleb Followill (rythmique) + Matthew Followill (lead, bends). En live cover, une guitare seule joue les deux parties.
 
 ## Équivalents HX Effects
 | Pédale | Modèle HX | Model ID |

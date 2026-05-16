@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## Kings of Leon - Sex on Fire (2008)
+
+### Informations confirmées
+- BPM : 153 | Tonalité : La mineur (Am) | Album : Only by the Night (2008)
+- Accordage : standard (E A D G B E)
+- 2 guitaristes : Caleb Followill (rythmique) + Matthew Followill (lead/bends)
+- Guitare : Gibson ES-335. Ampli : Vox AC30 Top Boost (driven)
+- Pédales : Fulltone OCD, EHX Holy Grail Reverb, EHX Bad Stone Phaser
+- Structure : Riff/Verse (même son) + Chorus (plus chaud, delay pour les bends)
+- Delay sur le Chorus : 8ème note 196ms, Feedback faible, fait crier les bends
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/amp-settings-sex-on-fire-kings-of-leon/ | Tone, OCD, AC30 |
+| https://equipboard.com/pros/matthew-followill | Gear officiel Matthew Followill |
+| https://tabs.ultimate-guitar.com/tab/kings-of-leon/sex-on-fire-chords-723359 | Accordage, Am |
+
+---
+
 ## Maneskin - I Wanna Be Your Slave (2021)
 
 ### Informations confirmées

@@ -1041,17 +1041,21 @@ def preset_radio_song():
 
 
 def preset_sex_on_fire():
-    """Kings of Leon - Sex on Fire (153 BPM) — Matthew Followill
+    """Kings of Leon - Sex on Fire (153 BPM) — Caleb + Matthew Followill
 
-    Son : Gibson ES-335 → OCD (Compulsive Drive) → Vox AC30.
-    Reverb ambiante importante (Holy Grail). Phaser pour le bridge.
+    Accordage : standard (E A D G B E). Tonalite : La mineur (Am).
+    2 guitaristes : Caleb (rythmique) + Matthew (lead, bends). Eric joue les deux.
+    Guitare : Gibson ES-335 (humbuckers semi-creux). Ampli : Vox AC30 Top Boost (driven).
+    OCD = crunch principal. Delay 8eme note (196ms) sur Chorus pour faire crier les bends.
 
-    Chaine : Gate > CompulsiveDrive > PebblePhaser > Reverb
-    Slots  :  0      1                  2              3
+    Volumes calibres sur I Wanna Be Your Slave : OCD Level=0.72 sur Riff = reference clean.
 
-    Snap 0 Verse  : OCD crunch leger + reverb ample
-    Snap 1 Chorus : OCD plus chaud + reverb
-    Snap 2 Bridge : OCD + phaser + reverb
+    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb > KinkyBoost
+    Slots  :  0      1                 2               3         4
+
+    Snap 0 Riff   : OCD crunch leger (Gain=0.42, Level=0.72) + Reverb + KWB
+    Snap 1 Chorus : OCD plus chaud (Gain=0.58, Level=0.88) + Delay + Reverb ouverte + KWB
+    Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Sex on Fire", tempo=153.0, styles=["indie_rock", "post_grunge"])
@@ -1059,26 +1063,36 @@ def preset_sex_on_fire():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
+    # Compulsive Drive = Fulltone OCD : crunch AC30 Top Boost
+    # Level=0.72 sur Riff = reference clean (calibre a l'oreille, meme methode que IWBYS)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.38, "Tone": 0.55, "Level": 0.52})
+                 overrides={"Gain": 0.42, "Tone": 0.55, "Level": 0.72})
 
-    # Pebble Phaser = EHX Small Stone : Bad Stone Phaser de Followill
-    pb.add_block("HD2_PhaserPebblePhaser", slot=2, enabled_default=False,
-                 overrides={"Rate": 0.30, "Color": False, "Level": 0.0})
+    # Simple Delay : 8eme note a 153 BPM = 196ms — epaissit les bends du Chorus
+    # Feedback tres bas = 1 repetition, Mix modere = delay present sans noyer
+    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+                 overrides={"Time": 0.20, "Feedback": 0.08, "Mix": 0.22,
+                            "TempoSync1": False})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.55, "Predelay": 0.02,
                             "Tone": 0.65, "Modulation": 0.20, "Mix": 0.28})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+    # KinkyBoost : compensation volume supplementaire (OCD + AC30 = son sous reference)
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.48, "Level": 0.58}},
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3, 4], color="green")
+
+    # Chorus : OCD plus chaud + delay pour les bends + reverb plus ouverte
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4],
+                    params={1: {"Gain": 0.58, "Level": 0.88},
+                            3: {"Decay": 0.65, "Mix": 0.35}},
                     color="orange")
 
-    pb.add_snapshot(2, "Bridge", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.45, "Level": 0.55}},
-                    color="red")
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},

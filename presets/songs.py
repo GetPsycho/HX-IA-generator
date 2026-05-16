@@ -611,15 +611,15 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": True})
 
-    # Chorus : clean + reverb plus ouverte + KinkyBoost brillant
-    pb.add_snapshot(0, "Chorus", blocks_on=[0, 4, 5],
+    # Verse/Intro : clean brillant + KinkyBoost (Bright=True) + reverb ouverte
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 4, 5],
                     params={4: {"Mix": 0.20}},
                     color="green")
 
-    # Verse : HM-2 + KWB (Dual Rec Modern) = saturation massive et serree
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 4], color="red")
+    # Chorus : HM-2 + KWB (Dual Rec Modern) = saturation massive et serree
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4], color="red")
 
-    # Arpeges : clean + chorus leger + reverb ouverte + KinkyBoost
+    # Arpeges : clean + chorus leger + reverb ouverte + KinkyBoost (par-dessus le verse)
     pb.add_snapshot(2, "Arpeges", blocks_on=[0, 3, 4, 5],
                     params={4: {"Mix": 0.20}},
                     color="yellow")

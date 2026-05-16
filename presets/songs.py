@@ -1036,7 +1036,7 @@ def preset_radio_song():
                     color="orange")
 
     # Lead : palm mutes cordes aigues 12e case
-    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3, 4],
+    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.52, "Level": 0.85}},
                     color="red")
 

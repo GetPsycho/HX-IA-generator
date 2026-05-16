@@ -566,11 +566,11 @@ def preset_how_you_remind_me():
     KinkyBoost Bright=True : approxime le caractere brillant/metallique du Fender Super 60
     de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
-    Gain stacking Chorus : Scream808 (TS9) → KWB (Mesa Dual Rectifier Modern).
-    TS9 : Gain=0.65 (pousse le Dual Rec), mid hump 723 Hz resserre les palm mutes.
-    KWB simule canal Modern Dual Rec, EQ neutre — le TS9 sculpte le ton.
+    Gain stacking Chorus : VerminDist (RAT) → KWB (Mesa Dual Rectifier Modern).
+    RAT : Gain=0.75, Filter=0.40 (coupe aigus = lourdeur) — pousse le Dual Rec.
+    KWB simule canal Modern Dual Rec, EQ neutre — le RAT sculpte le ton.
 
-    Chaine : Gate > Scream808 > KWB > Chorus70s > Reverb > KinkyBoost
+    Chaine : Gate > VerminDist > KWB > Chorus70s > Reverb > KinkyBoost
     Slots  :  0       1           2      3           4         5
 
     Snap 0 Verse  : clean brillant + KinkyBoost (Bright=True) + reverb (intro/verse/bridge)
@@ -583,17 +583,17 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Scream 808 = Ibanez TS9 : pousse le canal Modern Dual Rec
-    # Gain=0.65 (saturation moderate, mid hump resserre les palm mutes)
+    # Vermin Dist = Pro Co RAT : plus lourd et sature que la TS9, palm mutes definis
+    # Gain=0.75, Filter=0.40 (coupe les aigus = lourdeur) — pousse le Dual Rec
     # enabled_default=False : uniquement sur Chorus
-    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.65, "Tone": 0.62, "Level": 0.70})
+    pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.75, "Filter": 0.40, "Level": 0.65})
 
     # KWB = Benadrian KWB Dist : simule canal Modern Mesa Boogie Dual Rectifier
-    # Bass=0.0, Treble=0.0 : EQ neutre — TS9 sculpte le ton via son mid hump
-    # enabled_default=False : uniquement sur Chorus (gain stacking TS9 → Dual Rec)
+    # Bass=0.0, Treble=0.0 : EQ neutre — RAT sculpte le ton via Filter
+    # enabled_default=False : uniquement sur Chorus (gain stacking RAT → Dual Rec)
     pb.add_block("HD2_DistKWB", slot=2, enabled_default=False,
-                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.72})
+                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.85})
 
     # 70s Chorus (CE-1) en mode Vibrato : ChorusIntensity=0 = vibrato pur (pas de chorus)
     # VibratoRate=0.60 (6), VibratoDepth=0.50 (5), Mix=0.50 (5)

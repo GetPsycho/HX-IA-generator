@@ -749,12 +749,13 @@ def preset_le_reste():
 
     Son : Strat clean compressee, inspiration Nile Rodgers ("riffs de guitare funky a la Nile Rodgers").
     Red Squeeze (Dyna Comp) = compression snappy, attaque articulee.
+    CE-1 Chorus permanent (Verse + Chorus) : shimmer Nile Rodgers tout au long du morceau.
     Pas de distorsion. Reverb discrete (guide Funk : Mix 0.08-0.15, adapte live).
 
-    Chaine : Gate > RedSqueeze > Reverb
-    Slots  :  0      1            2
+    Chaine : Gate > RedSqueeze > Chorus70s > Reverb
+    Slots  :  0      1            2            3
 
-    Snap 0 Verse  : Strat compressee + reverb discrete (Mix=0.14)
+    Snap 0 Verse  : Strat compressee + CE-1 chorus + reverb discrete (Mix=0.14)
     Snap 1 Chorus : meme son + reverb un peu plus ouverte (Mix=0.22)
     Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
@@ -767,24 +768,30 @@ def preset_le_reste():
     # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers
     # Sensitivity moderee = attaque snappy sans ecraser les transitoires
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
-                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 4.0})
+                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 6.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
+    # 70s Chorus = CE-1 : shimmer discret permanent (Verse + Chorus)
+    # Memes reglages que Nue pour coherence
+    pb.add_block("HD2_Chorus70sChorus", slot=2,
+                 overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.35, "Mix": 0.35, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
                             "Tone": 0.68, "Modulation": 0.12, "Mix": 0.14})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2], color="green")
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
-                    params={2: {"Mix": 0.22, "Decay": 0.60}},
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
+                    params={3: {"Mix": 0.22, "Decay": 0.60}},
                     color="yellow")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
     return pb

@@ -704,12 +704,15 @@ def preset_i_wanna_be_your_slave():
     Fiche Raggi : Verse = Klon + OCD crunch / Chorus = Klon + OCD pousse.
     DS-1 (DeezOneVintage) toggle uniquement sur le solo.
 
-    Chaine : Gate > Minotaur > CompulsiveDrive > DeezOneVintage > Reverb
-    Slots  :  0      1          2                  3               4
+    2 sons : Verse (crunch leger) et Chorus (OCD pousse).
+    Pas de solo dans ce morceau.
 
-    Snap 0 Verse  : Klon + OCD crunch leger (Gain=0.38, Level=0.45)
-    Snap 1 Chorus : Klon + OCD pousse (Gain=0.52, Level=0.58)
-    Snap 2 Solo   : Klon + OCD + DS-1 (lead chargé)
+    Chaine : Gate > Minotaur > CompulsiveDrive > Reverb > KinkyBoost
+    Slots  :  0      1          2                  3         4
+
+    Snap 0 Verse  : Klon + OCD crunch leger (Gain=0.38, Level=0.70)
+    Snap 1 Chorus : Klon + OCD pousse (Gain=0.52, Level=0.90)
+    Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("I Wanna Be Slave", tempo=131.0, styles=["rock", "funk_rock"])
@@ -721,38 +724,30 @@ def preset_i_wanna_be_your_slave():
     pb.add_block("HD2_DistMinotaur", slot=1,
                  overrides={"Gain": 0.48, "Tone": 0.60, "Level": 0.55})
 
-    # Compulsive Drive = OCD : always-on (Verse + Chorus + Solo)
-    # Gain/Level varie par snap pour distinguer crunch leger vs pousse
+    # Compulsive Drive = OCD : always-on, Gain/Level varie par snap
+    # Level=0.70 sur Verse = reference clean (valide a l'oreille)
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
                  overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.70})
 
-    # Deez One Vintage = Boss DS-1 : uniquement sur le solo (lead chargé)
-    pb.add_block("HD2_DistDeezOneVintage", slot=3, enabled_default=False,
-                 overrides={"Drive": 0.65, "Tone": 0.52, "Level": 0.70})
-
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.18, "Mix": 0.14})
 
-    # KinkyBoost : compensation volume supplementaire, actif sur tous les snaps dist
-    pb.add_block("HD2_DistKinkyBoost", slot=5,
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Verse : Klon + OCD crunch leger — Level=0.70 = reference clean (valide a l'oreille)
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 4, 5], color="yellow")
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3, 4], color="yellow")
 
-    # Chorus : OCD pousse — Level monte proportionnellement (0.70 x 1.29)
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4, 5],
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4],
                     params={2: {"Gain": 0.52, "Level": 0.90}},
                     color="orange")
 
-    # Solo : Klon + OCD + DS-1
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4, 5],
-                    params={2: {"Gain": 0.52, "Level": 0.90}},
-                    color="red")
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
     return pb

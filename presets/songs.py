@@ -734,16 +734,21 @@ def preset_i_wanna_be_your_slave():
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.18, "Mix": 0.14})
 
+    # KinkyBoost : Verse (snap le plus bas) = reference clean ou au-dessus
+    # Actif sur tous les snaps dist, exclu Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=5,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
     # Verse : Klon + OCD crunch leger (defaults)
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 4], color="yellow")
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 4, 5], color="yellow")
 
     # Chorus : OCD pousse
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4],
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4, 5],
                     params={2: {"Gain": 0.52, "Level": 0.58}},
                     color="orange")
 
     # Solo : Klon + OCD + DS-1
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4],
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4, 5],
                     params={2: {"Gain": 0.52, "Level": 0.58}},
                     color="red")
 

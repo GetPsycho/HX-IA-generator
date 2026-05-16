@@ -376,6 +376,7 @@ timbre, réponse aux transitoires, compression naturelle.
 |---|---|---|---|---|
 | **Marshall JCM800** (canal overdrive, Gain 7–9) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Crunch dynamique, LPHP=True pour le punch britannique | Be Yourself — Tom Morello |
 | **Gibson Skylark** (petit combo tube ~4W, saturé à fond) | Arbitrator Fuzz | `HD2_DistArbitratorFuzz` | Fuzz Face germanium à gain modéré → "fuzz sur les bords" d'un petit tube saturé. Fuzz 0.62. Plus fidèle que le Valve Driver (trop lisse). | Are You Gonna Go My Way — Craig Ross |
+| **Marshall JCM 2000 DSL** (canal Lead, gain bas + volume fort) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Même lignée que JCM800 (britannique). LPHP=True, Gain=0.65–0.70. Saturation de power amp naturelle — pas de préamp extrême. | Hysteria — Matt Bellamy |
 | **Mesa Boogie Dual Rectifier** (canal Modern, Gain 7+) | KWB | `HD2_DistKWB` | Saturation haute-gain très serrée, caractère métal moderne. EQ neutre (Bass=0.0, Treble=0.0). Gain=0.78. Gain stacking : Scream808 (TS9, Gain=0.65) en amont resserre les palm mutes via mid hump 723 Hz. | How You Remind Me — Ryan Peake |
 
 **À compléter au fil des presets.** Quand un nouveau cas de simulation d'ampli est

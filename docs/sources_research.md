@@ -208,6 +208,31 @@
 
 ---
 
+## Muse - Hysteria (2003)
+
+### Informations confirmées
+
+- BPM : 93 | Tonalité : La mineur (Am) | Album : Absolution (2003)
+- **Accordage : standard (E A D G B E)**
+- **Guitare studio : Gibson SG Standard** (rouge) — le Manson MB-1 est arrivé en tournée post-2004
+- **Ampli : Marshall JCM 2000 DSL 100** — gain bas, volume fort (saturation power amp)
+- Le Diezel VH4 est une erreur fréquente : il n'a PAS été utilisé sur Absolution
+- Delay : Boss DD-3 (confirmé live Hysteria)
+- Style : alt-rock / hard rock / progressive rock (pas nu-metal — Wikipedia)
+- Hysteria = chanson de basse (Chris Wolstenholme), guitare en soutien
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://equipboard.com/albums/muse-absolution | Gear album Absolution — Gibson SG confirmé |
+| https://www.premierguitar.com/muses-matt-bellamys-gear | JCM 2000 DSL, citation Bellamy sur le réglage |
+| https://tabs.ultimate-guitar.com/tab/muse/hysteria-tabs-102487 | Accordage standard, structure |
+| https://www.guitarchalk.com/amp-settings-hysteria-muse/ | Réglages amp et effets |
+| https://en.wikipedia.org/wiki/Muse_(band) | Genre : alt-rock, progressive rock, hard rock |
+
+---
+
 ## Pearl Jam - Even Flow (1991)
 
 ### Informations confirmées

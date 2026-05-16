@@ -628,27 +628,37 @@ def preset_how_you_remind_me():
 def preset_hysteria():
     """Muse - Hysteria (93 BPM) — Matt Bellamy
 
-    Son : Manson custom → KWB (high gain) → Diezel VH4.
-    Note : Hysteria est une chanson de basse ; la guitare joue en soutien.
-    Son mur de distorsion compresse et epais.
+    Accordage : standard (E A D G B E). Tonalite : La mineur (Am).
+    Guitare studio : Gibson SG Standard (rouge, Absolution 2003).
+    Ampli : Marshall JCM 2000 DSL 100 — Bellamy : "gain really low, volume on full"
+    = saturation de power amp naturelle, caractere Marshall britannique.
+    Note : Diezel VH4 = ere posterieure, pas sur Absolution.
+    OCD = simulation JCM 2000 DSL (meme lignee que JCM800, canal Lead low-gain + vol fort).
 
-    Chaine : Gate > KWB > SimpleDelay > Reverb
-    Slots  :  0     1      2              3
+    Hysteria est principalement une chanson de basse (Chris Wolstenholme).
+    La guitare joue en soutien — le bassiste du groupe d'Eric couvre la ligne de basse.
 
-    Snap 0 Riff   : dist haute + reverb (riff principal)
-    Snap 1 Chorus : dist + delay court + reverb
-    Snap 2 Solo   : dist pousse + delay + reverb
+    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb > KinkyBoost
+    Slots  :  0       1                 2             3         4
+
+    Snap 0 Riff   : OCD + reverb (riff principal)
+    Snap 1 Chorus : OCD + delay + reverb
+    Snap 2 Solo   : OCD gain monte + delay + reverb
     Snap 3 Clean  : accordage / attente
     """
-    pb = PresetBuilder("Hysteria", tempo=93.0, styles=["nu_metal"])
+    pb = PresetBuilder("Hysteria", tempo=93.0, styles=["alt_rock", "hard_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.25})
 
-    # KWB = Kowloon Walled Bunny Dist : high-gain, caractere Diezel
-    pb.add_block("HD2_DistKWB", slot=1,
-                 overrides={"Gain": 0.72, "Bass": 2.0, "Treble": 1.0, "Level": 0.52})
+    # Compulsive Drive = OCD : simule Marshall JCM 2000 DSL (canal Lead, gain bas + vol fort)
+    # LPHP=True : punch britannique, attaque seche
+    # Gain=0.68 = saturation power amp naturelle, pas de preamp extreme
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.68, "Tone": 0.58, "LPHP": True, "Level": 0.72})
 
+    # Simple Delay = Boss DD-3 (confirme live Hysteria)
+    # enabled_default=False : actif uniquement sur Chorus et Solo
     pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
                  overrides={"Time": 0.16, "Feedback": 0.08, "Mix": 0.15,
                             "TempoSync1": False})
@@ -657,12 +667,17 @@ def preset_hysteria():
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3], color="orange")
+    # KinkyBoost : compense le volume OCD vs reference clean
+    # enabled_default=False : exclu du snap Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3], color="red")
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3, 4], color="orange")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.82, "Level": 0.58}},
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4], color="red")
+
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4],
+                    params={1: {"Gain": 0.78, "Level": 0.68}},
                     color="yellow")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

@@ -566,16 +566,16 @@ def preset_how_you_remind_me():
     KinkyBoost Bright=True : approxime le caractere brillant/metallique du Fender Super 60
     de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
-    Gain stacking Verse : SwedishChainsaw (HM-2) → KWB (Mesa Dual Rectifier Modern).
-    Le KWB simule le canal Modern du Dual Rec : tres haute saturation, EQ neutre (HM-2 sculpte).
-    KWB Gain=0.78, Bass=0.0, Treble=0.0 = "metal serre" sweet spot (table od_dist_fuzz.md).
+    Gain stacking Chorus : Scream808 (TS9) → KWB (Mesa Dual Rectifier Modern).
+    TS9 : Gain=0.65 (pousse le Dual Rec), mid hump 723 Hz resserre les palm mutes.
+    KWB simule canal Modern Dual Rec, EQ neutre — le TS9 sculpte le ton.
 
-    Chaine : Gate > SwedishChainsaw > KWB > Chorus70s > Reverb > KinkyBoost
-    Slots  :  0       1                 2      3           4         5
+    Chaine : Gate > Scream808 > KWB > Chorus70s > Reverb > KinkyBoost
+    Slots  :  0       1           2      3           4         5
 
-    Snap 0 Chorus : clean brillant + KinkyBoost (Bright=True) + reverb (intro/refrain)
-    Snap 1 Verse  : HM-2 + Dual Rec (KWB) — saturation massive serree
-    Snap 2 Arpeges: clean + 70s Chorus (Boss CH-1) + KinkyBoost + reverb
+    Snap 0 Verse  : clean brillant + KinkyBoost (Bright=True) + reverb (intro/verse/bridge)
+    Snap 1 Chorus : TS9 → Dual Rec (KWB) — saturation serree et definie
+    Snap 2 Arpeges: clean + CE-1 vibrato + KinkyBoost + reverb
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("How You Remind Me", tempo=86.0, styles=["post_grunge"])
@@ -583,16 +583,15 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Swedish Chainsaw = Boss HM-2 : tous params dimes = son chainsaw signature
-    # enabled_default=False : uniquement sur Verse
-    pb.add_block("HD2_DistSwedishChainsaw", slot=1, enabled_default=False,
-                 overrides={"Drive": 0.95, "Bass": 0.90, "Treble": 0.80,
-                            "Level": 0.50})
+    # Scream 808 = Ibanez TS9 : pousse le canal Modern Dual Rec
+    # Gain=0.65 (saturation moderate, mid hump resserre les palm mutes)
+    # enabled_default=False : uniquement sur Chorus
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.62, "Level": 0.70})
 
     # KWB = Benadrian KWB Dist : simule canal Modern Mesa Boogie Dual Rectifier
-    # Gain=0.78 = Dual Rec a Gain=7 (tres haute saturation metal)
-    # Bass=0.0, Treble=0.0 : EQ neutre — le HM-2 (Bass 0.90, Treble 0.80) sculpte le ton
-    # enabled_default=False : uniquement sur Verse (gain stacking HM-2 → Dual Rec)
+    # Bass=0.0, Treble=0.0 : EQ neutre — TS9 sculpte le ton via son mid hump
+    # enabled_default=False : uniquement sur Chorus (gain stacking TS9 → Dual Rec)
     pb.add_block("HD2_DistKWB", slot=2, enabled_default=False,
                  overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.72})
 

@@ -309,6 +309,35 @@ Réglage spécifique (confirmé SevenString.org / Wampler) :
 - Rôle : sculpteur de ton, pas de saturation — serre les graves et ajoute de la cohérence
 - Résultat : amp hi-gain + TS9 = palm mutes beaucoup plus définis et percussifs
 
+### EQ et distorsion metal — position et rôles
+
+Deux positions d'EQ, deux fonctions distinctes :
+
+**Avant la distorsion — nettoyer l'entrée**
+Un grave non filtré entrant dans un high-gain = boue garantie.
+Le signal distordé amplifie toutes les fréquences, y compris les indésirables.
+
+| Fréquence | Action | Effet |
+|---|---|---|
+| < 80–100 Hz | High-pass (couper) | Supprime le sub-bass qui gonfle la dist inutilement |
+| 200–300 Hz | Légère coupe (-2 à -4 dB) | Réduit la boue pré-dist, particulièrement sur humbucker |
+
+→ Modèle HX recommandé : `HD2_EQGraphic10Band` (10 Band Graphic EQ)
+
+**Après la distorsion — sculpter le son final**
+
+| Fréquence | Action | Effet |
+|---|---|---|
+| 200–400 Hz | Coupe (-3 à -6 dB) | Zone "boueuse / cartonneuse" — première à attaquer |
+| 2–4 kHz | Boost léger (+2 à +3 dB) | Présence et articulation, palm mutes coupent mieux |
+| 6–8 kHz | Coupe si besoin | Réduit l'agressivité / stridences |
+
+**Note spécifique au rig d'Eric :** le Super Distortion bridge a une sortie élevée qui sature
+davantage l'entrée des pédales. Un high-pass à 80–100 Hz **avant** la dist est particulièrement
+utile pour des palm mutes définis — plus encore que sur une Strat simple bobinage.
+
+---
+
 ### Palm mutes baveux — diagnostic et remèdes
 
 | Symptôme | Cause probable | Remède |

@@ -1003,9 +1003,9 @@ def preset_radio_song():
     Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb
     Slots  :  0      1                  2              3
 
-    Snap 0 Verse  : OD legere (Gain=0.28, Level=0.52) + reverb
-    Snap 1 Chorus : OD plus presente (Gain=0.38, Level=0.54) + reverb
-    Snap 2 Lead   : OD + delay + reverb (Gain=0.42, Level=0.60)
+    Snap 0 Verse  : OD legere (Gain=0.28, Level=0.70) + reverb — reference clean
+    Snap 1 Chorus : OD plus presente (Gain=0.38, Level=0.74) + reverb
+    Snap 2 Lead   : OD (Gain=0.52, Level=0.85) + delay — palm mutes 12e case
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Radio Song", tempo=158.0, styles=["pop_rock_fr", "funk"])
@@ -1013,8 +1013,9 @@ def preset_radio_song():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
+    # Level=0.70 sur Verse = reference clean (regle calibration OCD validee projet)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.28, "Tone": 0.62, "Level": 0.52})
+                 overrides={"Gain": 0.28, "Tone": 0.62, "Level": 0.70})
 
     pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
                  overrides={"Time": 0.19, "Feedback": 0.10, "Mix": 0.16,
@@ -1027,11 +1028,12 @@ def preset_radio_song():
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
 
     pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.38, "Level": 0.54}},
+                    params={1: {"Gain": 0.38, "Level": 0.74}},
                     color="orange")
 
+    # Lead : palm mutes cordes aigues 12e case — Gain remonte + Level eleve pour gonflé
     pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.42, "Level": 0.60}},
+                    params={1: {"Gain": 0.52, "Level": 0.85}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

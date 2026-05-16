@@ -141,6 +141,14 @@ Déficit d'output structurel — même au Level=1.0 (max), le signal reste sous
 le niveau clean. Fix validé : Level=0.90 + KinkyBoost always-on.
 Voir `docs/pedal_guides/hx_models_reference.md` (section Notes Arbitrator Fuzz).
 
+**Calibration OCD (CompulsiveDrive) — règle de départ obligatoire :**
+L'expérience live du projet a établi que `Level=0.52` (valeur "naïve") est systématiquement
+en dessous de la référence clean. Valeur de départ validée à l'oreille : **Level=0.70** pour le
+snap le plus bas (Verse/Riff), quel que soit le Gain utilisé.
+→ Toujours partir de Level=0.70 sur l'OCD pour le snap le plus faible.
+→ Si d'autres pédales s'ajoutent (KinkyBoost, stacking), ajuster à la baisse si nécessaire.
+→ En audit : tout OCD Level < 0.65 sur le snap principal = signal sous-calibré, à corriger.
+
 ---
 
 ## 3. Validation utilisateur

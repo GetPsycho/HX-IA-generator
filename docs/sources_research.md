@@ -1,5 +1,20 @@
 # Sources de recherche - Presets guitare
 
+## Superbus - Radio Song (2002)
+
+### Informations confirmées
+- BPM : 158 | Accordage : standard (E A D G B E)
+- Guitare : Fender Telecaster. Style : pop-rock français
+- Structure : Verse (OD légère) / Chorus (OD plus présente) / Lead (OD + delay)
+- Volume calibré : Chorus Level abaissé (0.58→0.54) pour équilibre Verse/Chorus
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.adamhall.com/en/blog/interview-with-superbus-guitarist-patrice-focone | Interview Patrice Focone |
+
+---
+
 ## Kings of Leon - Sex on Fire (2008)
 
 ### Informations confirmées

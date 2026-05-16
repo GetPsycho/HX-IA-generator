@@ -996,15 +996,16 @@ def preset_plug_in_baby():
 def preset_radio_song():
     """Superbus - Radio Song (158 BPM) — Patrice Focone
 
+    Accordage : standard (E A D G B E).
     Son : Fender Telecaster → OD legere → pop-rock entrainent.
     Brillant et punchy, delay pour l'espace.
 
     Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb
     Slots  :  0      1                  2              3
 
-    Snap 0 Verse  : OD legere + delay discret + reverb
-    Snap 1 Chorus : OD plus presente + reverb
-    Snap 2 Lead   : OD + delay + reverb
+    Snap 0 Verse  : OD legere (Gain=0.28, Level=0.52) + reverb
+    Snap 1 Chorus : OD plus presente (Gain=0.38, Level=0.54) + reverb
+    Snap 2 Lead   : OD + delay + reverb (Gain=0.42, Level=0.60)
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Radio Song", tempo=158.0, styles=["pop_rock_fr", "funk"])
@@ -1026,7 +1027,7 @@ def preset_radio_song():
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
 
     pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.38, "Level": 0.58}},
+                    params={1: {"Gain": 0.38, "Level": 0.54}},
                     color="orange")
 
     pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3],

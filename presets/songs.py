@@ -1053,45 +1053,74 @@ def preset_sex_on_fire():
 def preset_toxicity():
     """System of a Down - Toxicity (115 BPM) — Daron Malakian
 
-    Son : Ibanez Iceman (Drop C) → Boss HM-2 (Swedish Chainsaw) → Mesa Boogie.
-    Gate serre pour le palm-muting rapide caracteristique.
+    Accordage : Drop C (C G C F A D).
+    Eric est en Drop D physiquement — PolyPitch -2 semitones transpose tout d'un ton vers le bas.
+    PolyPitch always-on sur TOUS les snaps (y compris Clean) : l'accordeur voit le Drop C.
+    AutoEQ=1.0 : compensation spectrale max du pitch shift (basses en surplus, perte de clarte).
 
-    Chaine : Gate > SwedishChainsaw > Reverb
-    Slots  :  0      1                  2
+    Guitare : Ibanez Iceman DMM1 (humbuckers haute sortie).
+    Ampli : Mesa/Boogie Dual Rectifier + Marshall JMP 2203.
+    HM-2 = Swedish Chainsaw. MXR 10-Band EQ = 10 Band Graphic (simule l'EQ rack de Malakian
+    + affine la compensation PolyPitch : cut 250Hz mud, boost 2kHz clarte).
 
-    Snap 0 Riff   : HM-2 + gate serre + reverb (palm-muting serre)
-    Snap 1 Chorus : HM-2 + reverb (full saturation)
-    Snap 2 Solo   : HM-2 + reverb (lead)
-    Snap 3 Clean  : accordage / attente
+    Pas de solo guitare dans Toxicity (pas de snap Solo).
+
+    Chaine : PolyPitch > Gate > SwedishChainsaw > 10BandEQ > Reverb > KinkyBoost
+    Slots  :     0          1         2                3           4         5
+
+    Snap 0 Riff   : son principal, palm-muting serré, gate Decay=0.18
+    Snap 1 Chorus : gate plus ouvert (Decay=0.26), sustain plus ample
+    Snap 2 Break  : breakdown syncopé, gate très serré (Decay=0.14)
+    Snap 3 Clean  : PolyPitch actif → accordage en Drop C
     """
     pb = PresetBuilder("Toxicity", tempo=115.0, styles=["nu_metal"])
 
-    # Gate tres serre pour le palm-muting rapide de Malakian
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch : Drop D → Drop C (-1 ton = -2 semitones)
+    # AutoEQ=1.0 : compensation EQ max pour neutraliser la boue et la perte de clarte du shift
+    # Tracking=3 : qualite polyphonique maximale (accords + power chords)
+    pb.add_block("L6SPB_PolyPitch", slot=0,
+                 overrides={"Interval": -2, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+
+    # Gate serre pour le palm-muting rapide de Malakian
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -46.0, "Decay": 0.18})
 
-    # Swedish Chainsaw = Boss HM-2 : son chainsaw de Malakian
-    # Drive et basses un peu moins que Nickelback pour garder la lisibilite en Drop C
-    pb.add_block("HD2_DistSwedishChainsaw", slot=1,
+    # Swedish Chainsaw = Boss HM-2 : son chainsaw caracteristique SOAD
+    pb.add_block("HD2_DistSwedishChainsaw", slot=2,
                  overrides={"Drive": 0.90, "Bass": 0.75, "Treble": 0.75,
-                            "Level": 0.50})
+                            "Level": 0.55})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
+    # 10 Band Graphic = MXR 10-Band EQ (Malakian l'utilise dans sa chaine)
+    # Double role : simulation rack Malakian + compensation complementaire PolyPitch
+    # 250Hz: -3 dB (mud du down-pitch) / 2kHz: +2 dB (clarte/attaque recuperee)
+    pb.add_block("HD2_EQGraphic10Band", slot=3,
+                 overrides={"250Hz": -3.0, "2kHz": 2.0, "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.30, "Predelay": 0.01,
                             "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2], color="orange")
+    # KinkyBoost : compensation volume HM-2 vs reference clean
+    pb.add_block("HD2_DistKinkyBoost", slot=5,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
-                    params={1: {"Level": 0.55}},
+    # Riff : palm-muting serré, gate Decay par défaut (0.18)
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3, 4, 5], color="orange")
+
+    # Chorus : gate légèrement plus ouvert, sustain plus ample
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4, 5],
+                    params={1: {"Decay": 0.26}, 2: {"Level": 0.60}},
                     color="red")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2],
-                    params={1: {"Drive": 0.80, "Bass": 0.65, "Level": 0.58}},
+    # Break : riff syncopé du bridge, gate très serré
+    pb.add_snapshot(2, "Break", blocks_on=[0, 1, 2, 3, 4, 5],
+                    params={1: {"Decay": 0.14}},
                     color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    # Clean : PolyPitch toujours actif → accordeur voit Drop C
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 1, 3, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

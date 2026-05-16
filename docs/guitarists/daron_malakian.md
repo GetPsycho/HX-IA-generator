@@ -7,6 +7,7 @@
 | Gibson SG Special | Humbuckers | Alternatif |
 
 Accordage : Drop C (C G C F A D). Cordes .010.
+**HX Effects (Eric) :** Drop D physique + `L6SPB_PolyPitch` Interval=-2, AutoEQ=1.0.
 
 ## Ampli — Mesa/Boogie Dual Rectifier + Marshall JMP 2203
 | Paramètre | Réglage Mesa Rectifier |
@@ -33,11 +34,12 @@ Accordage : Drop C (C G C F A D). Cordes .010.
 | **Toxicity** | Breakdown | HM-2 gate | Riff syncopé, très tight |
 
 ## Équivalents HX Effects
-| Pédale | Modèle HX | Model ID |
-|---|---|---|
-| Boss HM-2 Heavy Metal | Swedish Chainsaw | `HD2_DistSwedishChainsaw` |
-| MXR 10-Band EQ | 10 Band Graphic | `HD2_EQGraphic10Band` |
-| MXR Phase 90 | Script Mod Phase | `HD2_PhaserScriptModPhase` |
+| Pédale / Besoin | Modèle HX | Model ID | Notes |
+|---|---|---|---|
+| Boss HM-2 Heavy Metal | Swedish Chainsaw | `HD2_DistSwedishChainsaw` | Drive=0.90, Bass=0.75, Treble=0.75 |
+| MXR 10-Band EQ | 10 Band Graphic | `HD2_EQGraphic10Band` | 250Hz=-3, 2kHz=+2 (comp. PolyPitch) |
+| MXR Phase 90 | Script Mod Phase | `HD2_PhaserScriptModPhase` | |
+| Accordage Drop C (depuis Drop D) | Poly Pitch | `L6SPB_PolyPitch` | Interval=-2, AutoEQ=1.0, Tracking=3 |
 
 ## Sources
 - https://equipboard.com/pros/daron-malakian

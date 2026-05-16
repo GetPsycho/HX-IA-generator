@@ -145,6 +145,46 @@ Le bloc EQ consomme un slot — ne l'utiliser que si nécessaire.
 
 ---
 
+## Pitch Shift vers le bas — Compensation EQ
+
+Descendre la tonalité via pitch shifter (-1 ton ou plus) introduit une coloration sonore indésirable :
+excès de basses (mud), perte de clarté dans les haut-mids, son "épais" et moins défini.
+
+### Étape 1 — AutoEQ du PolyPitch (`L6SPB_PolyPitch`)
+
+Le bloc **Poly Pitch** de Line 6 intègre un paramètre `AutoEQ` (knob 0→1, défaut 0.7) qui applique
+une correction spectrale automatique compensant la coloration du pitch shift.
+
+**Réglage recommandé :** `AutoEQ = 1.0` (compensation maximale) pour tout down-shift de -1 ton ou plus.
+
+| Param | Valeur | Rôle |
+|---|---|---|
+| `Interval` | -2 (pour -1 ton) | Descend de 2 semitones |
+| `Cents` | 0.0 | Pas de correction fine |
+| `AutoEQ` | **1.0** | Compensation EQ maximale |
+| `Tracking` | 3 | Qualité polyphonique max (accords propres) |
+| `Mix` | 1.0 | 100% signal transposé |
+
+### Étape 2 — EQ complémentaire (si AutoEQ insuffisant)
+
+Ajouter un `HD2_EQGraphic10Band` après le pitch shift pour affinage manuel :
+
+| Bande | Correction | Raison |
+|---|---|---|
+| 250 Hz | **-3 dB** | Couper le "mud" caractéristique du down-pitch |
+| 2 kHz | **+2 dB** | Redonner la clarté et l'attaque perdue |
+| < 80 Hz | -3 à -6 dB (optionnel) | Couper les sub-basses en surplus si son trop flou |
+
+**Placement dans la chaîne :**
+```
+PolyPitch > Gate > Distorsion > EQGraphic10Band > Reverb
+```
+L'EQ se place après la distorsion pour sculpter le timbre final.
+
+**Cas validé :** Toxicity — SOAD (Drop D → Drop C via PolyPitch -2 semitones).
+
+---
+
 ## Sources
 - MXR 10-Band EQ Manual
 - Guitar Chalk — EQ Settings for Guitar

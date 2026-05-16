@@ -1,5 +1,24 @@
 # Sources de recherche - Presets guitare
 
+## Clara Luciani - Le Reste (2021)
+
+### Informations confirmées
+- BPM : 113 | Tonalité : La mineur (Am) | Album : Cœur (2021)
+- Accordage : standard (E A D G B E)
+- Guitariste : Sage (Ambroise Willaume) — style Nile Rodgers confirmé
+- Son : "riffs de guitare funky à la Nile Rodgers" — Strat clean compressée, pas de distorsion
+- Structure : Intro/Verse/Chorus — pas de solo
+- Micro recommandé : milieu (single-coil) pour le style funk
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.chartsinfrance.net/Clara-Luciani/news-117233.html | Style Nile Rodgers confirmé |
+| https://tabs.ultimate-guitar.com/tab/clara-luciani/le-reste-chords-3655760 | Accordage, tonalité Am |
+| https://fr.wikipedia.org/wiki/Sage_(musicien) | Guitariste / producteur |
+
+---
+
 ## Lenny Kravitz - Fly Away (1998)
 
 ### Informations confirmées

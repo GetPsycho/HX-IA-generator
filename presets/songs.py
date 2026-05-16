@@ -744,16 +744,20 @@ def preset_i_wanna_be_your_slave():
 def preset_le_reste():
     """Clara Luciani - Le Reste (113 BPM) — Sage (Ambroise Willaume)
 
-    Son : Strat clean compressée, inspiration Nile Rodgers.
+    Accordage : standard (E A D G B E). Tonalite : La mineur (Am).
+    Micro recommande : micro milieu (single-coil) — plus proche du son Nile Rodgers.
+
+    Son : Strat clean compressee, inspiration Nile Rodgers ("riffs de guitare funky a la Nile Rodgers").
     Red Squeeze (Dyna Comp) = compression snappy, attaque articulee.
-    Pas de distorsion, reverb ambiante.
+    Pas de distorsion. Reverb discrete (guide Funk : Mix 0.08-0.15, adapte live).
 
     Chaine : Gate > RedSqueeze > Reverb
     Slots  :  0      1            2
 
-    Snap 0 Verse  : Strat compressee + reverb
-    Snap 1 Chorus : meme son + reverb plus ouverte
+    Snap 0 Verse  : Strat compressee + reverb discrete (Mix=0.14)
+    Snap 1 Chorus : meme son + reverb un peu plus ouverte (Mix=0.22)
     Snap 2 Clean  : accordage / attente
+    Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Le Reste", tempo=113.0, styles=["pop_rock_fr", "funk"])
 
@@ -767,15 +771,19 @@ def preset_le_reste():
 
     pb.add_block("HD2_ReverbGanymede", slot=2,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
-                            "Tone": 0.68, "Modulation": 0.12, "Mix": 0.22})
+                            "Tone": 0.68, "Modulation": 0.12, "Mix": 0.14})
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2], color="green")
 
     pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2],
-                    params={2: {"Mix": 0.30, "Decay": 0.60}},
+                    params={2: {"Mix": 0.22, "Decay": 0.60}},
                     color="yellow")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="blue")
 

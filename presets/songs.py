@@ -1013,7 +1013,6 @@ def preset_radio_song():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
-    # Level=0.70 sur Verse = reference clean (regle calibration OCD validee projet)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
                  overrides={"Gain": 0.28, "Tone": 0.62, "Level": 0.70})
 
@@ -1025,14 +1024,19 @@ def preset_radio_song():
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.62, "Modulation": 0.15, "Mix": 0.16})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="green")
+    # KinkyBoost : Level=0.70 seul insuffisant — OCD seul (sans stacking) nécessite le boost
+    # Actif sur Verse/Chorus/Lead, exclu Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3, 4], color="green")
+
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3, 4],
                     params={1: {"Gain": 0.38, "Level": 0.74}},
                     color="orange")
 
-    # Lead : palm mutes cordes aigues 12e case — Gain remonte + Level eleve pour gonflé
-    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3],
+    # Lead : palm mutes cordes aigues 12e case
+    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3, 4],
                     params={1: {"Gain": 0.52, "Level": 0.85}},
                     color="red")
 

@@ -143,11 +143,13 @@ Voir `docs/pedal_guides/hx_models_reference.md` (section Notes Arbitrator Fuzz).
 
 **Calibration OCD (CompulsiveDrive) — règle de départ obligatoire :**
 L'expérience live du projet a établi que `Level=0.52` (valeur "naïve") est systématiquement
-en dessous de la référence clean. Valeur de départ validée à l'oreille : **Level=0.70** pour le
-snap le plus bas (Verse/Riff), quel que soit le Gain utilisé.
-→ Toujours partir de Level=0.70 sur l'OCD pour le snap le plus faible.
-→ Si d'autres pédales s'ajoutent (KinkyBoost, stacking), ajuster à la baisse si nécessaire.
-→ En audit : tout OCD Level < 0.65 sur le snap principal = signal sous-calibré, à corriger.
+en dessous de la référence clean. La combinaison validée est **Level=0.70 + KinkyBoost (Boost=True)**.
+Ces deux éléments ensemble sont nécessaires pour atteindre la référence clean avec un OCD seul.
+
+→ **Toujours** ajouter un KinkyBoost (Drive=0, Boost=True) sur les snaps OCD.
+→ Partir de Level=0.70 sur l'OCD pour le snap le plus faible.
+→ Si gain stacking (Klon+OCD, TS9+OCD…), le KinkyBoost peut être omis ou réduit.
+→ En audit : absence de KinkyBoost OU OCD Level < 0.65 = signal sous-calibré, à corriger.
 
 ---
 

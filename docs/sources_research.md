@@ -1,5 +1,24 @@
 # Sources de recherche - Presets guitare
 
+## Maneskin - I Wanna Be Your Slave (2021)
+
+### Informations confirmées
+- BPM : 131 | Tonalité : Do# mineur (C#m) | Album : Teatro d'Ira Vol. I (2021)
+- Accordage : standard (E A D G B E)
+- Guitare : Fender Telecaster / Stratocaster (single-coil). Ampli : Marshall 1987X Plexi
+- Verse = Klon + OCD crunch / Chorus = Klon + OCD poussé / Solo = Klon + OCD + DS-1
+- Pédales : Fulltone OCD, Klon (clone), Boss DS-1 (Mad Professor Fire Red Fuzz en live récent)
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://equipboard.com/pros/thomas-raggi | Gear officiel Thomas Raggi |
+| https://www.guitarchalk.com/maneskin-thomas-raggi-amp-settings/ | Amp settings |
+| https://musicstrive.com/maneskin-guitar-tone/ | Ton et pédales |
+| https://tabs.ultimate-guitar.com/tab/3725591 | Accordage, tonalité C#m |
+
+---
+
 ## Clara Luciani - Nue (2021)
 
 ### Informations confirmées

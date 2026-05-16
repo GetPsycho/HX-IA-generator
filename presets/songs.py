@@ -697,15 +697,19 @@ def preset_hysteria():
 def preset_i_wanna_be_your_slave():
     """Maneskin - I Wanna Be Your Slave (131 BPM) — Thomas Raggi
 
-    Son : Telecaster → Klon (Minotaur) → OCD (Compulsive Drive) → Marshall Plexi.
-    Rock glam agressif, saturation stackee.
+    Accordage : standard (E A D G B E). Tonalite : Do# mineur (C#m).
+    Guitare : Fender Telecaster / Stratocaster (single-coils). Ampli : Marshall 1987X Plexi.
 
-    Chaine : Gate > Minotaur > CompulsiveDrive > Reverb
-    Slots  :  0      1          2                  3
+    Klon (Minotaur) + OCD (CompulsiveDrive) always-on : stack Klon→Plexi permanent.
+    Fiche Raggi : Verse = Klon + OCD crunch / Chorus = Klon + OCD pousse.
+    DS-1 (DeezOneVintage) toggle uniquement sur le solo.
 
-    Snap 0 Verse  : Klon crunch + reverb
-    Snap 1 Chorus : Klon + OCD = saturation stackee + reverb
-    Snap 2 Solo   : Klon + OCD pousse + reverb
+    Chaine : Gate > Minotaur > CompulsiveDrive > DeezOneVintage > Reverb
+    Slots  :  0      1          2                  3               4
+
+    Snap 0 Verse  : Klon + OCD crunch leger (Gain=0.38, Level=0.45)
+    Snap 1 Chorus : Klon + OCD pousse (Gain=0.52, Level=0.58)
+    Snap 2 Solo   : Klon + OCD + DS-1 (lead chargé)
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("I Wanna Be Slave", tempo=131.0, styles=["rock", "funk_rock"])
@@ -713,29 +717,38 @@ def preset_i_wanna_be_your_slave():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
-    # Minotaur = Klon Centaur : boost transparent mid-heavy, crunch pour le verse
+    # Minotaur = Klon Centaur : boost mid-heavy transparent, always-on
     pb.add_block("HD2_DistMinotaur", slot=1,
                  overrides={"Gain": 0.48, "Tone": 0.60, "Level": 0.55})
 
-    # Compulsive Drive = OCD : saturation additionnelle pour chorus/solo
-    # enabled_default=False : bypasse en Verse
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
-                 overrides={"Gain": 0.45, "Tone": 0.58, "Level": 0.52})
+    # Compulsive Drive = OCD : always-on (Verse + Chorus + Solo)
+    # Gain/Level varie par snap pour distinguer crunch leger vs pousse
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.45})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # Deez One Vintage = Boss DS-1 : uniquement sur le solo (lead chargé)
+    pb.add_block("HD2_DistDeezOneVintage", slot=3, enabled_default=False,
+                 overrides={"Drive": 0.65, "Tone": 0.52, "Level": 0.70})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.18, "Mix": 0.14})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3], color="yellow")
+    # Verse : Klon + OCD crunch leger (defaults)
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 4], color="yellow")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3], color="orange")
+    # Chorus : OCD pousse
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4],
+                    params={2: {"Gain": 0.52, "Level": 0.58}},
+                    color="orange")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.55}, 2: {"Gain": 0.55, "Level": 0.58}},
+    # Solo : Klon + OCD + DS-1
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4],
+                    params={2: {"Gain": 0.52, "Level": 0.58}},
                     color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

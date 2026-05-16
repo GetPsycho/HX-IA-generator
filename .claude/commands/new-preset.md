@@ -155,6 +155,56 @@ Attends l'accord explicite avant de toucher les fichiers.
 Crée ou met à jour `docs/guitarists/<nom>.md`. Si la recherche révèle des infos
 nouvelles sur un titre déjà documenté, mettre à jour la fiche.
 
+### Fiche morceau
+Crée ou met à jour `docs/songs/<titre_artiste>.md` (snake_case). Format :
+
+```markdown
+# Titre — Artiste (Année)
+
+## Informations générales
+| Champ | Valeur |
+|---|---|
+| Album | ... |
+| BPM | ... |
+| Tonalité | ... (ex: Mi mineur) |
+| Accordage | ... (ex: Standard, Drop D) |
+| Style | ... |
+| Guitariste(s) | ... |
+
+## Structure du morceau
+| Section | Son guitare | Effets actifs | Snap HX | Notes |
+|---|---|---|---|---|
+| Intro | ... | ... | ... | ... |
+| Verse | ... | ... | ... | ... |
+| Chorus | ... | ... | ... | ... |
+| Solo | ... | ... | ... | ... |
+
+## Improvisation
+| Section | Tonalité | Gammes recommandées | Notes |
+|---|---|---|---|
+| Solo | ... (module si différente du reste) | Penta mineure, Dorien, Blues... | ... |
+
+## Preset HX Effects
+**Fichier :** `output/Titre - Artiste.hlx`
+**Chaîne :** `Gate > ... > Reverb`
+
+| Snap | Nom | Son |
+|---|---|---|
+| 0 | ... | ... |
+
+## Sources
+| URL | Contenu |
+|---|---|
+| [Ultimate Guitar](url) | Accordage, structure, tonalité |
+| ... | ... |
+```
+
+**Règles pour la fiche morceau :**
+- Tonalité : chercher sur Ultimate Guitar (indiquée en en-tête des tabs officielles)
+- Section Improvisation : indiquer la tonalité spécifique du solo si elle module,
+  et les gammes jouables (mineur, majeur, pentatonique, blues, Dorien, mixolydien…)
+- Pas de solo → l'indiquer explicitement
+
 ### Preset
 Ajoute `preset_<nom_snake_case>()` dans `presets/songs.py` :
 - Docstring : artiste, tempo, description chaîne signal, rôle de chaque snapshot,

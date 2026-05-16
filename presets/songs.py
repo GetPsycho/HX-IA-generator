@@ -1068,32 +1068,37 @@ def preset_toxicity():
     Chaine : PolyPitch > Gate > SwedishChainsaw > 10BandEQ > Reverb > KinkyBoost
     Slots  :     0          1         2                3           4         5
 
-    Snap 0 Riff   : son principal, palm-muting serré, gate Decay=0.18
-    Snap 1 Chorus : gate plus ouvert (Decay=0.26), sustain plus ample
-    Snap 2 Break  : breakdown syncopé, gate très serré (Decay=0.14)
-    Snap 3 Clean  : PolyPitch actif → accordage en Drop C
+    2 sons : Verse (clean) et Disto (chorus/riff/break).
+    Verse clean : gate souple, reverb plus ouverte — "dirty amp volume rolled back" (simple).
+    Disto : Heavy Dist (Boss Metal Zone Legacy) — memes reglages que How You Remind Me,
+            valides a l'oreille (Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80).
+
+    Snap 0 Verse : clean, gate souple, reverb ouverte (Mix=0.20)
+    Snap 1 Disto : Metal Zone + KWB (chorus/riff/break)
+    Snap 2 Clean : accordage Drop C
+    Snap 3 Clean : accordage Drop C
     """
     pb = PresetBuilder("Toxicity", tempo=115.0, styles=["nu_metal"])
 
-    # Poly Pitch : Drop D → Drop C (-1 ton = -2 semitones)
-    # AutoEQ=1.0 : compensation EQ max pour neutraliser la boue et la perte de clarte du shift
+    # Poly Pitch : Drop D → Drop C (-1 ton = -2 semitones), always-on tous snaps
+    # AutoEQ=1.0 : compensation spectrale max du pitch shift
     # Tracking=3 : qualite polyphonique maximale (accords + power chords)
     pb.add_block("L6SPB_PolyPitch", slot=0,
                  overrides={"Interval": -2, "Cents": 0.0, "AutoEQ": 1.0,
                             "Tracking": 3, "Mix": 1.0})
 
-    # Gate serre pour le palm-muting rapide de Malakian
     pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -46.0, "Decay": 0.18})
 
-    # Swedish Chainsaw = Boss HM-2 : son chainsaw caracteristique SOAD
-    pb.add_block("HD2_DistSwedishChainsaw", slot=2,
-                 overrides={"Drive": 0.90, "Bass": 0.75, "Treble": 0.75,
-                            "Level": 0.55})
+    # Heavy Dist = Boss Metal Zone (Legacy DM4) : memes reglages que How You Remind Me
+    # Valides a l'oreille : massif et tight en Drop C
+    # enabled_default=False : uniquement sur Disto
+    pb.add_block("HD2_DM4HeavyDistortion", slot=2, enabled_default=False,
+                 overrides={"Drive": 0.70, "Bass": 0.80, "Mid": 0.40,
+                            "Treble": 0.55, "Output": 0.80})
 
-    # 10 Band Graphic = MXR 10-Band EQ (Malakian l'utilise dans sa chaine)
-    # Double role : simulation rack Malakian + compensation complementaire PolyPitch
-    # 250Hz: -3 dB (mud du down-pitch) / 2kHz: +2 dB (clarte/attaque recuperee)
+    # 10 Band Graphic : compensation PolyPitch (250Hz mud -3dB, 2kHz clarte +2dB)
+    # + simulation MXR 10-Band EQ de Malakian
     pb.add_block("HD2_EQGraphic10Band", slot=3,
                  overrides={"250Hz": -3.0, "2kHz": 2.0, "Level": 0.0})
 
@@ -1101,26 +1106,27 @@ def preset_toxicity():
                  overrides={"Decay": 0.30, "Predelay": 0.01,
                             "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
 
-    # KinkyBoost : compensation volume HM-2 vs reference clean
+    # KinkyBoost : compensation volume Metal Zone vs reference clean
     pb.add_block("HD2_DistKinkyBoost", slot=5,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    # Riff : palm-muting serré, gate Decay par défaut (0.18)
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3, 4, 5], color="orange")
+    # Verse : clean basique, gate souple, reverb ouverte
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3, 4],
+                    params={1: {"Threshold": -55.0, "Decay": 0.50},
+                            4: {"Mix": 0.20}},
+                    color="green")
 
-    # Chorus : gate légèrement plus ouvert, sustain plus ample
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4, 5],
-                    params={1: {"Decay": 0.26}, 2: {"Level": 0.60}},
-                    color="red")
+    # Disto : Metal Zone + KWB — chorus, riff, break
+    pb.add_snapshot(1, "Disto", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
 
-    # Break : riff syncopé du bridge, gate très serré
-    pb.add_snapshot(2, "Break", blocks_on=[0, 1, 2, 3, 4, 5],
-                    params={1: {"Decay": 0.14}},
-                    color="yellow")
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 1, 3, 4],
+                    params={1: {"Threshold": -55.0, "Decay": 0.50},
+                            4: {"Mix": 0.10}},
+                    color="white")
 
-    # Clean : PolyPitch toujours actif → accordeur voit Drop C
     pb.add_snapshot(3, "Clean", blocks_on=[0, 1, 3, 4],
-                    params={4: {"Mix": 0.10}},
+                    params={1: {"Threshold": -55.0, "Decay": 0.50},
+                            4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

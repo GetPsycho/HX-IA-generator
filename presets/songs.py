@@ -890,10 +890,10 @@ def preset_plug_in_baby():
               Kent Armstrong Motherbucker bridge) — era Origin of Symmetry (2001).
     Ampli : Marshall JCM 2000 DSL 100.
 
-    Industrial Fuzz = Z.Vex Fuzz Factory : fuzz ouverte et sustain avec instabilite douce.
-    Compress=0.10 / Gate=0.10 (tres bas, 6-7h) = fuzz fluide, PAS gated/saccade.
-    Drive=1.0 (max, 3h) / Stability=0.25 (9h) = instabilite douce sans oscillation.
-    MXR Phase 90 = ScriptModPhase Rate=0.15 (sweep lent, confirme sur tout le morceau).
+    Industrial Fuzz = Z.Vex Fuzz Factory : fuzz avec instabilite et bruits parasites caracteristiques.
+    Compress=0.35 / Gate=0.20 : interaction qui produit les bruits/squeals signature.
+    Drive=1.0 (max) / Stability=0.15 : tres bas = instabilite prononcee, oscillations parasites.
+    MXR Phase 90 = ScriptModPhase Rate=0.08 (sweep tres lent, presque imperceptible).
 
     Structure : Riff (intro/transitions/outro) — Chorus — Arpeges (verse, synthé original)
     Pas de solo, pas de tremolo.
@@ -911,16 +911,16 @@ def preset_plug_in_baby():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.20})
 
-    # Industrial Fuzz = Z.Vex Fuzz Factory : fuzz ouverte (pas gated)
-    # Compress=0.10 / Gate=0.10 : tres bas (6-7h) = sustain fluide (source : The Pedal Lab)
-    # Drive=1.0 (3h, max) / Stability=0.25 (9h) = instabilite douce caracteristique
+    # Industrial Fuzz = Z.Vex Fuzz Factory
+    # Compress=0.35 / Gate=0.20 : interaction produit les bruits/squeals caracteristiques
+    # Drive=1.0 (max) / Stability=0.15 : tres bas = instabilite et oscillations parasites
     pb.add_block("HD2_DistIndustrialFuzz", slot=1,
-                 overrides={"Compress": 0.10, "Gate": 0.10, "Drive": 1.0,
-                            "Stability": 0.25, "Oscillator": False, "Level": 0.85})
+                 overrides={"Compress": 0.50, "Gate": 0.20, "Drive": 1.0,
+                            "Stability": 0.08, "Oscillator": False, "Level": 0.76})
 
-    # ScriptModPhase = MXR Phase 90 : sweep lent confirme tout au long du morceau
+    # ScriptModPhase = MXR Phase 90 : sweep tres lent (presque imperceptible en jeu)
     pb.add_block("HD2_PhaserScriptModPhase", slot=2,
-                 overrides={"Rate": 0.15, "Mix": 0.50})
+                 overrides={"Rate": 0.05, "Mix": 0.50})
 
     # 70s Chorus (CE-1) : actif uniquement sur Arpeges — texture synthé/pad
     # Mode chorus (pas vibrato) : Mix=0.65 = epaississement clavier sur arpeges claires
@@ -940,7 +940,7 @@ def preset_plug_in_baby():
 
     pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 4, 5], color="orange")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 4, 5],
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 4, 5],
                     params={4: {"Decay": 0.50, "Mix": 0.22}},
                     color="red")
 

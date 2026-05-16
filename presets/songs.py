@@ -566,15 +566,15 @@ def preset_how_you_remind_me():
     KinkyBoost Bright=True : approxime le caractere brillant/metallique du Fender Super 60
     de Kroeger (clean tres propre et scintillant, pas la chaleur d'un tube).
 
-    Gain stacking Chorus : VerminDist (RAT) → KWB (Mesa Dual Rectifier Modern).
-    RAT : Gain=0.75, Filter=0.40 (coupe aigus = lourdeur) — pousse le Dual Rec.
-    KWB simule canal Modern Dual Rec, EQ neutre — le RAT sculpte le ton.
+    Gain stacking Chorus : Scream808 (TS9, push) → HeavyDist (Boss Metal Zone Legacy).
+    TS9 a faible gain resserre les palm mutes avant le Metal Zone.
+    Metal Zone = saturation metal massive avec EQ active (Bass/Mid/Treble).
 
-    Chaine : Gate > VerminDist > KWB > Chorus70s > Reverb > KinkyBoost
-    Slots  :  0       1           2      3           4         5
+    Chaine : Gate > Scream808 > HeavyDist > Chorus70s > Reverb > KinkyBoost
+    Slots  :  0       1            2           3           4         5
 
     Snap 0 Verse  : clean brillant + KinkyBoost (Bright=True) + reverb (intro/verse/bridge)
-    Snap 1 Chorus : TS9 → Dual Rec (KWB) — saturation serree et definie
+    Snap 1 Chorus : TS9 → Metal Zone — saturation metal lourde
     Snap 2 Arpeges: clean + CE-1 vibrato + KinkyBoost + reverb
     Snap 3 Clean  : accordage / attente
     """
@@ -583,17 +583,18 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Vermin Dist = Pro Co RAT : plus lourd et sature que la TS9, palm mutes definis
-    # Gain=0.75, Filter=0.40 (coupe les aigus = lourdeur) — pousse le Dual Rec
+    # Scream 808 = TS9 : push leger avant le Metal Zone, resserre les palm mutes
+    # Gain bas (0.20) : role de tightener, pas de dist principale
     # enabled_default=False : uniquement sur Chorus
-    pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.40, "Level": 0.65})
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.65, "Level": 0.70})
 
-    # KWB = Benadrian KWB Dist : simule canal Modern Mesa Boogie Dual Rectifier
-    # Bass=0.0, Treble=0.0 : EQ neutre — RAT sculpte le ton via Filter
-    # enabled_default=False : uniquement sur Chorus (gain stacking RAT → Dual Rec)
-    pb.add_block("HD2_DistKWB", slot=2, enabled_default=False,
-                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.85})
+    # Heavy Dist = Boss Metal Zone (Legacy DM4) : saturation metal massive
+    # Drive=0.85, Mid=0.35 (scoop leger), Bass=0.68, Treble=0.58
+    # enabled_default=False : uniquement sur Chorus
+    pb.add_block("HD2_DM4HeavyDistortion", slot=2, enabled_default=False,
+                 overrides={"Drive": 0.85, "Bass": 0.68, "Mid": 0.35,
+                            "Treble": 0.58, "Output": 0.70})
 
     # 70s Chorus (CE-1) en mode Vibrato : ChorusIntensity=0 = vibrato pur (pas de chorus)
     # VibratoRate=0.60 (6), VibratoDepth=0.50 (5), Mix=0.50 (5)

@@ -1448,7 +1448,7 @@ def preset_californication():
     # enabled_default=False : actif uniquement sur Solo (Verse/Chorus = clean)
     # LPHP=True : punch britannique, Gain modere pour crunch leger
     pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.45, "Tone": 0.58, "LPHP": True, "Level": 0.70})
+                 overrides={"Gain": 0.32, "Tone": 0.58, "LPHP": True, "Level": 0.70})
 
     # 70s Chorus = CE-1 : simule le split stereo studio (Showman/JTM-45)
     # En mono, on garde un Mix discret pour le caractere shimmer

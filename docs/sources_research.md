@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## Rage Against The Machine - Killing in the Name (1992)
+
+### Informations confirmées
+- BPM : 85 | Album : Rage Against The Machine (1992)
+- **Accordage : Drop D** (D A D G B E) — Eric descend physiquement le Mi grave
+- Guitare : Fender Telecaster (neck pickup). Ampli : Marshall JCM800 50W canal overdrive
+- Pas de pédale OD ou dist (tout vient de l'ampli cranked)
+- Solo : DigiTech WH-1 Whammy **+2 octaves** ("DJ scratching" effect)
+- Pas de reverb sur l'enregistrement studio (son très sec)
+- Pédale d'expression Eric : Mission Engineering EP1-L6-BK sur EXP 1
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://rolandcorp.com.au/blog/rage-against-the-machines-killing-in-the-name-guitar-tone-dissected | Tone breakdown détaillé |
+| https://guitargearfinder.com/guides/tom-morello-guitar-gear-rig-rage-against-the-machine/ | Gear complet |
+| https://www.ultimate-guitar.com/news/tab_spotlight/killing-in-the-name-is-easy-to-learn-hard-to-play-right-the-gap-lives-in-tom-morellos-right-hand | Drop D confirmé |
+
+---
+
 ## Red Hot Chili Peppers - Californication (1999)
 
 ### Informations confirmées

@@ -126,6 +126,30 @@ class PresetBuilder:
         self._blocks      = {}   # slot -> bloc dict
         self._block_models = {}  # slot -> model_id
         self._snapshots   = {}   # idx  -> snapshot def
+        # EXP pedal bindings : (slot, param_name) -> (exp_id, default_value)
+        # exp_id : 1=EXP 1, 2=EXP 2, 3=EXP 3 (controllers HX Effects)
+        self._exp_bindings = {}
+
+    def bind_exp_pedal(self, slot: int, param_name: str,
+                       exp_id: int = 1, value: float = 0.0) -> "PresetBuilder":
+        """Bind un parametre de bloc a une pedale d'expression externe.
+
+        Args:
+            slot: slot du bloc (0-7)
+            param_name: nom du parametre (ex: "Pedal" pour Pitch Wham/Wah)
+            exp_id: 1=EXP 1, 2=EXP 2, 3=EXP 3
+            value: valeur snapshot par defaut (typiquement 0.0 = talon)
+        """
+        if slot not in self._block_models:
+            raise ValueError(f"Slot {slot} sans bloc")
+        if not (1 <= exp_id <= 3):
+            raise ValueError(f"exp_id doit etre 1-3, recu : {exp_id}")
+        model_id = self._block_models[slot]
+        info = get_catalog()[model_id]
+        if info.param(param_name) is None:
+            raise ValueError(f"Param '{param_name}' inconnu pour {model_id}")
+        self._exp_bindings[(slot, param_name)] = (exp_id, value)
+        return self
 
     def add_block(self, model_id: str, slot: int,
                   enabled_default: bool = True,
@@ -253,6 +277,15 @@ class PresetBuilder:
                     if key not in snap_controlled:
                         snap_controlled[key] = info.param(pname)
 
+        # EXP-bound params : ajouter a snap_controlled s'ils n'y sont pas deja
+        # (ils ont besoin d'une valeur dans chaque snapshot, comme les snap-controlled)
+        for (slot, pname) in self._exp_bindings:
+            key = (slot, pname)
+            if key not in snap_controlled:
+                model_id = self._block_models[slot]
+                info = catalog[model_id]
+                snap_controlled[key] = info.param(pname)
+
         controller_dsp0 = {}
         for (slot, pname), p_info in snap_controlled.items():
             block_key = f"block{slot}"
@@ -264,8 +297,12 @@ class PresetBuilder:
                 pmin, pmax = False, True
             else:
                 pmin, pmax = float(p_info.min), float(p_info.max)
+            # EXP-bound override : utiliser l'exp_id au lieu de 10 (snapshot)
+            ctrl_id = 10
+            if (slot, pname) in self._exp_bindings:
+                ctrl_id = self._exp_bindings[(slot, pname)][0]
             controller_dsp0[block_key][pname] = {
-                "@controller":        10,
+                "@controller":        ctrl_id,
                 "@max":               pmax,
                 "@min":               pmin,
                 "@snapshot_disable":  False,
@@ -278,6 +315,12 @@ class PresetBuilder:
             slot: {k: v for k, v in block.items() if not k.startswith("@")}
             for slot, block in self._blocks.items()
         }
+
+        # EXP-bound params : injecter la valeur par defaut snapshot (typiquement 0.0 = talon)
+        # dans block_base_params, pour que les snaps qui ne l'override pas l'utilisent
+        for (slot, pname), (_exp_id, default_value) in self._exp_bindings.items():
+            if slot in block_base_params:
+                block_base_params[slot][pname] = default_value
 
         # 4 snapshots (limite hardware HX Effects)
         for idx in range(MAX_SNAPSHOTS):

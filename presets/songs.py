@@ -753,6 +753,76 @@ def preset_i_wanna_be_your_slave():
     return pb
 
 
+def preset_killing_in_the_name():
+    """RATM - Killing in the Name (85 BPM) — Tom Morello
+
+    Accordage : Drop D (D A D G B E). Eric descend le Mi grave en Re physiquement.
+    Studio : Fender Telecaster (neck pickup) → Marshall JCM800 50W canal overdrive.
+
+    JCM800 = canal sature permanent → OCD always-on (Gain=0.72, LPHP=True).
+    Reverb tres minimale : l'enregistrement studio est tres sec.
+
+    Solo : Whammy +2 octaves bindee a EXP 1 (Mission EP1-L6-BK port externe).
+    Talon = unisson (0 semitone), pointe = +24 semitones (2 octaves up).
+    Effet "DJ scratching" caracteristique du solo de Morello.
+
+    Chaine : Gate > CompulsiveDrive > PitchWham > SimpleDelay > Reverb > KinkyBoost
+    Slots  :  0      1                 2            3              4         5
+
+    Snap 0 Riff   : OCD cranked + Reverb minimal + KWB (intro/verse/chorus/"Fuck you")
+    Snap 1 Solo   : OCD + Whammy +2oct (EXP 1) + Delay 350ms + Reverb + KWB
+    Snap 2 Clean  : accordage / attente
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Killing in the Name", tempo=85.0,
+                       styles=["alt_metal", "funk_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -48.0, "Decay": 0.22})
+
+    # Compulsive Drive = JCM800 canal overdrive (haut gain permanent)
+    # LPHP=True : punch britannique JCM800
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.72, "Tone": 0.55, "LPHP": True, "Level": 0.70})
+
+    # Pitch Wham : Heel=0 (unisson), Toe=+24 (+2 octaves) — solo seulement
+    # Le param "Pedal" est bindee a EXP 1 (cf. bind_exp_pedal ci-dessous)
+    pb.add_block("HD2_PitchPitchWham", slot=2, enabled_default=False,
+                 overrides={"Heel": 0, "Toe": 24, "Mix": 1.0, "Level": 0.0})
+
+    # Simple Delay : ~350ms (entre 8eme et dotted 8th a 85 BPM) — solo seulement
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
+                 overrides={"Time": 0.35, "Feedback": 0.20, "Mix": 0.25,
+                            "TempoSync1": False})
+
+    # Reverb minimale : "no reverb" sur l'enregistrement studio
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.30, "Predelay": 0.01,
+                            "Tone": 0.55, "Modulation": 0.10, "Mix": 0.08})
+
+    # KinkyBoost : compensation volume (regle calibration OCD)
+    pb.add_block("HD2_DistKinkyBoost", slot=5,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
+    # Bind du param "Pedal" du Pitch Wham (slot 2) a EXP 1
+    # Valeur snapshot par defaut = 0.0 (talon = unisson, pas d'effet pitch)
+    pb.bind_exp_pedal(slot=2, param_name="Pedal", exp_id=1, value=0.0)
+
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 4, 5], color="orange")
+
+    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 def preset_le_reste():
     """Clara Luciani - Le Reste (113 BPM) — Sage (Ambroise Willaume)
 
@@ -1495,6 +1565,7 @@ PRESETS = {
     "How You Remind Me - Nickelback":          preset_how_you_remind_me,
     "Hysteria - Muse":                         preset_hysteria,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
+    "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,
     "No One Knows - QOTSA":                    preset_no_one_knows,
     "Nue - Clara Luciani":                     preset_nue,

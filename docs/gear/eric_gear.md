@@ -2,7 +2,9 @@
 
 ## Guitare
 
-**Fender Stratocaster US** — configuration micros mixte :
+### Principale : Fender Stratocaster US
+
+Configuration micros mixte :
 
 | Position | Micro | Sortie | Usage |
 |---|---|---|---|
@@ -20,6 +22,21 @@
 - Le micro manche (single-coil d'origine) pour les solos : sortie plus faible, son plus doux.
   Le KinkyBoost (boost de solo) est d'autant plus utile pour compenser le delta de volume
   entre le chevalet (rhythm) et le manche (solo).
+
+---
+
+### Seconde guitare : Lag Roxanne
+
+| Caractéristique | Valeur |
+|---|---|
+| Micros | 2 humbuckers Seymour Duncan |
+| Accordage | C standard (C F Bb Eb G C) — baritone tuning |
+| Usage | Morceaux baritone — ex : No One Knows (QOTSA), micro chevalet |
+
+**Incidence :** Cette guitare est dédiée aux morceaux nécessitant un accordage très bas
+(C standard), évitant un pitch shift logiciel qui dégrade le son. Les humbuckers
+Seymour Duncan apportent un caractère plus chaud et épais que la Stratocaster pour
+les sons stoner/rock baritone.
 
 ---
 

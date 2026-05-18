@@ -812,16 +812,23 @@ def preset_le_reste():
 def preset_no_one_knows():
     """Queens of the Stone Age - No One Knows (171 BPM) — Josh Homme
 
-    Son : Epiphone Dot baritone → SD-1 (Level/Tone max, Drive min) → Ampeg V4B.
-    Pas de reverb sur l'enregistrement. Son epais et mid-heavy, palm-muting serre.
+    Accordage : C standard (C F Bb Eb G C) — baritone tuning.
+    Guitare Eric : Lag Roxanne (Seymour Duncan humbuckers, micro chevalet)
+                  — accordee en C standard, pas de pitch shift necessaire.
 
-    Chaine : Gate > StuporOD > EQ10Band > Reverb
-    Slots  :  0      1          2           3
+    Original : Epiphone Dot baritone → SD-1 (Level/Tone max, Drive min) → Ampeg V4B.
+    SD-1 = clean boost mid-heavy (pas de distorsion) avec EQ boost mids 1 kHz.
+    Pas de reverb sur l'enregistrement studio, on garde un mix tres bas pour le live.
 
-    Snap 0 Riff   : SD-1 boost + EQ mids + reverb minimal
-    Snap 1 Chorus : meme son, Level legerement plus haut
-    Snap 2 Solo   : SD-1 + reverb
-    Snap 3 Clean  : accordage / attente
+    2 sons : Principal (Riff/Verse/Chorus) et Solo (plus de Drive).
+
+    Chaine : Gate > StuporOD > EQ10Band > Reverb > KinkyBoost
+    Slots  :  0      1          2           3         4
+
+    Snap 0 Principal : SD-1 boost + EQ mids + Reverb minimal + KWB
+    Snap 1 Solo      : SD-1 (Drive monte) + EQ + Reverb + KWB
+    Snap 2 Clean     : accordage / attente
+    Snap 3 Clean     : accordage / attente
     """
     pb = PresetBuilder("No One Knows", tempo=171.0, styles=["stoner_rock"])
 
@@ -831,9 +838,9 @@ def preset_no_one_knows():
     # Stupor OD = BOSS SD-1 : reglage Josh Homme = Level/Tone max, Drive minimal
     # Son clean boost mid-heavy plutot que distorsion
     pb.add_block("HD2_DistStuporOD", slot=1,
-                 overrides={"Drive": 0.18, "Tone": 0.88, "Level": 0.68})
+                 overrides={"Drive": 0.18, "Tone": 0.88, "Level": 0.70})
 
-    # 10 Band Graphic = MXR 10-Band EQ : boost mids (800 Hz-1 kHz) comme Josh
+    # 10 Band Graphic = MXR/GE-7 EQ : boost mids signature Josh Homme
     pb.add_block("HD2_EQGraphic10Band", slot=2,
                  overrides={"500Hz": 3.0, "1kHz": 4.0, "2kHz": 2.0,
                             "Level": 0.0})
@@ -842,15 +849,20 @@ def preset_no_one_knows():
                  overrides={"Decay": 0.30, "Predelay": 0.01,
                             "Tone": 0.55, "Modulation": 0.10, "Mix": 0.08})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="orange")
+    # KinkyBoost : compensation volume SD-1 vs reference clean (regle calibration)
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Level": 0.75}},
+    pb.add_snapshot(0, "Principal", blocks_on=[0, 1, 2, 3, 4], color="orange")
+
+    # Solo : Drive monte + Level un peu plus haut, EQ conserve (caractere Josh Homme)
+    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4],
+                    params={1: {"Drive": 0.32, "Level": 0.80}},
                     color="red")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3],
-                    params={1: {"Drive": 0.28, "Level": 0.70}},
-                    color="yellow")
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},

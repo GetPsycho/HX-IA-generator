@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## Queens of the Stone Age - No One Knows (2002)
+
+### Informations confirmées
+- BPM : 171 | Album : Songs for the Deaf (2002)
+- **Accordage : C standard (C F Bb Eb G C)** — baritone tuning
+- Guitare originale : Epiphone Dot baritone. Ampli : Ampeg V4B (ampli basse)
+- Guitare Eric : Lag Roxanne (Seymour Duncan humbuckers, micro chevalet) en C standard
+- Pédales : Boss SD-1 (Level/Tone max, Drive min), Boss GE-7 EQ (boost mids 1 kHz)
+- Pas de reverb sur l'enregistrement studio
+- 2 sons : Principal (Riff/Verse/Chorus) + Solo (Drive monté)
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://equipboard.com/pros/josh-homme | Gear officiel |
+| https://www.guitarchalk.com/amp-settings-no-one-knows-queens-of-the-stone-age/ | Amp settings |
+| https://musicstrive.com/josh-homme-guitar-tone/ | Tone et EQ |
+
+---
+
 ## Superbus - Travel The World (2006)
 
 ### Informations confirmées

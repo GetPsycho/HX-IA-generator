@@ -1454,7 +1454,7 @@ def preset_californication():
     # En mono, on garde un Mix discret pour le caractere shimmer
     pb.add_block("HD2_Chorus70sChorus", slot=2,
                  overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
-                            "VibratoDepth": 0.35, "Mix": 0.30, "Level": 1.0})
+                            "VibratoDepth": 0.35, "Mix": 0.18, "Level": 1.0})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.45, "Predelay": 0.02,

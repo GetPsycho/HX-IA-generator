@@ -1421,11 +1421,71 @@ def preset_fly_away():
     return pb
 
 
+def preset_californication():
+    """Red Hot Chili Peppers - Californication (96 BPM) — John Frusciante
+
+    Accordage : standard (E A D G B E). Tonalite : La mineur (Am).
+    Studio : Gretsch White Falcon 1957 → Fender Showman (clean) + Marshall JTM-45 (lead)
+    splittes en stereo par Boss CE-1 Chorus Ensemble. Live = adaptation mono.
+
+    3 sons : Arpege (intro/verse), Chorus (idem son), Solo (crunch JTM-45).
+    Style : arpege/strumming standard (pas funk malgre l'artiste).
+
+    Chaine : Gate > CompulsiveDrive > Chorus70s > Reverb > KinkyBoost
+    Slots  :  0      1                 2            3         4
+
+    Snap 0 Arpege : Clean + CE-1 chorus discret + Reverb (arpeges Am-F intro/verse)
+    Snap 1 Chorus : meme son que Arpege (chorus joue power chords mais reste clair)
+    Snap 2 Solo   : OCD crunch (Plexi/JTM-45) + CE-1 + Reverb + KWB
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Californication", tempo=96.0, styles=["alt_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -54.0, "Decay": 0.40})
+
+    # Compulsive Drive = OCD simule JTM-45 (Plexi britannique)
+    # enabled_default=False : actif uniquement sur Solo (Verse/Chorus = clean)
+    # LPHP=True : punch britannique, Gain modere pour crunch leger
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.45, "Tone": 0.58, "LPHP": True, "Level": 0.70})
+
+    # 70s Chorus = CE-1 : simule le split stereo studio (Showman/JTM-45)
+    # En mono, on garde un Mix discret pour le caractere shimmer
+    pb.add_block("HD2_Chorus70sChorus", slot=2,
+                 overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.35, "Mix": 0.30, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.15, "Mix": 0.16})
+
+    # KinkyBoost : compensation volume OCD sur le snap Solo (regle calibration)
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
+    # Arpege : clean + CE-1 + Reverb (intro et verse, arpeges Am-F)
+    pb.add_snapshot(0, "Arpege", blocks_on=[0, 2, 3], color="green")
+
+    # Chorus : meme son (power chords mais pas satures)
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 2, 3], color="yellow")
+
+    # Solo : OCD crunch + CE-1 + Reverb + KWB
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
     "Be Yourself - Audioslave":                preset_be_yourself,
     "Black Hole Sun - Soundgarden":            preset_black_hole_sun,
+    "Californication - Red Hot Chili Peppers": preset_californication,
     "Creep - Radiohead":                       preset_creep,
     "Dani California - Red Hot Chili Peppers": preset_dani_california,
     "Drive - Incubus":                         preset_drive,

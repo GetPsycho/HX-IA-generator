@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## Red Hot Chili Peppers - Californication (1999)
+
+### Informations confirmées
+- BPM : 96 | Tonalité : La mineur (Am) | Album : Californication (1999)
+- Accordage : standard (E A D G B E)
+- Style : alternative rock (arpèges/strumming standard, pas funk)
+- Studio : Gretsch White Falcon 1957 + Fender Showman (clean) + Marshall JTM-45 (lead)
+- Boss CE-1 splittait le signal stéréo entre les deux amplis
+- Pédales solo : Boss DS-1 ou DS-2 (légère saturation)
+- Structure : arpèges Am-F (intro/verse) + chorus power chords clair + solo crunch léger
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.groundguitar.com/tone-breakdown/john-frusciante-californication-rig/ | Rig détaillé Californication |
+| https://www.guitarchalk.com/californication-amp-settings/ | Amp settings, pédales |
+| https://equipboard.com/pros/john-frusciante | Gear complet Frusciante |
+
+---
+
 ## Queens of the Stone Age - No One Knows (2002)
 
 ### Informations confirmées

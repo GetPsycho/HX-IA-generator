@@ -87,7 +87,8 @@ Strat 1962 (neck pickup, verse)
 | **Dani California** | Verse B (Lick) | Clean + filtre dynamique | MF-101 LPF |
 | **Dani California** | Chorus | Distorsion mid-gain | DS-2 Turbo II |
 | **Dani California** | Solo | Dist + wah | DS-2 + WH-10 (inversée) + Effectron II |
-| Californication | Intro | Clean arpeggios | Aucun |
+| **Californication** | Intro / Verse / Chorus | Clean arpeggios + CE-1 chorus | CE-1 split stéréo Showman/JTM-45 |
+| **Californication** | Solo | Crunch léger (JTM-45) | OCD style Plexi + KWB en live |
 | Can't Stop | Riff | Crunch funky | DS-2 gain modéré |
 
 ---

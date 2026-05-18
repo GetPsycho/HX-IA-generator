@@ -1,5 +1,23 @@
 # Sources de recherche - Presets guitare
 
+## Superbus - Travel The World (2006)
+
+### Informations confirmées
+- BPM : 120 | Tonalité : Si mineur (Bm) | Album : Wow (2006)
+- Accordage : standard (E A D G B E)
+- Guitare : Fender Telecaster. Style : pop-rock français
+- 3 sons distincts (tous saturés) : Lick (intro + transitions) / Verse-Chorus (rythmique) / Bridge (idem plus fort)
+- Pas de son clean dans le morceau, pas de solo distinct
+- Lick = phrase lead avec bends/slides — OCD + Delay 250ms + Reverb ouverte
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://tabs.ultimate-guitar.com/tab/superbus/travel-the-world-chords-630698 | Accordage, tonalité Bm |
+| https://www.adamhall.com/en/blog/interview-with-superbus-guitarist-patrice-focone | Gear Patrice Focone |
+
+---
+
 ## Superbus - Radio Song (2002)
 
 ### Informations confirmées

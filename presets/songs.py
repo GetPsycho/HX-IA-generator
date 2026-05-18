@@ -1193,15 +1193,19 @@ def preset_toxicity():
 def preset_travel_the_world():
     """Superbus - Travel The World (120 BPM) — Patrice Focone
 
-    Son : Fender Telecaster → clean a crunch leger → pop-rock.
-    Chorus CE-1 pour le bridge, delay pour la profondeur.
+    Accordage : standard (E A D G B E). Tonalite : Si mineur (Bm).
+    3 sons distincts, tous satures. Pas de clean utilise dans le morceau
+    (snap Clean conserve pour accordage uniquement).
 
-    Chaine : Gate > CompulsiveDrive > Chorus70s > Reverb
-    Slots  :  0      1                  2           3
+    Lick : bends/slides intro + transitions chorus->verse — necessite delay/reverb pour
+    la presence lead. Verse et Chorus = meme son rythmique. Bridge = idem un peu plus fort.
 
-    Snap 0 Verse  : clean leger + reverb
-    Snap 1 Chorus : OD + reverb
-    Snap 2 Bridge : OD + CE-1 chorus + reverb
+    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb > KinkyBoost
+    Slots  :  0      1                 2               3         4
+
+    Snap 0 Lick   : OCD + Delay 8eme (250ms) + Reverb ouverte + KWB
+    Snap 1 Verse  : OCD rythmique (Gain=0.35, Level=0.70) + Reverb + KWB
+    Snap 2 Bridge : OCD plus fort (Gain=0.42, Level=0.82) + Reverb + KWB
     Snap 3 Clean  : accordage / attente
     """
     pb = PresetBuilder("Travel The World", tempo=120.0, styles=["pop_rock_fr", "funk"])
@@ -1209,23 +1213,36 @@ def preset_travel_the_world():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.25, "Tone": 0.58, "Level": 0.52})
+    # OCD always-on : son sature de base pour tout le morceau (verse/chorus/bridge/lick)
+    # Defaults = settings Verse (Gain=0.35, Level=0.70) — overrides Bridge/Lick par snap
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.35, "Tone": 0.60, "Level": 0.70})
 
-    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
-                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.38,
-                            "VibratoDepth": 0.38, "Mix": 0.40, "Level": 1.0})
+    # SimpleDelay : 8eme note a 120 BPM = 250ms — actif uniquement sur le Lick
+    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+                 overrides={"Time": 0.25, "Feedback": 0.10, "Mix": 0.22,
+                            "TempoSync1": False})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
-                            "Tone": 0.62, "Modulation": 0.18, "Mix": 0.20})
+                            "Tone": 0.62, "Modulation": 0.18, "Mix": 0.18})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 3], color="green")
+    # KinkyBoost : compensation volume OCD (Level=0.70 + KWB = reference clean)
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3],
-                    color="orange")
+    # Lick : OCD + Delay + Reverb ouverte — bends/slides intro et transitions
+    pb.add_snapshot(0, "Lick", blocks_on=[0, 1, 2, 3, 4],
+                    params={1: {"Gain": 0.42, "Level": 0.78},
+                            3: {"Mix": 0.28, "Decay": 0.55}},
+                    color="red")
 
-    pb.add_snapshot(2, "Bridge", blocks_on=[0, 1, 2, 3],
+    # Verse : rythmique sature (defaults OCD)
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 3, 4], color="orange")
+
+    # Bridge : meme que Verse, OCD plus fort
+    pb.add_snapshot(2, "Bridge", blocks_on=[0, 1, 3, 4],
+                    params={1: {"Gain": 0.42, "Level": 0.82}},
                     color="yellow")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

@@ -1190,6 +1190,59 @@ def preset_sex_on_fire():
     return pb
 
 
+def preset_song_2():
+    """Blur - Song 2 (130 BPM) — Graham Coxon
+
+    Accordage : standard (E A D G B E). Tonalite : Fa (F).
+    Guitare : Fender Telecaster '52 (single-coils). Ampli : Marshall.
+
+    Dynamique signature quiet/loud — explosion clean->RAT distortion.
+    Verse = clean direct sur l'ampli (pas d'OD), pas de KinkyBoost = contraste maximal.
+    Chorus "Woo-hoo!" = ProCo RAT (Vermin Dist) cranked + KinkyBoost.
+
+    Chaine : Gate > VerminDist > Reverb > KinkyBoost
+    Slots  :  0      1            2          3
+
+    Snap 0 Verse  : clean direct + reverb legere (intro/verse/pre-chorus)
+    Snap 1 Chorus : RAT (Gain=0.75, Filter=0.55, Level=0.85) + reverb + KWB — explosion
+    Snap 2 Clean  : accordage / attente
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("Song 2", tempo=130.0, styles=["alt_rock", "post_grunge"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -52.0, "Decay": 0.30})
+
+    # Vermin Dist = ProCo RAT 2 : distorsion signature Coxon, son agressif middy
+    # Level=0.85 + KinkyBoost = chorus violemment plus fort que verse (dynamique signature)
+    pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.75, "Filter": 0.55, "Level": 0.85})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.38, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.16})
+
+    # KinkyBoost : EXCLU du Verse = contraste explosif quiet/loud volontaire
+    pb.add_block("HD2_DistKinkyBoost", slot=3, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
+    # Verse : CLEAN pur — contraste dynamique avec le Chorus (comme Lithium)
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2], color="green")
+
+    # Chorus "Woo-hoo!" : explosion RAT + KWB
+    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3], color="red")
+
+    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 def preset_toxicity():
     """System of a Down - Toxicity (115 BPM) — Daron Malakian
 
@@ -1572,6 +1625,7 @@ PRESETS = {
     "Plug In Baby - Muse":                     preset_plug_in_baby,
     "Radio Song - Superbus":                   preset_radio_song,
     "Sex on Fire - Kings of Leon":             preset_sex_on_fire,
+    "Song 2 - Blur":                           preset_song_2,
     "Toxicity - System of a Down":             preset_toxicity,
     "Lithium - Nirvana":                        preset_lithium,
     "Travel The World - Superbus":             preset_travel_the_world,

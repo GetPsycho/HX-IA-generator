@@ -1,5 +1,24 @@
 # Sources de recherche - Presets guitare
 
+## Blur - Song 2 (1997)
+
+### Informations confirmées
+- BPM : 130 | Tonalité : Fa (F) | Album : Blur (1997)
+- Accordage : standard (E A D G B E)
+- Guitare : Fender Telecaster '52. Ampli : Marshall
+- Pédales : ProCo RAT 2 (signature Coxon), DOD FX76 Punkifier
+- Structure : dynamique signature quiet/loud — Verse clean / Chorus "Woo-hoo!" RAT cranked
+- Pas de solo guitare
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/graham-coxon-amp-settings/ | Gear Coxon |
+| https://reverb.com/news/potent-pairings-how-to-sound-like-blur | DOD FX76 Punkifier sur Song 2 |
+| https://tabs.ultimate-guitar.com/tab/blur/song-2-tabs-99059 | Accordage et power chords |
+
+---
+
 ## Rage Against The Machine - Killing in the Name (1992)
 
 ### Informations confirmées

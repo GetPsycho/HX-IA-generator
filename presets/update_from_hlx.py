@@ -25,9 +25,33 @@ from songs import PRESETS
 MODIFIED_DIR = _ROOT / "output" / "modified"
 
 
-def diff_one(preset_name: str) -> bool:
+def _resolve_preset_name(hlx_path) -> str | None:
+    """Resout le nom de preset PRESETS depuis un .hlx :
+    1. nom de fichier exact
+    2. meta.name interne du .hlx (HX Edit utilise le nom court du PresetBuilder)
+       -> chercher une cle PRESETS qui commence par '{meta_name} -'
     """
-    Compare un preset specifique : code Python vs output/modified/<preset_name>.hlx.
+    import json
+    stem = hlx_path.stem
+    if stem in PRESETS:
+        return stem
+    try:
+        with open(hlx_path, encoding="utf-8") as f:
+            meta_name = json.load(f)["data"]["meta"].get("name", "").strip()
+    except Exception:
+        return None
+    if not meta_name:
+        return None
+    # Cherche "{meta_name} - <artist>"
+    for key in PRESETS:
+        if key == meta_name or key.startswith(f"{meta_name} -"):
+            return key
+    return None
+
+
+def diff_one(preset_name: str, hlx_path=None) -> bool:
+    """
+    Compare un preset specifique : code Python vs .hlx (chemin auto si non specifie).
     Retourne True si des differences sont detectees, False sinon.
     """
     if preset_name not in PRESETS:
@@ -35,11 +59,21 @@ def diff_one(preset_name: str) -> bool:
         print(f"  Presets disponibles : {sorted(PRESETS.keys())}")
         return False
 
-    hlx_path = MODIFIED_DIR / f"{preset_name}.hlx"
-    if not hlx_path.exists():
-        print(f"ERREUR : fichier introuvable : {hlx_path}")
-        print(f"  Deposer le .hlx modifie depuis HX Edit dans {MODIFIED_DIR}/")
-        return False
+    if hlx_path is None:
+        # Tente 'PRESETS_key.hlx' puis le nom court (PresetBuilder name)
+        candidate1 = MODIFIED_DIR / f"{preset_name}.hlx"
+        # nom court = partie avant " - "
+        short = preset_name.split(" - ")[0] if " - " in preset_name else preset_name
+        candidate2 = MODIFIED_DIR / f"{short}.hlx"
+        if candidate1.exists():
+            hlx_path = candidate1
+        elif candidate2.exists():
+            hlx_path = candidate2
+        else:
+            print(f"ERREUR : fichier introuvable. Cherche :")
+            print(f"  {candidate1}")
+            print(f"  {candidate2}")
+            return False
 
     # Build du preset version code
     pb = PRESETS[preset_name]()
@@ -74,12 +108,12 @@ def diff_all() -> None:
     print(f"Comparaison de {len(files)} preset(s) modifie(s)...\n")
     total_diffs = 0
     for hlx_path in files:
-        preset_name = hlx_path.stem
-        if preset_name not in PRESETS:
-            print(f"=== {preset_name} ===")
-            print(f"  IGNORE : pas de fonction Python correspondante\n")
+        preset_name = _resolve_preset_name(hlx_path)
+        if preset_name is None:
+            print(f"=== {hlx_path.name} ===")
+            print(f"  IGNORE : impossible de trouver le preset correspondant\n")
             continue
-        if diff_one(preset_name):
+        if diff_one(preset_name, hlx_path=hlx_path):
             total_diffs += 1
 
     print(f"\nTermine. {total_diffs}/{len(files)} preset(s) avec differences.")

@@ -161,10 +161,10 @@ def preset_be_yourself():
     Chaine : Gate > CompulsiveDrive > Ganymede
     Slots  :  0       1                 2
 
-    Snap 0 Intro  : Gain=0.03, Level=0.85, LPHP=False (quasi-clair, reverb large)
-    Snap 1 Verse  : Gain=0.22, Level=0.75, LPHP=False (crunch leger)
-    Snap 2 Chorus : Gain=0.38, Level=0.68, LPHP=True  (crunch present)
-    Snap 3 Solo   : Gain=0.55, Level=0.65, LPHP=True  (lead, wah = pedale externe)
+    Snap 0 Intro  : Gain=0.02, Level=0.92, LPHP=False (quasi-clair, reverb large)
+    Snap 1 Verse  : Gain=0.22, Level=0.80, LPHP=False (crunch leger)
+    Snap 2 Chorus : Gain=0.38, Level=0.80, LPHP=True  (crunch present) — calibre live
+    Snap 3 Solo   : Gain=0.55, Level=0.80, LPHP=True  (lead, wah = pedale externe) — calibre live
     """
     pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["alt_rock"])
 
@@ -175,7 +175,7 @@ def preset_be_yourself():
     # Level variable par snapshot : compense l'output plus faible a faible Gain
     # Base = valeurs du Chorus (snap de reference inter-preset)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.73})
+                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.80})
 
     pb.add_block("HD2_ReverbGanymede", slot=2,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
@@ -197,7 +197,7 @@ def preset_be_yourself():
 
     # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.70}},
+                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.80}},
                     color="red")
 
     return pb

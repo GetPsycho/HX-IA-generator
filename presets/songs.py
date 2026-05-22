@@ -995,6 +995,73 @@ def preset_nue():
     return pb
 
 
+def preset_nappes_test():
+    """TEST - Nappes piano/synth (Nue ou autres)
+
+    Preset de test pour comparer 4 approches de "nappes pad" qui remplacent
+    le son de la guitare par un effet pur (Mix=1.0 sur les blocs synth/shimmer).
+
+    Snap 0 : Shimmer pur — VIC_ReverbShimmer Mix=1.0, octave+quinte, decay tres long.
+             Ambient ethere style U2/Sigur Ros.
+    Snap 1 : Synth String FM4 — pad synth analogique style Roland Juno.
+    Snap 2 : String Theory — pad lush "keys/strings", plus proche timbre clavier.
+    Snap 3 : String Theory + Shimmer combine — pad clavier + ambient layer.
+
+    Chaine : Gate > FM4SynthString > StringTheory > Ganymede > Shimmer
+    Slots  :  0      1                 2              3          4
+
+    Toutes les options ont Mix=1.0 sur le bloc principal pour effacer la guitare seche.
+    """
+    pb = PresetBuilder("Nappes Test", tempo=132.0, styles=["pop_rock_fr"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -54.0, "Decay": 0.40})
+
+    # Synth String FM4 : convertit la guitare en pad strings synth analogique
+    # Mix=1.0 = guitare seche effacee, on n'entend que le synth
+    # Attack=0.7 = swell modere (pad qui monte progressivement)
+    pb.add_block("HD2_FM4SynthString", slot=1, enabled_default=False,
+                 overrides={"Speed": 0.69, "Freq": 0.89, "Attack": 0.70,
+                            "Pitch": 0.0, "Mix": 1.0, "Level": 0.0})
+
+    # String Theory : synth pad "lush keys" — plus proche d'un piano-pad
+    # Wave=4 (sawtooth-ish), Filter=0.76 brillant, Attack=0.63 swell modere
+    pb.add_block("SynthString", slot=2, enabled_default=False,
+                 overrides={"Wave": 4, "Filter": 0.76, "Attack": 0.63,
+                            "Mix": 1.0, "Level": 0.0})
+
+    # Ganymede ambient : ajoute de l'espace derriere les pads (B et C)
+    pb.add_block("HD2_ReverbGanymede", slot=3, enabled_default=False,
+                 overrides={"Decay": 0.65, "Predelay": 0.03,
+                            "Tone": 0.55, "Modulation": 0.20, "Mix": 0.35,
+                            "@trails": True})
+
+    # Shimmer reverb : LA reference pour pad ambient ethere
+    # Shift1=+12 octave, Shift2=+7 quinte, Decay 15s, Mix=1.0 = pads purs
+    pb.add_block("VIC_ReverbShimmer", slot=4, enabled_default=False,
+                 overrides={"Mode": True, "Shift1": 12.0, "Shift2": 7.0,
+                            "Intensity": 0.90, "Feedback": 0.90,
+                            "Mix": 1.0, "Balance": 0.5,
+                            "Decay": 15.0, "Predelay": 0.05,
+                            "Damping": 5000.0, "Diffusion": 0.70,
+                            "Motion": 0.30, "LowCut": 200.0, "HighCut": 8000.0,
+                            "@trails": True})
+
+    # Snap 0 — A : Shimmer pur (ambient ethere)
+    pb.add_snapshot(0, "Shimmer", blocks_on=[0, 4], color="cyan")
+
+    # Snap 1 — B : FM4 Synth String + Ganymede ambient
+    pb.add_snapshot(1, "FM4Str", blocks_on=[0, 1, 3], color="yellow")
+
+    # Snap 2 — C : String Theory + Ganymede ambient
+    pb.add_snapshot(2, "Theory", blocks_on=[0, 2, 3], color="orange")
+
+    # Snap 3 — Combo : String Theory + Shimmer
+    pb.add_snapshot(3, "ThSh", blocks_on=[0, 2, 4], color="red")
+
+    return pb
+
+
 def preset_plug_in_baby():
     """Muse - Plug In Baby (136 BPM) — Matt Bellamy
 
@@ -1622,6 +1689,7 @@ PRESETS = {
     "Le Reste - Clara Luciani":                preset_le_reste,
     "No One Knows - QOTSA":                    preset_no_one_knows,
     "Nue - Clara Luciani":                     preset_nue,
+    "Nappes Test":                             preset_nappes_test,
     "Plug In Baby - Muse":                     preset_plug_in_baby,
     "Radio Song - Superbus":                   preset_radio_song,
     "Sex on Fire - Kings of Leon":             preset_sex_on_fire,

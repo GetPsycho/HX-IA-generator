@@ -2,4 +2,6 @@ __pycache__/
 *.pyc
 output/*.hls
 output/*.hlx
+output/modified/*.hlx
+output/modified/*.hls
 .claude/settings.local.json

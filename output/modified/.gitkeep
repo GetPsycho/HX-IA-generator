@@ -1,0 +1,6 @@
+# Dossier dedie aux .hlx modifies via HX Edit pour comparaison avec le code source.
+# Workflow :
+#   1. Modifier un preset sur l'appareil
+#   2. Exporter via HX Edit dans ce dossier
+#   3. python presets/update_from_hlx.py "<nom du preset>"
+#   4. Voir le diff, puis demander les Edit sur presets/songs.py

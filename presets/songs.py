@@ -28,22 +28,21 @@ def preset_are_you_gonna_go_my_way():
     Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
     Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
 
-    Tube Drive (DM4, always-on) = simulation Gibson Skylark cranked.
-    Preampli tube avec EQ 3-bandes : reproduit le caractere "petit combo tube
-    pousse a fond qui deborde aux limites" — saturation plus charnue qu'un OCD.
-    Matching alternatif Skylark : Tube Drive (saturation tube directe).
+    Gain stacking : Klon (Minotaur) en push + OCD (CompulsiveDrive) en saturation.
+    Le Klon en front pousse l'OCD plus fort -> saturation perçue plus forte
+    sans monter le volume global. KinkyBoost retire (gain stacking le remplace,
+    cf. regle calibration projet : KWB peut etre omis avec gain stacking).
 
-    Drive=0.75 / Output=0.85 sur Riff/Bridge. Solo : Drive=0.85, Output=0.90.
-    EQ : Bass=0.55 (Skylark petit, pas enorme), Mid=0.65 (push mids rock),
-         Treble=0.55 (bite sans ice-pick).
-    KinkyBoost always-on : compense le volume vs reference clean.
+    Klon : Gain=0.40, Level=0.70 (push transparent mid-heavy)
+    OCD  : LPHP=False (chaleur Skylark), Gain=0.65, Level=0.65 (Riff/Bridge)
+    Solo : OCD Gain=0.78, Level=0.75 (plus de push, sustain accru)
 
-    Chaine : Gate > TubeDrive > GrayFlanger > Reverb > KinkyBoost
-    Slots  :  0      1            2             3        4
+    Chaine : Gate > Minotaur > CompulsiveDrive > GrayFlanger > Reverb
+    Slots  :  0      1          2                  3             4
 
-    Snap 0 Riff   : TubeDrive + flanger discret (Mix=0.28) + reverb + boost
-    Snap 1 Bridge : TubeDrive + flanger prononce (Mix=0.48) + reverb + boost
-    Snap 2 Solo   : TubeDrive (Drive=0.85, Output=0.90) + reverb + boost
+    Snap 0 Riff   : Klon + OCD + flanger discret (Mix=0.28) + reverb
+    Snap 1 Bridge : Klon + OCD + flanger prononce (Mix=0.48) + reverb
+    Snap 2 Solo   : Klon + OCD (Gain=0.78) + reverb
     Snap 3 Clean  : reverb seule (accordage, reference volume)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -51,40 +50,37 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Tube Drive (DM4 Legacy) = simulation Gibson Skylark (petit combo tube cranked)
-    # Drive=0.75 : saturation prononcee qui "deborde" naturellement
-    # EQ 3-bandes : Mid=0.65 pour la presence rock, Bass=0.55 modere
-    # enabled_default=True : canal d'ampli permanent
-    pb.add_block("HD2_DM4TubeDrive", slot=1,
-                 overrides={"Drive": 0.75, "Bass": 0.55, "Mid": 0.65,
-                            "Treble": 0.55, "Output": 0.85})
+    # Klon Minotaur = boost transparent mid-heavy en front (push pour l'OCD)
+    pb.add_block("HD2_DistMinotaur", slot=1,
+                 overrides={"Gain": 0.40, "Tone": 0.60, "Level": 0.70})
+
+    # OCD = simulation Gibson Skylark cranked
+    # LPHP=False : chaleur/chime au lieu du punch britannique
+    # Gain=0.65 + push Klon = saturation prononcee qui "deborde" aux limites
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.50, "LPHP": False, "Level": 0.65})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
-    pb.add_block("HD2_FlangerGrayFlanger", slot=2, enabled_default=False,
+    pb.add_block("HD2_FlangerGrayFlanger", slot=3, enabled_default=False,
                  overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.28})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
-
-    # KinkyBoost always-on : compense le deficit d'output du Fuzz Face (+6 dB)
-    # Actif sur tous les snaps distorsion, exclu du snap Clean (reference)
-    pb.add_block("HD2_DistKinkyBoost", slot=4,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
     pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3, 4], color="yellow")
 
     pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3, 4],
-                    params={2: {"Mix": 0.48}},
+                    params={3: {"Mix": 0.48}},
                     color="blue")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4],
-                    params={1: {"Drive": 0.85, "Output": 0.90}},
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 4],
+                    params={2: {"Gain": 0.78, "Level": 0.75}},
                     color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="green")
 
     return pb

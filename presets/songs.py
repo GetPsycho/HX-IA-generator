@@ -28,22 +28,22 @@ def preset_are_you_gonna_go_my_way():
     Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
     Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
 
-    OCD (CompulsiveDrive, always-on) = simulation Gibson Skylark cranked.
-    LPHP=False : caractere chaleureux/chimey d'un petit combo tube
-    (pas le punch britannique JCM800 qu'on aurait avec LPHP=True).
-    Gain=0.60 : pousse dans le territoire crunch+ ou l'OCD commence a "deborder"
-    aux limites — proche d'une fuzz tres legere, conforme au son original.
-    Matching documente dans craig_ross.md : Gibson Skylark -> OCD LPHP=False.
+    Tube Drive (DM4, always-on) = simulation Gibson Skylark cranked.
+    Preampli tube avec EQ 3-bandes : reproduit le caractere "petit combo tube
+    pousse a fond qui deborde aux limites" — saturation plus charnue qu'un OCD.
+    Matching alternatif Skylark : Tube Drive (saturation tube directe).
 
-    Solo : Gain=0.70 (plus de push, sustain accru).
-    KinkyBoost always-on : compense le volume vs reference clean (regle calibration OCD).
+    Drive=0.75 / Output=0.85 sur Riff/Bridge. Solo : Drive=0.85, Output=0.90.
+    EQ : Bass=0.55 (Skylark petit, pas enorme), Mid=0.65 (push mids rock),
+         Treble=0.55 (bite sans ice-pick).
+    KinkyBoost always-on : compense le volume vs reference clean.
 
-    Chaine : Gate > CompulsiveDrive > GrayFlanger > Reverb > KinkyBoost
-    Slots  :  0       1                 2             3        4
+    Chaine : Gate > TubeDrive > GrayFlanger > Reverb > KinkyBoost
+    Slots  :  0      1            2             3        4
 
-    Snap 0 Riff   : OCD + flanger discret (Mix=0.28) + reverb + boost
-    Snap 1 Bridge : OCD + flanger prononce (Mix=0.48) + reverb + boost
-    Snap 2 Solo   : OCD (Gain=0.70) + reverb + boost
+    Snap 0 Riff   : TubeDrive + flanger discret (Mix=0.28) + reverb + boost
+    Snap 1 Bridge : TubeDrive + flanger prononce (Mix=0.48) + reverb + boost
+    Snap 2 Solo   : TubeDrive (Drive=0.85, Output=0.90) + reverb + boost
     Snap 3 Clean  : reverb seule (accordage, reference volume)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -51,12 +51,13 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # OCD = simulation Gibson Skylark (petit combo tube cranked)
-    # LPHP=False : chaleur/chime, pas le punch britannique
-    # Gain=0.60 : crunch+ qui commence a "deborder" comme une fuzz tres legere
+    # Tube Drive (DM4 Legacy) = simulation Gibson Skylark (petit combo tube cranked)
+    # Drive=0.75 : saturation prononcee qui "deborde" naturellement
+    # EQ 3-bandes : Mid=0.65 pour la presence rock, Bass=0.55 modere
     # enabled_default=True : canal d'ampli permanent
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.60, "Tone": 0.50, "LPHP": False, "Level": 0.75})
+    pb.add_block("HD2_DM4TubeDrive", slot=1,
+                 overrides={"Drive": 0.75, "Bass": 0.55, "Mid": 0.65,
+                            "Treble": 0.55, "Output": 0.85})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
@@ -79,7 +80,7 @@ def preset_are_you_gonna_go_my_way():
                     color="blue")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4],
-                    params={1: {"Gain": 0.70}},
+                    params={1: {"Drive": 0.85, "Output": 0.90}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

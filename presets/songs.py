@@ -54,9 +54,9 @@ def preset_are_you_gonna_go_my_way():
 
     # Klon Minotaur = boost transparent mid-heavy en front (push pour l'OCD)
     # Tone=0.45 : adouci pour compenser le Super Distortion brillant
-    # Level=0.78 : leger bump global (affecte tous les snaps dist uniformement)
+    # Level=0.86 : bump global pour atteindre le volume cible (tous snaps uniformement)
     pb.add_block("HD2_DistMinotaur", slot=1,
-                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.78})
+                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
 
     # OCD = simulation Gibson Skylark cranked
     # LPHP=False : chaleur/chime au lieu du punch britannique

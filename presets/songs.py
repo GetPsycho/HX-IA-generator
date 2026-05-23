@@ -34,15 +34,17 @@ def preset_are_you_gonna_go_my_way():
     cf. regle calibration projet : KWB peut etre omis avec gain stacking).
 
     Klon : Gain=0.40, Level=0.70 (push transparent mid-heavy)
-    OCD  : LPHP=False (chaleur Skylark), Gain=0.65, Level=0.65 (Riff/Bridge)
-    Solo : OCD Gain=0.78, Level=0.75 (plus de push, sustain accru)
+    OCD  : LPHP=False (chaleur Skylark), Gain=0.65, Level=0.80 (Riff/Bridge)
+    Solo : OCD Gain=0.78, Level=0.90 (plus de push, sustain accru)
+
+    Flanger uniquement sur Bridge (absent du morceau original sur Riff/Solo).
 
     Chaine : Gate > Minotaur > CompulsiveDrive > GrayFlanger > Reverb
     Slots  :  0      1          2                  3             4
 
-    Snap 0 Riff   : Klon + OCD + flanger discret (Mix=0.28) + reverb
-    Snap 1 Bridge : Klon + OCD + flanger prononce (Mix=0.48) + reverb
-    Snap 2 Solo   : Klon + OCD (Gain=0.78) + reverb
+    Snap 0 Riff   : Klon + OCD + reverb (pas de flanger)
+    Snap 1 Bridge : Klon + OCD + flanger (Mix=0.48) + reverb
+    Snap 2 Solo   : Klon + OCD (Gain=0.78, Level=0.90) + reverb
     Snap 3 Clean  : reverb seule (accordage, reference volume)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -57,8 +59,9 @@ def preset_are_you_gonna_go_my_way():
     # OCD = simulation Gibson Skylark cranked
     # LPHP=False : chaleur/chime au lieu du punch britannique
     # Gain=0.65 + push Klon = saturation prononcee qui "deborde" aux limites
+    # Level=0.80 : monte pour atteindre la reference clean (sans KinkyBoost)
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.65, "Tone": 0.50, "LPHP": False, "Level": 0.65})
+                 overrides={"Gain": 0.65, "Tone": 0.50, "LPHP": False, "Level": 0.80})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
@@ -69,14 +72,16 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3, 4], color="yellow")
+    # Riff : pas de flanger (absent du morceau original sur cette section)
+    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 4], color="yellow")
 
+    # Bridge : flanger active (Mix prononce)
     pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3, 4],
                     params={3: {"Mix": 0.48}},
                     color="blue")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 4],
-                    params={2: {"Gain": 0.78, "Level": 0.75}},
+                    params={2: {"Gain": 0.78, "Level": 0.90}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 4],

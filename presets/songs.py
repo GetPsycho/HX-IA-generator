@@ -850,7 +850,7 @@ def preset_le_reste():
     # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers
     # Sensitivity moderee = attaque snappy sans ecraser les transitoires
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
-                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 6.0})
+                 overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 8.5})
 
     # 70s Chorus = CE-1 : shimmer discret permanent (Verse + Chorus)
     # Memes reglages que Nue pour coherence

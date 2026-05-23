@@ -28,23 +28,22 @@ def preset_are_you_gonna_go_my_way():
     Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
     Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
 
-    Arbitrator Fuzz (Fuzz Face germanium, always-on) = simulation Gibson Skylark.
-    Le Fuzz Face a gain modere reproduit le cote "fuzz sur les bords" d'un petit
-    ampli tube sature : saturation asymetrique, harmoniques impaires.
-    Matching documente : Gibson Skylark -> Arbitrator Fuzz.
+    OCD (CompulsiveDrive, always-on) = simulation Gibson Skylark cranked.
+    LPHP=False : caractere chaleureux/chimey d'un petit combo tube
+    (pas le punch britannique JCM800 qu'on aurait avec LPHP=True).
+    Gain=0.60 : pousse dans le territoire crunch+ ou l'OCD commence a "deborder"
+    aux limites — proche d'une fuzz tres legere, conforme au son original.
+    Matching documente dans craig_ross.md : Gibson Skylark -> OCD LPHP=False.
 
-    Fuzz=0.62 pour Riff/Bridge. Solo : Fuzz=0.50 (bridge, moins baveux).
-    Level=1.0 (max) : le Fuzz Face a un deficit d'output structurel, meme
-    au Level maximum il reste en dessous du signal clean.
-    KinkyBoost always-on (+6 dB) compense ce deficit sur tous les snaps
-    distorsion. Clean snap exclut le KinkyBoost (reference niveau accordage).
+    Solo : Gain=0.70 (plus de push, sustain accru).
+    KinkyBoost always-on : compense le volume vs reference clean (regle calibration OCD).
 
-    Chaine : Gate > ArbitratorFuzz > GrayFlanger > Reverb > KinkyBoost
+    Chaine : Gate > CompulsiveDrive > GrayFlanger > Reverb > KinkyBoost
     Slots  :  0       1                 2             3        4
 
-    Snap 0 Riff   : ArbitratorFuzz + flanger discret (Mix=0.28) + reverb + boost
-    Snap 1 Bridge : ArbitratorFuzz + flanger prononce (Mix=0.48) + reverb + boost
-    Snap 2 Solo   : ArbitratorFuzz (Fuzz=0.50) + reverb + boost — bridge
+    Snap 0 Riff   : OCD + flanger discret (Mix=0.28) + reverb + boost
+    Snap 1 Bridge : OCD + flanger prononce (Mix=0.48) + reverb + boost
+    Snap 2 Solo   : OCD (Gain=0.70) + reverb + boost
     Snap 3 Clean  : reverb seule (accordage, reference volume)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -52,12 +51,12 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Arbitrator Fuzz = Fuzz Face germanium : simulation Gibson Skylark pousse a fond
-    # Fuzz=0.62 : modere — "fuzz sur les bords" sans mur de fuzz
-    # Level=1.0 : max — le Fuzz Face a un output structurellement bas (deficit connu)
-    # enabled_default=True : canal d'ampli permanent (pas de pedale de disto sur ce titre)
-    pb.add_block("HD2_DistArbitratorFuzz", slot=1,
-                 overrides={"Fuzz": 0.62, "Level": 0.90})
+    # OCD = simulation Gibson Skylark (petit combo tube cranked)
+    # LPHP=False : chaleur/chime, pas le punch britannique
+    # Gain=0.60 : crunch+ qui commence a "deborder" comme une fuzz tres legere
+    # enabled_default=True : canal d'ampli permanent
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.60, "Tone": 0.50, "LPHP": False, "Level": 0.75})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
@@ -80,7 +79,7 @@ def preset_are_you_gonna_go_my_way():
                     color="blue")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 3, 4],
-                    params={1: {"Fuzz": 0.70}},
+                    params={1: {"Gain": 0.70}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],

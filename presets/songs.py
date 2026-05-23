@@ -53,15 +53,16 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
     # Klon Minotaur = boost transparent mid-heavy en front (push pour l'OCD)
+    # Tone=0.45 : adouci pour compenser le Super Distortion brillant
     pb.add_block("HD2_DistMinotaur", slot=1,
-                 overrides={"Gain": 0.40, "Tone": 0.60, "Level": 0.70})
+                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.70})
 
     # OCD = simulation Gibson Skylark cranked
     # LPHP=False : chaleur/chime au lieu du punch britannique
+    # Tone=0.35 : adouci pour donner du coffre et reduire les aigus agressifs
     # Gain=0.65 + push Klon = saturation prononcee qui "deborde" aux limites
-    # Level=0.80 : monte pour atteindre la reference clean (sans KinkyBoost)
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.65, "Tone": 0.50, "LPHP": False, "Level": 0.80})
+                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": False, "Level": 0.80})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
@@ -81,7 +82,7 @@ def preset_are_you_gonna_go_my_way():
                     color="blue")
 
     pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 4],
-                    params={2: {"Gain": 0.78, "Level": 0.90}},
+                    params={2: {"Gain": 0.78, "Level": 0.82}},
                     color="red")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 4],

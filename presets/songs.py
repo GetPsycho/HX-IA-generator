@@ -862,17 +862,15 @@ def preset_le_reste():
                  overrides={"Decay": 0.52, "Predelay": 0.02,
                             "Tone": 0.68, "Modulation": 0.12, "Mix": 0.14})
 
-    # Shimmer reverb (test) : couche pad qui dure derriere le Verse
-    # Mix=0.35 = subtle layer, la guitare seche reste audible
-    # Decay=8s = nappes qui se prolongent
-    # enabled_default=False : actif uniquement sur snap "Verse+Shim"
-    pb.add_block("VIC_ReverbShimmer", slot=4, enabled_default=False,
-                 overrides={"Mode": True, "Shift1": 12.0, "Shift2": 7.0,
-                            "Intensity": 0.70, "Feedback": 0.70,
-                            "Mix": 0.35, "Balance": 0.5,
-                            "Decay": 8.0, "Predelay": 0.05,
-                            "Damping": 5000.0, "Diffusion": 0.70,
-                            "Motion": 0.30, "LowCut": 200.0, "HighCut": 7000.0,
+    # Double Tank (test) : plate reverb modulee style dream pop / Cigarette After Sex
+    # Decay long (0.85), Mix substantiel (0.40), modulation audible = son qui dure
+    # SANS shimmer/pitch-shift — juste une grosse reverb lush
+    # enabled_default=False : actif uniquement sur snap "Verse+Amb"
+    pb.add_block("HD2_ReverbDoubleTank", slot=4, enabled_default=False,
+                 overrides={"Decay": 0.85, "Predelay": 0.04,
+                            "Rate": 0.25, "Modulation": 0.50,
+                            "Mix": 0.40, "Level": 0.0,
+                            "LowCut": 200.0, "HighCut": 8000.0,
                             "@trails": True})
 
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
@@ -881,8 +879,8 @@ def preset_le_reste():
                     params={3: {"Mix": 0.22, "Decay": 0.60}},
                     color="yellow")
 
-    # Test : Verse + Shimmer (nappes qui durent derriere le jeu)
-    pb.add_snapshot(2, "Verse+Shim", blocks_on=[0, 1, 2, 3, 4], color="cyan")
+    # Test : Verse + Double Tank (reverb dream pop qui dure derriere le jeu)
+    pb.add_snapshot(2, "Verse+Amb", blocks_on=[0, 1, 2, 3, 4], color="cyan")
 
     pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},

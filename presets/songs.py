@@ -900,10 +900,16 @@ def preset_no_one_knows():
                   — accordee en C standard, pas de pitch shift necessaire.
 
     Original : Epiphone Dot baritone → SD-1 (Level/Tone max, Drive min) → Ampeg V4B.
-    SD-1 = clean boost mid-heavy (pas de distorsion) avec EQ boost mids 1 kHz.
-    Pas de reverb sur l'enregistrement studio, on garde un mix tres bas pour le live.
+    Chez Homme la saturation venait de l'Ampeg V4B pousse + SD-1 = clean boost mid-heavy.
 
-    2 sons : Principal (Riff/Verse/Chorus) et Solo (plus de Drive).
+    Adaptation rig d'Eric (Mesa clean qui ne sature pas) : SD-1 Drive=0.65 fournit
+    directement la saturation. Tone et Level restent eleves (philosophie Homme conservee
+    pour le caractere mid-heavy/percutant).
+
+    EQ 10-Band : boost mids 1 kHz (signature Josh Homme).
+    Pas de reverb sur l'enregistrement studio, mix tres bas pour le live.
+
+    2 sons : Principal (Riff/Verse/Chorus) et Solo (Drive monte).
 
     Chaine : Gate > StuporOD > EQ10Band > Reverb > KinkyBoost
     Slots  :  0      1          2           3         4
@@ -918,10 +924,11 @@ def preset_no_one_knows():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Stupor OD = BOSS SD-1 : reglage Josh Homme = Level/Tone max, Drive minimal
-    # Son clean boost mid-heavy plutot que distorsion
+    # Stupor OD = BOSS SD-1 : adapte au rig d'Eric (Mesa clean, pas d'Ampeg V4B sature)
+    # Drive=0.65 (vs philo Homme Drive=0.18) : SD-1 fournit la saturation principale
+    # car le Mesa clean ne sature pas (contrairement a la chaine originale Homme)
     pb.add_block("HD2_DistStuporOD", slot=1,
-                 overrides={"Drive": 0.18, "Tone": 0.88, "Level": 0.70})
+                 overrides={"Drive": 0.65, "Tone": 0.88, "Level": 0.70})
 
     # 10 Band Graphic = MXR/GE-7 EQ : boost mids signature Josh Homme
     pb.add_block("HD2_EQGraphic10Band", slot=2,
@@ -940,7 +947,7 @@ def preset_no_one_knows():
 
     # Solo : Drive monte + Level un peu plus haut, EQ conserve (caractere Josh Homme)
     pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Drive": 0.32, "Level": 0.80}},
+                    params={1: {"Drive": 0.78, "Level": 0.80}},
                     color="red")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 3],

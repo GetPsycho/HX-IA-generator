@@ -104,8 +104,12 @@ def preset_beggin():
     Chaine : Gate > RedSqueeze > CompulsiveDrive > Ganymede
     Slots  :  0      1            2                  3
 
-    Snap 0 Verse  : OCD Gain=0.18 (funky minimal, attaque seche)
-    Snap 1 Refrain: OCD Gain=0.24 (meme ton, legerement plus de corps)
+    Snap 0 Verse  : OCD Gain=0.30 (crunch leger funky, valide via analyse audio)
+    Snap 1 Refrain: OCD Gain=0.40 (plus de corps, validation analyse audio sur stem)
+
+    Note : l'analyse audio v3.2 a revele un crunch perceptible sur le stem
+    guitare original (saturation 0.60). Gain remonte par rapport a la version
+    initiale (0.18/0.24) qui sous-evaluait la saturation de Raggi.
     """
     pb = PresetBuilder("Beggin'", tempo=134.0, styles=["rock", "funk_rock"])
 
@@ -117,11 +121,11 @@ def preset_beggin():
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
                  overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
 
-    # OCD always-on : grain minimal fondu dans le compresseur, pas de saturation
+    # OCD always-on : crunch funky leger (validé via analyse audio v3.2)
     # LPHP=True (HP) : attaque percussive et seche, colle avec le Mesa Boogie tight
     # Gain variable par snapshot
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.18, "Tone": 0.60, "LPHP": True, "Level": 0.77})
+                 overrides={"Gain": 0.30, "Tone": 0.60, "LPHP": True, "Level": 0.77})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
@@ -130,7 +134,7 @@ def preset_beggin():
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
 
     pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 2, 3],
-                    params={2: {"Gain": 0.24}},
+                    params={2: {"Gain": 0.40}},
                     color="orange")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 3],

@@ -18,69 +18,103 @@
     "bpm_int": 129,
     "n_beats": 448
   },
-  "sections": [
-    {
-      "start": 0.09,
-      "end": 17.79,
-      "duration_s": 17.69,
-      "cluster": "A",
-      "label": "intro"
+  "sections": {
+    "segments": [
+      {
+        "start": 0.09,
+        "end": 17.79,
+        "duration_s": 17.69,
+        "cluster": "A",
+        "label": "intro",
+        "label_certainty": "high"
+      },
+      {
+        "start": 17.79,
+        "end": 30.46,
+        "duration_s": 12.68,
+        "cluster": "D",
+        "label": "bridge_1",
+        "label_certainty": "low"
+      },
+      {
+        "start": 30.46,
+        "end": 39.29,
+        "duration_s": 8.83,
+        "cluster": "C",
+        "label": "bridge_2",
+        "label_certainty": "low"
+      },
+      {
+        "start": 39.29,
+        "end": 81.25,
+        "duration_s": 41.96,
+        "cluster": "A",
+        "label": "chorus_1",
+        "label_certainty": "high"
+      },
+      {
+        "start": 81.25,
+        "end": 153.32,
+        "duration_s": 72.07,
+        "cluster": "A",
+        "label": "chorus_2",
+        "label_certainty": "high"
+      },
+      {
+        "start": 153.32,
+        "end": 161.63,
+        "duration_s": 8.31,
+        "cluster": "A",
+        "label": "chorus_3",
+        "label_certainty": "high"
+      },
+      {
+        "start": 161.63,
+        "end": 169.95,
+        "duration_s": 8.32,
+        "cluster": "B",
+        "label": "bridge_3",
+        "label_certainty": "low"
+      },
+      {
+        "start": 169.95,
+        "end": 211.93,
+        "duration_s": 41.98,
+        "cluster": "A",
+        "label": "chorus_4_outro",
+        "label_certainty": "medium"
+      }
+    ],
+    "cluster_summary": {
+      "A": {
+        "occurrences": 5,
+        "total_duration_s": 182.01,
+        "is_intro": true,
+        "is_outro": true
+      },
+      "D": {
+        "occurrences": 1,
+        "total_duration_s": 12.68,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "C": {
+        "occurrences": 1,
+        "total_duration_s": 8.83,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "B": {
+        "occurrences": 1,
+        "total_duration_s": 8.32,
+        "is_intro": false,
+        "is_outro": false
+      }
     },
-    {
-      "start": 17.79,
-      "end": 30.46,
-      "duration_s": 12.68,
-      "cluster": "D",
-      "label": "verse_1"
-    },
-    {
-      "start": 30.46,
-      "end": 35.6,
-      "duration_s": 5.14,
-      "cluster": "E",
-      "label": "bridge_1"
-    },
-    {
-      "start": 35.6,
-      "end": 81.25,
-      "duration_s": 45.65,
-      "cluster": "A",
-      "label": "chorus_1"
-    },
-    {
-      "start": 81.25,
-      "end": 85.47,
-      "duration_s": 4.22,
-      "cluster": "D",
-      "label": "verse_2"
-    },
-    {
-      "start": 85.47,
-      "end": 153.32,
-      "duration_s": 67.85,
-      "cluster": "A",
-      "label": "chorus_2"
-    },
-    {
-      "start": 153.32,
-      "end": 161.63,
-      "duration_s": 8.31,
-      "cluster": "A",
-      "label": "chorus_3"
-    },
-    {
-      "start": 161.63,
-      "end": 168.11,
-      "duration_s": 6.48,
-      "cluster": "B",
-      "label": "bridge_2"
-    },
-    {
-      "start": 168.11,
-      "end": 211.93,
-      "duration_s": 43.82,
-      "cluster": "A",
-      "label": "chorus_4"
-    }
-  ]
+    "notes": [
+      "Le cluster 'A' (intro) apparait 5 fois au total — probablement le riff signature recurrent (intro + transitions + outro). L'heuristique le labellise 'chorus_N' apres l'intro, mais il peut s'agir de 'instrumental' ou 'riff_return' selon le morceau.",
+      "Segments courts (<10s) detectes en positions [2, 5, 6] : peuvent etre des transitions/pre-chorus plutot que de vraies sections.",
+      "Clusters singleton dans le milieu : ['D', 'C', 'B'] — souvent des bridges ou sections uniques."
+    ]
+  }
 }

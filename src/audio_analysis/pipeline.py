@@ -43,8 +43,8 @@ def analyze_file(audio_path: str, sr: int = 22050) -> dict:
     key_info = detect_key(y, sr)
     tempo_info = detect_tempo(y, sr)
 
-    # Detecteur v3.1
-    sections = detect_sections(y, sr)
+    # Detecteur v3.1 : retourne {"segments": [...], "cluster_summary": {...}, "notes": [...]}
+    sections_info = detect_sections(y, sr)
 
     return {
         "pipeline_version": PIPELINE_VERSION,
@@ -54,5 +54,5 @@ def analyze_file(audio_path: str, sr: int = 22050) -> dict:
         "sample_rate":      sr,
         "key":              key_info,
         "tempo":            tempo_info,
-        "sections":         sections,
+        "sections":         sections_info,
     }

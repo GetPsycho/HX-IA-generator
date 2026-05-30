@@ -58,15 +58,41 @@ def main():
     print(f"  Tempo    : {result['tempo']['bpm']:.1f} BPM   "
           f"(arrondi : {result['tempo']['bpm_int']})")
     print(f"  Beats    : {result['tempo']['n_beats']}")
-    if "sections" in result and result["sections"]:
+    sections_info = result.get("sections", {})
+    segments = sections_info.get("segments", []) if isinstance(sections_info, dict) else []
+    if segments:
         print()
-        print(f"  Sections detectees ({len(result['sections'])}) :")
-        for i, s in enumerate(result["sections"]):
+        print(f"  Sections detectees ({len(segments)}) :")
+        for i, s in enumerate(segments):
             start = _fmt_time(s["start"])
             end = _fmt_time(s["end"])
             dur = s["duration_s"]
+            cert = s.get("label_certainty", "?")
             print(f"    [{i}] {start} -> {end} ({dur:>5.1f}s) "
-                  f"cluster={s['cluster']}  label={s['label']}")
+                  f"cluster={s['cluster']}  label={s['label']:<20} [{cert}]")
+
+        # Resume des clusters
+        cluster_summary = sections_info.get("cluster_summary", {})
+        if cluster_summary:
+            print()
+            print("  Resume des clusters :")
+            for c, info in sorted(cluster_summary.items()):
+                tags = []
+                if info.get("is_intro"):
+                    tags.append("intro")
+                if info.get("is_outro"):
+                    tags.append("outro")
+                tag_str = f" [{', '.join(tags)}]" if tags else ""
+                print(f"    {c} : {info['occurrences']}x  "
+                      f"total {info['total_duration_s']:.1f}s{tag_str}")
+
+        # Notes interpretatives
+        notes = sections_info.get("notes", [])
+        if notes:
+            print()
+            print("  Notes interpretatives :")
+            for note in notes:
+                print(f"    - {note}")
     print("=" * 65)
 
     # Sauvegarde JSON

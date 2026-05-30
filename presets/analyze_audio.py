@@ -129,6 +129,31 @@ def main():
             else:
                 print(f"    Delay      : non detecte")
 
+    # Section-by-section effects
+    section_effects = result.get("section_effects", [])
+    if section_effects:
+        print()
+        print("  Effets par section (intensite / saturation / EQ) :")
+        for se in section_effects:
+            label = se.get("label", "?")
+            cluster = se.get("cluster", "?")
+            start_t = _fmt_time(se.get("start", 0))
+            end_t = _fmt_time(se.get("end", 0))
+            intensity = se.get("intensity", "?")
+            rms_ratio = se.get("rms_ratio", 0)
+            int_str = f"int={intensity:<10}({rms_ratio:.2f})"
+            effects = se.get("effects")
+            if effects is None:
+                reason = se.get("skip_reason", "?")
+                print(f"    [{cluster}] {label:<20} {start_t}->{end_t} : {int_str}  SKIP ({reason})")
+                continue
+            sat = effects.get("saturation", {})
+            eq = effects.get("eq", {})
+            sat_str = f"sat={sat.get('level_label', '?'):<8}({sat.get('level_0_1', 0):.2f})"
+            eq_str = f"eq={eq.get('balance', '?')}"
+            print(f"    [{cluster}] {label:<20} {start_t}->{end_t} : "
+                  f"{int_str}  {sat_str}  {eq_str}")
+
     print("=" * 65)
 
     # Sauvegarde JSON

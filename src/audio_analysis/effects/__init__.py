@@ -17,6 +17,7 @@ from .eq import detect_eq
 from .compression import detect_compression
 from .saturation import detect_saturation
 from .delay import detect_delay
+from .section_effects import analyze_effects_per_section
 
 
 def analyze_effects(y, sr: int) -> dict:
@@ -44,5 +45,6 @@ def analyze_effects(y, sr: int) -> dict:
     }
 
 
-__all__ = ["analyze_effects", "detect_eq", "detect_compression",
+__all__ = ["analyze_effects", "analyze_effects_per_section",
+           "detect_eq", "detect_compression",
            "detect_saturation", "detect_delay"]

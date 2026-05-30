@@ -15,7 +15,7 @@ from .tempo_detection import detect_tempo
 from .section_detection import detect_sections
 
 # Version du pipeline (incrementer a chaque ajout d'une nouvelle etape)
-PIPELINE_VERSION = "3.2.0"
+PIPELINE_VERSION = "3.2.1"
 
 
 def analyze_file(audio_path: str, sr: int = 22050,
@@ -61,13 +61,29 @@ def analyze_file(audio_path: str, sr: int = 22050,
     if use_demucs:
         try:
             from .source_separation import separate_guitar
-            from .effects import analyze_effects
+            from .effects import analyze_effects, analyze_effects_per_section
 
             guitar_audio, guitar_sr = separate_guitar(audio_path)
             print(f"  [effects] Analyse des effets sur stem guitare isole...")
+
+            # Analyse globale (moyenne sur 30s centrale)
             effects_info = analyze_effects(guitar_audio, guitar_sr)
             result["effects"] = effects_info
             result["effects_source"] = "demucs htdemucs_6s guitar stem"
+
+            # Analyse par section (necessite sections detectees)
+            segments = sections_info.get("segments", []) if isinstance(sections_info, dict) else []
+            if segments:
+                print(f"  [effects] Analyse par section ({len(segments)} sections)...")
+                # convertir guitar_audio en mono pour l'analyse par section
+                if guitar_audio.ndim == 2 and guitar_audio.shape[0] == 2:
+                    guitar_mono = guitar_audio.mean(axis=0)
+                else:
+                    guitar_mono = guitar_audio.flatten() if guitar_audio.ndim > 1 else guitar_audio
+                section_effects = analyze_effects_per_section(
+                    guitar_mono, guitar_sr, segments)
+                result["section_effects"] = section_effects
+
         except Exception as e:
             print(f"  [effects] WARNING : separation/analyse echouee ({e})")
             print(f"  [effects] Fallback : analyse sur le mix complet")

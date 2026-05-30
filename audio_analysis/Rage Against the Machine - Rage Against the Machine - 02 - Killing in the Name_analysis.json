@@ -1,0 +1,290 @@
+{
+  "pipeline_version": "3.2.0",
+  "file": "audio_analysis/sources/Rage Against the Machine - Rage Against the Machine - 02 - Killing in the Name.flac",
+  "filename": "Rage Against the Machine - Rage Against the Machine - 02 - Killing in the Name.flac",
+  "duration_s": 313.94,
+  "sample_rate": 22050,
+  "key": {
+    "tonic": "D",
+    "tonic_fr": "Re",
+    "mode": "major",
+    "name": "D major",
+    "name_fr": "Re majeur",
+    "confidence": 0.035,
+    "score": 0.774
+  },
+  "tempo": {
+    "bpm": 172.3,
+    "bpm_int": 172,
+    "n_beats": 899
+  },
+  "sections": {
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 8.99,
+        "duration_s": 8.99,
+        "cluster": "A",
+        "label": "intro",
+        "label_certainty": "high"
+      },
+      {
+        "start": 8.99,
+        "end": 17.58,
+        "duration_s": 8.59,
+        "cluster": "C",
+        "label": "chorus_1",
+        "label_certainty": "high"
+      },
+      {
+        "start": 17.58,
+        "end": 26.15,
+        "duration_s": 8.57,
+        "cluster": "D",
+        "label": "bridge_1",
+        "label_certainty": "low"
+      },
+      {
+        "start": 26.15,
+        "end": 39.61,
+        "duration_s": 13.46,
+        "cluster": "D",
+        "label": "bridge_2",
+        "label_certainty": "low"
+      },
+      {
+        "start": 39.61,
+        "end": 47.69,
+        "duration_s": 8.08,
+        "cluster": "B",
+        "label": "verse_1",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 47.69,
+        "end": 55.73,
+        "duration_s": 8.04,
+        "cluster": "B",
+        "label": "verse_2",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 55.73,
+        "end": 64.92,
+        "duration_s": 9.19,
+        "cluster": "C",
+        "label": "chorus_2",
+        "label_certainty": "high"
+      },
+      {
+        "start": 64.92,
+        "end": 73.03,
+        "duration_s": 8.11,
+        "cluster": "C",
+        "label": "chorus_3",
+        "label_certainty": "high"
+      },
+      {
+        "start": 73.03,
+        "end": 81.5,
+        "duration_s": 8.47,
+        "cluster": "C",
+        "label": "chorus_4",
+        "label_certainty": "high"
+      },
+      {
+        "start": 81.5,
+        "end": 91.23,
+        "duration_s": 9.73,
+        "cluster": "C",
+        "label": "chorus_5",
+        "label_certainty": "high"
+      },
+      {
+        "start": 91.23,
+        "end": 100.17,
+        "duration_s": 8.94,
+        "cluster": "C",
+        "label": "chorus_6",
+        "label_certainty": "high"
+      },
+      {
+        "start": 100.17,
+        "end": 109.02,
+        "duration_s": 8.85,
+        "cluster": "B",
+        "label": "verse_3",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 109.02,
+        "end": 117.1,
+        "duration_s": 8.08,
+        "cluster": "B",
+        "label": "verse_4",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 117.1,
+        "end": 125.41,
+        "duration_s": 8.31,
+        "cluster": "B",
+        "label": "verse_5",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 125.41,
+        "end": 133.56,
+        "duration_s": 8.15,
+        "cluster": "C",
+        "label": "chorus_7",
+        "label_certainty": "high"
+      },
+      {
+        "start": 133.56,
+        "end": 142.08,
+        "duration_s": 8.52,
+        "cluster": "B",
+        "label": "verse_6",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 142.08,
+        "end": 150.91,
+        "duration_s": 8.83,
+        "cluster": "C",
+        "label": "chorus_8",
+        "label_certainty": "high"
+      },
+      {
+        "start": 150.91,
+        "end": 159.59,
+        "duration_s": 8.68,
+        "cluster": "C",
+        "label": "chorus_9",
+        "label_certainty": "high"
+      },
+      {
+        "start": 159.59,
+        "end": 168.0,
+        "duration_s": 8.41,
+        "cluster": "B",
+        "label": "verse_7",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 168.0,
+        "end": 178.1,
+        "duration_s": 10.1,
+        "cluster": "A",
+        "label": "bridge_3",
+        "label_certainty": "low"
+      },
+      {
+        "start": 178.1,
+        "end": 187.59,
+        "duration_s": 9.49,
+        "cluster": "C",
+        "label": "chorus_10",
+        "label_certainty": "high"
+      },
+      {
+        "start": 187.59,
+        "end": 252.56,
+        "duration_s": 64.97,
+        "cluster": "A",
+        "label": "bridge_4",
+        "label_certainty": "low"
+      },
+      {
+        "start": 252.56,
+        "end": 261.6,
+        "duration_s": 9.04,
+        "cluster": "E",
+        "label": "bridge_5",
+        "label_certainty": "low"
+      },
+      {
+        "start": 261.6,
+        "end": 313.94,
+        "duration_s": 52.34,
+        "cluster": "A",
+        "label": "outro",
+        "label_certainty": "high"
+      }
+    ],
+    "cluster_summary": {
+      "A": {
+        "occurrences": 4,
+        "total_duration_s": 136.4,
+        "is_intro": true,
+        "is_outro": true
+      },
+      "C": {
+        "occurrences": 10,
+        "total_duration_s": 88.18,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "D": {
+        "occurrences": 2,
+        "total_duration_s": 22.03,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "B": {
+        "occurrences": 7,
+        "total_duration_s": 58.29,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "E": {
+        "occurrences": 1,
+        "total_duration_s": 9.04,
+        "is_intro": false,
+        "is_outro": false
+      }
+    },
+    "notes": [
+      "Le cluster 'A' (intro) apparait 4 fois au total — probablement le riff signature recurrent (intro + transitions + outro). L'heuristique le labellise 'chorus_N' apres l'intro, mais il peut s'agir de 'instrumental' ou 'riff_return' selon le morceau.",
+      "Segments courts (<10s) detectes en positions [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22] : peuvent etre des transitions/pre-chorus plutot que de vraies sections.",
+      "Clusters singleton dans le milieu : ['E'] — souvent des bridges ou sections uniques."
+    ]
+  },
+  "effects": {
+    "eq": {
+      "bands_db": {
+        "low": 2.1,
+        "low_mid": 0.6,
+        "mid": 1.2,
+        "high_mid": -0.4,
+        "high": -34.0
+      },
+      "balance": "warm",
+      "method": "FFT energy per band, dB relative to uniform distribution"
+    },
+    "compression": {
+      "crest_factor_db": 18.4,
+      "dynamic_range_db": 7.5,
+      "level": "light",
+      "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+    },
+    "saturation": {
+      "level_0_1": 0.68,
+      "level_label": "high",
+      "harmonic_ratio": 0.886,
+      "crest_short_db": 9.7,
+      "flatness_mid": 0.734,
+      "spectral_centroid_hz": 1593.3,
+      "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+    },
+    "delay": {
+      "detected": true,
+      "time_ms": 54.2,
+      "confidence": 0.22,
+      "peak_strength": 0.292,
+      "method": "autocorrelation peak in 50-1500ms range"
+    }
+  },
+  "effects_source": "demucs htdemucs_6s guitar stem"
+}

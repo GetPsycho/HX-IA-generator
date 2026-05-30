@@ -1,79 +1,122 @@
 """
 saturation.py
-Estimation du niveau de saturation/distortion via features spectrales.
+Estimation du niveau de saturation/distortion d'un signal guitare.
 
-Approche multi-indices :
-- Spectral flatness : signal sature -> plus de plat (energie repartie sur toutes freqs)
-- Spectral centroid eleve : saturation ajoute des harmoniques hautes
-- Zero-crossing rate eleve : saturation = plus de transitions par seconde
-- Harmonics-to-noise ratio (HNR) : saturation reduit le HNR
+Approche (validee sur 3 morceaux references) :
+- Harmonic-to-Percussive Ratio (H_ratio) : la saturation cree des harmoniques
+  soutenues -> ratio energie harmonique / total eleve
+- Crest factor sur fenetres courtes (50ms) : la saturation compresse les
+  transitoires -> crest plus bas
+- Spectral flatness en bande mid (500-3000 Hz) : zone des harmoniques
+  guitare independante du tuning, plus plate = plus sature
 
-Limites :
-- Approximations sur signal mixe (le HM-2 d'un autre instrument peut polluer)
-- Sur stem guitare isole (Demucs), bien plus fiable
+Score combine sur [0, 1] avec poids ponderes :
+- H_ratio : 0.50  (l'indicateur le plus discriminant)
+- CrestSW : 0.30
+- FlatMid : 0.20
+
+NB : sur signal mixe (non isole par Demucs), les valeurs sont polluees par
+basse/batterie. Ce detecteur est calibre pour fonctionner sur stem guitare.
 """
 
 import numpy as np
 import librosa
 
 
-def detect_saturation(y: np.ndarray, sr: int) -> dict:
+def detect_saturation(y: np.ndarray, sr: int,
+                       analysis_window_s: float = 30.0) -> dict:
     """
-    Estime le niveau de saturation/distortion d'un signal.
+    Estime le niveau de saturation/distortion d'un signal guitare.
+
+    Args:
+        y  : signal audio mono
+        sr : sample rate
+        analysis_window_s : fenetre d'analyse au milieu du morceau (defaut 30s)
+                            -> plus rapide et representatif de l'etat permanent
 
     Returns:
         {
-          "level_0_1":          0.65,
-          "level_label":        "moderate" | "low" | "high" | "extreme",
-          "spectral_flatness":  0.32,
-          "spectral_centroid_hz": 2150.0,
-          "zero_crossing_rate": 0.12,
-          "method":             "...",
+          "level_0_1":        0.55,
+          "level_label":      "moderate" | "low" | "high" | "extreme",
+          "harmonic_ratio":   0.886,
+          "crest_short_db":   9.7,
+          "flatness_mid":     0.73,
+          "spectral_centroid_hz": 2045.0,
+          "method":           "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)",
         }
     """
     if len(y) == 0:
         return {"level_0_1": 0.0, "level_label": "unknown",
                 "method": "empty signal"}
 
-    # Spectral flatness (mediane sur le temps)
-    flatness = librosa.feature.spectral_flatness(y=y)
-    flatness_med = float(np.median(flatness))
+    # Prendre une fenetre centrale (rapide + representatif de l'etat regime)
+    win_samples = int(analysis_window_s * sr)
+    if len(y) > win_samples:
+        mid = len(y) // 2
+        seg = y[max(0, mid - win_samples // 2): mid + win_samples // 2]
+    else:
+        seg = y
 
-    # Spectral centroid (mediane)
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr)
-    centroid_med = float(np.median(centroid))
+    # --- 1. Harmonic-to-Percussive Ratio ---
+    h, p = librosa.effects.hpss(seg)
+    h_energy = float(np.sum(h ** 2))
+    p_energy = float(np.sum(p ** 2))
+    h_ratio = h_energy / (h_energy + p_energy + 1e-9)
 
-    # Zero-crossing rate (mediane)
-    zcr = librosa.feature.zero_crossing_rate(y)
-    zcr_med = float(np.median(zcr))
+    # --- 2. Crest factor short window (50ms) ---
+    win = int(0.05 * sr)
+    n_w = len(seg) // win
+    crests_db = []
+    for i in range(n_w):
+        w = seg[i * win:(i + 1) * win]
+        peak = float(np.max(np.abs(w)))
+        rms_w = float(np.sqrt(np.mean(w ** 2)))
+        if rms_w > 1e-6:
+            crests_db.append(20 * np.log10(peak / rms_w))
+    crest_sw = float(np.median(crests_db)) if crests_db else 14.0
 
-    # Score combine 0-1
-    # Heuristique calibree sur guitares electriques :
-    # - flatness > 0.2 = bcp de saturation
-    # - centroid > 2500 Hz = pousse vers les aigus (signe de saturation typique)
-    # - zcr > 0.10 = beaucoup de transitions
-    flatness_score = min(flatness_med / 0.35, 1.0)
-    centroid_score = min(max((centroid_med - 800) / 2500, 0.0), 1.0)
-    zcr_score = min(zcr_med / 0.20, 1.0)
-    # Combine (poids legerement plus eleve sur flatness)
-    level = float(0.45 * flatness_score + 0.30 * centroid_score + 0.25 * zcr_score)
+    # --- 3. Spectral flatness en bande mid (500-3000 Hz) ---
+    stft = np.abs(librosa.stft(seg))
+    freqs = librosa.fft_frequencies(sr=sr)
+    mask = (freqs >= 500) & (freqs <= 3000)
+    spec_mid = stft[mask]
+    if spec_mid.size > 0:
+        geo = np.exp(np.mean(np.log(spec_mid + 1e-9), axis=0))
+        arith = np.mean(spec_mid, axis=0) + 1e-9
+        flat_mid = float(np.median(geo / arith))
+    else:
+        flat_mid = 0.5
+
+    # --- Indicateur secondaire : spectral centroid (info, pas dans le score) ---
+    centroid = float(np.median(librosa.feature.spectral_centroid(y=seg, sr=sr)))
+
+    # --- Score combine sur [0, 1] ---
+    # Calibrage empirique sur references :
+    # H_ratio : 0.75 = clean, 0.95 = tres sature -> map vers [0, 1]
+    h_score = max(0.0, min((h_ratio - 0.75) / 0.20, 1.0))
+    # Crest SW : 14 dB = clean, 8 dB = heavy -> inverse
+    crest_score = max(0.0, min((14.0 - crest_sw) / 6.0, 1.0))
+    # Flatness mid : 0.55 = clean, 0.85 = sature
+    flat_score = max(0.0, min((flat_mid - 0.55) / 0.30, 1.0))
+
+    level = 0.50 * h_score + 0.30 * crest_score + 0.20 * flat_score
     level = max(0.0, min(1.0, level))
 
-    # Label
-    if level < 0.25:
-        label = "low"     # clean ou crunch tres leger
-    elif level < 0.50:
+    if level < 0.30:
+        label = "low"      # clean ou crunch tres leger
+    elif level < 0.55:
         label = "moderate"  # crunch / OD modere
-    elif level < 0.75:
-        label = "high"    # distortion prononcee
+    elif level < 0.78:
+        label = "high"     # distortion prononcee
     else:
-        label = "extreme"  # fuzz / high gain metal
+        label = "extreme"   # fuzz / high gain metal
 
     return {
         "level_0_1":            round(level, 2),
         "level_label":          label,
-        "spectral_flatness":    round(flatness_med, 3),
-        "spectral_centroid_hz": round(centroid_med, 1),
-        "zero_crossing_rate":   round(zcr_med, 3),
-        "method":               "weighted: flatness(0.45)+centroid(0.30)+ZCR(0.25)",
+        "harmonic_ratio":       round(h_ratio, 3),
+        "crest_short_db":       round(crest_sw, 1),
+        "flatness_mid":         round(flat_mid, 3),
+        "spectral_centroid_hz": round(centroid, 1),
+        "method":               "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)",
     }

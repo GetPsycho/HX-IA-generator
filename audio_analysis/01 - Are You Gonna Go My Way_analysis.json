@@ -1,6 +1,6 @@
 {
   "pipeline_version": "3.2.0",
-  "file": "C:\\Users\\ericf\\OneDrive\\Documents\\Soulseek Downloads\\complete\\organic.rust\\Are You Gonna Go My Way (Album, 1993)\\01 - Are You Gonna Go My Way.flac",
+  "file": "audio_analysis/sources/01 - Are You Gonna Go My Way.flac",
   "filename": "01 - Are You Gonna Go My Way.flac",
   "duration_s": 211.93,
   "sample_rate": 22050,
@@ -136,12 +136,13 @@
       "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
     },
     "saturation": {
-      "level_0_1": 0.35,
+      "level_0_1": 0.41,
       "level_label": "moderate",
-      "spectral_flatness": 0.0,
-      "spectral_centroid_hz": 2604.8,
-      "zero_crossing_rate": 0.103,
-      "method": "weighted: flatness(0.45)+centroid(0.30)+ZCR(0.25)"
+      "harmonic_ratio": 0.812,
+      "crest_short_db": 10.4,
+      "flatness_mid": 0.658,
+      "spectral_centroid_hz": 2470.5,
+      "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
     },
     "delay": {
       "detected": false,

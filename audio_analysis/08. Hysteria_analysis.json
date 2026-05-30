@@ -1,0 +1,203 @@
+{
+  "pipeline_version": "3.2.0",
+  "file": "audio_analysis/sources/08. Hysteria.flac",
+  "filename": "08. Hysteria.flac",
+  "duration_s": 227.02,
+  "sample_rate": 22050,
+  "key": {
+    "tonic": "G",
+    "tonic_fr": "Sol",
+    "mode": "major",
+    "name": "G major",
+    "name_fr": "Sol majeur",
+    "confidence": 0.002,
+    "score": 0.592
+  },
+  "tempo": {
+    "bpm": 92.3,
+    "bpm_int": 92,
+    "n_beats": 345
+  },
+  "sections": {
+    "segments": [
+      {
+        "start": 0.12,
+        "end": 22.08,
+        "duration_s": 21.97,
+        "cluster": "C",
+        "label": "intro",
+        "label_certainty": "high"
+      },
+      {
+        "start": 22.08,
+        "end": 32.39,
+        "duration_s": 10.31,
+        "cluster": "B",
+        "label": "verse_1",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 32.39,
+        "end": 40.8,
+        "duration_s": 8.41,
+        "cluster": "B",
+        "label": "verse_2",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 40.8,
+        "end": 60.79,
+        "duration_s": 19.99,
+        "cluster": "E",
+        "label": "bridge_1",
+        "label_certainty": "low"
+      },
+      {
+        "start": 60.79,
+        "end": 69.17,
+        "duration_s": 8.38,
+        "cluster": "A",
+        "label": "bridge_2",
+        "label_certainty": "low"
+      },
+      {
+        "start": 69.17,
+        "end": 77.55,
+        "duration_s": 8.38,
+        "cluster": "C",
+        "label": "chorus_1",
+        "label_certainty": "high"
+      },
+      {
+        "start": 77.55,
+        "end": 85.96,
+        "duration_s": 8.41,
+        "cluster": "C",
+        "label": "chorus_2",
+        "label_certainty": "high"
+      },
+      {
+        "start": 85.96,
+        "end": 94.34,
+        "duration_s": 8.38,
+        "cluster": "A",
+        "label": "bridge_3",
+        "label_certainty": "low"
+      },
+      {
+        "start": 94.34,
+        "end": 111.11,
+        "duration_s": 16.77,
+        "cluster": "E",
+        "label": "bridge_4",
+        "label_certainty": "low"
+      },
+      {
+        "start": 111.11,
+        "end": 119.49,
+        "duration_s": 8.38,
+        "cluster": "C",
+        "label": "chorus_3",
+        "label_certainty": "high"
+      },
+      {
+        "start": 119.49,
+        "end": 127.85,
+        "duration_s": 8.36,
+        "cluster": "B",
+        "label": "verse_3",
+        "label_certainty": "medium"
+      },
+      {
+        "start": 127.85,
+        "end": 189.17,
+        "duration_s": 61.32,
+        "cluster": "C",
+        "label": "chorus_4",
+        "label_certainty": "high"
+      },
+      {
+        "start": 189.17,
+        "end": 198.83,
+        "duration_s": 9.66,
+        "cluster": "C",
+        "label": "chorus_5",
+        "label_certainty": "high"
+      },
+      {
+        "start": 198.83,
+        "end": 227.02,
+        "duration_s": 28.19,
+        "cluster": "C",
+        "label": "chorus_6_outro",
+        "label_certainty": "medium"
+      }
+    ],
+    "cluster_summary": {
+      "C": {
+        "occurrences": 7,
+        "total_duration_s": 146.31,
+        "is_intro": true,
+        "is_outro": true
+      },
+      "B": {
+        "occurrences": 3,
+        "total_duration_s": 27.08,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "E": {
+        "occurrences": 2,
+        "total_duration_s": 36.76,
+        "is_intro": false,
+        "is_outro": false
+      },
+      "A": {
+        "occurrences": 2,
+        "total_duration_s": 16.76,
+        "is_intro": false,
+        "is_outro": false
+      }
+    },
+    "notes": [
+      "Le cluster 'C' (intro) apparait 7 fois au total — probablement le riff signature recurrent (intro + transitions + outro). L'heuristique le labellise 'chorus_N' apres l'intro, mais il peut s'agir de 'instrumental' ou 'riff_return' selon le morceau.",
+      "Segments courts (<10s) detectes en positions [2, 4, 5, 6, 7, 9, 10, 12] : peuvent etre des transitions/pre-chorus plutot que de vraies sections."
+    ]
+  },
+  "effects": {
+    "eq": {
+      "bands_db": {
+        "low": 0.2,
+        "low_mid": 2.2,
+        "mid": 1.8,
+        "high_mid": -1.2,
+        "high": -27.4
+      },
+      "balance": "warm",
+      "method": "FFT energy per band, dB relative to uniform distribution"
+    },
+    "compression": {
+      "crest_factor_db": 15.6,
+      "dynamic_range_db": 24.9,
+      "level": "light",
+      "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+    },
+    "saturation": {
+      "level_0_1": 0.51,
+      "level_label": "moderate",
+      "harmonic_ratio": 0.825,
+      "crest_short_db": 10.2,
+      "flatness_mid": 0.754,
+      "spectral_centroid_hz": 1932.3,
+      "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+    },
+    "delay": {
+      "detected": true,
+      "time_ms": 61.2,
+      "confidence": 0.41,
+      "peak_strength": 0.259,
+      "method": "autocorrelation peak in 50-1500ms range"
+    }
+  },
+  "effects_source": "demucs htdemucs_6s guitar stem"
+}

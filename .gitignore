@@ -4,4 +4,10 @@ output/*.hls
 output/*.hlx
 output/modified/*.hlx
 output/modified/*.hls
+audio_analysis/*.mp3
+audio_analysis/*.wav
+audio_analysis/*.flac
+audio_analysis/*.ogg
+audio_analysis/*.m4a
+audio_analysis/*.aac
 .claude/settings.local.json

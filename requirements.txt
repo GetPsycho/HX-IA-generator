@@ -1,0 +1,11 @@
+# Core dependencies (preset generator)
+# (aucune dep externe — utilise stdlib uniquement)
+
+# audio_analysis (v3.0+) — facultatif si tu n'utilises pas l'analyse audio
+librosa>=0.10
+numpy>=1.24
+scipy>=1.10
+
+# v3.2 (analyse d'effets, a venir) :
+# demucs>=4.0      # separation de sources (isole la guitare avant analyse)
+# torch>=2.0       # backend demucs

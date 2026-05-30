@@ -10,4 +10,5 @@ audio_analysis/*.flac
 audio_analysis/*.ogg
 audio_analysis/*.m4a
 audio_analysis/*.aac
+audio_analysis/cache/
 .claude/settings.local.json

@@ -93,6 +93,42 @@ def main():
             print("  Notes interpretatives :")
             for note in notes:
                 print(f"    - {note}")
+
+    # ----- Effets (v3.2) -----
+    effects = result.get("effects")
+    if effects:
+        print()
+        print(f"  Effets (source : {result.get('effects_source', '?')}) :")
+
+        sat = effects.get("saturation", {})
+        if sat:
+            print(f"    Saturation : {sat.get('level_label', '?'):<10} "
+                  f"(score {sat.get('level_0_1', 0):.2f})")
+
+        comp = effects.get("compression", {})
+        if comp:
+            print(f"    Compression: {comp.get('level', '?'):<10} "
+                  f"(crest {comp.get('crest_factor_db', 0):.1f} dB, "
+                  f"DR {comp.get('dynamic_range_db', 0):.1f} dB)")
+
+        eq = effects.get("eq", {})
+        if eq:
+            bands = eq.get("bands_db", {})
+            print(f"    EQ balance : {eq.get('balance', '?')}")
+            for b in ("low", "low_mid", "mid", "high_mid", "high"):
+                if b in bands:
+                    sign = "+" if bands[b] >= 0 else ""
+                    print(f"      {b:<9}: {sign}{bands[b]:.1f} dB")
+
+        dly = effects.get("delay", {})
+        if dly:
+            if dly.get("detected"):
+                print(f"    Delay      : detecte ~{dly.get('time_ms', 0):.0f} ms "
+                      f"(force {dly.get('peak_strength', 0):.2f}, "
+                      f"confiance {dly.get('confidence', 0):.2f})")
+            else:
+                print(f"    Delay      : non detecte")
+
     print("=" * 65)
 
     # Sauvegarde JSON

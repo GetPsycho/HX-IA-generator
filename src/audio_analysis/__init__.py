@@ -4,7 +4,8 @@ Module d'analyse audio pour enrichir la creation des presets HX Effects.
 
 v3.0 - Tonalite, mode (majeur/mineur), tempo (BPM)
 v3.1 - Sections (intro/verse/chorus/bridge/outro) avec timestamps
-v3.2 - Analyse des effets (saturation, reverb, modulation, delay, EQ)  [a venir]
+v3.2.0 - Lot 1 effets : EQ, compression, saturation, delay (post-Demucs)
+v3.2.1 - Lot 2 effets : modulation, reverb  [a venir]
 
 Usage :
     from audio_analysis import analyze_file

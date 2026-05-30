@@ -11,9 +11,10 @@ import librosa
 
 from .key_detection import detect_key
 from .tempo_detection import detect_tempo
+from .section_detection import detect_sections
 
 # Version du pipeline (incrementer a chaque ajout d'une nouvelle etape)
-PIPELINE_VERSION = "3.0"
+PIPELINE_VERSION = "3.1"
 
 
 def analyze_file(audio_path: str, sr: int = 22050) -> dict:
@@ -42,6 +43,9 @@ def analyze_file(audio_path: str, sr: int = 22050) -> dict:
     key_info = detect_key(y, sr)
     tempo_info = detect_tempo(y, sr)
 
+    # Detecteur v3.1
+    sections = detect_sections(y, sr)
+
     return {
         "pipeline_version": PIPELINE_VERSION,
         "file":             audio_path,
@@ -50,4 +54,5 @@ def analyze_file(audio_path: str, sr: int = 22050) -> dict:
         "sample_rate":      sr,
         "key":              key_info,
         "tempo":            tempo_info,
+        "sections":         sections,
     }

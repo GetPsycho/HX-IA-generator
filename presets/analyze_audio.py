@@ -23,6 +23,13 @@ from audio_analysis import analyze_file
 ANALYSIS_DIR = _ROOT / "audio_analysis"
 
 
+def _fmt_time(seconds: float) -> str:
+    """Format mm:ss"""
+    m = int(seconds // 60)
+    s = int(seconds % 60)
+    return f"{m:02d}:{s:02d}"
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -40,9 +47,9 @@ def main():
 
     # Affichage console resume
     print()
-    print("=" * 55)
+    print("=" * 65)
     print(f"  Rapport d'analyse audio  (pipeline v{result['pipeline_version']})")
-    print("=" * 55)
+    print("=" * 65)
     print(f"  Fichier  : {result['filename']}")
     print(f"  Duree    : {result['duration_s']:.1f}s")
     print(f"  Tonalite : {result['key']['name_fr']:<15} "
@@ -51,7 +58,16 @@ def main():
     print(f"  Tempo    : {result['tempo']['bpm']:.1f} BPM   "
           f"(arrondi : {result['tempo']['bpm_int']})")
     print(f"  Beats    : {result['tempo']['n_beats']}")
-    print("=" * 55)
+    if "sections" in result and result["sections"]:
+        print()
+        print(f"  Sections detectees ({len(result['sections'])}) :")
+        for i, s in enumerate(result["sections"]):
+            start = _fmt_time(s["start"])
+            end = _fmt_time(s["end"])
+            dur = s["duration_s"]
+            print(f"    [{i}] {start} -> {end} ({dur:>5.1f}s) "
+                  f"cluster={s['cluster']}  label={s['label']}")
+    print("=" * 65)
 
     # Sauvegarde JSON
     ANALYSIS_DIR.mkdir(exist_ok=True)

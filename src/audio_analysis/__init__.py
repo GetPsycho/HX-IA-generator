@@ -3,7 +3,7 @@ audio_analysis
 Module d'analyse audio pour enrichir la creation des presets HX Effects.
 
 v3.0 - Tonalite, mode (majeur/mineur), tempo (BPM)
-v3.1 - Sections (intro/verse/chorus/bridge/outro) avec timestamps  [a venir]
+v3.1 - Sections (intro/verse/chorus/bridge/outro) avec timestamps
 v3.2 - Analyse des effets (saturation, reverb, modulation, delay, EQ)  [a venir]
 
 Usage :

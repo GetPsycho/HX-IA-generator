@@ -151,8 +151,10 @@ def main():
             eq = effects.get("eq", {})
             sat_str = f"sat={sat.get('level_label', '?'):<8}({sat.get('level_0_1', 0):.2f})"
             eq_str = f"eq={eq.get('balance', '?')}"
+            src = se.get("effects_source", "guitar_stem")
+            src_tag = " [MIX]" if src == "full_mix_fallback" else ""
             print(f"    [{cluster}] {label:<20} {start_t}->{end_t} : "
-                  f"{int_str}  {sat_str}  {eq_str}")
+                  f"{int_str}  {sat_str}  {eq_str}{src_tag}")
 
     print("=" * 65)
 

@@ -80,8 +80,12 @@ def analyze_file(audio_path: str, sr: int = 22050,
                     guitar_mono = guitar_audio.mean(axis=0)
                 else:
                     guitar_mono = guitar_audio.flatten() if guitar_audio.ndim > 1 else guitar_audio
+                # Mix complet recharge a guitar_sr pour fallback aux sections
+                # ou Demucs n'a quasi rien capte (parties guitare clean noyees)
+                mix_for_fallback, _ = librosa.load(audio_path, sr=guitar_sr, mono=True)
                 section_effects = analyze_effects_per_section(
-                    guitar_mono, guitar_sr, segments)
+                    guitar_mono, guitar_sr, segments,
+                    y_mix_fallback=mix_for_fallback, sr_mix=guitar_sr)
                 result["section_effects"] = section_effects
 
         except Exception as e:

@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.1",
+  "pipeline_version": "3.2.0",
   "file": "C:\\Users\\ericf\\OneDrive\\Documents\\Soulseek Downloads\\complete\\organic.rust\\Are You Gonna Go My Way (Album, 1993)\\01 - Are You Gonna Go My Way.flac",
   "filename": "01 - Are You Gonna Go My Way.flac",
   "duration_s": 211.93,
@@ -116,5 +116,40 @@
       "Segments courts (<10s) detectes en positions [2, 5, 6] : peuvent etre des transitions/pre-chorus plutot que de vraies sections.",
       "Clusters singleton dans le milieu : ['D', 'C', 'B'] — souvent des bridges ou sections uniques."
     ]
-  }
+  },
+  "effects": {
+    "eq": {
+      "bands_db": {
+        "low": -6.4,
+        "low_mid": 0.7,
+        "mid": 1.7,
+        "high_mid": 3.2,
+        "high": -17.7
+      },
+      "balance": "warm",
+      "method": "FFT energy per band, dB relative to uniform distribution"
+    },
+    "compression": {
+      "crest_factor_db": 18.9,
+      "dynamic_range_db": 6.5,
+      "level": "light",
+      "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+    },
+    "saturation": {
+      "level_0_1": 0.35,
+      "level_label": "moderate",
+      "spectral_flatness": 0.0,
+      "spectral_centroid_hz": 2604.8,
+      "zero_crossing_rate": 0.103,
+      "method": "weighted: flatness(0.45)+centroid(0.30)+ZCR(0.25)"
+    },
+    "delay": {
+      "detected": false,
+      "time_ms": null,
+      "confidence": 0.0,
+      "peak_strength": 0.0,
+      "method": "autocorrelation no significant peak"
+    }
+  },
+  "effects_source": "demucs htdemucs_6s guitar stem"
 }

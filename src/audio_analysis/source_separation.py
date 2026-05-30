@@ -12,7 +12,8 @@ Cache : la sortie est sauvegardee dans audio_analysis/cache/<filename>_<stem>.wa
 from pathlib import Path
 import numpy as np
 import torch
-import torchaudio
+import librosa
+import soundfile
 
 
 _MODEL_NAME = "htdemucs_6s"
@@ -62,22 +63,24 @@ def separate_guitar(audio_path: str,
     # Si cache existe et pas de force -> charger directement
     if cache_file.exists() and not force:
         print(f"  [demucs] Cache trouve : {cache_file.name}")
-        guitar, sr = torchaudio.load(str(cache_file))
-        return guitar.numpy(), int(sr)
+        guitar, sr = soundfile.read(str(cache_file), always_2d=True)
+        # soundfile renvoie (samples, channels) -> on veut (channels, samples)
+        return guitar.T, int(sr)
 
     # Sinon : charger le modele + le fichier audio + separer
     model = _get_model()
 
     print(f"  [demucs] Chargement audio : {audio_path_obj.name}")
-    audio, sr = torchaudio.load(str(audio_path_obj))
-    # demucs attend du stereo, on duplique si mono
-    if audio.shape[0] == 1:
-        audio = audio.repeat(2, 1)
-    # Resample si necessaire pour matcher le sample rate du modele
-    if sr != model.samplerate:
-        resampler = torchaudio.transforms.Resample(sr, model.samplerate)
-        audio = resampler(audio)
-        sr = model.samplerate
+    # Chargement via librosa (mono=False -> stereo si dispo) au sample rate du modele
+    audio_np, sr = librosa.load(str(audio_path_obj), sr=model.samplerate, mono=False)
+    # librosa renvoie (channels, samples) en stereo ou (samples,) en mono
+    if audio_np.ndim == 1:
+        # Duplique mono -> stereo pour demucs
+        audio_np = np.stack([audio_np, audio_np], axis=0)
+    elif audio_np.shape[0] == 1:
+        audio_np = np.repeat(audio_np, 2, axis=0)
+    # Conversion en tenseur torch
+    audio = torch.from_numpy(audio_np).float()
 
     # Separation (forme attendue : batch, channels, samples)
     print(f"  [demucs] Separation en cours (peut prendre 1-3 min sur CPU)...")
@@ -104,11 +107,13 @@ def separate_guitar(audio_path: str,
     guitar_idx = source_names.index("guitar")
     guitar = sources[guitar_idx]  # (channels, samples)
 
-    # Sauvegarde dans le cache
-    torchaudio.save(str(cache_file), guitar, sr)
-    print(f"  [demucs] Cache sauve : {cache_file.relative_to(Path.cwd()) if cache_file.is_absolute() else cache_file}")
+    # Sauvegarde dans le cache (via soundfile : evite la dep torchcodec)
+    guitar_np = guitar.cpu().numpy()
+    # soundfile attend (samples, channels)
+    soundfile.write(str(cache_file), guitar_np.T, sr)
+    print(f"  [demucs] Cache sauve : {cache_file.name}")
 
-    return guitar.numpy(), int(sr)
+    return guitar_np, int(sr)
 
 
 def get_cache_path(audio_path: str, stem: str = "guitar",

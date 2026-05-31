@@ -36,9 +36,10 @@ def preset_are_you_gonna_go_my_way():
     sans monter le volume global. KinkyBoost retire (gain stacking le remplace,
     cf. regle calibration projet : KWB peut etre omis avec gain stacking).
 
-    Klon : Gain=0.40, Level=0.70 (push transparent mid-heavy)
-    OCD  : LPHP=False (chaleur Skylark), Gain=0.65, Level=0.80 (Riff/Bridge)
-    Solo : OCD Gain=0.78, Level=0.90 (plus de push, sustain accru)
+    Klon : Gain=0.40, Level=0.86 (push transparent mid-heavy)
+    OCD  : LPHP=True (High Peak — output plus eleve, coherent avec Beggin'/autres
+            presets utilisant l'OCD), Gain=0.65, Level=0.80 (Riff/Bridge)
+    Solo : OCD Gain=0.78, Level=0.82 (plus de push, sustain accru)
 
     Flanger uniquement sur Bridge (absent du morceau original sur Riff/Solo).
 
@@ -62,11 +63,12 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
 
     # OCD = simulation Gibson Skylark cranked
-    # LPHP=False : chaleur/chime au lieu du punch britannique
+    # LPHP=True (High Peak) : output plus eleve, cohere avec autres presets OCD
+    #   (LPHP=False sortait trop bas par rapport au Clean de reference)
     # Tone=0.35 : adouci pour donner du coffre et reduire les aigus agressifs
     # Gain=0.65 + push Klon = saturation prononcee qui "deborde" aux limites
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": False, "Level": 0.80})
+                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)

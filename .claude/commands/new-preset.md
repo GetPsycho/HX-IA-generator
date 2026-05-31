@@ -27,6 +27,55 @@ Avant toute chose, cherche le titre dans `presets/songs.py` (dict `PRESETS` et f
 
 ---
 
+## 0.5. Analyse audio (si disponible)
+
+**Toujours exécuter cette étape** — que ce soit en mode audit ou en mode création.
+
+Lance :
+```bash
+python presets/analyze_song.py "<titre du morceau>"
+```
+
+Le script cherche, dans cet ordre :
+1. Un rapport JSON existant dans `audio_analysis/<...>_analysis.json`
+2. Sinon, un fichier audio dans `audio_analysis/sources/` (matching fuzzy par tokens)
+   → si trouvé, lance automatiquement la séparation Demucs + l'analyse (~2-3 min)
+
+**Sortie :**
+- `REPORT: <chemin>` → un rapport est disponible. **Lis le JSON** et utilise-le comme source primaire.
+- `NO_AUDIO` → aucune analyse possible. Continue avec recherche web uniquement.
+
+**Quand un rapport est disponible**, exploite ces données :
+- `key` → tonalité confirmée (cross-check avec UG)
+- `tempo` → BPM confirmé (attention au double/moitié possible)
+- `sections.segments` → structure du morceau avec timestamps
+- `sections.notes` → notes interprétatives (riff signature récurrent, transitions, etc.)
+- `effects` (global) → saturation/compression/EQ moyens sur la guitare isolée
+- `section_effects` → **par section** : `intensity` (quiet/moderate/loud/peak),
+  `saturation` (level + score), `eq.balance`, source (`guitar_stem` ou `[MIX]`)
+
+**Distinctions importantes** :
+- **Saturation** = caractère sonore (saturé/clean) — reste constant si l'ampli sature toujours
+- **Intensity (RMS)** = puissance perçue — varie selon le volume joué (ex: Cornell Be Yourself
+  roule le volume → même son saturé mais intensity quiet→loud)
+- **Tag `[MIX]`** : Demucs n'a pas pu isoler la guitare sur cette section (typique parties
+  clean noyées dans le mix) → analyse faite sur le mix complet, valeur dégradée
+
+**Cross-check avec le preset (mode audit) :**
+Si le preset existant a un OCD Gain=0.18 mais l'analyse audio montre saturation=high (0.60+),
+c'est probablement que l'original est plus saturé que ce que le preset reproduit. Deux interprétations :
+1. **Adaptation gear voulue** : Eric a Super Distortion = haute sortie → moins de gain ajouté nécessaire
+2. **Sous-évaluation** : le preset était trop conservateur
+
+→ Présenter l'écart à l'utilisateur pour qu'il tranche.
+
+**Cross-check avec la recherche web (mode création) :**
+L'analyse audio donne les chiffres (BPM, tonalité, intensité par section) ;
+la recherche web donne le matériel (Marshall JCM800, OCD, etc.) → les deux se complètent.
+Le matching gear→pédale HX reste guidé par la recherche.
+
+---
+
 ## 1. Recherche
 
 ### Spécificités du morceau — à déterminer en priorité absolue

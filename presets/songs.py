@@ -182,10 +182,13 @@ def preset_be_yourself():
     Chaine : Gate > CompulsiveDrive > SimpleDelay > Ganymede
     Slots  :  0       1                 2              3
 
-    Snap 0 Intro  : Gain=0.01, Level=0.92, LPHP=False (quasi-clair, reverb large)
-    Snap 1 Verse  : Gain=0.22, Level=0.85, LPHP=False + delay subtle (crunch leger)
-    Snap 2 Chorus : Gain=0.38, Level=0.80, LPHP=True  (crunch present) — calibre live
-    Snap 3 Solo   : Gain=0.55, Level=0.80, LPHP=True  (lead, wah = pedale externe) — calibre live
+    Snap 0 Intro  : Gain=0.01, Level=0.92, LPHP=True (quasi-clair, reverb large)
+    Snap 1 Verse  : Gain=0.22, Level=0.85, LPHP=True + delay subtle (crunch leger)
+    Snap 2 Chorus : Gain=0.38, Level=0.80, LPHP=True (crunch present) — calibre live
+    Snap 3 Solo   : Gain=0.55, Level=0.80, LPHP=True (lead, wah = pedale externe) — calibre live
+
+    NB : LPHP=True uniformise sur tous snaps (convention projet, output plus eleve
+    que LPHP=False).
     """
     pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["alt_rock"])
 
@@ -210,14 +213,16 @@ def preset_be_yourself():
 
     # Intro : Gain=0.01 (plus quasi-clair, moins de sat vs preset initial)
     # Level=0.92 : +0.07 vs decalage global pour compenser la baisse de Gain
+    # LPHP herite du default (True) — uniformisation projet
     pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.01, "Tone": 0.50, "LPHP": False, "Level": 0.92},
+                    params={1: {"Gain": 0.01, "Tone": 0.50, "Level": 0.92},
                             3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
     # Verse : delay actif (slap subtil), Level legerement remonte (0.80 -> 0.85)
+    # LPHP herite du default (True) — uniformisation projet
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.85}},
+                    params={1: {"Gain": 0.22, "Tone": 0.55, "Level": 0.85}},
                     color="yellow")
 
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3],
@@ -282,9 +287,10 @@ def preset_black_hole_sun():
 
     # Compulsive Drive = OCD : OD epaisse pour l'intro (riff grave Cornell)
     # Gain monte (0.35->0.48) pour plus de grain et de corps
+    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
     # enabled_default=False : actif uniquement sur Intro
     pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
-                 overrides={"Gain": 0.50, "Tone": 0.50, "Level": 0.80})
+                 overrides={"Gain": 0.50, "Tone": 0.50, "LPHP": True, "Level": 0.80})
 
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 4, 6],
                     params={6: {"Gain": 0.05}},
@@ -1207,8 +1213,9 @@ def preset_radio_song():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
+    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.28, "Tone": 0.62, "Level": 0.70})
+                 overrides={"Gain": 0.28, "Tone": 0.62, "LPHP": True, "Level": 0.70})
 
     pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
                  overrides={"Time": 0.19, "Feedback": 0.10, "Mix": 0.16,
@@ -1266,8 +1273,9 @@ def preset_sex_on_fire():
 
     # Compulsive Drive = Fulltone OCD : crunch AC30 Top Boost
     # Level=0.72 sur Riff = reference clean (calibre a l'oreille, meme methode que IWBYS)
+    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.42, "Tone": 0.55, "Level": 0.72})
+                 overrides={"Gain": 0.42, "Tone": 0.55, "LPHP": True, "Level": 0.72})
 
     # Simple Delay : 8eme note a 153 BPM = 196ms — epaissit les bends du Chorus
     # Feedback tres bas = 1 repetition, Mix modere = delay present sans noyer
@@ -1462,8 +1470,9 @@ def preset_travel_the_world():
 
     # OCD always-on : son sature de base pour tout le morceau (verse/chorus/bridge/lick)
     # Defaults = settings Verse (Gain=0.35, Level=0.70) — overrides Bridge/Lick par snap
+    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.35, "Tone": 0.60, "Level": 0.70})
+                 overrides={"Gain": 0.35, "Tone": 0.60, "LPHP": True, "Level": 0.70})
 
     # SimpleDelay : 8eme note a 120 BPM = 250ms — actif uniquement sur le Lick
     pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,

@@ -174,12 +174,19 @@ C'est le premier point présenté — il conditionne tout le reste.
 La **référence de niveau** est le signal guitare propre passant par le Mesa Boogie
 (aucun bloc de saturation actif). C'est le "0 dB" du rig d'Eric, commun à tous les presets.
 
-**Quand un preset a un snap Clean** (Gate + Reverb seule) : il sert de référence
+**Référence absolue inter-preset** : le snap **Clean** de **Are You Gonna Go My Way - Lenny Kravitz**.
+Voir `docs/theory/volume_reference.md` pour le détail de la convention.
+
+**Tous les Clean snaps de tous les presets doivent être configurés identiquement** :
+Gate + Reverb Ganymede seul, Mix override à 0.10 sur le snap. Cela garantit que
+tous les Clean sortent le même volume réel → tous équivalents à AYGGMW Clean.
+
+**Quand un preset a un snap Clean** (Gate + Reverb seule, Mix=0.10) : il sert de référence
 auto-contenue — les snaps distorsion s'alignent sur lui.
 
 **Quand un preset n'a pas de snap Clean** : calibrer les snaps distorsion par oreille
 par rapport aux presets adjacents dans la setlist, ou par rapport au snap Clean
-de n'importe quel autre morceau chargé sur l'appareil.
+de n'importe quel autre morceau chargé sur l'appareil (qui sont tous équivalents).
 
 **Si une pédale de saturation baisse le volume sous la référence clean :**
 → Ajouter un KinkyBoost always-on (Drive=0, Boost=True) après la reverb,

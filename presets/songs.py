@@ -159,6 +159,11 @@ def preset_beggin():
 def preset_be_yourself():
     """Audioslave - Be Yourself (117 BPM) — Tom Morello
 
+    Accordage : standard (E A D G B E).
+    Capo : case 2 — Eric joue avec capo (chord shapes Am sonnent en Bm).
+    Tonalite sonnante : Si mineur (Bm) — confirme analyse audio v3.2
+    (confidence 0.36, score 0.94).
+
     JCM800 canal overdrive permanent — pas de pedale OD externe.
     OCD always-on simule ce canal gain. Gain variable par snapshot
     (simule le potentiometre de volume guitare qui nettoie le JCM800).
@@ -168,11 +173,15 @@ def preset_be_yourself():
     Level eleve sur Intro/Verse pour atteindre la reference clean.
     Pas de KinkyBoost : Level par snap est le levier le plus direct.
 
-    Chaine : Gate > CompulsiveDrive > Ganymede
-    Slots  :  0       1                 2
+    Delay subtil sur Verse : "presque un delay leger en fond" entendu sur
+    le stem guitare isole (early reflections studio probablement). Mix tres
+    bas pour rester discret.
 
-    Snap 0 Intro  : Gain=0.02, Level=0.92, LPHP=False (quasi-clair, reverb large)
-    Snap 1 Verse  : Gain=0.22, Level=0.80, LPHP=False (crunch leger)
+    Chaine : Gate > CompulsiveDrive > SimpleDelay > Ganymede
+    Slots  :  0       1                 2              3
+
+    Snap 0 Intro  : Gain=0.01, Level=0.92, LPHP=False (quasi-clair, reverb large)
+    Snap 1 Verse  : Gain=0.22, Level=0.85, LPHP=False + delay subtle (crunch leger)
     Snap 2 Chorus : Gain=0.38, Level=0.80, LPHP=True  (crunch present) — calibre live
     Snap 3 Solo   : Gain=0.55, Level=0.80, LPHP=True  (lead, wah = pedale externe) — calibre live
     """
@@ -187,26 +196,33 @@ def preset_be_yourself():
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
                  overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.80})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
+    # Simple Delay : actif uniquement sur Verse (slap subtil "en fond")
+    # 8eme note a 117 BPM = 256ms, Mix tres bas (0.10) pour rester subtle
+    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+                 overrides={"Time": 0.26, "Feedback": 0.10, "Mix": 0.12,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.22})
 
-    # Intro : Gain=0.02 (quasi-clair, moins de drive que 0.03)
+    # Intro : Gain=0.01 (plus quasi-clair, moins de sat vs preset initial)
     # Level=0.92 : +0.07 vs decalage global pour compenser la baisse de Gain
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.02, "Tone": 0.50, "LPHP": False, "Level": 0.92},
-                            2: {"Mix": 0.32, "Decay": 0.58}},
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 3],
+                    params={1: {"Gain": 0.01, "Tone": 0.50, "LPHP": False, "Level": 0.92},
+                            3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2],
-                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.80}},
+    # Verse : delay actif (slap subtil), Level legerement remonte (0.80 -> 0.85)
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
+                    params={1: {"Gain": 0.22, "Tone": 0.55, "LPHP": False, "Level": 0.85}},
                     color="yellow")
 
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 2],
+    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3],
                     color="orange")
 
     # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 2],
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3],
                     params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.80}},
                     color="red")
 

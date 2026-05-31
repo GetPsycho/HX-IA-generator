@@ -280,9 +280,24 @@
 
 ---
 
-## Lenny Kravitz - Are You Gonna Go My Way
+## Lenny Kravitz - Are You Gonna Go My Way (1993)
 
-*(preset déjà construit dans songs.py)*
+### Informations confirmées
+- BPM : 130 (confirmé analyse audio : 129.2)
+- Tonalité : **Mi mineur (Em)** — confirmé analyse audio v3.2 (confidence 0.26)
+- Accordage : standard
+- Guitariste : Craig Ross — toutes les parties en une prise
+- Guitare : Gibson Les Paul Goldtop 1953 (appartenant à Kravitz)
+- Ampli : Gibson Skylark (petit combo tube 50s) poussé à fond
+- Aucune pédale de distorsion — saturation naturelle de l'ampli
+- Tape flanging (Henry Hirsch) : discret sur riff, prononcé sur bridge
+- Solo court (~16s, confirmé par pic d'intensité audio à 2:33)
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| (interviews Craig Ross) | Une prise, Skylark |
+| Analyse audio v3.2 | Em, 129 BPM, 8 sections, solo 16s |
 
 ---
 

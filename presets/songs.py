@@ -22,11 +22,14 @@ from preset_builder import PresetBuilder
 def preset_are_you_gonna_go_my_way():
     """Lenny Kravitz - Are You Gonna Go My Way (130 BPM) — Craig Ross
 
+    Accordage : standard (E A D G B E). Tonalite : Mi mineur (Em)
+    — confirme par analyse audio v3.2 (confidence 0.26).
     Craig Ross a joue TOUTES les parties (riff, rhythm, solo) — une seule prise.
     Guitare : Gibson Les Paul Goldtop 1953 (appartenant a Kravitz).
     Ampli : Gibson Skylark (petit combo tube annees 50) pousse a fond.
     Pas de pedale de distorsion — saturation naturelle de l'ampli uniquement.
     Flanger : tape flanging studio (Henry Hirsch). Discret sur le riff, prononce sur le bridge.
+    Solo : court (~16s, valide par analyse audio : pic d'intensite a 2:33).
 
     Gain stacking : Klon (Minotaur) en push + OCD (CompulsiveDrive) en saturation.
     Le Klon en front pousse l'OCD plus fort -> saturation perçue plus forte

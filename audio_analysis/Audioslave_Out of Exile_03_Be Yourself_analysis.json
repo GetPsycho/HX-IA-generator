@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.2",
+  "pipeline_version": "3.2.5",
   "file": "audio_analysis/sources/Audioslave_Out of Exile_03_Be Yourself.flac",
   "filename": "Audioslave_Out of Exile_03_Be Yourself.flac",
   "duration_s": 279.4,
@@ -16,7 +16,12 @@
   "tempo": {
     "bpm": 117.5,
     "bpm_int": 117,
-    "n_beats": 457
+    "bpm_raw": 117.5,
+    "n_beats": 457,
+    "alternatives": [
+      58.7,
+      234.9
+    ]
   },
   "sections": {
     "segments": [
@@ -361,7 +366,7 @@
             "high_mid": -2.9,
             "high": -44.0
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -400,7 +405,7 @@
             "high_mid": -6.1,
             "high": -43.2
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -439,7 +444,7 @@
             "high_mid": -5.8,
             "high": -43.6
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -517,7 +522,7 @@
             "high_mid": -3.7,
             "high": -34.5
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -712,7 +717,7 @@
             "high_mid": -4.4,
             "high": -34.0
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -751,7 +756,7 @@
             "high_mid": -3.8,
             "high": -34.3
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -829,7 +834,7 @@
             "high_mid": -5.1,
             "high": -35.4
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -907,7 +912,7 @@
             "high_mid": -4.0,
             "high": -24.0
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -946,7 +951,7 @@
             "high_mid": -4.2,
             "high": -23.9
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -985,7 +990,7 @@
             "high_mid": -5.3,
             "high": -24.2
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -1102,7 +1107,7 @@
             "high_mid": -2.7,
             "high": -32.5
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }

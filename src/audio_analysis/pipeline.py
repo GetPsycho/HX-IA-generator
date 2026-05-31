@@ -15,7 +15,7 @@ from .tempo_detection import detect_tempo
 from .section_detection import detect_sections
 
 # Version du pipeline (incrementer a chaque ajout d'une nouvelle etape)
-PIPELINE_VERSION = "3.2.2"
+PIPELINE_VERSION = "3.2.5"
 
 
 def analyze_file(audio_path: str, sr: int = 22050,

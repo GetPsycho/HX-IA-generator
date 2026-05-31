@@ -27,13 +27,16 @@ _NOTE_NAMES_FR = ["Do", "Do#", "Re", "Re#", "Mi", "Fa",
                   "Fa#", "Sol", "Sol#", "La", "La#", "Si"]
 
 
-def detect_key(y: np.ndarray, sr: int) -> dict:
+def detect_key(y: np.ndarray, sr: int,
+                low_confidence_threshold: float = 0.10) -> dict:
     """
     Detecte la tonalite (tonique + mode) d'un signal audio.
 
     Args:
         y : signal audio mono (numpy array)
         sr : sample rate (Hz)
+        low_confidence_threshold : si confidence < threshold, le rapport inclut
+                                    les top 3 candidats (pas seulement le best)
 
     Returns:
         {
@@ -44,6 +47,8 @@ def detect_key(y: np.ndarray, sr: int) -> dict:
           "name_fr": "La mineur",
           "confidence": 0.42,              # ecart relatif entre best et 2nd best
           "score": 0.87,                   # correlation absolue du best
+          "alternatives": [...],           # present si confidence faible :
+                                            # top-3 candidats avec leurs scores
         }
     """
     # Chromagram CQT : plus stable harmoniquement que STFT pour la detection de cles
@@ -75,7 +80,7 @@ def detect_key(y: np.ndarray, sr: int) -> dict:
     tonic_fr = _NOTE_NAMES_FR[best_tonic]
     mode_fr = "mineur" if best_mode == "minor" else "majeur"
 
-    return {
+    result = {
         "tonic":      tonic_en,
         "tonic_fr":   tonic_fr,
         "mode":       best_mode,
@@ -84,3 +89,22 @@ def detect_key(y: np.ndarray, sr: int) -> dict:
         "confidence": round(confidence, 3),
         "score":      round(best_score, 3),
     }
+
+    # Si confidence faible -> top 3 candidats (utile car maj/min relatifs partagent les notes,
+    # l'algo peut hesiter entre G major et E minor par ex.)
+    if confidence < low_confidence_threshold:
+        alternatives = []
+        for mode_alt, tonic_alt, score_alt in scores[:3]:
+            t_en = _NOTE_NAMES[tonic_alt]
+            t_fr = _NOTE_NAMES_FR[tonic_alt]
+            m_fr = "mineur" if mode_alt == "minor" else "majeur"
+            alternatives.append({
+                "name":    f"{t_en} {mode_alt}",
+                "name_fr": f"{t_fr} {m_fr}",
+                "score":   round(float(score_alt), 3),
+            })
+        result["alternatives"] = alternatives
+        result["note"] = ("confidence faible : les modes majeur et mineur relatifs "
+                          "partagent les memes notes — verifier avec UG ou audition.")
+
+    return result

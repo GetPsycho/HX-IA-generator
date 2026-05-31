@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.2",
+  "pipeline_version": "3.2.5",
   "file": "audio_analysis/sources/Rage Against the Machine - Rage Against the Machine - 02 - Killing in the Name.flac",
   "filename": "Rage Against the Machine - Rage Against the Machine - 02 - Killing in the Name.flac",
   "duration_s": 313.94,
@@ -11,12 +11,35 @@
     "name": "D major",
     "name_fr": "Re majeur",
     "confidence": 0.035,
-    "score": 0.774
+    "score": 0.774,
+    "alternatives": [
+      {
+        "name": "D major",
+        "name_fr": "Re majeur",
+        "score": 0.774
+      },
+      {
+        "name": "D minor",
+        "name_fr": "Re mineur",
+        "score": 0.747
+      },
+      {
+        "name": "G major",
+        "name_fr": "Sol majeur",
+        "score": 0.415
+      }
+    ],
+    "note": "confidence faible : les modes majeur et mineur relatifs partagent les memes notes — verifier avec UG ou audition."
   },
   "tempo": {
     "bpm": 172.3,
     "bpm_int": 172,
-    "n_beats": 899
+    "bpm_raw": 172.3,
+    "n_beats": 899,
+    "alternatives": [
+      86.1,
+      344.5
+    ]
   },
   "sections": {
     "segments": [
@@ -260,7 +283,7 @@
         "high_mid": -0.4,
         "high": -34.0
       },
-      "balance": "warm",
+      "balance": "balanced",
       "method": "FFT energy per band, dB relative to uniform distribution"
     },
     "compression": {
@@ -339,7 +362,7 @@
             "high_mid": -3.4,
             "high": -30.9
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -378,7 +401,7 @@
             "high_mid": -25.1,
             "high": -53.0
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -417,7 +440,7 @@
             "high_mid": 0.7,
             "high": -32.1
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -456,7 +479,7 @@
             "high_mid": 0.2,
             "high": -34.6
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -495,7 +518,7 @@
             "high_mid": -0.6,
             "high": -33.2
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -651,7 +674,7 @@
             "high_mid": -0.8,
             "high": -35.8
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -729,7 +752,7 @@
             "high_mid": 2.1,
             "high": -32.6
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -768,7 +791,7 @@
             "high_mid": 1.1,
             "high": -32.5
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -807,7 +830,7 @@
             "high_mid": 2.7,
             "high": -30.8
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -846,7 +869,7 @@
             "high_mid": 1.1,
             "high": -33.6
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -885,7 +908,7 @@
             "high_mid": 0.3,
             "high": -34.9
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -924,7 +947,7 @@
             "high_mid": 0.7,
             "high": -33.8
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -1080,7 +1103,7 @@
             "high_mid": -1.0,
             "high": -32.8
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -1119,7 +1142,7 @@
             "high_mid": 1.8,
             "high": -30.9
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -1158,7 +1181,7 @@
             "high_mid": -0.2,
             "high": -34.1
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -1197,7 +1220,7 @@
             "high_mid": 0.8,
             "high": -32.4
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -1236,7 +1259,7 @@
             "high_mid": 0.5,
             "high": -33.0
           },
-          "balance": "warm",
+          "balance": "balanced",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }

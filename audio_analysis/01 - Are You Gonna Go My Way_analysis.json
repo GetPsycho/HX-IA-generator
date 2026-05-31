@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.2",
+  "pipeline_version": "3.2.5",
   "file": "audio_analysis/sources/01 - Are You Gonna Go My Way.flac",
   "filename": "01 - Are You Gonna Go My Way.flac",
   "duration_s": 211.93,
@@ -16,7 +16,12 @@
   "tempo": {
     "bpm": 129.2,
     "bpm_int": 129,
-    "n_beats": 448
+    "bpm_raw": 129.2,
+    "n_beats": 448,
+    "alternatives": [
+      64.6,
+      258.4
+    ]
   },
   "sections": {
     "segments": [
@@ -126,7 +131,7 @@
         "high_mid": 3.2,
         "high": -17.7
       },
-      "balance": "warm",
+      "balance": "bright",
       "method": "FFT energy per band, dB relative to uniform distribution"
     },
     "compression": {
@@ -205,7 +210,7 @@
             "high_mid": 2.3,
             "high": -16.9
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -244,7 +249,7 @@
             "high_mid": 1.3,
             "high": -26.5
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -283,7 +288,7 @@
             "high_mid": 2.9,
             "high": -20.9
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -322,7 +327,7 @@
             "high_mid": 2.2,
             "high": -24.5
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -361,7 +366,7 @@
             "high_mid": 3.0,
             "high": -20.8
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -400,7 +405,7 @@
             "high_mid": 4.7,
             "high": -11.6
           },
-          "balance": "bright",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -439,7 +444,7 @@
             "high_mid": 4.3,
             "high": -13.9
           },
-          "balance": "bright",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -478,7 +483,7 @@
             "high_mid": 3.4,
             "high": -16.5
           },
-          "balance": "warm",
+          "balance": "bright",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }

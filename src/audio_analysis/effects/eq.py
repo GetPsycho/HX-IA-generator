@@ -55,20 +55,22 @@ def detect_eq(y: np.ndarray, sr: int) -> dict:
         bands_db[name] = round(10 * np.log10(ratio + 1e-9), 1)
 
     # Heuristique de balance
-    low_total = bands_db["low"] + bands_db["low_mid"]
-    high_total = bands_db["high_mid"] + bands_db["high"]
-    mid_total = bands_db["mid"]
+    # NB : on EXCLUT la bande "high" du calcul car Demucs coupe systematiquement
+    # les hautes frequences des stems (artefact de separation). La bande "high"
+    # est conservee dans bands_db pour information mais n'entre pas dans la balance.
+    low_avg = (bands_db["low"] + bands_db["low_mid"]) / 2.0
+    high_avg = bands_db["high_mid"]  # bande high exclue
+    mid = bands_db["mid"]
+    mid_score = mid - (low_avg + high_avg) / 2.0  # mid vs moyenne bas/haut
 
-    if abs(low_total - high_total) < 2.0 and abs(mid_total - 0) < 2.0:
-        balance = "balanced"
-    elif high_total > low_total + 3:
-        balance = "bright"
-    elif low_total > high_total + 3:
-        balance = "warm"
-    elif mid_total > low_total / 2 + 2 and mid_total > high_total / 2 + 2:
-        balance = "mid_focused"
-    elif low_total > 2 and high_total > 2 and mid_total < -1:
-        balance = "scooped"  # V-shape : lows + highs forts, mids creux
+    if mid_score > 2.0:
+        balance = "mid_focused"   # mids dominent
+    elif low_avg > 1.5 and high_avg > 1.5 and mid_score < -1.0:
+        balance = "scooped"       # V-shape : bas + aigus, mids creux
+    elif low_avg > high_avg + 2.5:
+        balance = "warm"          # bas dominent
+    elif high_avg > low_avg + 2.5:
+        balance = "bright"        # aigus dominent
     else:
         balance = "balanced"
 

@@ -55,8 +55,21 @@ def main():
     print(f"  Tonalite : {result['key']['name_fr']:<15} "
           f"(confiance {result['key']['confidence']:.2f}, "
           f"score {result['key']['score']:.2f})")
+    # Top-3 alternatives si confidence faible
+    alts = result['key'].get('alternatives')
+    if alts:
+        print(f"             confidence faible -> top {len(alts)} candidats :")
+        for a in alts:
+            print(f"               - {a['name_fr']:<15} (score {a['score']:.3f})")
     print(f"  Tempo    : {result['tempo']['bpm']:.1f} BPM   "
           f"(arrondi : {result['tempo']['bpm_int']})")
+    # Alternatives /2 et *2 (utile car librosa confond moitie/double)
+    if 'alternatives' in result['tempo']:
+        alts_bpm = result['tempo']['alternatives']
+        print(f"             alternatives : {alts_bpm[0]:.1f} BPM (/2) ou "
+              f"{alts_bpm[1]:.1f} BPM (x2)")
+    if 'note' in result['tempo']:
+        print(f"             {result['tempo']['note']}")
     print(f"  Beats    : {result['tempo']['n_beats']}")
     sections_info = result.get("sections", {})
     segments = sections_info.get("segments", []) if isinstance(sections_info, dict) else []

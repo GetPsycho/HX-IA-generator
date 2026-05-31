@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.2",
+  "pipeline_version": "3.2.5",
   "file": "audio_analysis/sources/08. Hysteria.flac",
   "filename": "08. Hysteria.flac",
   "duration_s": 227.02,
@@ -11,12 +11,35 @@
     "name": "G major",
     "name_fr": "Sol majeur",
     "confidence": 0.002,
-    "score": 0.592
+    "score": 0.592,
+    "alternatives": [
+      {
+        "name": "G major",
+        "name_fr": "Sol majeur",
+        "score": 0.592
+      },
+      {
+        "name": "D major",
+        "name_fr": "Re majeur",
+        "score": 0.59
+      },
+      {
+        "name": "E minor",
+        "name_fr": "Mi mineur",
+        "score": 0.552
+      }
+    ],
+    "note": "confidence faible : les modes majeur et mineur relatifs partagent les memes notes — verifier avec UG ou audition."
   },
   "tempo": {
     "bpm": 92.3,
     "bpm_int": 92,
-    "n_beats": 345
+    "bpm_raw": 92.3,
+    "n_beats": 345,
+    "alternatives": [
+      46.1,
+      184.6
+    ]
   },
   "sections": {
     "segments": [
@@ -173,7 +196,7 @@
         "high_mid": -1.2,
         "high": -27.4
       },
-      "balance": "warm",
+      "balance": "balanced",
       "method": "FFT energy per band, dB relative to uniform distribution"
     },
     "compression": {
@@ -252,7 +275,7 @@
             "high_mid": 0.9,
             "high": -29.6
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -291,7 +314,7 @@
             "high_mid": 0.3,
             "high": -16.0
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -330,7 +353,7 @@
             "high_mid": -0.1,
             "high": -16.6
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -486,7 +509,7 @@
             "high_mid": -0.5,
             "high": -27.1
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -525,7 +548,7 @@
             "high_mid": 0.0,
             "high": -21.8
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -564,7 +587,7 @@
             "high_mid": -2.4,
             "high": -34.8
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -681,7 +704,7 @@
             "high_mid": -0.5,
             "high": -28.8
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -759,7 +782,7 @@
             "high_mid": -0.1,
             "high": -34.1
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }

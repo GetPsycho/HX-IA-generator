@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.1",
+  "pipeline_version": "3.2.5",
   "file": "audio_analysis/sources/07 - Black Hole Sun.flac",
   "filename": "07 - Black Hole Sun.flac",
   "duration_s": 318.0,
@@ -16,7 +16,12 @@
   "tempo": {
     "bpm": 107.7,
     "bpm_int": 108,
-    "n_beats": 549
+    "bpm_raw": 107.7,
+    "n_beats": 549,
+    "alternatives": [
+      53.8,
+      215.3
+    ]
   },
   "sections": {
     "segments": [
@@ -142,7 +147,7 @@
         "high_mid": -0.7,
         "high": -32.2
       },
-      "balance": "warm",
+      "balance": "mid_focused",
       "method": "FFT energy per band, dB relative to uniform distribution"
     },
     "compression": {
@@ -166,6 +171,23 @@
       "confidence": 0.0,
       "peak_strength": 0.0,
       "method": "autocorrelation no significant peak"
+    },
+    "modulation": {
+      "detected": false,
+      "type": null,
+      "rate_hz": 0.43,
+      "depth_0_1": 0.13,
+      "confidence": 1.0,
+      "centroid_var": 257.5,
+      "method": "spectral_centroid FFT, LFO 0.1-15Hz"
+    },
+    "reverb": {
+      "detected": false,
+      "rt60_s": null,
+      "wet_estimate_0_1": null,
+      "n_decays_analyzed": 2,
+      "confidence": 0.0,
+      "method": "Schroeder-style decay on isolated onsets"
     }
   },
   "effects_source": "demucs htdemucs_6s guitar stem",
@@ -204,7 +226,7 @@
             "high_mid": -19.5,
             "high": -42.1
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -360,7 +382,7 @@
             "high_mid": -3.6,
             "high": -38.0
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -438,7 +460,7 @@
             "high_mid": -0.6,
             "high": -31.6
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -477,7 +499,7 @@
             "high_mid": 0.6,
             "high": -34.6
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }
@@ -516,7 +538,7 @@
             "high_mid": 0.5,
             "high": -31.7
           },
-          "balance": "warm",
+          "balance": "mid_focused",
           "method": "FFT energy per band, dB relative to uniform distribution"
         }
       }

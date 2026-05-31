@@ -15,7 +15,7 @@ from .tempo_detection import detect_tempo
 from .section_detection import detect_sections
 
 # Version du pipeline (incrementer a chaque ajout d'une nouvelle etape)
-PIPELINE_VERSION = "3.2.1"
+PIPELINE_VERSION = "3.2.2"
 
 
 def analyze_file(audio_path: str, sr: int = 22050,
@@ -67,7 +67,10 @@ def analyze_file(audio_path: str, sr: int = 22050,
             print(f"  [effects] Analyse des effets sur stem guitare isole...")
 
             # Analyse globale (moyenne sur 30s centrale)
-            effects_info = analyze_effects(guitar_audio, guitar_sr)
+            # On passe le tempo detecte pour exclure les harmoniques rythmiques
+            # de la detection de modulation (eviter faux positifs LFO)
+            tempo_for_mod = tempo_info.get("bpm") if isinstance(tempo_info, dict) else None
+            effects_info = analyze_effects(guitar_audio, guitar_sr, tempo_bpm=tempo_for_mod)
             result["effects"] = effects_info
             result["effects_source"] = "demucs htdemucs_6s guitar stem"
 
@@ -93,7 +96,8 @@ def analyze_file(audio_path: str, sr: int = 22050,
             print(f"  [effects] Fallback : analyse sur le mix complet")
             try:
                 from .effects import analyze_effects
-                effects_info = analyze_effects(y, sr_loaded)
+                tempo_for_mod = tempo_info.get("bpm") if isinstance(tempo_info, dict) else None
+                effects_info = analyze_effects(y, sr_loaded, tempo_bpm=tempo_for_mod)
                 result["effects"] = effects_info
                 result["effects_source"] = "full mix (degraded)"
                 result["effects_warning"] = str(e)
@@ -101,7 +105,8 @@ def analyze_file(audio_path: str, sr: int = 22050,
                 result["effects_warning"] = f"Toutes analyses effets echouees: {e2}"
     else:
         from .effects import analyze_effects
-        effects_info = analyze_effects(y, sr_loaded)
+        tempo_for_mod = tempo_info.get("bpm") if isinstance(tempo_info, dict) else None
+        effects_info = analyze_effects(y, sr_loaded, tempo_bpm=tempo_for_mod)
         result["effects"] = effects_info
         result["effects_source"] = "full mix (use_demucs=False)"
 

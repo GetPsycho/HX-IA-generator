@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.1",
+  "pipeline_version": "3.2.2",
   "file": "audio_analysis/sources/Audioslave_Out of Exile_03_Be Yourself.flac",
   "filename": "Audioslave_Out of Exile_03_Be Yourself.flac",
   "duration_s": 279.4,
@@ -267,6 +267,23 @@
       "confidence": 0.22,
       "peak_strength": 0.259,
       "method": "autocorrelation peak in 50-1500ms range"
+    },
+    "modulation": {
+      "detected": false,
+      "type": null,
+      "rate_hz": 1.47,
+      "depth_0_1": 0.16,
+      "confidence": 1.0,
+      "centroid_var": 273.7,
+      "method": "spectral_centroid FFT, LFO 0.1-15Hz"
+    },
+    "reverb": {
+      "detected": false,
+      "rt60_s": null,
+      "wet_estimate_0_1": 0.0,
+      "n_decays_analyzed": 0,
+      "confidence": 0.0,
+      "method": "no usable decay segments"
     }
   },
   "effects_source": "demucs htdemucs_6s guitar stem",
@@ -280,6 +297,7 @@
       "rms": 0.0698,
       "rms_ratio": 0.403,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.8,
@@ -318,6 +336,7 @@
       "rms": 0.0729,
       "rms_ratio": 0.421,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.8,
@@ -356,6 +375,7 @@
       "rms": 0.0773,
       "rms_ratio": 0.446,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.8,
@@ -394,6 +414,7 @@
       "rms": 0.0691,
       "rms_ratio": 0.399,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.8,
@@ -432,6 +453,7 @@
       "rms": 0.0901,
       "rms_ratio": 0.52,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.72,
@@ -470,6 +492,7 @@
       "rms": 0.1059,
       "rms_ratio": 0.611,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.57,
@@ -508,6 +531,7 @@
       "rms": 0.1101,
       "rms_ratio": 0.636,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.76,
@@ -546,6 +570,7 @@
       "rms": 0.1031,
       "rms_ratio": 0.595,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.78,
@@ -584,6 +609,7 @@
       "rms": 0.1014,
       "rms_ratio": 0.585,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.8,
@@ -622,6 +648,7 @@
       "rms": 0.1062,
       "rms_ratio": 0.613,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.77,
@@ -660,6 +687,7 @@
       "rms": 0.1029,
       "rms_ratio": 0.594,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.62,
@@ -698,6 +726,7 @@
       "rms": 0.1003,
       "rms_ratio": 0.579,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.59,
@@ -736,6 +765,7 @@
       "rms": 0.0994,
       "rms_ratio": 0.574,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.66,
@@ -774,6 +804,7 @@
       "rms": 0.1035,
       "rms_ratio": 0.598,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.6,
@@ -812,6 +843,7 @@
       "rms": 0.1732,
       "rms_ratio": 1.0,
       "intensity": "peak",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.52,
@@ -850,6 +882,7 @@
       "rms": 0.1312,
       "rms_ratio": 0.757,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.74,
@@ -888,6 +921,7 @@
       "rms": 0.1165,
       "rms_ratio": 0.672,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.72,
@@ -926,6 +960,7 @@
       "rms": 0.1227,
       "rms_ratio": 0.708,
       "intensity": "moderate",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.74,
@@ -964,6 +999,7 @@
       "rms": 0.0906,
       "rms_ratio": 0.523,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.78,
@@ -1002,6 +1038,7 @@
       "rms": 0.0923,
       "rms_ratio": 0.533,
       "intensity": "quiet",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.59,
@@ -1040,6 +1077,7 @@
       "rms": 0.1466,
       "rms_ratio": 0.847,
       "intensity": "loud",
+      "effects_source": "guitar_stem",
       "effects": {
         "saturation": {
           "level_0_1": 0.51,
@@ -1078,29 +1116,30 @@
       "rms": 0.0083,
       "rms_ratio": 0.048,
       "intensity": "very_quiet",
+      "effects_source": "full_mix_fallback",
       "effects": {
         "saturation": {
-          "level_0_1": 0.8,
+          "level_0_1": 0.92,
           "level_label": "extreme",
-          "harmonic_ratio": 0.986,
-          "crest_short_db": 7.5,
-          "flatness_mid": 0.504,
-          "spectral_centroid_hz": 1509.4,
+          "harmonic_ratio": 0.936,
+          "crest_short_db": 7.9,
+          "flatness_mid": 0.777,
+          "spectral_centroid_hz": 5161.6,
           "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
         },
         "compression": {
-          "crest_factor_db": 18.0,
-          "dynamic_range_db": 58.9,
+          "crest_factor_db": 17.5,
+          "dynamic_range_db": 53.2,
           "level": "light",
           "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
         },
         "eq": {
           "bands_db": {
-            "low": 6.6,
-            "low_mid": -3.4,
-            "mid": -18.7,
-            "high_mid": -36.6,
-            "high": -40.7
+            "low": 6.7,
+            "low_mid": -4.9,
+            "mid": -15.1,
+            "high_mid": -21.4,
+            "high": -22.2
           },
           "balance": "warm",
           "method": "FFT energy per band, dB relative to uniform distribution"

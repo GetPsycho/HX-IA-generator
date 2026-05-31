@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "3.2.0",
+  "pipeline_version": "3.2.2",
   "file": "audio_analysis/sources/Rage Against the Machine - Rage Against the Machine - 02 - Killing in the Name.flac",
   "filename": "Rage Against the Machine - Rage Against the Machine - 02 - Killing in the Name.flac",
   "duration_s": 313.94,
@@ -284,7 +284,962 @@
       "confidence": 0.22,
       "peak_strength": 0.292,
       "method": "autocorrelation peak in 50-1500ms range"
+    },
+    "modulation": {
+      "detected": true,
+      "type": "phaser",
+      "rate_hz": 0.33,
+      "depth_0_1": 0.33,
+      "confidence": 1.0,
+      "centroid_var": 512.7,
+      "method": "spectral_centroid FFT, LFO 0.1-15Hz"
+    },
+    "reverb": {
+      "detected": false,
+      "rt60_s": null,
+      "wet_estimate_0_1": null,
+      "n_decays_analyzed": 5,
+      "confidence": 0.26,
+      "method": "Schroeder-style decay on isolated onsets"
     }
   },
-  "effects_source": "demucs htdemucs_6s guitar stem"
+  "effects_source": "demucs htdemucs_6s guitar stem",
+  "section_effects": [
+    {
+      "label": "intro",
+      "cluster": "A",
+      "start": 0.0,
+      "end": 8.99,
+      "duration_s": 8.99,
+      "rms": 0.1155,
+      "rms_ratio": 1.0,
+      "intensity": "peak",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.61,
+          "level_label": "high",
+          "harmonic_ratio": 0.865,
+          "crest_short_db": 10.1,
+          "flatness_mid": 0.732,
+          "spectral_centroid_hz": 1723.5,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 14.4,
+          "dynamic_range_db": 1.2,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -0.9,
+            "low_mid": 3.3,
+            "mid": 2.1,
+            "high_mid": -3.4,
+            "high": -30.9
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_1",
+      "cluster": "C",
+      "start": 8.99,
+      "end": 17.58,
+      "duration_s": 8.59,
+      "rms": 0.0333,
+      "rms_ratio": 0.289,
+      "intensity": "very_quiet",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.83,
+          "level_label": "extreme",
+          "harmonic_ratio": 0.963,
+          "crest_short_db": 8.7,
+          "flatness_mid": 0.644,
+          "spectral_centroid_hz": 1598.4,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 20.1,
+          "dynamic_range_db": 60.8,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -23.7,
+            "low_mid": 6.9,
+            "mid": -12.5,
+            "high_mid": -25.1,
+            "high": -53.0
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "bridge_1",
+      "cluster": "D",
+      "start": 17.58,
+      "end": 26.15,
+      "duration_s": 8.57,
+      "rms": 0.0769,
+      "rms_ratio": 0.666,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.52,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.838,
+          "crest_short_db": 10.3,
+          "flatness_mid": 0.725,
+          "spectral_centroid_hz": 2135.1,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 14.5,
+          "dynamic_range_db": 1.4,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 0.6,
+            "low_mid": 1.4,
+            "mid": 1.1,
+            "high_mid": 0.7,
+            "high": -32.1
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "bridge_2",
+      "cluster": "D",
+      "start": 26.15,
+      "end": 39.61,
+      "duration_s": 13.46,
+      "rms": 0.0696,
+      "rms_ratio": 0.602,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.4,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.793,
+          "crest_short_db": 10.3,
+          "flatness_mid": 0.711,
+          "spectral_centroid_hz": 2110.7,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.9,
+          "dynamic_range_db": 3.0,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 0.4,
+            "low_mid": 1.8,
+            "mid": 1.2,
+            "high_mid": 0.2,
+            "high": -34.6
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_1",
+      "cluster": "B",
+      "start": 39.61,
+      "end": 47.69,
+      "duration_s": 8.08,
+      "rms": 0.078,
+      "rms_ratio": 0.675,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.52,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.83,
+          "crest_short_db": 10.3,
+          "flatness_mid": 0.753,
+          "spectral_centroid_hz": 2025.8,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 14.7,
+          "dynamic_range_db": 12.7,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 1.8,
+            "low_mid": 1.8,
+            "mid": 0.5,
+            "high_mid": -0.6,
+            "high": -33.2
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_2",
+      "cluster": "B",
+      "start": 47.69,
+      "end": 55.73,
+      "duration_s": 8.04,
+      "rms": 0.0985,
+      "rms_ratio": 0.852,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.66,
+          "level_label": "high",
+          "harmonic_ratio": 0.878,
+          "crest_short_db": 10.0,
+          "flatness_mid": 0.755,
+          "spectral_centroid_hz": 1782.9,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.2,
+          "dynamic_range_db": 2.1,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 2.8,
+            "low_mid": 1.6,
+            "mid": -0.1,
+            "high_mid": -1.7,
+            "high": -34.8
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_2",
+      "cluster": "C",
+      "start": 55.73,
+      "end": 64.92,
+      "duration_s": 9.19,
+      "rms": 0.0936,
+      "rms_ratio": 0.81,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.78,
+          "level_label": "high",
+          "harmonic_ratio": 0.914,
+          "crest_short_db": 9.3,
+          "flatness_mid": 0.748,
+          "spectral_centroid_hz": 1371.1,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.5,
+          "dynamic_range_db": 3.2,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 5.1,
+            "low_mid": 0.0,
+            "mid": -3.9,
+            "high_mid": -4.9,
+            "high": -39.4
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_3",
+      "cluster": "C",
+      "start": 64.92,
+      "end": 73.03,
+      "duration_s": 8.11,
+      "rms": 0.0877,
+      "rms_ratio": 0.759,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.8,
+          "level_label": "extreme",
+          "harmonic_ratio": 0.925,
+          "crest_short_db": 9.1,
+          "flatness_mid": 0.734,
+          "spectral_centroid_hz": 1390.9,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 12.4,
+          "dynamic_range_db": 2.7,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 5.4,
+            "low_mid": -0.3,
+            "mid": -4.7,
+            "high_mid": -6.1,
+            "high": -37.7
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_4",
+      "cluster": "C",
+      "start": 73.03,
+      "end": 81.5,
+      "duration_s": 8.47,
+      "rms": 0.104,
+      "rms_ratio": 0.9,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.56,
+          "level_label": "high",
+          "harmonic_ratio": 0.848,
+          "crest_short_db": 10.0,
+          "flatness_mid": 0.728,
+          "spectral_centroid_hz": 1802.7,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 16.4,
+          "dynamic_range_db": 4.7,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 2.2,
+            "low_mid": 1.1,
+            "mid": 0.9,
+            "high_mid": -0.8,
+            "high": -35.8
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_5",
+      "cluster": "C",
+      "start": 81.5,
+      "end": 91.23,
+      "duration_s": 9.73,
+      "rms": 0.094,
+      "rms_ratio": 0.814,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.54,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.837,
+          "crest_short_db": 10.1,
+          "flatness_mid": 0.75,
+          "spectral_centroid_hz": 1813.3,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 16.9,
+          "dynamic_range_db": 10.1,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 2.3,
+            "low_mid": 0.8,
+            "mid": 1.3,
+            "high_mid": -1.1,
+            "high": -33.2
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_6",
+      "cluster": "C",
+      "start": 91.23,
+      "end": 100.17,
+      "duration_s": 8.94,
+      "rms": 0.0435,
+      "rms_ratio": 0.376,
+      "intensity": "quiet",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.15,
+          "level_label": "low",
+          "harmonic_ratio": 0.563,
+          "crest_short_db": 14.8,
+          "flatness_mid": 0.782,
+          "spectral_centroid_hz": 3468.8,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 19.1,
+          "dynamic_range_db": 62.3,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -1.9,
+            "low_mid": -0.1,
+            "mid": 2.4,
+            "high_mid": 2.1,
+            "high": -32.6
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_3",
+      "cluster": "B",
+      "start": 100.17,
+      "end": 109.02,
+      "duration_s": 8.85,
+      "rms": 0.0601,
+      "rms_ratio": 0.52,
+      "intensity": "quiet",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.27,
+          "level_label": "low",
+          "harmonic_ratio": 0.563,
+          "crest_short_db": 11.2,
+          "flatness_mid": 0.74,
+          "spectral_centroid_hz": 2069.6,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 16.1,
+          "dynamic_range_db": 4.4,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 0.5,
+            "low_mid": 0.2,
+            "mid": 1.8,
+            "high_mid": 1.1,
+            "high": -32.5
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_4",
+      "cluster": "B",
+      "start": 109.02,
+      "end": 117.1,
+      "duration_s": 8.08,
+      "rms": 0.0857,
+      "rms_ratio": 0.742,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.28,
+          "level_label": "low",
+          "harmonic_ratio": 0.668,
+          "crest_short_db": 10.6,
+          "flatness_mid": 0.714,
+          "spectral_centroid_hz": 2493.7,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 14.5,
+          "dynamic_range_db": 5.1,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -0.7,
+            "low_mid": -1.7,
+            "mid": 2.1,
+            "high_mid": 2.7,
+            "high": -30.8
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_5",
+      "cluster": "B",
+      "start": 117.1,
+      "end": 125.41,
+      "duration_s": 8.31,
+      "rms": 0.1083,
+      "rms_ratio": 0.937,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.29,
+          "level_label": "low",
+          "harmonic_ratio": 0.73,
+          "crest_short_db": 10.6,
+          "flatness_mid": 0.724,
+          "spectral_centroid_hz": 2277.5,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 14.7,
+          "dynamic_range_db": 3.9,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -0.1,
+            "low_mid": 0.9,
+            "mid": 1.7,
+            "high_mid": 1.1,
+            "high": -33.6
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_7",
+      "cluster": "C",
+      "start": 125.41,
+      "end": 133.56,
+      "duration_s": 8.15,
+      "rms": 0.1043,
+      "rms_ratio": 0.903,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.32,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.756,
+          "crest_short_db": 10.3,
+          "flatness_mid": 0.738,
+          "spectral_centroid_hz": 2027.3,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 15.8,
+          "dynamic_range_db": 3.7,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 1.1,
+            "low_mid": 1.0,
+            "mid": 1.4,
+            "high_mid": 0.3,
+            "high": -34.9
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_6",
+      "cluster": "B",
+      "start": 133.56,
+      "end": 142.08,
+      "duration_s": 8.52,
+      "rms": 0.0952,
+      "rms_ratio": 0.824,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.3,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.736,
+          "crest_short_db": 10.5,
+          "flatness_mid": 0.743,
+          "spectral_centroid_hz": 2020.7,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.8,
+          "dynamic_range_db": 3.0,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 0.8,
+            "low_mid": 0.6,
+            "mid": 1.6,
+            "high_mid": 0.7,
+            "high": -33.8
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_8",
+      "cluster": "C",
+      "start": 142.08,
+      "end": 150.91,
+      "duration_s": 8.83,
+      "rms": 0.1039,
+      "rms_ratio": 0.899,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.82,
+          "level_label": "extreme",
+          "harmonic_ratio": 0.919,
+          "crest_short_db": 8.6,
+          "flatness_mid": 0.742,
+          "spectral_centroid_hz": 1237.5,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.5,
+          "dynamic_range_db": 5.0,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 5.7,
+            "low_mid": -1.4,
+            "mid": -5.0,
+            "high_mid": -6.3,
+            "high": -39.9
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_9",
+      "cluster": "C",
+      "start": 150.91,
+      "end": 159.59,
+      "duration_s": 8.68,
+      "rms": 0.0846,
+      "rms_ratio": 0.733,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.66,
+          "level_label": "high",
+          "harmonic_ratio": 0.887,
+          "crest_short_db": 10.0,
+          "flatness_mid": 0.723,
+          "spectral_centroid_hz": 1568.9,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.5,
+          "dynamic_range_db": 3.7,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 4.6,
+            "low_mid": 0.4,
+            "mid": -2.3,
+            "high_mid": -3.9,
+            "high": -38.5
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "verse_7",
+      "cluster": "B",
+      "start": 159.59,
+      "end": 168.0,
+      "duration_s": 8.41,
+      "rms": 0.1013,
+      "rms_ratio": 0.877,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.6,
+          "level_label": "high",
+          "harmonic_ratio": 0.863,
+          "crest_short_db": 10.1,
+          "flatness_mid": 0.725,
+          "spectral_centroid_hz": 1721.8,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 16.4,
+          "dynamic_range_db": 5.0,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 3.3,
+            "low_mid": 1.2,
+            "mid": -0.4,
+            "high_mid": -2.0,
+            "high": -37.6
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "bridge_3",
+      "cluster": "A",
+      "start": 168.0,
+      "end": 178.1,
+      "duration_s": 10.1,
+      "rms": 0.1038,
+      "rms_ratio": 0.899,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.55,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.839,
+          "crest_short_db": 10.0,
+          "flatness_mid": 0.736,
+          "spectral_centroid_hz": 1797.5,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 15.7,
+          "dynamic_range_db": 5.5,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": 2.1,
+            "low_mid": 0.7,
+            "mid": 1.4,
+            "high_mid": -1.0,
+            "high": -32.8
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "chorus_10",
+      "cluster": "C",
+      "start": 178.1,
+      "end": 187.59,
+      "duration_s": 9.49,
+      "rms": 0.0377,
+      "rms_ratio": 0.326,
+      "intensity": "very_quiet",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.15,
+          "level_label": "low",
+          "harmonic_ratio": 0.558,
+          "crest_short_db": 15.1,
+          "flatness_mid": 0.781,
+          "spectral_centroid_hz": 4648.6,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 19.2,
+          "dynamic_range_db": 63.3,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -1.6,
+            "low_mid": 0.7,
+            "mid": 2.1,
+            "high_mid": 1.8,
+            "high": -30.9
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "bridge_4",
+      "cluster": "A",
+      "start": 187.59,
+      "end": 252.56,
+      "duration_s": 64.97,
+      "rms": 0.106,
+      "rms_ratio": 0.917,
+      "intensity": "loud",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.3,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.72,
+          "crest_short_db": 10.4,
+          "flatness_mid": 0.731,
+          "spectral_centroid_hz": 1993.2,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 17.5,
+          "dynamic_range_db": 8.4,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -0.4,
+            "low_mid": 1.4,
+            "mid": 2.4,
+            "high_mid": -0.2,
+            "high": -34.1
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "bridge_5",
+      "cluster": "E",
+      "start": 252.56,
+      "end": 261.6,
+      "duration_s": 9.04,
+      "rms": 0.0864,
+      "rms_ratio": 0.748,
+      "intensity": "moderate",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.41,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.792,
+          "crest_short_db": 10.2,
+          "flatness_mid": 0.723,
+          "spectral_centroid_hz": 2188.9,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 13.9,
+          "dynamic_range_db": 2.0,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -4.2,
+            "low_mid": 2.2,
+            "mid": 2.4,
+            "high_mid": 0.8,
+            "high": -32.4
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    },
+    {
+      "label": "outro",
+      "cluster": "A",
+      "start": 261.6,
+      "end": 313.94,
+      "duration_s": 52.34,
+      "rms": 0.1115,
+      "rms_ratio": 0.965,
+      "intensity": "peak",
+      "effects_source": "guitar_stem",
+      "effects": {
+        "saturation": {
+          "level_0_1": 0.3,
+          "level_label": "moderate",
+          "harmonic_ratio": 0.721,
+          "crest_short_db": 10.5,
+          "flatness_mid": 0.741,
+          "spectral_centroid_hz": 2104.3,
+          "method": "weighted: h_ratio(0.50) + crest_sw_inv(0.30) + flat_mid(0.20)"
+        },
+        "compression": {
+          "crest_factor_db": 15.3,
+          "dynamic_range_db": 3.2,
+          "level": "light",
+          "method": "crest_factor (peak/RMS) + DR (1s windows, p90-p10)"
+        },
+        "eq": {
+          "bands_db": {
+            "low": -0.4,
+            "low_mid": 1.5,
+            "mid": 1.9,
+            "high_mid": 0.5,
+            "high": -33.0
+          },
+          "balance": "warm",
+          "method": "FFT energy per band, dB relative to uniform distribution"
+        }
+      }
+    }
+  ]
 }

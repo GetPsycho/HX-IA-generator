@@ -129,6 +129,26 @@ def main():
             else:
                 print(f"    Delay      : non detecte")
 
+        mod = effects.get("modulation", {})
+        if mod:
+            if mod.get("detected"):
+                print(f"    Modulation : {mod.get('type', '?'):<8} "
+                      f"rate {mod.get('rate_hz', 0):.2f} Hz, "
+                      f"depth {mod.get('depth_0_1', 0):.2f} "
+                      f"(confiance {mod.get('confidence', 0):.2f})")
+            else:
+                print(f"    Modulation : non detectee")
+
+        rev = effects.get("reverb", {})
+        if rev:
+            if rev.get("detected"):
+                print(f"    Reverb     : RT60 ~{rev.get('rt60_s', 0):.2f}s, "
+                      f"wet ~{rev.get('wet_estimate_0_1', 0):.2f} "
+                      f"({rev.get('n_decays_analyzed', 0)} onsets, "
+                      f"confiance {rev.get('confidence', 0):.2f})")
+            else:
+                print(f"    Reverb     : non detectee/courte")
+
     # Section-by-section effects
     section_effects = result.get("section_effects", [])
     if section_effects:

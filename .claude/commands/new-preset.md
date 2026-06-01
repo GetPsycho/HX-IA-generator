@@ -199,13 +199,17 @@ Voir `docs/pedal_guides/hx_models_reference.md` (section Notes Arbitrator Fuzz).
 
 **Calibration OCD (CompulsiveDrive) — règle de départ obligatoire :**
 L'expérience live du projet a établi que `Level=0.52` (valeur "naïve") est systématiquement
-en dessous de la référence clean. La combinaison validée est **Level=0.70 + KinkyBoost (Boost=True)**.
-Ces deux éléments ensemble sont nécessaires pour atteindre la référence clean avec un OCD seul.
+en dessous de la référence clean. La combinaison validée est **LPHP=True + Level=0.70 + KinkyBoost (Boost=True)**.
+Ces trois éléments ensemble sont nécessaires pour atteindre la référence clean avec un OCD seul.
 
+→ **Toujours** spécifier `"LPHP": True` dans les overrides OCD (obligation projet).
+  LPHP=False sort ~3-5 dB plus bas — casse la cohérence inter-preset.
+  Pour un son chaud, baisser le Tone plutôt que mettre LPHP=False.
 → **Toujours** ajouter un KinkyBoost (Drive=0, Boost=True) sur les snaps OCD.
 → Partir de Level=0.70 sur l'OCD pour le snap le plus faible.
 → Si gain stacking (Klon+OCD, TS9+OCD…), le KinkyBoost peut être omis ou réduit.
-→ En audit : absence de KinkyBoost OU OCD Level < 0.65 = signal sous-calibré, à corriger.
+→ En audit : `LPHP=False` OU absence de KinkyBoost OU OCD Level < 0.65 = signal sous-calibré, à corriger.
+→ Voir `docs/theory/volume_reference.md` pour le détail de la règle LPHP.
 
 ---
 

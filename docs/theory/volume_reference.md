@@ -76,9 +76,39 @@ Pour un preset donné, la cohérence inter-snap suit ces principes :
 ## Règles de calibration OCD (rappel)
 
 Pour atteindre la référence Clean avec un OCD seul :
+- **LPHP = True** (High Peak) — **obligatoire** sur tous les presets pour cohérence
 - **Level = 0.70 minimum** + **KinkyBoost (Drive=0, Boost=True) always-on**
 
 Sans KinkyBoost et Level < 0.70, le snap dist est systématiquement sous la référence Clean.
+
+### LPHP=True : convention projet (obligatoire)
+
+Le paramètre `LPHP` (Low Peak / High Peak switch) de la pédale OCD réelle a un
+impact direct sur l'output :
+- **LPHP=False (Low Peak)** : son plus comprimé, smooth — mais **output significativement plus bas**
+- **LPHP=True (High Peak)** : son plus ouvert, dynamique, punchy — **output élevé**
+
+Découvert en répétition : un preset avec LPHP=False sort ~3-5 dB plus bas qu'un
+preset équivalent en LPHP=True, à mêmes paramètres Gain/Level/Tone. Cet écart
+casse la cohérence inter-preset.
+
+**Règle projet : tous les blocs `HD2_DistCompulsiveDrive` doivent avoir
+`LPHP=True` dans les overrides, sans exception**. Cela inclut :
+- Le block default (`pb.add_block("HD2_DistCompulsiveDrive", ..., overrides={..., "LPHP": True, ...})`)
+- Tous les overrides snap qui spécifient LPHP doivent être à True (et ne PAS l'overrider à False)
+
+Si on veut un caractère plus chaud/smooth (raison d'être historique de LPHP=False),
+compenser via le **Tone** baissé plutôt que LPHP=False (qui sacrifie le volume).
+
+**Vérification** : `python -c "from songs import PRESETS; ..."` peut auditer tous
+les presets pour s'assurer qu'aucun OCD n'est en LPHP=False.
+
+### Calibration OCD step-by-step
+
+1. `add_block("HD2_DistCompulsiveDrive", ..., overrides={"LPHP": True, "Level": 0.70+, ...})`
+2. Ajouter un KinkyBoost always-on (sauf si gain stacking déjà présent)
+3. Ne PAS override LPHP=False dans les snap params
+4. Tester contre le snap Clean d'AYGGMW = référence
 
 Voir aussi la règle d'architecture de l'ampli (clean canal vs cranked single channel) dans le skill `new-preset.md`.
 

@@ -182,13 +182,15 @@ def preset_be_yourself():
     Chaine : Gate > CompulsiveDrive > SimpleDelay > Ganymede
     Slots  :  0       1                 2              3
 
-    Snap 0 Intro  : Gain=0.01, Level=0.92, LPHP=True (quasi-clair, reverb large)
-    Snap 1 Verse  : Gain=0.22, Level=0.85, LPHP=True + delay subtle (crunch leger)
-    Snap 2 Chorus : Gain=0.38, Level=0.80, LPHP=True (crunch present) — calibre live
-    Snap 3 Solo   : Gain=0.55, Level=0.80, LPHP=True (lead, wah = pedale externe) — calibre live
+    Snap 0 Intro  : Gain=0.01, Level=0.87, Tone=0.40 (quasi-clair, sat doucie)
+    Snap 1 Verse  : Gain=0.22, Level=0.80 + delay subtle (crunch leger)
+    Snap 2 Chorus : Gain=0.38, Level=0.75 (crunch present) — calibre live
+    Snap 3 Solo   : Gain=0.55, Level=0.75 (lead, wah = pedale externe) — calibre live
 
-    NB : LPHP=True uniformise sur tous snaps (convention projet, output plus eleve
-    que LPHP=False).
+    NB : LPHP=True uniformise sur tous snaps (convention projet).
+    Tous Level baisses de 0.05 vs version precedente (preset etait trop fort
+    par rapport a la reference AYGGMW Clean). Tone Intro baisse a 0.40
+    (adouci, intro etait perçue trop saturee).
     """
     pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["alt_rock"])
 
@@ -198,8 +200,9 @@ def preset_be_yourself():
     # CompulsiveDrive = OCD : simule canal overdrive permanent JCM800
     # Level variable par snapshot : compense l'output plus faible a faible Gain
     # Base = valeurs du Chorus (snap de reference inter-preset)
+    # Level=0.75 (auparavant 0.80) : preset etait trop fort vs AYGGMW Clean (ref)
     pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.80})
+                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.75})
 
     # Simple Delay : actif uniquement sur Verse (slap subtil "en fond")
     # 8eme note a 117 BPM = 256ms, Mix tres bas (0.10) pour rester subtle
@@ -211,26 +214,28 @@ def preset_be_yourself():
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.22})
 
-    # Intro : Gain=0.01 (plus quasi-clair, moins de sat vs preset initial)
-    # Level=0.92 : +0.07 vs decalage global pour compenser la baisse de Gain
+    # Intro : Gain=0.01 (quasi-clair)
+    # Level=0.87 : compense baisse Gain mais reduit (preset etait trop fort global)
+    # Tone=0.40 : adouci (intro etait perçue trop saturee)
     # LPHP herite du default (True) — uniformisation projet
     pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.01, "Tone": 0.50, "Level": 0.92},
+                    params={1: {"Gain": 0.01, "Tone": 0.40, "Level": 0.87},
                             3: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Verse : delay actif (slap subtil), Level legerement remonte (0.80 -> 0.85)
+    # Verse : delay actif (slap subtil), Level 0.80 (baisse vs 0.85 precedent)
     # LPHP herite du default (True) — uniformisation projet
     pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.22, "Tone": 0.55, "Level": 0.85}},
+                    params={1: {"Gain": 0.22, "Tone": 0.55, "Level": 0.80}},
                     color="yellow")
 
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3],
                     color="orange")
 
     # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
+    # Level=0.75 (auparavant 0.80) : preset etait trop fort global
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.55, "Tone": 0.60, "LPHP": True, "Level": 0.80}},
+                    params={1: {"Gain": 0.55, "Tone": 0.60, "Level": 0.75}},
                     color="red")
 
     return pb
@@ -286,22 +291,27 @@ def preset_black_hole_sun():
                             "TempoSync1": False})
 
     # Compulsive Drive = OCD : OD epaisse pour l'intro (riff grave Cornell)
-    # Gain monte (0.35->0.48) pour plus de grain et de corps
+    # Gain=0.50 default (snap Intro override a 0.03 = quasi-clean)
+    # Tone=0.40 : adouci (intro etait perçue trop saturee)
     # LPHP=True (High Peak) : output plus eleve, uniformisation projet
     # enabled_default=False : actif uniquement sur Intro
     pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
-                 overrides={"Gain": 0.50, "Tone": 0.50, "LPHP": True, "Level": 0.80})
+                 overrides={"Gain": 0.50, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 4, 6],
-                    params={6: {"Gain": 0.05}},
+    # Intro : Gain OCD reduit a 0.03 (etait 0.05, encore trop sature live)
+    # KinkyBoost retire de l'intro (etait 4 dans blocks_on, retire pour moins d'effet)
+    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6],
+                    params={6: {"Gain": 0.03}},
                     color="yellow")
 
     pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
 
     # Rotary SLOW sur le refrain : Speed=False via params
     # KinkyBoost (4) : compense le deficit d'output du Big Muff (meme cause qu'Arbitrator Fuzz)
+    # Big Muff Level monte 0.42 -> 0.65 (manquait de volume flagrant en live)
+    # Big Muff Tone monte 0.45 -> 0.55 (manquait de clarte)
     pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Level": 0.42}, 2: {"Speed": False}},
+                    params={1: {"Level": 0.65, "Tone": 0.55}, 2: {"Speed": False}},
                     color="orange")
 
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 4, 5],

@@ -355,10 +355,11 @@ def preset_creep():
     # Vermin Dist = Pro Co RAT : plus proche du Marshall ShredMaster disponible
     # (meme architecture opamp, gain eleve, filtre passe-bas = ton mi-grave agressif)
     # Filter=0.38 : coupe les aigus pour renforcer les mids, caractere britannique
-    # Level 0.85 → 0.95 : Chorus etait sous la ref Clean, bumpe pour atteindre
+    # Level=0.88 : compromis (0.85 etait sous la ref, 0.95 etait trop fort)
+    #              KinkyBoost reste actif sur Chorus pour compenser le deficit RAT
     # enabled_default=False : bypasse au chargement (verse clean par defaut)
     pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.95})
+                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.88})
 
     # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
     # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s

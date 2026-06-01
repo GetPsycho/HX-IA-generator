@@ -335,16 +335,17 @@ def preset_creep():
     Verse : Roland Dimension D (chorus large et transparent, mode SW4).
     Stabs : compresseur Dyna Comp + dist gain pousse = "gros coup" produit, fort.
 
-    Chaine : Gate > VerminDist > Dimension > Reverb > RedSqueeze > KinkyBoost
-    Slots  :  0      1            2            3        4             5
+    Chaine : Gate > VerminDist > Dimension > Reverb > RedSqueeze > KinkyBoost > SimpleDelay
+    Slots  :  0      1            2            3        4             5            6
 
-    Snap 0 Verse  : clean + Roland Dimension D + reverb discrete + KinkyBoost (ref volume)
+    Snap 0 Verse  : clean + Dimension D + reverb + KinkyBoost Drive (epaissi le son)
     Snap 1 Stabs  : dist gain pousse + compresseur (gros coup mute, sec et fort)
-    Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm)
-    Snap 3 Clean  : accordage / attente
+    Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm), Level monte
+    Snap 3 Solo   : Chorus + SimpleDelay 300ms (continuite tremolo picking Greenwood)
+                    Remplace le Clean (sacrifie pour avoir le solo essentiel du morceau)
 
-    Volume : RAT sous unity a Level=0.52 → Level monte a 0.68 (Chorus = ref).
-    Verse clean + KinkyBoost = ref. Stabs Level=0.80 via params + RedSqueeze = le plus fort.
+    Volume : RAT a Level=0.95 (Chorus = ref). KinkyBoost Drive=0.35 sur Verse.
+    Solo identifie via analyse audio (sections les plus intenses peak a 152-177s).
     """
     pb = PresetBuilder("Creep", tempo=93.0, styles=["grunge", "alt_rock"])
 
@@ -354,10 +355,10 @@ def preset_creep():
     # Vermin Dist = Pro Co RAT : plus proche du Marshall ShredMaster disponible
     # (meme architecture opamp, gain eleve, filtre passe-bas = ton mi-grave agressif)
     # Filter=0.38 : coupe les aigus pour renforcer les mids, caractere britannique
-    # Level 0.52 → 0.68 : RAT sous unity a faible Level, 0.68 amene le Chorus a ref
+    # Level 0.85 → 0.95 : Chorus etait sous la ref Clean, bumpe pour atteindre
     # enabled_default=False : bypasse au chargement (verse clean par defaut)
     pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.85})
+                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.95})
 
     # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
     # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s
@@ -377,11 +378,22 @@ def preset_creep():
                  overrides={"Sensitivity": 0.78, "Mix": 1.0, "Level": 6.0})
 
     # KinkyBoost = Xotic EP Booster : boost volume sur Verse, Chorus et Stabs
-    # enabled_default=False : exclu du snap Clean (reference)
+    # enabled_default=False : active selectivement par snap
     pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 5], color="green")
+    # Simple Delay pour le solo : continuite du tremolo picking Greenwood
+    # 300ms = entre 8eme et dotted 8th a 93 BPM, Feedback bas, Mix modere
+    # enabled_default=False : actif uniquement sur snap Solo
+    pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
+                 overrides={"Time": 0.30, "Feedback": 0.15, "Mix": 0.22,
+                            "TempoSync1": False})
+
+    # Verse : KinkyBoost Drive=0.35 (override snap) pour epaissir le son
+    # sans monter le volume (memes harmoniques chaudes que BHS Verse)
+    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 5],
+                    params={5: {"Drive": 0.35}},
+                    color="green")
 
     # Stabs : dist + KinkyBoost seul (pas de compresseur), Gain=0.85 + Level=1.0 via params
     pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 5],
@@ -390,9 +402,10 @@ def preset_creep():
 
     pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3, 5], color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
-                    color="blue")
+    # Solo : Chorus + SimpleDelay 300ms pour continuite tremolo picking
+    # Snap identifie via analyse audio (sections les plus intenses a 152-177s)
+    # Remplace l'ancien snap Clean (sacrifie pour le solo essentiel du morceau)
+    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 5, 6], color="blue")
 
     return pb
 

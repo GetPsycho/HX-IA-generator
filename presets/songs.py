@@ -298,10 +298,10 @@ def preset_black_hole_sun():
     pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
                  overrides={"Gain": 0.50, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    # Intro : Gain OCD reduit a 0.03 (etait 0.05, encore trop sature live)
-    # KinkyBoost retire de l'intro (etait 4 dans blocks_on, retire pour moins d'effet)
+    # Intro : Gain OCD remonte legerement (0.03 -> 0.06) suite test live
+    # KinkyBoost retire de l'intro pour moins d'effet
     pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6],
-                    params={6: {"Gain": 0.03}},
+                    params={6: {"Gain": 0.06}},
                     color="yellow")
 
     # Verse : KinkyBoost Drive=0.35 (override snap) pour epaissir le son
@@ -317,8 +317,11 @@ def preset_black_hole_sun():
                     params={1: {"Level": 0.65, "Tone": 0.65}},
                     color="orange")
 
+    # Solo : Big Muff aligne sur le Refrain (Tone=0.65 pour coherence sonore)
+    # + Sustain monte (0.85) et Level au-dessus du Refrain (0.72 vs 0.65)
+    # = meme couleur que le Refrain mais plus de sustain et de presence (caractere solo)
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 4, 5],
-                    params={1: {"Sustain": 0.85, "Level": 0.48}},
+                    params={1: {"Sustain": 0.85, "Tone": 0.65, "Level": 0.72}},
                     color="red")
 
     return pb

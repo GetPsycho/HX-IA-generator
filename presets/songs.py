@@ -304,14 +304,17 @@ def preset_black_hole_sun():
                     params={6: {"Gain": 0.03}},
                     color="yellow")
 
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4], color="green")
+    # Verse : KinkyBoost Drive=0.35 (override snap) pour epaissir le son
+    # sans monter le volume (Drive ajoute des harmoniques chaudes)
+    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4],
+                    params={4: {"Drive": 0.35}},
+                    color="green")
 
-    # Rotary SLOW sur le refrain : Speed=False via params
-    # KinkyBoost (4) : compense le deficit d'output du Big Muff (meme cause qu'Arbitrator Fuzz)
-    # Big Muff Level monte 0.42 -> 0.65 (manquait de volume flagrant en live)
-    # Big Muff Tone monte 0.45 -> 0.55 (manquait de clarte)
-    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Level": 0.65, "Tone": 0.55}, 2: {"Speed": False}},
+    # Refrain : retire le Rotary (effet trop present en live, demande utilisateur)
+    # KinkyBoost (4) : compense le deficit d'output du Big Muff
+    # Big Muff Level 0.65 (deja monte de 0.42), Tone 0.65 (de 0.45) — encore + clarte
+    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 3, 4],
+                    params={1: {"Level": 0.65, "Tone": 0.65}},
                     color="orange")
 
     pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 4, 5],

@@ -217,6 +217,19 @@ class PresetBuilder:
                 if slot in self._blocks:
                     self._blocks[slot]["@enabled"] = state
 
+            # Sync les VALEURS de params du snapshot 0 dans le block default.
+            # Sinon, au chargement du preset, HX Effects affiche le snap 0 mais utilise
+            # les params default du bloc (et pas les overrides snap 0) jusqu'a ce qu'on
+            # change de snap. Bug observe : intro Be Yourself trop saturee au chargement,
+            # puis correcte apres switch Solo -> Intro (les overrides snap 0 s'appliquent
+            # enfin).
+            snap0_params = self._snapshots[0].get("params", {})
+            for slot, overrides in snap0_params.items():
+                if slot in self._blocks:
+                    for pname, value in overrides.items():
+                        # On override le block default avec la valeur snap 0
+                        self._blocks[slot][pname] = value
+
         tone = {}
 
         # dsp0 : split + blocs utilisateur + join + inputs/outputs

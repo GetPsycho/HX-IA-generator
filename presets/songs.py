@@ -119,14 +119,15 @@ def preset_beggin():
     Chaine : Gate > RedSqueeze > CompulsiveDrive > Ganymede
     Slots  :  0      1            2                  3
 
-    Snap 0 Verse  : OCD Gain=0.18 (crunch tres leger, ecoute stem confirme low sat)
-    Snap 1 Refrain: OCD Gain=0.28 (moderate, plus de corps que verse)
+    Snap 0 Verse  : OCD Gain=0.05 (presque clean, juste coloration tone OCD)
+    Snap 1 Refrain: OCD Gain=0.15 (crunch tres leger)
 
-    Note : l'algo de saturation a ete recalibre (v3.2.5+).
-    Sur stem isole : verse=low(0.22), refrain=moderate/high(0.55-0.72).
-    Apres test live, Gain redescendu (etait 0.30/0.40 trop sature).
-    OCD Level legerement monte (0.77 -> 0.82) pour compenser la perte
-    de output due au Gain plus bas (meme volume cible).
+    Note : iteration 3 sur la saturation Beggin' apres feedback live.
+    Sur stem isole : verse=low(0.22), refrain=moderate.
+    Historique : 0.18/0.24 (initial) -> 0.30/0.40 (trop sature)
+                 -> 0.18/0.28 (encore trop) -> 0.05/0.15 (cette version).
+    OCD Level=0.82 reste eleve pour preserver le volume (Gain bas
+    n'altere pas le volume final, le Level commande le mix wet/dry).
     """
     pb = PresetBuilder("Beggin'", tempo=134.0, styles=["rock", "funk_rock"])
 
@@ -138,12 +139,12 @@ def preset_beggin():
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
                  overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
 
-    # OCD always-on : crunch funky tres leger (ecoute stem isole apres test)
+    # OCD always-on : coloration tone OCD essentiellement (Gain tres bas)
     # LPHP=True (HP) : attaque percussive et seche, colle avec le Mesa Boogie tight
-    # Gain variable par snapshot (0.18 verse, 0.28 refrain via params)
-    # Level=0.82 : leger bump pour compenser la perte d'output liee au Gain plus bas
+    # Gain=0.05 verse (default block), 0.15 refrain (override snap)
+    # Level=0.82 preserve le volume (le Gain bas n'altere pas le volume final)
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.18, "Tone": 0.60, "LPHP": True, "Level": 0.82})
+                 overrides={"Gain": 0.05, "Tone": 0.60, "LPHP": True, "Level": 0.82})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
@@ -152,7 +153,7 @@ def preset_beggin():
     pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
 
     pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 2, 3],
-                    params={2: {"Gain": 0.28}},
+                    params={2: {"Gain": 0.15}},
                     color="orange")
 
     pb.add_snapshot(2, "Clean", blocks_on=[0, 3],

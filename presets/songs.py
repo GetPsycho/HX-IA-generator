@@ -142,9 +142,9 @@ def preset_beggin():
     # OCD always-on : coloration tone OCD essentiellement (Gain tres bas)
     # LPHP=True (HP) : attaque percussive et seche, colle avec le Mesa Boogie tight
     # Gain=0.05 verse (default block), 0.15 refrain (override snap)
-    # Level=0.82 preserve le volume (le Gain bas n'altere pas le volume final)
+    # Level=0.88 : bump volume apres validation saturation (volume etait un peu bas)
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.05, "Tone": 0.60, "LPHP": True, "Level": 0.82})
+                 overrides={"Gain": 0.05, "Tone": 0.60, "LPHP": True, "Level": 0.88})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,

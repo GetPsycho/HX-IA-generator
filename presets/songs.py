@@ -79,6 +79,15 @@ def preset_are_you_gonna_go_my_way():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
+    # Simple Delay : actif uniquement sur Solo (cadre solo classique)
+    # Time=0.35 (entre 8eme et dotted 8th a 130 BPM), Feedback=0.08 quasi nul
+    # (1 repetition discrete max — l'utilisateur ne doit pas entendre les echos
+    # mais le delay ajoute du sustain/presence au solo)
+    # Mix=0.20 : present mais subtil
+    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
+                 overrides={"Time": 0.35, "Feedback": 0.08, "Mix": 0.20,
+                            "TempoSync1": False})
+
     # Riff : pas de flanger (absent du morceau original sur cette section)
     pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 4], color="yellow")
 
@@ -87,7 +96,8 @@ def preset_are_you_gonna_go_my_way():
                     params={3: {"Mix": 0.48}},
                     color="blue")
 
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 4],
+    # Solo : OCD pousse + SimpleDelay (sustain solo classique, repetitions inaudibles)
+    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 4, 5],
                     params={2: {"Gain": 0.78, "Level": 0.82}},
                     color="red")
 

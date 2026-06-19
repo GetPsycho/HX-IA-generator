@@ -2243,6 +2243,78 @@ def preset_take_me_out():
     return pb
 
 
+def preset_the_man_who_sold_the_world():
+    """Nirvana - The Man Who Sold the World (117.5 BPM) — Kurt Cobain (cover Bowie)
+
+    MTV Unplugged in New York (1994). Martin D-18E acoustique-electrique +
+    Boss DS-2 (subtil) + Small Clone chorus — pas du 100% acoustique malgre
+    le format "Unplugged" (confirme par Guitar.com). Accordage demi-ton plus
+    bas (Eb standard), tonalite reelle La (A).
+
+    Pat Smear (2e guitare Unplugged, ligne de basse mobile au chorus) non
+    reproduit — guitariste unique dans le groupe d'Eric, on joue uniquement
+    la partie de Cobain (melodie + solo).
+
+    Accordage simule via PolyPitch (Interval=-1 semitone, AutoEQ=1.0) —
+    meme pattern que Toxicity (Drop D -> Drop C), ici standard -> Eb standard.
+
+    Analyse audio : saturation constamment haute (0.69-0.85) sur tout le
+    morceau, pas de vraie rupture clean/distordu -> un seul son actif.
+
+    Chaine : PolyPitch > Gate > AcousGtrSim > DeezOneMod > 70sChorus > Reverb
+    Slots  :     0          1        2            3            4         5
+
+    Snap 0 Riff  : Acoustique + DS-2 subtil + Small Clone — seul son actif
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+    """
+    pb = PresetBuilder("The Man Who Sold the World", tempo=117.5, styles=["grunge"])
+
+    # Poly Pitch : standard -> Eb standard (-1 semitone), always-on tous snaps
+    pb.add_block("L6SPB_PolyPitch", slot=0,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
+                 overrides={"Threshold": -52.0, "Decay": 0.35})
+
+    # Acoustic Sim : Martin D-18E acoustique-electrique
+    pb.add_block("L6SPB_AcousGtrSim", slot=2,
+                 overrides={"Mode": 1, "Body": 0.60, "Top": 0.55,
+                            "Shimmer": 0.15, "Level": 0.0})
+
+    # Deez One Mod = approx. Boss DS-2 (subtil, sous l'acoustique)
+    pb.add_block("HD2_DistDeezOneMod", slot=3,
+                 overrides={"Drive": 0.25, "Tone": 0.50, "Level": 0.0})
+
+    # 70s Chorus = approx. EHX Small Clone
+    pb.add_block("HD2_Chorus70sChorus", slot=4,
+                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.35, "Mix": 0.40, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=5,
+                 overrides={"Decay": 0.45, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.20, "Mix": 0.18})
+
+    # Riff : seul son actif — couvre tout le morceau (y compris le solo)
+    pb.add_snapshot(0, "TMW Riff", blocks_on=[0, 1, 2, 3, 4, 5], color="orange")
+
+    pb.add_snapshot(1, "TMW Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(2, "TMW Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2263,6 +2335,7 @@ PRESETS = {
     "Not an Addict - K's Choice":               preset_not_an_addict,
     "Special K - Placebo":                      preset_special_k,
     "Take Me Out - Franz Ferdinand":             preset_take_me_out,
+    "The Man Who Sold the World - Nirvana":      preset_the_man_who_sold_the_world,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

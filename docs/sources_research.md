@@ -1,5 +1,24 @@
 # Sources de recherche - Presets guitare
 
+## Nirvana - The Man Who Sold the World (1994, MTV Unplugged, cover Bowie)
+
+### Informations confirmées
+- BPM : 117.5 (proche estimation 118) | Tonalité réelle : La (A)
+- Accordage : demi-ton plus bas (Eb standard), simulé via PolyPitch (-1 semitone)
+- Guitare : Martin D-18E acoustique-électrique. Pédales : Boss DS-2 (subtil) +
+  EHX Small Clone — pas du 100% acoustique malgré le format Unplugged
+- Pat Smear (2e guitare, ligne de basse mobile chorus) non reproduit (1 guitariste)
+- Saturation constamment haute sur tout le morceau (analyse audio) — un seul son actif
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://guitar.com/features/artist-rigs/the-gear-used-on-nirvana-mtv-unplugged-in-new-york-album/ | DS-2 + Small Clone confirmés |
+| https://www.songsterr.com/a/wsa/nirvana-the-man-who-sold-the-world-mtv-unplugged-tab-s487821 | Accordage Eb, parties Cobain/Smear |
+| audio_analysis/04 - The Man Who Sold the World_analysis.json | Tempo, saturation, EQ |
+
+---
+
 ## Franz Ferdinand - Take Me Out (2004)
 
 ### Informations confirmées

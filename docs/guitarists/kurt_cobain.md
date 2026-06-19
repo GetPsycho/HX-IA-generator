@@ -35,6 +35,13 @@
 **Pédales In Utero (1993) — pas Nevermind :**
 Tech 21 SansAmp, EHX PolyChorus, EchoFlanger.
 
+**MTV Unplugged in New York (1993) — The Man Who Sold the World (Bowie cover) :**
+Martin D-18E acoustique-électrique. Malgré le format "Unplugged", Cobain garde
+un Boss DS-2 (Digital Distortion) + Small Clone branchés en subtil sous l'acoustique —
+ce n'est pas du 100% acoustique pur. Accordage demi-ton plus bas (Eb standard),
+tonalité réelle La (A). Pat Smear (2e guitare Unplugged) joue une ligne de basse
+mobile au chorus — partie non reproduite si guitariste unique.
+
 ## Sons par titre
 
 | Titre | Son principal |
@@ -52,6 +59,10 @@ Tech 21 SansAmp, EHX PolyChorus, EchoFlanger.
 - **DS-1 style :** `HD2_DistDeezOneMod` (DS-1 Keeley modded) ou `HD2_DistVerminDist` (RAT) pour les autres titres Nirvana si nécessaire.
 - Small Clone ≈ `HD2_Chorus70sChorus` avec ChorusIntensity 0.40-0.50, Rate 0.35, Mix 0.40. Pas de vibrato marqué.
 - Accordage standard (E) sur Nevermind.
+- **The Man Who Sold the World :** `L6SPB_AcousGtrSim` + `HD2_DistDeezOneMod` (DS-2, subtil)
+  + `HD2_Chorus70sChorus` (Small Clone). Accordage demi-ton bas simulé via
+  `L6SPB_PolyPitch` (Interval=-1, AutoEQ=1.0) — pattern identique a Toxicity
+  (Drop D -> Drop C via PolyPitch), ici standard -> Eb standard.
 
 ## Sources
 

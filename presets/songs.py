@@ -2428,13 +2428,20 @@ def preset_locked_out_of_heaven():
     Saturation tres faible (0.18-0.20) sur la quasi-totalite du morceau
     (intro+chorus = 188s sur 233s) -> un seul son actif, pas de distorsion.
 
-    Chaine : Gate > RedSqueeze > 70sChorus > Reverb
-    Slots  :  0      1            2            3
+    KinkyBoost = CONFIG CANONIQUE "Clean brillant strumming" (identique How
+    You Remind Me) : clean colore et scintillant, coherent avec le clean
+    Stratocaster de Bruno Mars.
 
-    Snap 0 Riff  : RedSqueeze (comp skank) + 70s Chorus (leger) — seul son actif
+    Chaine : Gate > RedSqueeze > 70sChorus > Reverb > KinkyBoost
+    Slots  :  0      1            2            3         4
+
+    Snap 0 Riff  : RedSqueeze (comp skank) + 70s Chorus (leger) + KinkyBoost — seul son actif
     Snap 1 Clean : accordage / attente
     Snap 2 Clean : accordage / attente
     Snap 3 Clean : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - KinkyBoost : Drive=0.0, Boost=True, Bright=True (clean brillant strumming)
     """
     pb = PresetBuilder("Locked Out of Heaven", tempo=143.6, styles=["reggae_rock_pop"])
 
@@ -2454,8 +2461,12 @@ def preset_locked_out_of_heaven():
                  overrides={"Decay": 0.35, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.12, "Mix": 0.12})
 
+    # KinkyBoost = CONFIG CANONIQUE "Clean brillant strumming" — partagee How You Remind Me
+    pb.add_block("HD2_DistKinkyBoost", slot=4,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": True})
+
     # Riff : seul son actif — couvre tout le morceau
-    pb.add_snapshot(0, "LOH Riff", blocks_on=[0, 1, 2, 3], color="orange")
+    pb.add_snapshot(0, "LOH Riff", blocks_on=[0, 1, 2, 3, 4], color="orange")
 
     pb.add_snapshot(1, "LOH Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},

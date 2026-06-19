@@ -124,6 +124,7 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 | Preset | Snap |
 |---|---|
 | How You Remind Me | Verse / Arpèges |
+| Locked Out of Heaven | Riff |
 
 **Différence vs "Color clean Verse"** : pas de Drive (donc pas d'harmoniques chaudes), mais Bright=True ajoute des aigus = caractère "scintillant" plutôt que "épais".
 

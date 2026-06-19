@@ -1,5 +1,27 @@
 # Sources de recherche - Presets guitare
 
+## Franz Ferdinand - Take Me Out (2004)
+
+### Informations confirmées
+- BPM : 104 (sources web, audio 103.4, proche estimation 107)
+- Tonalité : Mi mineur (E) — confirme sheet music officielle
+- Accordage : standard
+- Guitaristes : Alex Kapranos (Fender Telecaster '72 Deluxe) & Nick McCarthy —
+  2 parties imbriquees, fusionnees en une seule par Eric (1 seul guitariste)
+- "Overdriven Guitar" credite sur les overdubs (Songsterr)
+- Style de jeu funky/percussif + overdrive (retour Eric), EQ tight (bas coupe,
+  medium pousse) confirme par l'analyse audio
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarworld.com/artists/guitarists/alex-kapranos-franz-ferdinand-the-human-fear | Gear Kapranos |
+| https://www.songsterr.com/a/wsa/franz-ferdinand-take-me-out-tab-s7648t3 | Overdrive credite |
+| https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0133512 | Tonalite Mi mineur |
+| audio_analysis/Franz Ferdinand - Franz Ferdinand - 03 - Take Me Out_analysis.json | Tempo, EQ, saturation |
+
+---
+
 ## Placebo - Special K (2000)
 
 ### Informations confirmées

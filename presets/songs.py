@@ -2178,6 +2178,71 @@ def preset_special_k():
     return pb
 
 
+def preset_take_me_out():
+    """Franz Ferdinand - Take Me Out (104 BPM) — Alex Kapranos & Nick McCarthy
+
+    Accordage : standard (E A D G B E). Tonalite : Mi mineur (E) — confirme
+    sheet music officielle.
+
+    2 guitares imbriquees a l'origine (Kapranos + McCarthy, "lean snarling
+    dual guitar parts") — un seul guitariste dans le groupe d'Eric, fusion
+    en une seule rythmique jouant le riff signature.
+
+    Style de jeu funky (attaque percussive/syncopee, cf. retour Eric :
+    "funk avec de l'overdrive par-dessus") + overdrive ("Overdriven Guitar"
+    credite sur Songsterr). Analyse audio : pas de vraie rupture de
+    saturation entre les sections (0.42-0.68 partout) -> un seul son actif.
+    EQ tres particuliere : bas fortement coupe (-9 a -13 dB par endroits),
+    medium pousse -> son tight et mid-forward, pas le pattern "grunge bien
+    pousse" (trop chaud/sombre pour ce caractere).
+
+    Chaine : Gate > RedSqueeze > CompulsiveDrive > EQ10Band > Reverb
+    Slots  :  0      1            2                  3            4
+
+    Snap 0 Riff  : RedSqueeze (attaque funky) + OCD (OD tight/brillant) + EQ cut bas
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+    """
+    pb = PresetBuilder("Take Me Out", tempo=104.0, styles=["alt_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # Red Squeeze = attaque funky/percussive avant l'OD
+    pb.add_block("HD2_CompressorRedSqueeze", slot=1,
+                 overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
+
+    # OCD : Tone brillant (0.58, pas chaud) — caractere tight, pas "grunge bien pousse"
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.55, "Tone": 0.58, "LPHP": True, "Level": 0.78})
+
+    # 10 Band Graphic : cut bas pour le caractere tight/mid-forward (vs analyse audio)
+    pb.add_block("HD2_EQGraphic10Band", slot=3,
+                 overrides={"250Hz": -4.0, "500Hz": -2.0, "2kHz": 1.5, "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.32, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.12, "Mix": 0.12})
+
+    # Riff : seul son actif — couvre tout le morceau
+    pb.add_snapshot(0, "TMO Riff", blocks_on=[0, 1, 2, 3, 4], color="orange")
+
+    pb.add_snapshot(1, "TMO Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(2, "TMO Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "TMO Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2197,6 +2262,7 @@ PRESETS = {
     "No Roots - Alice Merton":                 preset_no_roots,
     "Not an Addict - K's Choice":               preset_not_an_addict,
     "Special K - Placebo":                      preset_special_k,
+    "Take Me Out - Franz Ferdinand":             preset_take_me_out,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

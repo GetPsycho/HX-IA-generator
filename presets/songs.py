@@ -38,17 +38,26 @@ def preset_are_you_gonna_go_my_way():
 
     Klon : Gain=0.40, Level=0.86 (push transparent mid-heavy)
     OCD  : LPHP=True (High Peak — output plus eleve, coherent avec Beggin'/autres
-            presets utilisant l'OCD), Gain=0.65, Level=0.80 (Riff/Bridge)
-    Solo : OCD Gain=0.78, Level=0.82 (plus de push, sustain accru)
+            presets utilisant l'OCD), Gain=0.65, Level=0.80
+            INCHANGE sur tous les snaps (Riff/Bridge/Solo) — caractere preserve.
+
+    Solo : boost via Scream 808 (TS808) PLACE ENTRE Klon ET OCD (push classique
+           TS->ampli). Le TS pousse l'OCD plus fort avec son EQ bosse haut-mids
+           (~2-4 kHz) -> le lead ressort sans modifier les reglages OCD eux-memes.
+           Drive=0.25 (push leger), Tone=0.55, Level=0.92.
+           Approche "rationalisation volume" : on ne touche pas l'OCD, on
+           ajoute un boost TS dedie au lead.
 
     Flanger uniquement sur Bridge (absent du morceau original sur Riff/Solo).
 
-    Chaine : Gate > Minotaur > CompulsiveDrive > GrayFlanger > Reverb
-    Slots  :  0      1          2                  3             4
+    Pas de delay : pas adapte au style de ce morceau (hard rock direct, riff sec).
 
-    Snap 0 Riff   : Klon + OCD + reverb (pas de flanger)
-    Snap 1 Bridge : Klon + OCD + flanger (Mix=0.48) + reverb
-    Snap 2 Solo   : Klon + OCD (Gain=0.78, Level=0.90) + reverb
+    Chaine : Gate > Minotaur > Scream808 > CompulsiveDrive > GrayFlanger > Reverb
+    Slots  :  0      1          2            3                  4             5
+
+    Snap 0 Riff   : Klon + OCD + reverb (pas de flanger, TS off)
+    Snap 1 Bridge : Klon + OCD + flanger (Mix=0.48) + reverb (TS off)
+    Snap 2 Solo   : Klon + Scream808 (push) + OCD (inchange) + reverb
     Snap 3 Clean  : reverb seule (accordage, reference volume)
     """
     pb = PresetBuilder("AYGGMW", tempo=130.0, styles=["hard_rock", "funk"])
@@ -62,47 +71,51 @@ def preset_are_you_gonna_go_my_way():
     pb.add_block("HD2_DistMinotaur", slot=1,
                  overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
 
+    # Scream 808 (Ibanez TS808) = boost solo place ENTRE Klon et OCD
+    # (push TS classique vers l'ampli/dist suivante).
+    # Gain=0.25 : push leger, peu de saturation propre ajoutee
+    # Tone=0.55 : bosse mediums signature TS808 (~2-4 kHz, fait ressortir le lead)
+    # Level=0.92 : pousse fort le signal qui rentre dans l'OCD = OCD reagit
+    #              plus fort (saturation et volume perçus +) sans modifier
+    #              les reglages OCD eux-memes
+    # Active uniquement sur snap Solo (lead boost) — preserve la philosophie
+    # "rationalisation" : OCD inchange sur tous les snaps.
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
     # OCD = simulation Gibson Skylark cranked
     # LPHP=True (High Peak) : output plus eleve, cohere avec autres presets OCD
     #   (LPHP=False sortait trop bas par rapport au Clean de reference)
     # Tone=0.35 : adouci pour donner du coffre et reduire les aigus agressifs
     # Gain=0.65 + push Klon = saturation prononcee qui "deborde" aux limites
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
                  overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
 
     # Gray Flanger = approximation du tape flanging studio (Henry Hirsch)
     # Mix variable par snapshot : Riff=0.28 discret, Bridge=0.48 prononce (via params)
-    pb.add_block("HD2_FlangerGrayFlanger", slot=3, enabled_default=False,
+    pb.add_block("HD2_FlangerGrayFlanger", slot=4, enabled_default=False,
                  overrides={"Rate": 0.12, "Width": 0.70, "Regen": 0.45, "Mix": 0.28})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.20, "Mix": 0.16})
 
-    # Simple Delay : actif uniquement sur Solo (cadre solo classique)
-    # Time=0.35 (entre 8eme et dotted 8th a 130 BPM), Feedback=0.08 quasi nul
-    # (1 repetition discrete max — l'utilisateur ne doit pas entendre les echos
-    # mais le delay ajoute du sustain/presence au solo)
-    # Mix=0.20 : present mais subtil
-    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
-                 overrides={"Time": 0.35, "Feedback": 0.08, "Mix": 0.20,
-                            "TempoSync1": False})
+    # Riff : pas de flanger, pas de TS (Klon + OCD only)
+    pb.add_snapshot(0, "AYG Riff", blocks_on=[0, 1, 3, 5], color="yellow")
 
-    # Riff : pas de flanger (absent du morceau original sur cette section)
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 4], color="yellow")
-
-    # Bridge : flanger active (Mix prononce)
-    pb.add_snapshot(1, "Bridge", blocks_on=[0, 1, 2, 3, 4],
-                    params={3: {"Mix": 0.48}},
+    # Bridge : flanger active (Mix prononce), pas de TS
+    pb.add_snapshot(1, "AYG Bridge", blocks_on=[0, 1, 3, 4, 5],
+                    params={4: {"Mix": 0.48}},
                     color="blue")
 
-    # Solo : OCD pousse + SimpleDelay (sustain solo classique, repetitions inaudibles)
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 4, 5],
-                    params={2: {"Gain": 0.78, "Level": 0.82}},
+    # Solo : Klon + Scream808 (push entre Klon et OCD) + OCD INCHANGE
+    # Choix rationalisation : on n'augmente pas Gain/Level de l'OCD,
+    # le TS pousse l'OCD pour faire ressortir le lead.
+    pb.add_snapshot(2, "AYG Solo", blocks_on=[0, 1, 2, 3, 5],
                     color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "AYG Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="green")
 
     return pb
@@ -150,17 +163,17 @@ def preset_beggin():
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.65, "Modulation": 0.20, "Mix": 0.15})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
+    pb.add_snapshot(0, "BGN Verse", blocks_on=[0, 1, 2, 3], color="green")
 
-    pb.add_snapshot(1, "Refrain", blocks_on=[0, 1, 2, 3],
+    pb.add_snapshot(1, "BGN Refrain", blocks_on=[0, 1, 2, 3],
                     params={2: {"Gain": 0.15}},
                     color="orange")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(2, "BGN Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "BGN Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="white")
 
@@ -180,76 +193,93 @@ def preset_be_yourself():
     Tonalite sonnante : Si mineur (Bm) — confirme analyse audio v3.2
     (confidence 0.36, score 0.94).
 
-    JCM800 canal overdrive permanent — pas de pedale OD externe.
-    OCD always-on simule ce canal gain. Gain variable par snapshot
-    (simule le potentiometre de volume guitare qui nettoie le JCM800).
+    REFONTE rationalisation v2 : chaque pedale a une CONFIG FIXE,
+    les snaps activent/desactivent les blocs (pas d'override Gain/Level).
 
-    Volume : Level different par snapshot pour compenser l'interaction
-    Gain/volume de l'OCD — faible Gain = faible output naturel.
-    Level eleve sur Intro/Verse pour atteindre la reference clean.
-    Pas de KinkyBoost : Level par snap est le levier le plus direct.
+    - Intro : Heir Apparent (Prince of Tone, Analogman = Bluesbreaker modded)
+              Caractere British crunch leger = "JCM800 rolled back" (volume
+              guitare baisse sur ampli sature en permanence). Pas l'OCD :
+              caractere different demande pedale dediee.
+    - Verse / Chorus / Solo : OCD avec config FIXE (= ex-config Verse).
+              JCM800 cranked en regime nominal. Aucun override snap.
+    - Solo : ajout Scream 808 (TS) entre... non, ici sans Klon en front,
+              le TS est juste avant l'OCD. Meme principe qu'AYGGMW :
+              TS pousse l'OCD pour faire ressortir le lead sans modifier OCD.
 
     Delay subtil sur Verse : "presque un delay leger en fond" entendu sur
     le stem guitare isole (early reflections studio probablement). Mix tres
-    bas pour rester discret.
+    bas pour rester discret. Delay PLACE AVANT la Reverb (ordre standard :
+    delay genere les echos, reverb enveloppe l'ensemble).
 
-    Chaine : Gate > CompulsiveDrive > SimpleDelay > Ganymede
-    Slots  :  0       1                 2              3
+    Chaine : Gate > HeirApparent > Scream808 > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :  0      1              2            3                  4             5
 
-    Snap 0 Intro  : Gain=0.01, Level=0.87, Tone=0.40 (quasi-clair, sat doucie)
-    Snap 1 Verse  : Gain=0.22, Level=0.80 + delay subtle (crunch leger)
-    Snap 2 Chorus : Gain=0.38, Level=0.75 (crunch present) — calibre live
-    Snap 3 Solo   : Gain=0.55, Level=0.75 (lead, wah = pedale externe) — calibre live
+    Snap 0 Intro  : Gate + Heir Apparent + Reverb (Mix=0.32, Decay=0.58 = ambiance large)
+    Snap 1 Verse  : Gate + OCD + Delay subtle + Reverb
+    Snap 2 Chorus : Gate + OCD + Reverb (= Verse sans delay)
+    Snap 3 Solo   : Gate + TS (push) + OCD + Reverb (wah = pedale externe MC404)
 
-    NB : LPHP=True uniformise sur tous snaps (convention projet).
-    Tous Level baisses de 0.05 vs version precedente (preset etait trop fort
-    par rapport a la reference AYGGMW Clean). Tone Intro baisse a 0.40
-    (adouci, intro etait perçue trop saturee).
+    Configs fixes :
+    - Heir Apparent : Gain=0.20, Tone=0.50, Level=0.85 (crunch leger British)
+    - Scream 808   : Gain=0.25, Tone=0.55, Level=0.92 (meme qu'AYGGMW)
+    - OCD          : Gain=0.22, Tone=0.55, LPHP=True, Level=0.80 (ex-Verse)
     """
     pb = PresetBuilder("Be Yourself", tempo=117.0, styles=["alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.32})
 
-    # CompulsiveDrive = OCD : simule canal overdrive permanent JCM800
-    # Level variable par snapshot : compense l'output plus faible a faible Gain
-    # Base = valeurs du Chorus (snap de reference inter-preset)
-    # Level=0.75 (auparavant 0.80) : preset etait trop fort vs AYGGMW Clean (ref)
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.75})
+    # Heir Apparent (Analogman Prince of Tone = Bluesbreaker modded)
+    # Caractere British crunch leger = JCM800 rolled back de Morello en intro
+    # Gain=0.20 : grain leger sans saturation prononcee
+    # Tone=0.50 : neutre, laisse passer le caractere Bluesbreaker
+    # Level=0.85 : compense pour atteindre la reference volume
+    # Active uniquement sur snap Intro.
+    pb.add_block("HD2_DistHeirApparent", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
+
+    # Scream 808 (Ibanez TS808) = boost solo place avant l'OCD
+    # MEME CONFIG qu'AYGGMW : push leger + bosse haut-mids = lead ressort
+    # Active uniquement sur snap Solo.
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # OCD = simulation canal overdrive JCM800 en regime nominal
+    # CONFIG FIXE = ex-config Verse (etait le centre de gravite du morceau)
+    # Plus aucun override Gain/Level/Tone sur les snaps : le caractere
+    # reste identique sur Verse/Chorus/Solo, c'est l'ajout du TS qui fait
+    # le bump Solo.
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3, enabled_default=False,
+                 overrides={"Gain": 0.22, "Tone": 0.55, "LPHP": True, "Level": 0.80})
 
     # Simple Delay : actif uniquement sur Verse (slap subtil "en fond")
-    # 8eme note a 117 BPM = 256ms, Mix tres bas (0.10) pour rester subtle
-    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+    # 8eme note a 117 BPM = 256ms, Mix tres bas (0.12) pour rester subtle
+    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
                  overrides={"Time": 0.26, "Feedback": 0.10, "Mix": 0.12,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # Reverb : default Mix=0.22 (Verse/Chorus/Solo), override Mix=0.32
+    # + Decay=0.58 sur Intro pour ambiance large.
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.50, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.25, "Mix": 0.22})
 
-    # Intro : Gain=0.01 (quasi-clair)
-    # Level=0.87 : compense baisse Gain mais reduit (preset etait trop fort global)
-    # Tone=0.40 : adouci (intro etait perçue trop saturee)
-    # LPHP herite du default (True) — uniformisation projet
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.01, "Tone": 0.40, "Level": 0.87},
-                            3: {"Mix": 0.32, "Decay": 0.58}},
+    # Intro : Heir Apparent (grain leger British) + Reverb large
+    pb.add_snapshot(0, "BYS Intro", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.32, "Decay": 0.58}},
                     color="green")
 
-    # Verse : delay actif (slap subtil), Level 0.80 (baisse vs 0.85 precedent)
-    # LPHP herite du default (True) — uniformisation projet
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.22, "Tone": 0.55, "Level": 0.80}},
+    # Verse : OCD (config fixe) + delay subtle
+    pb.add_snapshot(1, "BYS Verse", blocks_on=[0, 3, 4, 5],
                     color="yellow")
 
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3],
+    # Chorus : OCD seul (= Verse sans le delay)
+    pb.add_snapshot(2, "BYS Chorus", blocks_on=[0, 3, 5],
                     color="orange")
 
+    # Solo : TS pousse l'OCD (config OCD inchangee, lead ressort via le TS)
     # Wah = pedale externe (Cry Baby MC404 CAE d'Eric)
-    # Level=0.75 (auparavant 0.80) : preset etait trop fort global
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3],
-                    params={1: {"Gain": 0.55, "Tone": 0.60, "Level": 0.75}},
+    pb.add_snapshot(3, "BYS Solo", blocks_on=[0, 2, 3, 5],
                     color="red")
 
     return pb
@@ -259,84 +289,96 @@ def preset_black_hole_sun():
     """Soundgarden - Black Hole Sun (105 BPM) — Kim Thayil
 
     Son signature : H&K Rotosphere emule le Leslie Model 16 de l'enregistrement.
-    Rotary FAST sur le verse clean, SLOW sur le refrain (avec Big Muff).
-    Source : "fast setting for the verses, slow setting for the choruses" (Premier Guitar).
-    Intro : arpèges clean Cornell sans rotary. Slapback 80ms differencie le solo.
+    Rotary FAST sur le verse clean (Refrain : Rotary retire en live, trop present).
+    Intro : arpeges clean Cornell. Slapback 80ms differencie le solo.
 
-    Chaine : Gate > BigMuff > Rotary > Reverb > KinkyBoost > Slapback > OD-Intro
-    Slots  :  0      1         2        3        4             5          6
+    REFONTE rationalisation v2 : chaque pedale a une CONFIG FIXE.
 
-    Snap 0 Intro  : clean + reverb + KinkyBoost (arpèges Cornell, pas de rotary)
-    Snap 1 Verse  : clean + rotary FAST + reverb + KinkyBoost
-    Snap 2 Refrain: Big Muff + rotary SLOW (Speed=False via params) + reverb
-    Snap 3 Solo   : Big Muff pousse + slapback 80ms + reverb
+    - Intro : Heir Apparent (= Be Yourself Intro, meme config) — arpeges avec
+              grain leger, Bluesbreaker modded. Remplace l'ancien OCD a Gain=0.06.
+    - Verse : Rotary FAST + KinkyBoost (color, Drive=0.35) + Reverb. Clean colore.
+    - Refrain : Big Muff seul (config fixe, Level monte pour autosuffisance).
+                KinkyBoost retire du Refrain (etait un patch compensation output,
+                resolu en montant directement le Level du Big Muff).
+    - Solo : Big Muff (config fixe identique Refrain) + Scream 808 push +
+             Slapback. Le TS pousse le Big Muff = lead ressort, meme principe
+             qu'AYGGMW/Be Yourself.
+
+    Chaine : Gate > HeirApparent > Scream808 > BigMuff > Rotary > KinkyBoost > Slapback > Reverb
+    Slots  :  0      1              2           3         4        5             6          7
+
+    Snap 0 Intro  : Gate + Heir Apparent + Reverb
+    Snap 1 Verse  : Gate + Rotary FAST + KinkyBoost (color) + Reverb
+    Snap 2 Refrain: Gate + Big Muff + Reverb
+    Snap 3 Solo   : Gate + Scream808 (push) + Big Muff + Slapback + Reverb
+
+    Configs fixes :
+    - Heir Apparent : Gain=0.20, Tone=0.50, Level=0.85 (identique Be Yourself Intro)
+    - Scream 808   : Gain=0.25, Tone=0.55, Level=0.92 (identique pattern projet)
+    - Big Muff     : Sustain=0.80, Tone=0.55, Level=0.85 (Sustain repris de
+                     Lithium ; Tone+Level remontes apres test live refrain BHS)
+    - KinkyBoost   : Drive=0.35, Boost=True (color + bump volume Verse clean)
     """
     pb = PresetBuilder("Black Hole Sun", tempo=105.0, styles=["grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
+    # Heir Apparent (Analogman Prince of Tone = Bluesbreaker modded)
+    # Meme config que Be Yourself Intro — meme principe : arpeges + grain leger
+    # Active uniquement sur snap Intro.
+    pb.add_block("HD2_DistHeirApparent", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
+
+    # Scream 808 (Ibanez TS808) = boost solo place avant le Big Muff
+    # Pousse le Big Muff pour faire ressortir le lead, meme principe qu'AYGGMW.
+    # Active uniquement sur snap Solo.
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
     # Bighorn Fuzz = Ram's Head Big Muff : distorsion epaisse pour refrain/solo
-    # enabled_default=False : bypasse en Intro et Verse
-    pb.add_block("HD2_DistRamsHead", slot=1, enabled_default=False,
-                 overrides={"Sustain": 0.75, "Tone": 0.45, "Level": 0.50})
+    # CONFIG FIXE : meme reglages sur Refrain et Solo. Le boost Solo passe par
+    # le Scream 808 en push, pas par modification du Big Muff lui-meme.
+    # Sustain=0.80 (repris de Lithium, valide en repet).
+    # Tone=0.55 + Level=0.85 (test live BHS : refrain pas assez clair/fort
+    # avec 0.45/0.78 — Tone remonte pour ouvrir le son, Level pour porter).
+    pb.add_block("HD2_DistRamsHead", slot=3, enabled_default=False,
+                 overrides={"Sustain": 0.80, "Tone": 0.55, "Level": 0.85})
 
     # Rotary Drum/Horn = Leslie 145 : simule le H&K Rotosphere de Kim Thayil
-    # Speed=True (fast), Mix=0.85 pour un swirl bien perceptible
-    # enabled_default=False : doit etre explicitement dans blocks_on pour etre actif
-    pb.add_block("HD2_MM4RotaryDrumHorn", slot=2, enabled_default=False,
+    # Speed=True (fast), Mix=0.85 — utilise uniquement sur Verse
+    pb.add_block("HD2_MM4RotaryDrumHorn", slot=4, enabled_default=False,
                  overrides={"Speed": True, "Depth": 0.82, "Horn Depth": 0.88,
                             "Drive": 0.5, "Mix": 0.85, "Level": 4.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
-                 overrides={"Decay": 0.50, "Predelay": 0.02,
-                            "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
-
-    # Kinky Boost = Xotic EP Booster : corps et harmoniques sur le verse clean
-    # Drive reduit (1.0->0.80) + Boost=False : verse un peu moins fort
-    # enabled_default=False : actif uniquement sur Verse
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+    # Kinky Boost = Xotic EP Booster : color + bump volume sur Verse clean
+    # Drive=0.35 : harmoniques chaudes (rôle "color" — epaissit le clean)
+    # Boost=True : +6 dB pour compenser le volume Verse (sans saturation)
+    # Active uniquement sur snap Verse.
+    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
+                 overrides={"Drive": 0.35, "Boost": True, "Bright": False})
 
     # Slapback 80ms : differencie le Solo du Refrain
-    # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
+    # Active uniquement sur Solo. Place avant la Reverb (ordre delay->reverb).
+    pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
                  overrides={"Time": 0.08, "Feedback": 0.0, "Mix": 0.18,
                             "TempoSync1": False})
 
-    # Compulsive Drive = OCD : OD epaisse pour l'intro (riff grave Cornell)
-    # Gain=0.50 default (snap Intro override a 0.03 = quasi-clean)
-    # Tone=0.40 : adouci (intro etait perçue trop saturee)
-    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
-    # enabled_default=False : actif uniquement sur Intro
-    pb.add_block("HD2_DistCompulsiveDrive", slot=6, enabled_default=False,
-                 overrides={"Gain": 0.50, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+    pb.add_block("HD2_ReverbGanymede", slot=7,
+                 overrides={"Decay": 0.50, "Predelay": 0.02,
+                            "Tone": 0.55, "Modulation": 0.20, "Mix": 0.22})
 
-    # Intro : Gain OCD remonte legerement (0.03 -> 0.06) suite test live
-    # KinkyBoost retire de l'intro pour moins d'effet
-    pb.add_snapshot(0, "Intro", blocks_on=[0, 3, 6],
-                    params={6: {"Gain": 0.06}},
-                    color="yellow")
+    # Intro : arpeges Cornell, Heir Apparent grain leger + Reverb
+    pb.add_snapshot(0, "BHS Intro", blocks_on=[0, 1, 7], color="yellow")
 
-    # Verse : KinkyBoost Drive=0.35 (override snap) pour epaissir le son
-    # sans monter le volume (Drive ajoute des harmoniques chaudes)
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 2, 3, 4],
-                    params={4: {"Drive": 0.35}},
-                    color="green")
+    # Verse : Rotary FAST + KinkyBoost (color Drive=0.35) + Reverb
+    pb.add_snapshot(1, "BHS Verse", blocks_on=[0, 4, 5, 7], color="green")
 
-    # Refrain : retire le Rotary (effet trop present en live, demande utilisateur)
-    # KinkyBoost (4) : compense le deficit d'output du Big Muff
-    # Big Muff Level 0.65 (deja monte de 0.42), Tone 0.65 (de 0.45) — encore + clarte
-    pb.add_snapshot(2, "Refrain", blocks_on=[0, 1, 3, 4],
-                    params={1: {"Level": 0.65, "Tone": 0.65}},
-                    color="orange")
+    # Refrain : Big Muff seul (config fixe, Level autosuffisant)
+    pb.add_snapshot(2, "BHS Refrain", blocks_on=[0, 3, 7], color="orange")
 
-    # Solo : Big Muff aligne sur le Refrain (Tone=0.65 pour coherence sonore)
-    # + Sustain monte (0.85) et Level au-dessus du Refrain (0.72 vs 0.65)
-    # = meme couleur que le Refrain mais plus de sustain et de presence (caractere solo)
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 4, 5],
-                    params={1: {"Sustain": 0.85, "Tone": 0.65, "Level": 0.72}},
-                    color="red")
+    # Solo : Scream 808 pousse Big Muff (config inchangee) + Slapback
+    pb.add_snapshot(3, "BHS Solo", blocks_on=[0, 2, 3, 6, 7], color="red")
 
     return pb
 
@@ -344,83 +386,97 @@ def preset_black_hole_sun():
 def preset_creep():
     """Radiohead - Creep (93 BPM) — Jonny Greenwood
 
-    Son : Fender Telecaster Plus → Marshall ShredMaster (Vermin Dist)
+    Son : Fender Telecaster Plus → Marshall ShredMaster
     → Fender Eighty-Five clean (solid-state, tres scoop : Bass 11, Mid 1, Treble 11).
-    Verse : Roland Dimension D (chorus large et transparent, mode SW4).
-    Stabs : compresseur Dyna Comp + dist gain pousse = "gros coup" produit, fort.
+    Verse : tremolo lent et doux (style Voodoo Lab Tremolo, opto-style).
+    Stabs : "gros coup" pousse, fort et sec (Klon push devant OCD).
 
-    Chaine : Gate > VerminDist > Dimension > Reverb > RedSqueeze > KinkyBoost > SimpleDelay
-    Slots  :  0      1            2            3        4             5            6
+    REFONTE rationalisation v2 : chaque pedale a une CONFIG FIXE.
 
-    Snap 0 Verse  : clean + Dimension D + reverb + KinkyBoost Drive (epaissi le son)
-    Snap 1 Stabs  : dist gain pousse + compresseur (gros coup mute, sec et fort)
-    Snap 2 Chorus : dist + reverb (plein sustain, G-B-C-Cm), Level monte
-    Snap 3 Solo   : Chorus + SimpleDelay 300ms (continuite tremolo picking Greenwood)
-                    Remplace le Clean (sacrifie pour avoir le solo essentiel du morceau)
+    - Verse : Optical Trem (lent et doux) + KinkyBoost (color) + Reverb.
+    - Stabs : Klon Minotaur (gros push) + OCD (config fixe). PAS de reverb = sec.
+    - Chorus: OCD seul + Reverb.
+    - Solo  : Scream 808 (push) + OCD + Reverb (formule standard projet, sans delay).
 
-    Volume : RAT a Level=0.95 (Chorus = ref). KinkyBoost Drive=0.35 sur Verse.
-    Solo identifie via analyse audio (sections les plus intenses peak a 152-177s).
+    OCD Gain=0.65 ici (= AYGGMW) car pas de boost always-on pour pousser :
+    le Gain doit etre suffisant pour le caractere "grunge pousse" sur
+    Chorus et Solo. Sur les Stabs c'est le Top Secret OD (active uniquement
+    la) qui pousse l'OCD pour le "gros coup fort".
+
+    Chaine : Gate > TopSecretOD > Scream808 > OCD > OptoTremolo > KinkyBoost > Reverb
+    Slots  :  0      1             2           3     4             5             6
+
+    Snap 0 Verse  : Gate + Opto Tremolo + KinkyBoost (color) + Reverb
+    Snap 1 Stabs  : Gate (Th -40) + Top Secret OD (push) + OCD + KinkyBoost (+6 dB sortie)
+                    sec (pas de reverb)
+    Snap 2 Chorus : Gate + OCD + Reverb
+    Snap 3 Solo   : Gate + Scream808 (push) + OCD + Reverb (pas de delay)
+
+    Configs fixes :
+    - Top Secret OD : Gain=0.80, Level=1.0 (DOD 250, OP-amp brut, gros push Stabs)
+    - Scream 808    : Gain=0.25, Tone=0.55, Level=0.92 (identique pattern projet)
+    - OCD           : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge pousse,
+                      Tone baisse pour moins d'aigu, Level baisse vs 0.85 prec.)
+    - Opto Tremolo  : Speed=4.4 Hz, Depth=0.65, VolSens=0.10, Mix=1.0 (valide repet)
+    - KinkyBoost    : Drive=0.35, Boost=True (color Verse, idem BHS)
     """
     pb = PresetBuilder("Creep", tempo=93.0, styles=["grunge", "alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
-    # Vermin Dist = Pro Co RAT : plus proche du Marshall ShredMaster disponible
-    # (meme architecture opamp, gain eleve, filtre passe-bas = ton mi-grave agressif)
-    # Filter=0.38 : coupe les aigus pour renforcer les mids, caractere britannique
-    # Level=0.88 : compromis (0.85 etait sous la ref, 0.95 etait trop fort)
-    #              KinkyBoost reste actif sur Chorus pour compenser le deficit RAT
-    # enabled_default=False : bypasse au chargement (verse clean par defaut)
-    pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.38, "Level": 0.88})
+    # Top Secret OD = DOD Preamp/Overdrive 250 : OP-amp brut, agressif
+    # = gros boost pour les Stabs (caractere "gros coup pousse fort").
+    # Gain=0.80 : pousse fort l'OCD (saturation marquee + perception forte volume)
+    # Level=1.0  : sortie max pour gros son live (test live : 0.92 trop faible)
+    # Active uniquement sur Stabs.
+    pb.add_block("HD2_DistTopSecretOD", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.80, "Level": 1.0})
 
-    # MM4 Dimension = Roland Dimension D : chorus transparent sur le verse clean
-    # SW4=True (mode 4) : le plus spacieux, signature son clean Radiohead debut 90s
-    pb.add_block("HD2_MM4Dimension", slot=2,
-                 overrides={"SW1": False, "SW2": False, "SW3": False, "SW4": True,
-                            "Mix": 1.0, "Level": 0.0})
+    # Scream 808 (Ibanez TS808) = boost solo place avant l'OCD
+    # Pousse l'OCD pour faire ressortir le lead — meme principe qu'AYGGMW/BHS.
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # OCD = simule canal sature pousse Marshall ShredMaster + scoop Eighty-Five
+    # Gain=0.65 = "grunge bien pousse" (= AYGGMW).
+    # Tone=0.40 : adouci (moins d'aigu — test live a montre que 0.50 trop brillant)
+    # Level=0.80 : baisse vs 0.85 (test live = un poil trop fort vs ref AYGGMW)
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    # Opto Tremolo (Legacy MM4) = approche Voodoo Lab Tremolo
+    # Reglages valides en repet : Speed=4.4 Hz, Depth=65%, VolSens=10%
+    pb.add_block("HD2_MM4OptoTremolo", slot=4, enabled_default=False,
+                 overrides={"Speed": 4.4, "Depth": 0.65, "Shape": 0.0,
+                            "VolSens": 0.10, "Mix": 1.0, "Level": 0.0})
+
+    # KinkyBoost = Xotic EP Booster : config "color Verse" (idem BHS Verse)
+    # Drive=0.35 (harmoniques chaudes) + Boost=True (+6 dB volume Verse clean)
+    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
+                 overrides={"Drive": 0.35, "Boost": True, "Bright": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=6,
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.16})
 
-    # Red Squeeze = MXR Dyna Comp : compression forte + makeup gain pour les Stabs
-    # Sensitivity haute = ecrase l'attaque, sustain le coup mute
-    # Level +6 dB = makeup, donne le "gros coup fort" demande
-    # enabled_default=False : actif uniquement sur Stabs
-    pb.add_block("HD2_CompressorRedSqueeze", slot=4, enabled_default=False,
-                 overrides={"Sensitivity": 0.78, "Mix": 1.0, "Level": 6.0})
+    # Verse : Optical Trem (lent doux) + KinkyBoost (color) + Reverb
+    pb.add_snapshot(0, "CRP Verse", blocks_on=[0, 4, 5, 6], color="green")
 
-    # KinkyBoost = Xotic EP Booster : boost volume sur Verse, Chorus et Stabs
-    # enabled_default=False : active selectivement par snap
-    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
-    # Simple Delay pour le solo : continuite du tremolo picking Greenwood
-    # 300ms = entre 8eme et dotted 8th a 93 BPM, Feedback bas, Mix modere
-    # enabled_default=False : actif uniquement sur snap Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
-                 overrides={"Time": 0.30, "Feedback": 0.15, "Mix": 0.22,
-                            "TempoSync1": False})
-
-    # Verse : KinkyBoost Drive=0.35 (override snap) pour epaissir le son
-    # sans monter le volume (memes harmoniques chaudes que BHS Verse)
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3, 5],
-                    params={5: {"Drive": 0.35}},
-                    color="green")
-
-    # Stabs : dist + KinkyBoost seul (pas de compresseur), Gain=0.85 + Level=1.0 via params
-    pb.add_snapshot(1, "Stabs", blocks_on=[0, 1, 5],
-                    params={1: {"Gain": 0.85, "Level": 1.0}},
+    # Stabs : Top Secret OD pousse OCD + KinkyBoost en sortie (+6 dB boost)
+    # = "gros coup pousse" fort et sec
+    # PAS de reverb : sec, attaque "mute" tres marquee
+    # Gate Threshold override -40 dB : OCD + TopSecretOD pousse genere du bruit
+    # de fond avec Threshold=-50 (calibre Verse clean). -40 dB coupe le bruit.
+    pb.add_snapshot(1, "CRP Stabs", blocks_on=[0, 1, 3, 5],
+                    params={0: {"Threshold": -40.0}},
                     color="orange")
 
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 1, 3, 5], color="red")
+    # Chorus : OCD seul + Reverb (sustain large)
+    pb.add_snapshot(2, "CRP Chorus", blocks_on=[0, 3, 6], color="red")
 
-    # Solo : Chorus + SimpleDelay 300ms pour continuite tremolo picking
-    # Snap identifie via analyse audio (sections les plus intenses a 152-177s)
-    # Remplace l'ancien snap Clean (sacrifie pour le solo essentiel du morceau)
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 1, 3, 5, 6], color="blue")
+    # Solo : Scream 808 pousse OCD + Reverb (formule standard projet)
+    pb.add_snapshot(3, "CRP Solo", blocks_on=[0, 2, 3, 6], color="blue")
 
     return pb
 
@@ -428,21 +484,34 @@ def preset_creep():
 def preset_dani_california():
     """RHCP - Dani California (97 BPM) — John Frusciante
 
-    Son : Fender Strat 1954/1962 → Moog MF-101 LPF (verse lick)
-    → Boss DS-2 Turbo (Deez One Mod, chorus/solo) → Marshall Major 200W bridgé.
-    Wah (solo) : pédale externe (MC404 CAE).
+    Son original : Fender Strat → Moog MF-101 LPF (verse lick) → Boss DS-2 Turbo
+    (chorus/solo) → Marshall Major 200W bridge. Wah (solo) : pedale externe MC404 CAE.
 
-    Verse clean : confirme par Butch Vig / interviews — "straight into amp, no pedal".
-    Filtre verse : Doepfer A-100 modular studio, reproduit live avec Moog MF-101.
-    KinkyBoost : compense le delta RMS clean/distordu sur Verse et Lick (pas Chorus/Solo).
+    REFONTE rationalisation v2 : abandon du DS-2 (Deez One Mod) au profit de
+    configs canoniques reutilisees dans d'autres presets.
 
-    Chaine : Gate > AutoFilter > DeezOneMod > Reverb > KinkyBoost
-    Slots  :  0      1            2              3        4
+    - Verse : son d'intro de Be Yourself = Heir Apparent (Bluesbreaker modded)
+              = arpege + grain leger. Caractere different du clean pur historique
+              mais plus de corps en live.
+    - Lick  : meme son que Verse + AutoFilter (MF-101) toujours utilise.
+    - Chorus: OCD config Creep (= grunge bien pousse, Gain=0.65, Tone=0.40, Level=0.80).
+              Frusciante sur Dani Cal pousse fort le Marshall Major — l'OCD a ce
+              caractere mieux que le DS-2 en repet.
+    - Solo  : OCD identique + Scream 808 push (formule standard projet) + reverb.
+              Wah externe MC404 (pas dans la chaine).
 
-    Snap 0 Verse  : clean pur + reverb + KinkyBoost (+6 dB RMS)
-    Snap 1 Lick   : clean + AutoFilter (MF-101) + reverb + KinkyBoost
-    Snap 2 Chorus : DS-2 Turbo + reverb
-    Snap 3 Solo   : DS-2 Turbo gain pousse + reverb (wah = pedale externe)
+    Chaine : Gate > AutoFilter > HeirApparent > Scream808 > OCD > Reverb
+    Slots  :  0      1            2              3            4     5
+
+    Snap 0 Verse  : Gate + Heir Apparent + Reverb
+    Snap 1 Lick   : Gate + AutoFilter + Heir Apparent + Reverb
+    Snap 2 Chorus : Gate + OCD + Reverb
+    Snap 3 Solo   : Gate + Scream808 (push) + OCD + Reverb (wah externe)
+
+    Configs partagees (cf. shared_pedal_configs.md) :
+    - Heir Apparent : Gain=0.20, Tone=0.50, Level=0.85 (idem Be Yourself Intro / BHS Intro)
+    - OCD           : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (idem Creep)
+    - Scream 808    : Gain=0.25, Tone=0.55, Level=0.92 (formule Solo standard)
     """
     pb = PresetBuilder("Dani California", tempo=97.0, styles=["funk_rock", "funk"])
 
@@ -450,44 +519,45 @@ def preset_dani_california():
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
     # Auto Filter = Moog MF-101 LPF (approximation live du Doepfer A-100 studio)
-    # Mode BP (1) retenu : Mode LP (0) trop grave sur le lick (valide par test)
-    # Le MF-101 original est un LPF mais le BP est plus fonctionnel sur le HX
+    # Mode BP (1) : valide par test (LP trop grave sur le lick)
+    # Place devant les sat : voit le signal clean (envelope plus reactive)
     pb.add_block("HD2_FilterAutoFilter", slot=1, enabled_default=False,
                  overrides={"Mode": 1, "FilterGain": 14.0, "FilterQ": 6.0,
                             "Sens": 0.55, "Attack": 0.01, "Decay": 0.30,
                             "Frequency": 200.0, "FreqDepth": 4500.0,
                             "Direction": True, "Mix": 1.0, "Level": 0.0})
 
-    # Deez One Mod = approx. Boss DS-2 Turbo Distortion (mode Turbo II)
-    # DS-2 non modelise en HX ; DS-1 Keeley est l'approximation la plus proche
-    # Drive 0.65 = Turbo mode (plus de saturation que DS-1 standard)
-    pb.add_block("HD2_DistDeezOneMod", slot=2, enabled_default=False,
-                 overrides={"Drive": 0.65, "Tone": 0.52, "Level": 0.52})
+    # Heir Apparent (Analogman Prince of Tone = Bluesbreaker modded)
+    # CONFIG CANONIQUE "arpege + grain leger" — partagee avec Be Yourself
+    # Intro et BHS Intro.
+    pb.add_block("HD2_DistHeirApparent", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # Scream 808 (Ibanez TS808) = formule Solo standard
+    # Pousse l'OCD pour faire ressortir le lead, meme principe qu'AYGGMW/BHS/Creep.
+    pb.add_block("HD2_DistScream808", slot=3, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # OCD = simule canal sature pousse (Marshall Major bridge en live)
+    # CONFIG CANONIQUE "grunge bien pousse" — partagee avec Creep Chorus/Solo.
+    pb.add_block("HD2_DistCompulsiveDrive", slot=4, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.16})
 
-    # Kinky Boost = Xotic EP Booster : boost de volume +6 dB sur les snaps clean
-    # Drive=0 = pas de coloration / Boost=True = +6 dB interne
-    # Place apres la reverb : agit comme trimmer de volume pur, ne recolore pas la queue
-    # enabled_default=False : actif sur Verse/Lick, bypasse sur Chorus/Solo
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+    # Verse : Heir Apparent + Reverb (son d'intro Be Yourself)
+    pb.add_snapshot(0, "DAN Verse", blocks_on=[0, 2, 5], color="green")
 
-    # Verse : clean pur + boost RMS pour tenir dans le mix live
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 3, 4], color="green")
+    # Lick : AutoFilter dynamique + Heir Apparent + Reverb
+    pb.add_snapshot(1, "DAN Lick", blocks_on=[0, 1, 2, 5], color="yellow")
 
-    # Lick : AutoFilter dynamique + boost RMS (signal clean filtre dans les mids)
-    pb.add_snapshot(1, "Lick", blocks_on=[0, 1, 3, 4], color="yellow")
+    # Chorus : OCD + Reverb (grunge pousse)
+    pb.add_snapshot(2, "DAN Chorus", blocks_on=[0, 4, 5], color="orange")
 
-    # Chorus : DS-2 Turbo engage — pas de KinkyBoost (distorsion = RMS naturellement haut)
-    pb.add_snapshot(2, "Chorus", blocks_on=[0, 2, 3], color="orange")
-
-    # Solo : DS-2 gain pousse — wah externe MC404 CAE, pas dans la chaine
-    pb.add_snapshot(3, "Solo", blocks_on=[0, 2, 3],
-                    params={2: {"Drive": 0.72, "Level": 0.55}},
-                    color="red")
+    # Solo : Scream 808 pousse OCD + Reverb (wah externe MC404 CAE)
+    pb.add_snapshot(3, "DAN Solo", blocks_on=[0, 3, 4, 5], color="red")
 
     return pb
 
@@ -547,16 +617,16 @@ def preset_drive():
                  overrides={"Decay": 0.52, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.22})
 
-    pb.add_snapshot(0, "Acoustique", blocks_on=[0, 1, 6], color="green")
+    pb.add_snapshot(0, "DRV Acoustique", blocks_on=[0, 1, 6], color="green")
 
     # Solo : Phaser + Rotosphere (FAST) + KinkyBoost + delay + reverb
-    pb.add_snapshot(1, "Solo", blocks_on=[0, 2, 3, 4, 5, 6], color="red")
+    pb.add_snapshot(1, "DRV Solo", blocks_on=[0, 2, 3, 4, 5, 6], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 6],
+    pb.add_snapshot(2, "DRV Clean", blocks_on=[0, 6],
                     params={6: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 6],
+    pb.add_snapshot(3, "DRV Clean", blocks_on=[0, 6],
                     params={6: {"Mix": 0.10}},
                     color="white")
 
@@ -567,66 +637,71 @@ def preset_even_flow():
     """Pearl Jam - Even Flow (103 BPM) — Mike McCready / Stone Gossard
 
     Accordage : Drop D (D A D G B E). Enregistrement un quart de ton plus bas.
-    Son : Fender Strat 1958 + Ibanez TS9 → Marshall JCM800 cranked.
-    Scream 808 always-on a gain eleve : simule le JCM800 + TS9 comme push.
+    Son original : Fender Strat 1958 + Ibanez TS9 → Marshall JCM800 cranked.
     Le son ne change pas entre Verse/Chorus/Bridge — un seul snap principal.
     Wah (licks et solo) : pedale externe (MC404 CAE d'Eric).
 
-    Gain stacking : Scream808 (TS9, push mid) → CompulsiveDrive (OCD, JCM800 cranked).
-    Les deux always-on : le TS9 pousse l'entree de l'OCD comme dans le rig original.
+    REFONTE rationalisation v2 : application du pattern canonique "Rock direct"
+    (= AYGGMW) = Klon + OCD always-on en gain stacking.
+    Iteration 2 : la version OCD seule "grunge bien pousse" manquait de corps,
+    on rajoute le Klon en front pour gain stacking (mid-bump 700-800 Hz =
+    chaleur sans aigus parasites, contrairement au TS9 d'origine).
 
-    Chaine : Gate > Scream808 > CompulsiveDrive > ScriptModPhase > SimpleDelay > Reverb
-    Slots  :  0      1           2                 3                 4              5
+    Chaine : Gate > Minotaur > Scream808 > CompulsiveDrive > Reverb
+    Slots  :  0      1          2           3                 4
 
-    Snap 0 Principal : TS9 + OCD + reverb (Intro/Verse/Chorus/Bridge/Licks)
-    Snap 1 Solo      : + Phase 90 + DD-3 delay (wah = pedale externe)
+    Snap 0 Principal : Klon + OCD + reverb (Intro/Verse/Chorus/Bridge/Licks)
+    Snap 1 Solo      : + Scream 808 push (formule Solo standard, identique AYGGMW)
     Snap 2 Clean     : accordage / attente
     Snap 3 Clean     : accordage / attente
+
+    Note : Phase 90 + DD-3 (signature McCready) retires — Solo aligne sur la
+    formule standard AYGGMW (Klon + TS push + OCD + reverb, rien d'autre).
+    Wah externe MC404 CAE garde son role differenciant sur le snap Solo.
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Minotaur    : Gain=0.40, Tone=0.45, Level=0.86 (Klon push pattern "Rock direct")
+    - OCD         : Gain=0.65, Tone=0.35, LPHP=True, Level=0.80 (pattern "Rock direct"
+                    idem AYGGMW — Tone=0.35 plus adouci car Klon pousse en front)
+    - Scream 808  : Gain=0.25, Tone=0.55, Level=0.92 (formule Solo standard)
     """
     pb = PresetBuilder("Even Flow", tempo=103.0, styles=["grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.32})
 
-    # Scream 808 = Ibanez TS9 : role de "push" → mid boost + compression
-    # Gain modere : le TS9 n'est pas la source de saturation principale
-    # Level eleve : pousse fort dans l'entree de l'OCD (comme dans le rig original)
-    pb.add_block("HD2_DistScream808", slot=1,
-                 overrides={"Gain": 0.40, "Tone": 0.62, "Level": 0.70})
+    # Klon Minotaur always-on = front push pour gain stacking permanent
+    # Mid-bump 700-800 Hz = corps + chaleur (pas d'aigus parasites comme TS9).
+    # CONFIG CANONIQUE "Rock direct" partagee avec AYGGMW.
+    pb.add_block("HD2_DistMinotaur", slot=1,
+                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
 
-    # Compulsive Drive = OCD : simule le canal preamp JCM800 cranked
-    # LPHP=True (HP) : punch britannique, attack seche
-    # Gain=0.72 : JCM800 a gain eleve, pas de canal clean
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.85, "Tone": 0.58, "LPHP": True, "Level": 0.58})
+    # Scream 808 (Ibanez TS808) = formule Solo standard
+    # Pousse l'OCD + Klon pour faire ressortir le lead.
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    # Script Mod Phase = MXR Phase 90 (script logo) : modulation sur le solo
-    # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_PhaserScriptModPhase", slot=3, enabled_default=False,
-                 overrides={"Rate": 0.25, "Mix": 0.32, "Level": 0.0})
+    # OCD = CONFIG CANONIQUE "Rock direct" — partagee avec AYGGMW
+    # Tone=0.35 (vs 0.40 du grunge seul) : Klon pousse en front, on peut adoucir
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
+                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
 
-    # Simple Delay = Boss DD-3 : delay sparse sur le solo
-    # Time 0.29s ≈ double croche a 103 BPM
-    # enabled_default=False : actif uniquement sur Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
-                 overrides={"Time": 0.29, "Feedback": 0.12, "Mix": 0.18,
-                            "TempoSync1": False})
-
-    pb.add_block("HD2_ReverbGanymede", slot=5,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.18})
 
-    pb.add_snapshot(0, "Principal", blocks_on=[0, 1, 2, 5], color="orange")
+    # Principal : Klon + OCD always-on + Reverb (= Riff/Bridge AYGGMW)
+    pb.add_snapshot(0, "EVF Principal", blocks_on=[0, 1, 3, 4], color="orange")
 
-    # Solo : Phase90 + DD-3 sparse + wah externe MC404 CAE
-    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
+    # Solo : + Scream 808 push (= Solo AYGGMW, wah externe MC404 CAE)
+    pb.add_snapshot(1, "EVF Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 5],
-                    params={5: {"Mix": 0.10}},
+    pb.add_snapshot(2, "EVF Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 5],
-                    params={5: {"Mix": 0.10}},
+    pb.add_snapshot(3, "EVF Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="white")
 
     return pb
@@ -684,19 +759,19 @@ def preset_how_you_remind_me():
                  overrides={"Drive": 0.0, "Boost": True, "Bright": True})
 
     # Verse/Intro : clean brillant + KinkyBoost (Bright=True) + reverb ouverte
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 3, 4],
+    pb.add_snapshot(0, "HOW Verse", blocks_on=[0, 3, 4],
                     params={3: {"Mix": 0.20}},
                     color="green")
 
     # Chorus : Metal Zone seule = saturation metal massive
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3], color="red")
+    pb.add_snapshot(1, "HOW Chorus", blocks_on=[0, 1, 3], color="red")
 
     # Arpeges : clean + CE-1 vibrato + reverb ouverte + KinkyBoost
-    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 2, 3, 4],
+    pb.add_snapshot(2, "HOW Arpeges", blocks_on=[0, 2, 3, 4],
                     params={3: {"Mix": 0.20}},
                     color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "HOW Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -710,63 +785,76 @@ def preset_hysteria():
     Guitare studio : Gibson SG Standard (rouge, Absolution 2003).
     Ampli : Marshall JCM 2000 DSL 100 — Bellamy : "gain really low, volume on full"
     = saturation de power amp naturelle, caractere Marshall britannique.
-    Note : Diezel VH4 = ere posterieure, pas sur Absolution.
-    OCD = simulation JCM 2000 DSL (meme lignee que JCM800, canal Lead low-gain + vol fort).
 
     Hysteria est principalement une chanson de basse (Chris Wolstenholme).
     La guitare joue en soutien — le bassiste du groupe d'Eric couvre la ligne de basse.
 
-    Chaine : Gate > CompulsiveDrive > DuckedDelay > Reverb > KinkyBoost
-    Slots  :  0       1                 2             3         4
+    REFONTE rationalisation v2 : OCD aligne sur pattern canonique "Grunge bien
+    pousse" (= Creep / Dani California / Even Flow), Solo via Scream 808 push
+    (formule standard projet). KinkyBoost retire (pas dans le pattern).
 
-    Snap 0 Riff   : OCD + reverb (riff principal)
-    Snap 1 Chorus : OCD + delay (subtle) + reverb
-    Snap 2 Solo   : OCD gain monte + DuckedDelay (duck quand on joue, monte entre phrases) + reverb ample
+    Chaine : Gate > Scream808 > CompulsiveDrive > DuckedDelay > Reverb
+    Slots  :  0      1            2                 3             4
+
+    Snap 0 Riff   : OCD + reverb
+    Snap 1 Chorus : OCD + DuckedDelay subtle + reverb
+    Snap 2 Solo   : Scream 808 push + OCD + DuckedDelay (ambiance lead) + reverb ample
     Snap 3 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD         : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Scream 808  : Gain=0.25, Tone=0.55, Level=0.92 (formule Solo standard)
+
+    Notes :
+    - On perd un peu la brillance "Marshall JCM2000 ouvert" (Tone=0.58 avant)
+      au profit de la coherence inter-preset (Tone=0.40 grunge). A revoir si
+      en repetition le caractere Muse n'est plus assez present.
+    - DuckedDelay et Reverb gardent leurs overrides snap (ambiance space-rock
+      lead) — ce sont des effets, pas des boost/sat (legitime).
     """
     pb = PresetBuilder("Hysteria", tempo=93.0, styles=["alt_rock", "hard_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.25})
 
-    # Compulsive Drive = OCD : simule Marshall JCM 2000 DSL (canal Lead, gain bas + vol fort)
-    # LPHP=True : punch britannique, attaque seche
-    # Gain=0.68 = saturation power amp naturelle, pas de preamp extreme
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.68, "Tone": 0.58, "LPHP": True, "Level": 0.72})
+    # Scream 808 (Ibanez TS808) = formule Solo standard
+    # Pousse l'OCD pour faire ressortir le lead sans modifier OCD.
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/EvenFlow
+    # JCM 2000 DSL canal Lead, gain bas + vol fort = ce caractere s'approche
+    # du grunge pousse meme si historiquement Tone=0.58 (plus brillant).
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
     # Ducked Delay : duck quand on joue (note seche et presente), remonte entre les phrases
     # LowCut=150Hz / HighCut=6000Hz : repeats plus chauds et moins envahissants
     # Defaults orientés Chorus (subtle) — overrides Solo ci-dessous
     # enabled_default=False : actif uniquement sur Chorus et Solo
-    pb.add_block("HD2_DelayDuckedDelay", slot=2, enabled_default=False,
+    pb.add_block("HD2_DelayDuckedDelay", slot=3, enabled_default=False,
                  overrides={"Time": 0.16, "Feedback": 0.06, "LowCut": 150.0,
                             "HighCut": 6000.0, "Mix": 0.25, "Threshold": 0.45,
                             "Ducking": 0.75, "DynAttack": 0.02, "DynRel": 0.30,
                             "TempoSync1": False, "@trails": True})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14,
                             "@trails": True})
 
-    # KinkyBoost : compense le volume OCD vs reference clean
-    # enabled_default=False : exclu du snap Clean
-    pb.add_block("HD2_DistKinkyBoost", slot=4,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+    pb.add_snapshot(0, "HYS Riff", blocks_on=[0, 2, 4], color="orange")
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3, 4], color="orange")
+    pb.add_snapshot(1, "HYS Chorus", blocks_on=[0, 2, 3, 4], color="red")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4], color="red")
-
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Gain": 0.78, "Level": 0.92},
-                            2: {"Time": 0.32, "Feedback": 0.04, "Mix": 0.55},
-                            3: {"Decay": 0.55, "Predelay": 0.05, "Mix": 0.28}},
+    # Solo : Scream 808 push + OCD (config fixe) + DuckedDelay long + Reverb ample
+    pb.add_snapshot(2, "HYS Solo", blocks_on=[0, 1, 2, 3, 4],
+                    params={3: {"Time": 0.32, "Feedback": 0.04, "Mix": 0.55},
+                            4: {"Decay": 0.55, "Predelay": 0.05, "Mix": 0.28}},
                     color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "HYS Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -778,54 +866,62 @@ def preset_i_wanna_be_your_slave():
     Accordage : standard (E A D G B E). Tonalite : Do# mineur (C#m).
     Guitare : Fender Telecaster / Stratocaster (single-coils). Ampli : Marshall 1987X Plexi.
 
-    Klon (Minotaur) + OCD (CompulsiveDrive) always-on : stack Klon→Plexi permanent.
-    Fiche Raggi : Verse = Klon + OCD crunch / Chorus = Klon + OCD pousse.
-    DS-1 (DeezOneVintage) toggle uniquement sur le solo.
+    REFONTE rationalisation v2 : abandon du Klon always-on + OCD low-gain
+    au profit du pattern canonique "grunge bien pousse" (= Creep/DaniCal/Hysteria).
+    Chorus pousse via Scream 808 + Simple Delay (formule "TS push moment fort"
+    appliquee a un Chorus dynamique, idem Solo standard).
+    KinkyBoost retire (pas dans le pattern).
 
-    2 sons : Verse (crunch leger) et Chorus (OCD pousse).
-    Pas de solo dans ce morceau.
+    Chaine : Gate > Scream808 > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :  0      1            2                 3             4
 
-    Chaine : Gate > Minotaur > CompulsiveDrive > Reverb > KinkyBoost
-    Slots  :  0      1          2                  3         4
-
-    Snap 0 Verse  : Klon + OCD crunch leger (Gain=0.38, Level=0.70)
-    Snap 1 Chorus : Klon + OCD pousse (Gain=0.52, Level=0.90)
+    Snap 0 Verse  : OCD + reverb (grunge bien pousse)
+    Snap 1 Chorus : + Scream 808 push + Simple Delay subtle
     Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD         : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Scream 808  : Gain=0.25, Tone=0.55, Level=0.92 (formule push standard,
+                    ici sur Chorus au lieu du Solo — meme principe "moment fort")
     """
     pb = PresetBuilder("I Wanna Be Slave", tempo=131.0, styles=["rock", "funk_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
-    # Minotaur = Klon Centaur : boost mid-heavy transparent, always-on
-    pb.add_block("HD2_DistMinotaur", slot=1,
-                 overrides={"Gain": 0.48, "Tone": 0.60, "Level": 0.55})
+    # Scream 808 (Ibanez TS808) = formule "TS push moment fort"
+    # Applique ici au Chorus (le moment dynamique du morceau) au lieu d'un Solo.
+    # Meme principe et meme config qu'AYGGMW/Hysteria Solo.
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    # Compulsive Drive = OCD : always-on, Gain/Level varie par snap
-    # Level=0.70 sur Verse = reference clean (valide a l'oreille)
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/Hysteria
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.38, "Tone": 0.58, "LPHP": True, "Level": 0.70})
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # Simple Delay subtle pour le Chorus : ambiance, peu de feedback
+    # Time=0.23s = croche a 131 BPM
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
+                 overrides={"Time": 0.23, "Feedback": 0.18, "Mix": 0.18,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.18, "Mix": 0.14})
 
-    pb.add_block("HD2_DistKinkyBoost", slot=4,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+    # Verse : OCD + Reverb (= Hysteria Riff)
+    pb.add_snapshot(0, "IWB Verse", blocks_on=[0, 2, 4], color="yellow")
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3, 4], color="yellow")
+    # Chorus : + Scream 808 push + Simple Delay subtle
+    pb.add_snapshot(1, "IWB Chorus", blocks_on=[0, 1, 2, 3, 4], color="orange")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3, 4],
-                    params={2: {"Gain": 0.52, "Level": 0.90}},
-                    color="orange")
-
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(2, "IWB Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "IWB Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -837,20 +933,28 @@ def preset_killing_in_the_name():
     Accordage : Drop D (D A D G B E). Eric descend le Mi grave en Re physiquement.
     Studio : Fender Telecaster (neck pickup) → Marshall JCM800 50W canal overdrive.
 
-    JCM800 = canal sature permanent → OCD always-on (Gain=0.72, LPHP=True).
+    REFONTE rationalisation v2 : OCD aligne sur pattern canonique "Grunge bien
+    pousse" (= Creep/DaniCal/Hysteria/IWBYS). Delay Solo retire.
     Reverb tres minimale : l'enregistrement studio est tres sec.
 
-    Solo : Whammy +2 octaves bindee a EXP 1 (Mission EP1-L6-BK port externe).
-    Talon = unisson (0 semitone), pointe = +24 semitones (2 octaves up).
+    Solo : Whammy +1 octave bindee a EXP 1 (Mission EP1-L6-BK port externe).
+    Talon = unisson (0 semitone), pointe = +12 semitones (1 octave up).
     Effet "DJ scratching" caracteristique du solo de Morello.
+    + Scream 808 push (formule "TS push moment fort" pour faire ressortir le lead).
 
-    Chaine : Gate > CompulsiveDrive > PitchWham > SimpleDelay > Reverb > KinkyBoost
-    Slots  :  0      1                 2            3              4         5
+    Chaine : Gate > Scream808 > CompulsiveDrive > PitchWham > Reverb
+    Slots  :  0      1            2                 3            4
 
-    Snap 0 Riff   : OCD cranked + Reverb minimal + KWB (intro/verse/chorus/"Fuck you")
-    Snap 1 Solo   : OCD + Whammy +2oct (EXP 1) + Delay 350ms + Reverb + KWB
+    Snap 0 Riff   : OCD + Reverb minimal
+    Snap 1 Solo   : Scream 808 push + OCD + Whammy +1oct (EXP 1) + Reverb
     Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
+
+    KinkyBoost retire (pas dans le pattern "Grunge bien pousse").
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD         : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Scream 808  : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
     """
     pb = PresetBuilder("Killing in the Name", tempo=85.0,
                        styles=["alt_metal", "funk_rock"])
@@ -858,43 +962,39 @@ def preset_killing_in_the_name():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Compulsive Drive = JCM800 canal overdrive (haut gain permanent)
-    # LPHP=True : punch britannique JCM800
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.72, "Tone": 0.55, "LPHP": True, "Level": 0.70})
+    # Scream 808 (Ibanez TS808) = formule "TS push moment fort"
+    # Pousse l'OCD pour faire ressortir le lead, en complement de la Whammy.
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    # Pitch Wham : Heel=0 (unisson), Toe=+24 (+2 octaves) — solo seulement
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/Hysteria/IWBYS
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    # Pitch Wham : Heel=0 (unisson), Toe=+12 (+1 octave) — solo seulement
     # Le param "Pedal" est bindee a EXP 1 (cf. bind_exp_pedal ci-dessous)
-    pb.add_block("HD2_PitchPitchWham", slot=2, enabled_default=False,
-                 overrides={"Heel": 0, "Toe": 24, "Mix": 1.0, "Level": 0.0})
-
-    # Simple Delay : ~350ms (entre 8eme et dotted 8th a 85 BPM) — solo seulement
-    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
-                 overrides={"Time": 0.35, "Feedback": 0.20, "Mix": 0.25,
-                            "TempoSync1": False})
+    pb.add_block("HD2_PitchPitchWham", slot=3, enabled_default=False,
+                 overrides={"Heel": 0, "Toe": 12, "Mix": 1.0, "Level": 0.0})
 
     # Reverb minimale : "no reverb" sur l'enregistrement studio
     pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.30, "Predelay": 0.01,
                             "Tone": 0.55, "Modulation": 0.10, "Mix": 0.08})
 
-    # KinkyBoost : compensation volume (regle calibration OCD)
-    pb.add_block("HD2_DistKinkyBoost", slot=5,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
-    # Bind du param "Pedal" du Pitch Wham (slot 2) a EXP 1
+    # Bind du param "Pedal" du Pitch Wham (slot 3) a EXP 1
     # Valeur snapshot par defaut = 0.0 (talon = unisson, pas d'effet pitch)
-    pb.bind_exp_pedal(slot=2, param_name="Pedal", exp_id=1, value=0.0)
+    pb.bind_exp_pedal(slot=3, param_name="Pedal", exp_id=1, value=0.0)
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 4, 5], color="orange")
+    pb.add_snapshot(0, "KIN Riff", blocks_on=[0, 2, 4], color="orange")
 
-    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
+    # Solo : Scream 808 push + Whammy +1 oct sur EXP 1 (signature Morello)
+    pb.add_snapshot(1, "KIN Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 4],
+    pb.add_snapshot(2, "KIN Clean", blocks_on=[0, 4],
                     params={4: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+    pb.add_snapshot(3, "KIN Clean", blocks_on=[0, 4],
                     params={4: {"Mix": 0.10}},
                     color="blue")
 
@@ -909,16 +1009,16 @@ def preset_le_reste():
 
     Son : Strat clean compressee, inspiration Nile Rodgers ("riffs de guitare funky a la Nile Rodgers").
     Red Squeeze (Dyna Comp) = compression snappy, attaque articulee.
-    CE-1 Chorus permanent (Verse + Chorus) : shimmer Nile Rodgers tout au long du morceau.
+    KinkyBoost Drive=1 : epaisseur harmonique chaude (EP Booster pousse) sur Verse funk.
     Pas de distorsion. Reverb discrete (guide Funk : Mix 0.08-0.15, adapte live).
 
-    Chaine : Gate > RedSqueeze > Chorus70s > Reverb
-    Slots  :  0      1            2            3
+    Chaine : Gate > RedSqueeze > KinkyBoost > Reverb
+    Slots  :  0      1            2              3
 
-    Snap 0 Verse  : Strat compressee + CE-1 chorus + reverb discrete (Mix=0.14)
-    Snap 1 Chorus : meme son + reverb un peu plus ouverte (Mix=0.22)
-    Snap 2 Clean  : accordage / attente
-    Snap 3 Clean  : accordage / attente
+    Snap 0 Verse : Strat compressee + KinkyBoost + reverb discrete (Mix=0.14)
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
     """
     pb = PresetBuilder("Le Reste", tempo=113.0, styles=["pop_rock_fr", "funk"])
 
@@ -926,41 +1026,28 @@ def preset_le_reste():
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
     # Red Squeeze = MXR Dyna Comp : compression Nile Rodgers
-    # Sensitivity moderee = attaque snappy sans ecraser les transitoires
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
                  overrides={"Sensitivity": 0.62, "Mix": 1.0, "Level": 8.5})
 
-    # 70s Chorus = CE-1 : shimmer discret permanent (Verse + Chorus)
-    # Memes reglages que Nue pour coherence
-    pb.add_block("HD2_Chorus70sChorus", slot=2,
-                 overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
-                            "VibratoDepth": 0.35, "Mix": 0.35, "Level": 1.0})
+    # KinkyBoost = Xotic EP Booster : Drive=0.1 pour harmoniques chaudes + volume funk
+    pb.add_block("HD2_DistKinkyBoost", slot=2,
+                 overrides={"Drive": 0.1, "Boost": True, "Bright": False})
 
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
                             "Tone": 0.68, "Modulation": 0.12, "Mix": 0.14})
 
-    # Double Tank (test) : plate reverb modulee style dream pop / Cigarette After Sex
-    # Decay long (0.85), Mix substantiel (0.40), modulation audible = son qui dure
-    # SANS shimmer/pitch-shift — juste une grosse reverb lush
-    # enabled_default=False : actif uniquement sur snap "Verse+Amb"
-    pb.add_block("HD2_ReverbDoubleTank", slot=4, enabled_default=False,
-                 overrides={"Decay": 0.85, "Predelay": 0.04,
-                            "Rate": 0.25, "Modulation": 0.50,
-                            "Mix": 0.40, "Level": 0.0,
-                            "LowCut": 200.0, "HighCut": 8000.0,
-                            "@trails": True})
+    pb.add_snapshot(0, "LER Verse", blocks_on=[0, 1, 2, 3], color="green")
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 2, 3], color="green")
+    pb.add_snapshot(1, "LER Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={3: {"Mix": 0.22, "Decay": 0.60}},
-                    color="yellow")
+    pb.add_snapshot(2, "LER Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
 
-    # Test : Verse + Double Tank (reverb dream pop qui dure derriere le jeu)
-    pb.add_snapshot(2, "Verse+Amb", blocks_on=[0, 1, 2, 3, 4], color="cyan")
-
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "LER Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -1018,18 +1105,18 @@ def preset_no_one_knows():
     pb.add_block("HD2_DistKinkyBoost", slot=4,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(0, "Principal", blocks_on=[0, 1, 2, 3, 4], color="orange")
+    pb.add_snapshot(0, "NOK Principal", blocks_on=[0, 1, 2, 3, 4], color="orange")
 
     # Solo : Drive monte + Level un peu plus haut, EQ conserve (caractere Josh Homme)
-    pb.add_snapshot(1, "Solo", blocks_on=[0, 1, 2, 3, 4],
+    pb.add_snapshot(1, "NOK Solo", blocks_on=[0, 1, 2, 3, 4],
                     params={1: {"Drive": 0.78, "Level": 0.80}},
                     color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(2, "NOK Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "NOK Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -1073,17 +1160,17 @@ def preset_nue():
                             "Tone": 0.68, "Modulation": 0.12, "Mix": 0.22})
 
     # Lick funk : seul snap actif — chorus, comp, reverb
-    pb.add_snapshot(0, "Lick", blocks_on=[0, 1, 2, 3], color="yellow")
+    pb.add_snapshot(0, "NUE Lick", blocks_on=[0, 1, 2, 3], color="yellow")
 
-    pb.add_snapshot(1, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(1, "NUE Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(2, "NUE Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "NUE Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -1143,16 +1230,16 @@ def preset_nappes_test():
                             "@trails": True})
 
     # Snap 0 — A : Shimmer pur (ambient ethere)
-    pb.add_snapshot(0, "Shimmer", blocks_on=[0, 4], color="cyan")
+    pb.add_snapshot(0, "NAP Shimmer", blocks_on=[0, 4], color="cyan")
 
     # Snap 1 — B : FM4 Synth String + Ganymede ambient
-    pb.add_snapshot(1, "FM4Str", blocks_on=[0, 1, 3], color="yellow")
+    pb.add_snapshot(1, "NAP FM4Str", blocks_on=[0, 1, 3], color="yellow")
 
     # Snap 2 — C : String Theory + Ganymede ambient
-    pb.add_snapshot(2, "Theory", blocks_on=[0, 2, 3], color="orange")
+    pb.add_snapshot(2, "NAP Theory", blocks_on=[0, 2, 3], color="orange")
 
     # Snap 3 — Combo : String Theory + Shimmer
-    pb.add_snapshot(3, "ThSh", blocks_on=[0, 2, 4], color="red")
+    pb.add_snapshot(3, "NAP ThSh", blocks_on=[0, 2, 4], color="red")
 
     return pb
 
@@ -1219,18 +1306,18 @@ def preset_plug_in_baby():
     pb.add_block("HD2_DistKinkyBoost", slot=5,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 4, 5], color="orange")
+    pb.add_snapshot(0, "PIB Riff", blocks_on=[0, 1, 2, 4, 5], color="orange")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 4, 5],
+    pb.add_snapshot(1, "PIB Chorus", blocks_on=[0, 1, 4, 5],
                     params={4: {"Decay": 0.50, "Mix": 0.22}},
                     color="red")
 
     # Arpeges : sans fuzz, sans KWB — phaser + CE-1 + reverb longue = texture synthé
-    pb.add_snapshot(2, "Arpeges", blocks_on=[0, 2, 3, 4],
+    pb.add_snapshot(2, "PIB Arpeges", blocks_on=[0, 2, 3, 4],
                     params={4: {"Decay": 0.65, "Mix": 0.40}},
                     color="green")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 4],
+    pb.add_snapshot(3, "PIB Clean", blocks_on=[0, 4],
                     params={4: {"Mix": 0.10}},
                     color="blue")
 
@@ -1274,18 +1361,18 @@ def preset_radio_song():
     pb.add_block("HD2_DistKinkyBoost", slot=4,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3, 4], color="green")
+    pb.add_snapshot(0, "RAD Verse", blocks_on=[0, 1, 3, 4], color="green")
 
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(1, "RAD Chorus", blocks_on=[0, 1, 3, 4],
                     params={1: {"Gain": 0.38, "Level": 0.74}},
                     color="orange")
 
     # Lead : palm mutes cordes aigues 12e case
-    pb.add_snapshot(2, "Lead", blocks_on=[0, 1, 2, 3],
+    pb.add_snapshot(2, "RAD Lead", blocks_on=[0, 1, 2, 3],
                     params={1: {"Gain": 0.52, "Level": 0.85}},
                     color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "RAD Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -1298,57 +1385,62 @@ def preset_sex_on_fire():
     Accordage : standard (E A D G B E). Tonalite : La mineur (Am).
     2 guitaristes : Caleb (rythmique) + Matthew (lead, bends). Eric joue les deux.
     Guitare : Gibson ES-335 (humbuckers semi-creux). Ampli : Vox AC30 Top Boost (driven).
-    OCD = crunch principal. Delay 8eme note (196ms) sur Chorus pour faire crier les bends.
 
-    Volumes calibres sur I Wanna Be Your Slave : OCD Level=0.72 sur Riff = reference clean.
+    REFONTE rationalisation v2 : OCD aligne sur pattern canonique "Grunge bien
+    pousse" (= Creep/DaniCal/Hysteria/IWBYS/KITN). Chorus pousse via Scream 808
+    (formule "TS push moment fort"). KinkyBoost retire (Regle 2).
+    Reverb Mix corrige : 0.28 etait trop fort vs reference projet (0.14-0.16).
 
-    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb > KinkyBoost
-    Slots  :  0      1                 2               3         4
+    Delay 8eme note (196ms) sur Chorus : epaissit les bends de Matthew Followill.
 
-    Snap 0 Riff   : OCD crunch leger (Gain=0.42, Level=0.72) + Reverb + KWB
-    Snap 1 Chorus : OCD plus chaud (Gain=0.58, Level=0.88) + Delay + Reverb ouverte + KWB
+    Chaine : Gate > Scream808 > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :  0      1            2                 3              4
+
+    Snap 0 Riff   : OCD + Reverb
+    Snap 1 Chorus : Scream808 push + OCD + Delay bends + Reverb ouverte
     Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD        : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Scream 808 : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
     """
     pb = PresetBuilder("Sex on Fire", tempo=153.0, styles=["indie_rock", "post_grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
-    # Compulsive Drive = Fulltone OCD : crunch AC30 Top Boost
-    # Level=0.72 sur Riff = reference clean (calibre a l'oreille, meme methode que IWBYS)
-    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.42, "Tone": 0.55, "LPHP": True, "Level": 0.72})
+    # Scream 808 = formule "TS push moment fort" : pousse l'OCD sur le Chorus
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/Hysteria/IWBYS/KITN
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
     # Simple Delay : 8eme note a 153 BPM = 196ms — epaissit les bends du Chorus
-    # Feedback tres bas = 1 repetition, Mix modere = delay present sans noyer
-    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
                  overrides={"Time": 0.20, "Feedback": 0.08, "Mix": 0.22,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # Reverb Mix=0.16 (corrige depuis 0.28 — trop fort vs reference projet)
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.55, "Predelay": 0.02,
-                            "Tone": 0.65, "Modulation": 0.20, "Mix": 0.28})
+                            "Tone": 0.65, "Modulation": 0.20, "Mix": 0.16})
 
-    # KinkyBoost : compensation volume supplementaire (OCD + AC30 = son sous reference)
-    pb.add_block("HD2_DistKinkyBoost", slot=4,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+    pb.add_snapshot(0, "SEX Riff", blocks_on=[0, 2, 4], color="green")
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 3, 4], color="green")
-
-    # Chorus : OCD plus chaud + delay pour les bends + reverb plus ouverte
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3],
-                    params={1: {"Gain": 0.58, "Level": 0.88},
-                            3: {"Decay": 0.65, "Mix": 0.35}},
+    # Chorus : TS push + OCD + delay bends + reverb ouverte
+    pb.add_snapshot(1, "SEX Chorus", blocks_on=[0, 1, 2, 3, 4],
+                    params={4: {"Decay": 0.65, "Mix": 0.28}},
                     color="orange")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(2, "SEX Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "SEX Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -1391,16 +1483,16 @@ def preset_song_2():
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
     # Verse : CLEAN pur — contraste dynamique avec le Chorus (comme Lithium)
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2], color="green")
+    pb.add_snapshot(0, "SG2 Verse", blocks_on=[0, 2], color="green")
 
     # Chorus "Woo-hoo!" : explosion RAT + KWB
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 2, 3], color="red")
+    pb.add_snapshot(1, "SG2 Chorus", blocks_on=[0, 1, 2, 3], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(2, "SG2 Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(3, "SG2 Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="blue")
 
@@ -1468,20 +1560,20 @@ def preset_toxicity():
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
     # Verse : clean basique, gate souple, reverb ouverte
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(0, "TOX Verse", blocks_on=[0, 1, 3, 4],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
                             4: {"Mix": 0.20}},
                     color="green")
 
     # Disto : Metal Zone + KWB — chorus, riff, break
-    pb.add_snapshot(1, "Disto", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
+    pb.add_snapshot(1, "TOX Disto", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(2, "TOX Clean", blocks_on=[0, 1, 3, 4],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
                             4: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(3, "TOX Clean", blocks_on=[0, 1, 3, 4],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
                             4: {"Mix": 0.10}},
                     color="blue")
@@ -1496,57 +1588,61 @@ def preset_travel_the_world():
     3 sons distincts, tous satures. Pas de clean utilise dans le morceau
     (snap Clean conserve pour accordage uniquement).
 
-    Lick : bends/slides intro + transitions chorus->verse — necessite delay/reverb pour
-    la presence lead. Verse et Chorus = meme son rythmique. Bridge = idem un peu plus fort.
+    REFONTE rationalisation v2 : OCD aligne sur pattern canonique "Grunge bien
+    pousse" (= Creep/DaniCal/Hysteria/IWBYS/KITN/SEX). Lick et Bridge pousses
+    via Scream 808 (formule "TS push moment fort") au lieu de monter le Gain/Level
+    de l'OCD. KinkyBoost retire (Regle 2 — pas dans le pattern).
 
-    Chaine : Gate > CompulsiveDrive > SimpleDelay > Reverb > KinkyBoost
-    Slots  :  0      1                 2               3         4
+    Lick : bends/slides intro + transitions chorus->verse — TS push + delay/reverb
+    pour la presence lead. Verse = son rythmique de base. Bridge = TS push (sans delay).
 
-    Snap 0 Lick   : OCD + Delay 8eme (250ms) + Reverb ouverte + KWB
-    Snap 1 Verse  : OCD rythmique (Gain=0.35, Level=0.70) + Reverb + KWB
-    Snap 2 Bridge : OCD plus fort (Gain=0.42, Level=0.82) + Reverb + KWB
+    Chaine : Gate > Scream808 > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :  0      1            2                 3              4
+
+    Snap 0 Lick   : Scream808 push + OCD + Delay 8eme (250ms) + Reverb ouverte
+    Snap 1 Verse  : OCD + Reverb
+    Snap 2 Bridge : Scream808 push + OCD + Reverb
     Snap 3 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD        : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Scream 808 : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
     """
     pb = PresetBuilder("Travel The World", tempo=120.0, styles=["pop_rock_fr", "funk"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
-    # OCD always-on : son sature de base pour tout le morceau (verse/chorus/bridge/lick)
-    # Defaults = settings Verse (Gain=0.35, Level=0.70) — overrides Bridge/Lick par snap
-    # LPHP=True (High Peak) : output plus eleve, uniformisation projet
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
-                 overrides={"Gain": 0.35, "Tone": 0.60, "LPHP": True, "Level": 0.70})
+    # Scream 808 = formule "TS push moment fort" : pousse l'OCD sur Lick et Bridge
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/Hysteria/IWBYS/KITN/SEX
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
     # SimpleDelay : 8eme note a 120 BPM = 250ms — actif uniquement sur le Lick
-    pb.add_block("HD2_DelaySimpleDelay", slot=2, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
                  overrides={"Time": 0.25, "Feedback": 0.10, "Mix": 0.22,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.62, "Modulation": 0.18, "Mix": 0.18})
 
-    # KinkyBoost : compensation volume OCD (Level=0.70 + KWB = reference clean)
-    pb.add_block("HD2_DistKinkyBoost", slot=4,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
-    # Lick : OCD + Delay + Reverb ouverte — bends/slides intro et transitions
-    pb.add_snapshot(0, "Lick", blocks_on=[0, 1, 2, 3, 4],
-                    params={1: {"Gain": 0.42, "Level": 0.78},
-                            3: {"Mix": 0.28, "Decay": 0.55}},
+    # Lick : TS push + OCD + Delay + Reverb ouverte — bends/slides intro et transitions
+    pb.add_snapshot(0, "TTW Lick", blocks_on=[0, 1, 2, 3, 4],
+                    params={4: {"Mix": 0.28, "Decay": 0.55}},
                     color="red")
 
-    # Verse : rythmique sature (defaults OCD)
-    pb.add_snapshot(1, "Verse", blocks_on=[0, 1, 3, 4], color="orange")
+    # Verse : OCD seul (config fixe)
+    pb.add_snapshot(1, "TTW Verse", blocks_on=[0, 2, 4], color="orange")
 
-    # Bridge : meme que Verse, OCD plus fort
-    pb.add_snapshot(2, "Bridge", blocks_on=[0, 1, 3, 4],
-                    params={1: {"Gain": 0.42, "Level": 0.82}},
-                    color="yellow")
+    # Bridge : TS push + OCD (sans delay)
+    pb.add_snapshot(2, "TTW Bridge", blocks_on=[0, 1, 2, 4], color="yellow")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "TTW Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -1590,12 +1686,12 @@ def preset_lithium():
 
     # Verse : quasi-clean + Small Clone + reverb
     # Contraste volontaire avec le chorus — ne pas compenser le delta de volume
-    pb.add_snapshot(0, "Verse", blocks_on=[0, 2, 3], color="green")
+    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 2, 3], color="green")
 
     # Chorus : Big Muff plein, pas de modulation = drop dynamique quiet/loud
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 1, 3], color="red")
+    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 3], color="red")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -1640,17 +1736,17 @@ def preset_figure_it_out():
     pb.add_block("HD2_DistKinkyBoost", slot=3,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2, 3], color="red")
+    pb.add_snapshot(0, "FIG Riff", blocks_on=[0, 1, 2, 3], color="red")
 
-    pb.add_snapshot(1, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(1, "FIG Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(2, "FIG Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(3, "FIG Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="white")
 
@@ -1692,17 +1788,17 @@ def preset_fly_away():
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.18})
 
-    pb.add_snapshot(0, "Riff", blocks_on=[0, 1, 2], color="orange")
+    pb.add_snapshot(0, "FLY Riff", blocks_on=[0, 1, 2], color="orange")
 
-    pb.add_snapshot(1, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(1, "FLY Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(2, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(2, "FLY Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 2],
+    pb.add_snapshot(3, "FLY Clean", blocks_on=[0, 2],
                     params={2: {"Mix": 0.10}},
                     color="white")
 
@@ -1753,15 +1849,78 @@ def preset_californication():
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
     # Arpege : clean + CE-1 + Reverb (intro et verse, arpeges Am-F)
-    pb.add_snapshot(0, "Arpege", blocks_on=[0, 2, 3], color="green")
+    pb.add_snapshot(0, "CAL Arpege", blocks_on=[0, 2, 3], color="green")
 
     # Chorus : meme son (power chords mais pas satures)
-    pb.add_snapshot(1, "Chorus", blocks_on=[0, 2, 3], color="yellow")
+    pb.add_snapshot(1, "CAL Chorus", blocks_on=[0, 2, 3], color="yellow")
 
     # Solo : OCD crunch + CE-1 + Reverb + KWB
-    pb.add_snapshot(2, "Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
+    pb.add_snapshot(2, "CAL Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
 
-    pb.add_snapshot(3, "Clean", blocks_on=[0, 3],
+    pb.add_snapshot(3, "CAL Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
+def preset_im_picky():
+    """Shaka Ponk - I'm Picky (117.5 BPM) — Cyril Roger "CC"
+
+    Accordage : standard, capo case 4. Formes Em-D-G-D/C -> sonne Sol# mineur /
+    Si majeur (confirme par analyse audio, confidence basse mais coherent).
+
+    Ampli : Mesa/Boogie Rectifier 3-Channel, canal Modern toujours sature —
+    pas de section clean dans le morceau (analyse audio : saturation "extreme"
+    deja sur l'intro). Pattern de matching ampli reutilise depuis
+    docs/pedal_guides/od_dist_fuzz.md : Mesa Dual Rectifier -> KWB.
+
+    Chorus/Solo/Outro : la tab note "la rythmique est doublee" en studio.
+    Un seul guitariste en live ne peut pas reproduire ce doublage -> on
+    epaissit/resserre via un Scream808 (TS9) stacke devant le KWB (mid hump
+    723 Hz), au lieu de simuler une vraie double piste.
+
+    Pas de KinkyBoost : le morceau est sature en permanence, pas de section
+    clean a matcher en interne. A tester en live si le volume manque.
+
+    Chaine : Gate > Scream808 > KWB > Reverb
+    Slots  :  0      1            2     3
+
+    Snap 0 Riff   : KWB seul (Verse/Bridge)
+    Snap 1 Chorus : Scream808 push + KWB (Chorus/Solo/Outro)
+    Snap 2 Clean  : accordage / attente
+    Snap 3 Clean  : accordage / attente
+    """
+    pb = PresetBuilder("I'm Picky", tempo=117.5, styles=["alt_metal"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -48.0, "Decay": 0.22})
+
+    # Scream 808 (Ibanez TS9) = stacking devant le KWB pour resserrer/epaissir
+    # Gain=0.65 (vs 0.25 du pattern "TS push moment fort") : ici c'est le coeur
+    # du son Chorus/Solo/Outro, pas juste un lift bref.
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.55, "Level": 0.75})
+
+    # KWB = Benadrian Kowloon Walled Bunny : simule le Mesa Rectifier canal Modern
+    # EQ neutre (Bass=0, Treble=0), Gain=0.78 (cf. table matching ampli)
+    pb.add_block("HD2_DistKWB", slot=2,
+                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.70})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.32, "Predelay": 0.02,
+                            "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
+
+    pb.add_snapshot(0, "PIK Riff", blocks_on=[0, 2, 3], color="orange")
+
+    # Chorus/Solo/Outro : TS9 push + KWB
+    pb.add_snapshot(1, "PIK Chorus", blocks_on=[0, 1, 2, 3], color="red")
+
+    pb.add_snapshot(2, "PIK Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "PIK Clean", blocks_on=[0, 3],
                     params={3: {"Mix": 0.10}},
                     color="blue")
 
@@ -1782,6 +1941,7 @@ PRESETS = {
     "Fly Away - Lenny Kravitz":                preset_fly_away,
     "How You Remind Me - Nickelback":          preset_how_you_remind_me,
     "Hysteria - Muse":                         preset_hysteria,
+    "I'm Picky - Shaka Ponk":                  preset_im_picky,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

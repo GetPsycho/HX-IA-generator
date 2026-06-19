@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## Shaka Ponk - I'm Picky (2008)
+
+### Informations confirmées
+- BPM : 117.5 (analyse audio) | Tonalité : Si majeur / Sol# mineur
+- Accordage : standard, capo case 4 (formes Em-D-G-D/C)
+- Guitariste : Cyril Roger "CC". Ampli : Mesa/Boogie Rectifier 3-Channel (canal Modern toujours sature)
+- Pédales pedalboard CC : Cry Baby GCB95, TS9, Digitech Whammy WH-4, MI Audio G.I. Fuzz,
+  BOSS AW-3, T-Rex Tremster/Replica, MXR Micro Amp, BOSS CS-3
+- Structure : pas de section clean — saturation extreme en permanence (analyse audio)
+- Tab note : rythmique doublee en studio sur Chorus/Solo/Outro -> compense par TS9 stack live
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://equipboard.com/pros/cyril-roger | Pedalboard CC, ampli Mesa Rectifier |
+| https://www.guitaretab.com/s/shaka-ponk/293552.html | Accords, capo 4, structure (rythmique doublee) |
+| audio_analysis/02. I'm Picky_analysis.json | BPM, tonalite, saturation par section (pipeline v3.2.5) |
+
+---
+
 ## Blur - Song 2 (1997)
 
 ### Informations confirmées

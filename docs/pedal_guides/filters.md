@@ -37,13 +37,13 @@ Passer en BP (1) = sweep dans les mids → beaucoup plus funk et expressif.
 **Mode BP (1) — Funk / Wah dynamique (Dani California style)**
 ```
 Mode: 1, FilterGain: 14.0, FilterQ: 6.0
-Sens: 0.40, Attack: 0.01, Decay: 0.30
+Sens: 0.475, Attack: 0.01, Decay: 0.30
 Frequency: 200.0, FreqDepth: 4500.0
 Direction: True
 ```
 Le filtre sweape une bande de mids → son funk/quacky expressif, pas trop grave.
-Sens baissé de 0.55 à 0.40 après test live (Dani California) : à 0.55 le
-filtre s'ouvrait trop facilement, trop de "wah" par rapport au lick original.
+Historique Sens (Dani California, tests live) : 0.55 (trop ouvert) → 0.40
+(testé trop fermé) → 0.475 (milieu, retenu).
 
 **Mode LP (0) — Filtre grave/basseux (Moog LPF pur)**
 ```

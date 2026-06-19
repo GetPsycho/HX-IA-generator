@@ -23,6 +23,9 @@
 
 **Micro d'enregistrement Lithium :** Neumann U87 sur l'ampli guitare (réservé habituellement aux basses fréquences) — choix de Butch Vig pour accentuer les graves du Big Muff.
 
+**Accordage Lithium :** 1 ton plus bas que standard sur l'enregistrement original
+— simulé via PolyPitch (Interval=-2) plutôt qu'un retune physique.
+
 ## Pédales (ère Nevermind, 1991)
 
 | Pédale | Rôle |

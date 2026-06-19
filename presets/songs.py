@@ -1652,47 +1652,73 @@ def preset_lithium():
     """Nirvana - Lithium (124 BPM) — Kurt Cobain
 
     Son : Fender Mustang 1969 → EHX Big Muff Pi → Fender Bassman (Butch Vig, Nevermind).
-    Verse : quasi-clean + EHX Small Clone discret (Chorus70s = approx. Small Clone).
-    Chorus : Big Muff plein, pas de modulation — explosion dynamique quiet/loud.
+    Verse : quasi-clean + EHX Small Clone discret + compresseur (articulation des
+    notes, "comme sur le CD"). Chorus : Big Muff plein, pas de modulation —
+    explosion dynamique quiet/loud.
 
-    Chaine : Gate > RamsHead > Chorus70s > Reverb
-    Slots  :  0      1          2            3
+    Accordage : 1 ton plus bas que standard (comme l'enregistrement original),
+    simule via PolyPitch (Interval=-2, AutoEQ=1.0) — meme pattern que Toxicity
+    et The Man Who Sold the World. Always-on tous snaps (y compris Clean).
 
-    Snap 0 Verse  : quasi-clean + Small Clone + reverb
-    Snap 1 Chorus : Big Muff + reverb (drop distorsion)
+    Big Muff aligne sur la CONFIG CANONIQUE "Mur fuzz sombre Big Muff" (identique
+    Black Hole Sun, y compris le Level) — l'objectif du projet est un minimum
+    de variation de volume entre presets, donc plus de "variante Lithium"
+    separee. Le contraste quiet/loud du morceau reste volontaire (pas de
+    compensation de volume entre Verse et Chorus), mais le Chorus lui-meme
+    sort desormais au meme niveau que les autres usages du pattern.
+
+    Chaine : PolyPitch > Gate > RedSqueeze > RamsHead > Chorus70s > Reverb
+    Slots  :     0          1        2           3          4         5
+
+    Snap 0 Verse  : quasi-clean + compresseur + Small Clone discret + reverb
+    Snap 1 Chorus : Big Muff (config BHS) + reverb (drop distorsion)
     Snap 2 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Big Muff : Sustain=0.80, Tone=0.55, Level=0.85 (mur fuzz sombre Big Muff,
+      identique Black Hole Sun — plus de variante separee pour Lithium)
     """
     pb = PresetBuilder("Lithium", tempo=124.0, styles=["grunge"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch : 1 ton plus bas (-2 semitones), comme l'enregistrement original
+    pb.add_block("L6SPB_PolyPitch", slot=0,
+                 overrides={"Interval": -2, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -50.0, "Decay": 0.30})
 
+    # Red Squeeze : articulation des notes clean du Verse ("comme sur le CD")
+    # enabled_default=False : uniquement sur Verse
+    pb.add_block("HD2_CompressorRedSqueeze", slot=2, enabled_default=False,
+                 overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
+
     # Bighorn Fuzz = EHX Big Muff Pi : confirme par Butch Vig pour Lithium
-    # Big Muff → Fender Bassman = son sombre et epais → Tone bas (0.45)
+    # CONFIG CANONIQUE "Mur fuzz sombre Big Muff" — identique Black Hole Sun
+    # (plus de variante separee : objectif minimum de variation de volume)
     # enabled_default=False : verse quasi-clean par defaut
-    pb.add_block("HD2_DistRamsHead", slot=1, enabled_default=False,
-                 overrides={"Sustain": 0.80, "Tone": 0.45, "Level": 0.50})
+    pb.add_block("HD2_DistRamsHead", slot=3, enabled_default=False,
+                 overrides={"Sustain": 0.80, "Tone": 0.55, "Level": 0.85})
 
-    # 70s Chorus = approx. EHX Small Clone : chorus analogique du verse clean
-    # Cobain : 5 exemplaires du Small Clone, utilise sur les parties clean Nevermind
+    # 70s Chorus = approx. EHX Small Clone : discret (reduit vs avant)
     # enabled_default=False : uniquement sur Verse, bypasse sur Chorus distordu
-    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
-                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.35,
-                            "VibratoDepth": 0.35, "Mix": 0.40, "Level": 1.0})
+    pb.add_block("HD2_Chorus70sChorus", slot=4, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.25, "Mix": 0.22, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.20})
 
-    # Verse : quasi-clean + Small Clone + reverb
+    # Verse : quasi-clean + compresseur + Small Clone discret + reverb
     # Contraste volontaire avec le chorus — ne pas compenser le delta de volume
-    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 2, 3], color="green")
+    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 1, 2, 4, 5], color="green")
 
-    # Chorus : Big Muff plein, pas de modulation = drop dynamique quiet/loud
-    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 3], color="red")
+    # Chorus : Big Muff plein (config BHS) — drop dynamique quiet/loud
+    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 3, 5], color="red")
 
-    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb

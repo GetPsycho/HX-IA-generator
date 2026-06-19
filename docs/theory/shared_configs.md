@@ -136,9 +136,11 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 | Preset | Snap |
 |---|---|
 | Black Hole Sun | Refrain / Solo |
+| Lithium | Chorus |
 
-**Variante "Lithium"** (moins fort, plus sombre) : `Sustain=0.80, Tone=0.45, Level=0.50`
-- Lithium : Chorus
+**Historique** : Lithium avait une "variante" separee (Tone=0.45, Level=0.50,
+plus sombre/moins fort), retiree au profit de la config canonique identique —
+l'objectif du projet est un minimum de variation de volume entre presets.
 
 ---
 

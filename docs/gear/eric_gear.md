@@ -91,6 +91,20 @@ Guitare → MC404 CAE → HX Effects → Mesa
 
 ---
 
+## Pédales possédées (référence sonore)
+
+**Keeley 1962X** — British Overdrive (lignée Marshall Bluesbreaker, même famille
+que l'Analogman Prince of Tone). Eric apprécie particulièrement son grain/épaisseur.
+
+- **Équivalent HX** : Heir Apparent (`HD2_DistHeirApparent`) — déjà utilisé dans le
+  projet pour le pattern "Intro arpège + grain léger" (Gain=0.20, léger). Le même
+  modèle peut être poussé plus fort (Gain~0.45-0.55) pour un usage "grain + épaisseur"
+  plus présent (ex : No Roots — doublage de riff basse).
+- Pas connectée en externe comme la wah — c'est une référence de caractère sonore
+  à privilégier quand un OD/crunch "British" moyen-pousse convient au morceau.
+
+---
+
 ## Implications globales pour la création de presets
 
 1. **Gain** : Ne pas sur-saturer — le Super Distortion au chevalet pousse déjà fort.

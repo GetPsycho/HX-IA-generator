@@ -1999,6 +1999,67 @@ def preset_just_a_girl():
     return pb
 
 
+def preset_no_roots():
+    """Alice Merton - No Roots (117.5 BPM)
+
+    Accordage : standard (E A D G B E). Tonalite : La mineur (Am, Dm, F, G).
+
+    Le riff signature studio est une guitare octave-down (sonne comme une basse) —
+    pas la partie qu'Eric reproduit ici. Dans l'arrangement du groupe d'Eric, le
+    bassiste joue ce riff et Eric le double a la guitare, a hauteur normale, avec
+    un son OD a grain/epaisseur. Variation de jeu : mini-strumming (8 allers-retours
+    rapides) a intervalles reguliers — meme son, technique differente uniquement.
+    Un seul snap actif, fidele a cette description (pas de changement de pedale).
+
+    Pedale : Heir Apparent (Analogman Prince of Tone) = meme lignee Bluesbreaker
+    que la Keeley 1962X reelle d'Eric (cf. docs/gear/eric_gear.md). Gain plus
+    pousse que le pattern "Intro arpege + grain leger" existant (Gain=0.20) pour
+    un caractere plus present adapte au doublage de riff.
+
+    Chaine : Gate > HeirApparent > Reverb > KinkyBoost
+    Slots  :  0      1              2         3
+
+    Snap 0 Riff  : Heir Apparent — seul son actif, couvre tout le morceau
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+    """
+    pb = PresetBuilder("No Roots", tempo=117.5, styles=["alt_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # Heir Apparent (Analogman Prince of Tone = Keeley 1962X reelle d'Eric)
+    # Gain plus pousse que le pattern "Intro arpege" pour du grain/epaisseur
+    pb.add_block("HD2_DistHeirApparent", slot=1,
+                 overrides={"Gain": 0.50, "Tone": 0.45, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.40, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
+
+    # KinkyBoost : calibration volume standard sur snap OD
+    pb.add_block("HD2_DistKinkyBoost", slot=3,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+
+    # Riff : seul son actif — couvre tout le morceau (riff doublé + mini-strumming)
+    pb.add_snapshot(0, "NTR Riff", blocks_on=[0, 1, 2, 3], color="orange")
+
+    pb.add_snapshot(1, "NTR Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(2, "NTR Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "NTR Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2015,6 +2076,7 @@ PRESETS = {
     "Hysteria - Muse":                         preset_hysteria,
     "I'm Picky - Shaka Ponk":                  preset_im_picky,
     "Just a Girl - No Doubt":                  preset_just_a_girl,
+    "No Roots - Alice Merton":                 preset_no_roots,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

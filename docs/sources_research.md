@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## Alice Merton - No Roots (2016)
+
+### Informations confirmées
+- BPM : 117.5 (analyse audio, proche 120) | Tonalité : La mineur (accords Am Dm F G)
+- Accordage : standard
+- Riff signature studio = guitare octave-down (sonne comme une basse, patch Zoom
+  G1Xon "Just Funk" + MonoPitch) — pas la partie reproduite par Eric
+- Arrangement du groupe d'Eric : bassiste joue le riff, Eric le double a la guitare
+  a hauteur normale avec un OD a grain/epaisseur (Keeley 1962X reelle d'Eric)
+- Mini-strumming (8 allers-retours) en variation de jeu, meme son
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| http://iamhomebased.blogspot.com/2018/09/how-to-get-guitar-effects-for-no-roots.html | Effet octave-down studio (non utilisé, contexte) |
+| https://www.e-chords.com/chords/alice-merton/no-roots | Accords Am Dm F G |
+| audio_analysis/03 - No roots_analysis.json | BPM, tonalité (ambiguë), structure |
+
+---
+
 ## No Doubt - Just a Girl (1995)
 
 ### Informations confirmées

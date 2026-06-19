@@ -15,7 +15,7 @@ Toutes les entrées de ce fichier sont ✅ confirmées par le manuel officiel.
 | **Deranged Master** | `HD2_DistDerangedMaster` | Dallas Rangemaster Treble Booster |
 | **Minotaur** | `HD2_DistMinotaur` | Klon Centaur |
 | **Teemah!** | `HD2_DistTeemah` | Paul Cochrane Timmy Overdrive |
-| **Heir Apparent** | `HD2_DistHeirApparent` | Analogman Prince of Tone |
+| **Heir Apparent** | `HD2_DistHeirApparent` | Analogman Prince of Tone (= Keeley 1962X possédée par Eric, même lignée Bluesbreaker) |
 | **Tone Sovereign** | `HD2_DistToneSovereign` | Analogman King of Tone |
 | **Alpaca Rouge** | `HD2_DistAlpacaRouge` | Way Huge Red Llama (modded) |
 | **Compulsive Drive** | `HD2_DistCompulsiveDrive` | Fulltone OCD |

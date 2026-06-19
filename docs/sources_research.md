@@ -1,5 +1,27 @@
 # Sources de recherche - Presets guitare
 
+## Muse - Time Is Running Out (2003)
+
+### Informations confirmées
+- BPM : 117.5 (proche estimation 120) | Tonalité : La mineur (A)
+- Accordage : standard
+- Le riff funky "wah" du verse vient de la BASSE (Chris Wolstenholme, Bass
+  Synth Wah) — pas de la guitare. Bellamy discret sur verse, punchy/overdrive
+  sur chorus.
+- Structure jouée par Eric (retour direct, a confirmer en test physique) :
+  crescendo intro -> accords étouffés verse -> gros son chorus -> pont
+  arpèges + tremolo
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/amp-settings-time-is-running-out-muse/ | Ton punchy/overdrive |
+| https://en.wikipedia.org/wiki/Time_Is_Running_Out_(Muse_song) | Contexte |
+| Retour direct Eric | Structure jouée (crescendo/étouffé/gros son/pont) |
+| audio_analysis/03 - Time Is Running Out_analysis.json | Tempo, tonalité, structure |
+
+---
+
 ## Nirvana - The Man Who Sold the World (1994, MTV Unplugged, cover Bowie)
 
 ### Informations confirmées

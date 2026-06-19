@@ -33,6 +33,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Black Hole Sun | Intro |
 | Dani California | Verse + Lick |
 | Special K | Verse |
+| Time Is Running Out | Chorus / Bridge |
 
 ---
 

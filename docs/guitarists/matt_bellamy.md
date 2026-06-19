@@ -41,6 +41,15 @@ Les Manson ont souvent un kill-switch et des contrôleurs MIDI intégrés.
 | DigiTech Whammy IV | Solos/pitch shifts |
 | Boss DS-1/DS-2 | Dist alternative (sections rythmiques) |
 
+### Time Is Running Out (Absolution, 2003)
+Le riff funky "wah" emblématique du verse vient de la **basse** (Chris
+Wolstenholme, Digitech Bass Synth Wah / envelope filter) — pas de la guitare.
+Bellamy reste discret sur le verse, son "punchy et overdrive" sur le chorus.
+Arrangement live d'Eric (interprétation, pas le gear studio exact) :
+crescendo intro (petites notes + modulation) -> accords étouffés (verse) ->
+gros son saturé gardé jusqu'à la fin (chorus) -> pont en arpèges avec
+tremolo + saturation.
+
 ---
 
 ## Sons par titre
@@ -61,6 +70,8 @@ Les Manson ont souvent un kill-switch et des contrôleurs MIDI intégrés.
 | Z.Vex Fuzz Factory (Plug In Baby) | Industrial Fuzz | `HD2_DistIndustrialFuzz` | Compress=0.10, Gate=0.10, Drive=1.0, Stability=0.25 — fuzz ouverte (pas gated) |
 | Boss DD-3 | Simple Delay | `HD2_DelaySimpleDelay` | Time=0.16s pour Hysteria |
 | DigiTech Whammy | Pitch Wham | `HD2_PitchPitchWham` | |
+| Modulation intro (Time Is Running Out) | 70s Chorus | `HD2_Chorus70sChorus` | Leger, petites notes crescendo |
+| Tremolo pont (Time Is Running Out) | Opto Tremolo | `HD2_MM4OptoTremolo` | Combine avec OCD sature |
 
 ---
 

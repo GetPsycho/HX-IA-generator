@@ -2314,6 +2314,75 @@ def preset_the_man_who_sold_the_world():
     return pb
 
 
+def preset_time_is_running_out():
+    """Muse - Time Is Running Out (117.5 BPM) — Matt Bellamy
+
+    Accordage : standard (E A D G B E). Tonalite : La mineur (A).
+
+    Le riff funky "wah" emblematique du verse vient de la BASSE (Chris
+    Wolstenholme, Bass Synth Wah/envelope filter) — pas de la guitare, donc
+    rien a reproduire cote guitare la-dessus (contexte groupe : le bassiste
+    couvre deja ce hook).
+
+    Structure jouee par Eric (arrangement interprete, retour direct, a
+    confirmer en test physique) : crescendo intro (petites notes + modulation)
+    -> accords etouffes (verse) -> gros son sature garde jusqu'a la fin
+    (chorus) -> pont en arpeges avec tremolo + saturation.
+
+    Pas de snap Clean dedie : les 4 emplacements sont utilises pour les 4
+    sons reels du morceau. Accordage de reference via un autre preset du set.
+
+    Chaine : Gate > CompulsiveDrive > 70sChorus > OptoTremolo > Reverb
+    Slots  :  0      1                 2            3              4
+
+    Snap 0 Intro  : Chorus seul (OCD off) — petites notes, crescendo
+    Snap 1 Verse  : OCD leger (Gain=0.30) — accords etouffes
+    Snap 2 Chorus : OCD "grunge bien pousse" — gros son garde jusqu'a la fin
+    Snap 3 Bridge : OCD + Opto Tremolo — arpeges + tremolo
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    """
+    pb = PresetBuilder("Time Is Running Out", tempo=117.5, styles=["alt_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" (Chorus/Bridge) — Verse override Gain plus bas
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    # 70s Chorus : modulation legere sur l'intro (petites notes, crescendo)
+    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+                 overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
+                            "VibratoDepth": 0.30, "Mix": 0.35, "Level": 1.0})
+
+    # Opto Tremolo : pont en arpeges (combine avec OCD sature)
+    pb.add_block("HD2_MM4OptoTremolo", slot=3, enabled_default=False,
+                 overrides={"Speed": 4.4, "Depth": 0.65, "Shape": 0.0,
+                            "VolSens": 0.10, "Mix": 1.0, "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.18, "Mix": 0.16})
+
+    # Intro : Chorus seul, OCD off — petites notes, crescendo
+    pb.add_snapshot(0, "TRO Intro", blocks_on=[0, 2, 4], color="green")
+
+    # Verse : OCD leger (override Gain) — accords etouffes
+    pb.add_snapshot(1, "TRO Verse", blocks_on=[0, 1, 4],
+                    params={1: {"Gain": 0.30}},
+                    color="yellow")
+
+    # Chorus : OCD grunge bien pousse (defaults) — gros son garde jusqu'a la fin
+    pb.add_snapshot(2, "TRO Chorus", blocks_on=[0, 1, 4], color="orange")
+
+    # Bridge : OCD + Opto Tremolo — arpeges + tremolo
+    pb.add_snapshot(3, "TRO Bridge", blocks_on=[0, 1, 3, 4], color="red")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2335,6 +2404,7 @@ PRESETS = {
     "Special K - Placebo":                      preset_special_k,
     "Take Me Out - Franz Ferdinand":             preset_take_me_out,
     "The Man Who Sold the World - Nirvana":      preset_the_man_who_sold_the_world,
+    "Time Is Running Out - Muse":                preset_time_is_running_out,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

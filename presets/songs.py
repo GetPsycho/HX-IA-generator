@@ -735,8 +735,7 @@ def preset_how_you_remind_me():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Heavy Dist = Boss Metal Zone (Legacy DM4) : saturation metal massive validee
-    # Reglages confirmes a l'oreille : Drive=0.85, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80
+    # Heavy Dist = CONFIG CANONIQUE "Heavy Dist Boss Metal Zone" — partagee Toxicity
     # enabled_default=False : uniquement sur Chorus
     pb.add_block("HD2_DM4HeavyDistortion", slot=1, enabled_default=False,
                  overrides={"Drive": 0.70, "Bass": 0.80, "Mid": 0.40,
@@ -1539,8 +1538,8 @@ def preset_toxicity():
     pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -46.0, "Decay": 0.18})
 
-    # Heavy Dist = Boss Metal Zone (Legacy DM4) : memes reglages que How You Remind Me
-    # Valides a l'oreille : massif et tight en Drop C
+    # Heavy Dist = CONFIG CANONIQUE "Heavy Dist Boss Metal Zone" — partagee How You Remind Me
+    # Valide a l'oreille : massif et tight en Drop C
     # enabled_default=False : uniquement sur Disto
     pb.add_block("HD2_DM4HeavyDistortion", slot=2, enabled_default=False,
                  overrides={"Drive": 0.70, "Bass": 0.80, "Mid": 0.40,

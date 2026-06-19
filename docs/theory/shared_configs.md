@@ -33,7 +33,6 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Black Hole Sun | Intro |
 | Dani California | Verse + Lick |
 | Special K | Verse |
-| Time Is Running Out | Chorus / Bridge |
 
 ---
 
@@ -55,6 +54,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Just a Girl | Riff (couvre Intro/Verse/Chorus/Bridge) |
 | Not an Addict | Riff (seul son actif, tout le morceau) |
 | Special K | Chorus |
+| Time Is Running Out | Chorus / Bridge |
 
 ---
 
@@ -124,6 +124,19 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 | How You Remind Me | Verse / Arpèges |
 
 **Différence vs "Color clean Verse"** : pas de Drive (donc pas d'harmoniques chaudes), mais Bright=True ajoute des aigus = caractère "scintillant" plutôt que "épais".
+
+---
+
+### Pattern : "Heavy Dist Boss Metal Zone"
+*Saturation metal massive, palm-muting tight (style Boss Metal Zone Legacy).*
+
+**Pédale** : Heavy Dist (Boss Metal Zone, Legacy DM4)
+**Config** : `Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80`
+
+| Preset | Snap |
+|---|---|
+| How You Remind Me | Chorus |
+| Toxicity | Disto |
 
 ---
 

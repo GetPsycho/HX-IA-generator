@@ -1927,6 +1927,78 @@ def preset_im_picky():
     return pb
 
 
+def preset_just_a_girl():
+    """No Doubt - Just a Girl (107.7 BPM) — Tom Dumont
+
+    Accordage : standard (E A D G B E). Tonalite : Re majeur (D) — confirme
+    Ultimate Guitar + analyse audio (score 0.89).
+
+    Ampli : Divided By 13 RSA31 / Soldano SLO-100 (boutique high-headroom,
+    crunch permanent, pas de canal clean). Analyse audio : saturation
+    constante mais moderee ("high" 0.53-0.74) sur tout le morceau — la
+    dynamique Verse/Chorus vient du jeu (palm mute vs strumming plein),
+    pas d'un changement de pedale. Un seul son de base suffit donc pour
+    tout le morceau hors solo.
+
+    OCD aligne sur le pattern canonique "Grunge bien pousse" (le niveau de
+    saturation mesure correspond a cette config existante, cf.
+    docs/theory/shared_configs.md) — pas de nouveau pattern necessaire.
+
+    Solo : formule "TS push moment fort" (Scream808) + Pebble Phaser
+    (EHX Small Stone, specifique a ce titre selon la recherche gear)
+    pour faire ressortir le solo du reste du morceau.
+
+    Chaine : Gate > Scream808 > CompulsiveDrive > PebblePhaser > Reverb
+    Slots  :  0      1            2                 3              4
+
+    Snap 0 Riff  : OCD seul (grunge bien pousse) — couvre Intro/Verse/Chorus/Bridge
+    Snap 1 Solo  : Scream808 push + OCD + Pebble Phaser
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD        : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Scream 808 : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
+    """
+    pb = PresetBuilder("Just a Girl", tempo=107.7, styles=["ska_punk"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # Scream 808 = formule "TS push moment fort" : pousse l'OCD sur le Solo
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — niveau de saturation mesure
+    # par l'analyse audio (0.53-0.74) correspond a ce pattern existant
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    # Pebble Phaser = EHX Small Stone : specifique au Solo (gear recherche pour ce titre)
+    pb.add_block("HD2_PhaserPebblePhaser", slot=3, enabled_default=False,
+                 overrides={"Rate": 0.30, "Color": False, "Spread": 0.0, "Level": 0.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
+                 overrides={"Decay": 0.40, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
+
+    # Riff : OCD seul — couvre tout le morceau hors solo (dynamique par le jeu)
+    pb.add_snapshot(0, "JAG Riff", blocks_on=[0, 2, 4], color="orange")
+
+    # Solo : TS push + OCD + Phaser
+    pb.add_snapshot(1, "JAG Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
+
+    pb.add_snapshot(2, "JAG Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "JAG Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -1942,6 +2014,7 @@ PRESETS = {
     "How You Remind Me - Nickelback":          preset_how_you_remind_me,
     "Hysteria - Muse":                         preset_hysteria,
     "I'm Picky - Shaka Ponk":                  preset_im_picky,
+    "Just a Girl - No Doubt":                  preset_just_a_girl,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

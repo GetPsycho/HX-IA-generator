@@ -50,6 +50,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Killing in the Name | Riff / Solo |
 | Sex on Fire | Riff / Chorus |
 | Travel The World | Verse / Bridge |
+| Just a Girl | Riff (couvre Intro/Verse/Chorus/Bridge) |
 
 ---
 
@@ -89,6 +90,7 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 | Killing in the Name | Solo (combiné avec Whammy +1 oct) |
 | Sex on Fire | Chorus |
 | Travel The World | Lick / Bridge |
+| Just a Girl | Solo (combiné avec Pebble Phaser) |
 
 **Généralisation** : initialement nommé "Solo standard", ce pattern fonctionne pour tout snap qu'on veut "faire ressortir" — le Chorus dynamique d'IWBYS en est le 1er exemple. Le principe reste : TS push fait monter présence + volume sans toucher au caractère de la dist principale.
 

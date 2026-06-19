@@ -1,5 +1,25 @@
 # Sources de recherche - Presets guitare
 
+## No Doubt - Just a Girl (1995)
+
+### Informations confirmées
+- BPM : 107.7 (analyse audio, confirme 108) | Tonalité : Ré majeur (D) | Album : Tragic Kingdom (1995)
+- Accordage : standard (E A D G B E)
+- Guitariste : Tom Dumont. Ampli : Divided By 13 RSA31 / Soldano SLO-100 (boutique, crunch permanent)
+- Pédales specifique a ce titre : EHX Small Stone Phaser, Boss DD-5
+- Saturation constante moderee toute la chanson (analyse audio) — dynamique par le jeu, pas par la pedale
+- Solo identifie par Eric — push + phaser pour le distinguer
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://www.guitarchalk.com/no-doubt-tom-dumont-amp-settings/ | Ampli, philosophie de son Dumont |
+| https://www.guitarchalk.com/amp-settings-just-a-girl-no-doubt/ | Reglages specifiques au titre |
+| https://tabs.ultimate-guitar.com/tab/no-doubt/just-a-girl-official-chords-1997127 | Accordage, tonalite, BPM |
+| audio_analysis/03 - Just a Girl_analysis.json | BPM, tonalite, saturation par section (pipeline v3.2.5) |
+
+---
+
 ## Shaka Ponk - I'm Picky (2008)
 
 ### Informations confirmées

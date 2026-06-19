@@ -270,6 +270,33 @@ Toute saturation sur un preset Clara Luciani = erreur (sauf titre spécifique de
 
 ---
 
+## Ska-Punk / Pop-Rock Énergique — 90s
+
+**Repères :** No Doubt, The Offspring, Goldfinger.
+**Dans le setlist :** Just a Girl (No Doubt — Tom Dumont)
+
+### Son caractéristique
+- **Guitare :** Strat-style ou Hamer, single-coils ou humbuckers
+- **Ampli :** boutique high-headroom (Divided By 13, Soldano) poussé en crunch permanent —
+  pas de canal clean, mais saturation modérée ("high" pas "extreme"), brillante et nerveuse
+- **OD :** medium, Tone plus clair/brillant que le grunge (caractère punk/new-wave,
+  pas de mid-scoop sombre)
+- **Phaser :** EHX Small Stone, discret, réservé à un moment précis (solo/bridge) plutôt
+  qu'omniprésent
+- **Pas de mur de saturation** — la dynamique vient du jeu (palm mute vs strumming plein),
+  pas d'un changement de pédale entre les sections
+
+### Construction du preset
+```
+Gate → [TS push sur Solo] → OD medium-brillante → [Phaser sur Solo] → Reverb
+```
+- OD : réutiliser le pattern "Grunge bien poussé" si le niveau de saturation correspond
+  (cf. `docs/theory/shared_configs.md`) — un seul son de base suffit souvent pour
+  tout le morceau hors solo
+- Phaser : Mix/présence léger, uniquement sur le moment qui doit se distinguer
+
+---
+
 ## Tableau de Référence Rapide
 
 | Style | Ère | Saturation | Compresseur | Modulation | Reverb Mix | Exemple setlist |
@@ -283,6 +310,7 @@ Toute saturation sur un preset Clara Luciani = erreur (sauf titre spécifique de
 | Stoner rock | 90–00s | OD medium | Absent | Absent | 0.08–0.12 | No One Knows |
 | Post-grunge | 00s | HM-2 ou OCD | Absent | Phaser discret | 0.18–0.28 | Nickelback, KoL |
 | Pop-rock fr | 20s | Aucune | Fort (0.65+) | Chorus refrain | 0.15–0.20 | Clara Luciani |
+| Ska-punk | 90s | OD medium brillante | Absent | Phaser sur solo seul | 0.10–0.16 | No Doubt |
 
 ---
 

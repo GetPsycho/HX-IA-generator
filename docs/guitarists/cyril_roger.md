@@ -32,14 +32,15 @@ les éléments électro viennent davantage de la production/synths que de la gui
 ## Sons par titre
 | Titre | Section | Son | Notes |
 |---|---|---|---|
-| **I'm Picky** | Verse/Riff | Mesa Rectifier cranked (KWB) | Saturation extreme en permanence, pas de section clean |
-| **I'm Picky** | Chorus/Solo/Outro | + TS9 stacké devant le Rectifier | Compense le doublage de piste studio ("rythmique doublée") — un seul guitariste en live |
+| **I'm Picky** | Verse/Riff | Klon + OCD (pattern "Rock direct") | Réutilisation du pattern AYGGMW plutôt que matching Mesa Rectifier dédié |
+| **I'm Picky** | Chorus/Solo/Outro | + TS push (Scream808) | Compense le doublage de piste studio ("rythmique doublée") — = AYGGMW Solo |
 
 ## Équivalents HX Effects
 | Effet | Modèle HX | Model ID |
 |---|---|---|
-| Mesa Boogie Dual Rectifier (canal Modern) | KWB | `HD2_DistKWB` |
-| Ibanez TS9 (stacking, resserre via mid hump 723 Hz) | Scream 808 | `HD2_DistScream808` |
+| Klon (push, pattern "Rock direct") | Minotaur | `HD2_DistMinotaur` |
+| OCD (pattern "Rock direct") | Compulsive Drive | `HD2_DistCompulsiveDrive` |
+| TS push (pattern "TS push moment fort") | Scream 808 | `HD2_DistScream808` |
 
 ## Sources
 - https://equipboard.com/pros/cyril-roger

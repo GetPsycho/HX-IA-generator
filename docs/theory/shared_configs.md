@@ -72,6 +72,7 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 |---|---|
 | AYGGMW | Riff / Bridge / Solo |
 | Even Flow | Principal / Solo |
+| I'm Picky | Riff / Solo |
 
 ---
 
@@ -95,6 +96,7 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 | Sex on Fire | Chorus |
 | Travel The World | Lick / Bridge |
 | Just a Girl | Solo (combiné avec Pebble Phaser) |
+| I'm Picky | Solo |
 
 **Généralisation** : initialement nommé "Solo standard", ce pattern fonctionne pour tout snap qu'on veut "faire ressortir" — le Chorus dynamique d'IWBYS en est le 1er exemple. Le principe reste : TS push fait monter présence + volume sans toucher au caractère de la dist principale.
 

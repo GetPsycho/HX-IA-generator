@@ -11,13 +11,15 @@
 | Guitariste | Cyril Roger "CC" |
 
 ## Structure du morceau
+REFONTE : abandon du matching Mesa Rectifier/KWB au profit du pattern
+canonique "Rock direct" (déjà utilisé par AYGGMW) — réutilisation directe
+plutôt qu'une config dédiée.
+
 | Section | Son guitare | Effets actifs | Snap HX | Notes |
 |---|---|---|---|---|
-| Intro/Verse | Mesa Rectifier cranked | KWB seul | PIK Riff | Saturation extreme deja sur l'intro (pas de section clean) |
-| Bridge | idem Verse | KWB seul | PIK Riff | Memes accords simplifies (Em D C C) |
-| Chorus | Rectifier + push | KWB + Scream808 (TS9 stack) | PIK Chorus | Tab : "rythmique doublee" en studio — compense par le stacking TS9 |
-| Solo | idem Chorus (meme progression Em D G D) | KWB + Scream808 | PIK Chorus | Pas de solo melodique distinct, instrumental sur la meme grille |
-| Outro | idem Chorus, intensite peak | KWB + Scream808 | PIK Chorus | Section la plus longue et la plus forte (RMS peak) |
+| Intro/Verse | Klon + OCD (Rock direct) | Minotaur + CompulsiveDrive | PIK Riff | = AYGGMW Riff |
+| Bridge | idem Verse | Minotaur + CompulsiveDrive | PIK Riff | Memes accords simplifies (Em D C C) |
+| Chorus/Solo/Outro | Klon + TS push + OCD | + Scream808 | PIK Solo | = AYGGMW Solo. Tab : "rythmique doublee" en studio — compense par le TS push |
 
 ## Improvisation
 Pas de solo melodique au sens lead — section instrumentale sur la meme grille
@@ -26,17 +28,17 @@ ou Si majeur si jeu plus melodique.
 
 ## Preset HX Effects
 **Fichier :** `output/I'm Picky - Shaka Ponk.hlx`
-**Chaine :** `Gate > Scream808 > KWB > Reverb`
+**Chaine :** `Gate > Minotaur > Scream808 > CompulsiveDrive > Reverb`
 
 | Snap | Nom | Son |
 |---|---|---|
-| 0 | PIK Riff | KWB seul (Gain=0.78) — Verse/Bridge |
-| 1 | PIK Chorus | + Scream808 push (Gain=0.65) — Chorus/Solo/Outro |
+| 0 | PIK Riff | Klon + OCD (= AYGGMW Riff) |
+| 1 | PIK Solo | + Scream808 push (= AYGGMW Solo) |
 | 2 | PIK Clean | Accordage |
 | 3 | PIK Clean | Accordage |
 
-Pattern de matching ampli reutilise depuis `docs/pedal_guides/od_dist_fuzz.md`
-(Mesa Boogie Dual Rectifier -> KWB + Scream808 stacking).
+Patterns canoniques réutilisés (cf. `docs/theory/shared_configs.md`) :
+"Rock direct" (Klon+OCD) et "TS push moment fort" (Scream808).
 
 ## Sources
 | URL | Contenu |

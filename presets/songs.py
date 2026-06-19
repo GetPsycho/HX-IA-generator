@@ -1897,58 +1897,61 @@ def preset_im_picky():
     Accordage : standard, capo case 4. Formes Em-D-G-D/C -> sonne Sol# mineur /
     Si majeur (confirme par analyse audio, confidence basse mais coherent).
 
-    Ampli : Mesa/Boogie Rectifier 3-Channel, canal Modern toujours sature —
-    pas de section clean dans le morceau (analyse audio : saturation "extreme"
-    deja sur l'intro). Pattern de matching ampli reutilise depuis
-    docs/pedal_guides/od_dist_fuzz.md : Mesa Dual Rectifier -> KWB.
+    REFONTE : abandon du matching Mesa Rectifier/KWB au profit des patterns
+    canoniques deja etablis (cf. docs/theory/shared_configs.md) — reutilisation
+    directe du pattern "Rock direct" (AYGGMW) plutot qu'une config dediee.
 
-    Chorus/Solo/Outro : la tab note "la rythmique est doublee" en studio.
-    Un seul guitariste en live ne peut pas reproduire ce doublage -> on
-    epaissit/resserre via un Scream808 (TS9) stacke devant le KWB (mid hump
-    723 Hz), au lieu de simuler une vraie double piste.
+    Snap renomme "Solo" (ex-"Chorus") : la tab notait "la rythmique est
+    doublee" en studio sur Chorus/Solo/Outro — un seul guitariste en live ne
+    peut pas reproduire ce doublage, on epaissit via le meme TS push qu'AYGGMW
+    Solo.
 
-    Pas de KinkyBoost : le morceau est sature en permanence, pas de section
-    clean a matcher en interne. A tester en live si le volume manque.
+    Chaine : Gate > Minotaur > Scream808 > CompulsiveDrive > Reverb
+    Slots  :  0      1          2            3                 4
 
-    Chaine : Gate > Scream808 > KWB > Reverb
-    Slots  :  0      1            2     3
+    Snap 0 Riff  : Klon + OCD (= AYGGMW Riff)
+    Snap 1 Solo  : Klon + Scream808 push + OCD (= AYGGMW Solo)
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
 
-    Snap 0 Riff   : KWB seul (Verse/Bridge)
-    Snap 1 Chorus : Scream808 push + KWB (Chorus/Solo/Outro)
-    Snap 2 Clean  : accordage / attente
-    Snap 3 Clean  : accordage / attente
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Minotaur    : Gain=0.40, Tone=0.45, Level=0.86 (Klon push pattern "Rock direct")
+    - OCD         : Gain=0.65, Tone=0.35, LPHP=True, Level=0.80 (pattern "Rock direct")
+    - Scream 808  : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
     """
     pb = PresetBuilder("I'm Picky", tempo=117.5, styles=["alt_metal"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
-    # Scream 808 (Ibanez TS9) = stacking devant le KWB pour resserrer/epaissir
-    # Gain=0.65 (vs 0.25 du pattern "TS push moment fort") : ici c'est le coeur
-    # du son Chorus/Solo/Outro, pas juste un lift bref.
-    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.65, "Tone": 0.55, "Level": 0.75})
+    # Klon Minotaur = CONFIG CANONIQUE "Rock direct" — partagee AYGGMW/Even Flow
+    pb.add_block("HD2_DistMinotaur", slot=1,
+                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
 
-    # KWB = Benadrian Kowloon Walled Bunny : simule le Mesa Rectifier canal Modern
-    # EQ neutre (Bass=0, Treble=0), Gain=0.78 (cf. table matching ampli)
-    pb.add_block("HD2_DistKWB", slot=2,
-                 overrides={"Gain": 0.78, "Bass": 0.0, "Treble": 0.0, "Level": 0.70})
+    # Scream 808 = formule "TS push moment fort" : pousse l'OCD sur le Solo
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    # OCD = CONFIG CANONIQUE "Rock direct" — partagee AYGGMW/Even Flow
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
+                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.32, "Predelay": 0.02,
                             "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
 
-    pb.add_snapshot(0, "PIK Riff", blocks_on=[0, 2, 3], color="orange")
+    # Riff : Klon + OCD always-on (= AYGGMW Riff)
+    pb.add_snapshot(0, "PIK Riff", blocks_on=[0, 1, 3, 4], color="orange")
 
-    # Chorus/Solo/Outro : TS9 push + KWB
-    pb.add_snapshot(1, "PIK Chorus", blocks_on=[0, 1, 2, 3], color="red")
+    # Solo : + Scream 808 push (= AYGGMW Solo)
+    pb.add_snapshot(1, "PIK Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
 
-    pb.add_snapshot(2, "PIK Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(2, "PIK Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "PIK Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "PIK Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

@@ -521,9 +521,11 @@ def preset_dani_california():
     # Auto Filter = Moog MF-101 LPF (approximation live du Doepfer A-100 studio)
     # Mode BP (1) : valide par test (LP trop grave sur le lick)
     # Place devant les sat : voit le signal clean (envelope plus reactive)
+    # Sens=0.40 (baisse depuis 0.55) : le filtre s'ouvrait trop facilement,
+    # trop de "wah" par rapport au lick original (retour test live)
     pb.add_block("HD2_FilterAutoFilter", slot=1, enabled_default=False,
                  overrides={"Mode": 1, "FilterGain": 14.0, "FilterQ": 6.0,
-                            "Sens": 0.55, "Attack": 0.01, "Decay": 0.30,
+                            "Sens": 0.40, "Attack": 0.01, "Decay": 0.30,
                             "Frequency": 200.0, "FreqDepth": 4500.0,
                             "Direction": True, "Mix": 1.0, "Level": 0.0})
 

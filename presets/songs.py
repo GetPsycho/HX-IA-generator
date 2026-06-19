@@ -2383,6 +2383,65 @@ def preset_time_is_running_out():
     return pb
 
 
+def preset_locked_out_of_heaven():
+    """Bruno Mars - Locked Out of Heaven (143.6 BPM)
+
+    Accordage : standard (E A D G B E). Tonalite : Fa majeur (F).
+    Capo 5 propose sur certaines tabs UG mais pas necessaire, jouable
+    directement en Fa majeur.
+
+    Guitare : Bruno Mars lui-meme (Fender Stratocaster), son clean. Influence
+    explicite The Police ("You try to write a Police song!") — "skank" reggae
+    (coups courts sur le contretemps) + chorus leger type Andy Summers,
+    confirme par analyse audio (rate 0.6 Hz, depth 0.45, confiance forte).
+
+    Saturation tres faible (0.18-0.20) sur la quasi-totalite du morceau
+    (intro+chorus = 188s sur 233s) -> un seul son actif, pas de distorsion.
+
+    Chaine : Gate > RedSqueeze > 70sChorus > Reverb
+    Slots  :  0      1            2            3
+
+    Snap 0 Riff  : RedSqueeze (comp skank) + 70s Chorus (leger) — seul son actif
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+    """
+    pb = PresetBuilder("Locked Out of Heaven", tempo=143.6, styles=["reggae_rock_pop"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -52.0, "Decay": 0.30})
+
+    # Red Squeeze : compression pour l'attaque skank reggae
+    pb.add_block("HD2_CompressorRedSqueeze", slot=1,
+                 overrides={"Sensitivity": 0.55, "Mix": 1.0, "Level": 4.0})
+
+    # 70s Chorus : leger, confirme par analyse audio (rate 0.6 Hz, depth 0.45)
+    pb.add_block("HD2_Chorus70sChorus", slot=2,
+                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.40,
+                            "VibratoDepth": 0.30, "Mix": 0.35, "Level": 1.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.35, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.12, "Mix": 0.12})
+
+    # Riff : seul son actif — couvre tout le morceau
+    pb.add_snapshot(0, "LOH Riff", blocks_on=[0, 1, 2, 3], color="orange")
+
+    pb.add_snapshot(1, "LOH Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(2, "LOH Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "LOH Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2405,6 +2464,7 @@ PRESETS = {
     "Take Me Out - Franz Ferdinand":             preset_take_me_out,
     "The Man Who Sold the World - Nirvana":      preset_the_man_who_sold_the_world,
     "Time Is Running Out - Muse":                preset_time_is_running_out,
+    "Locked Out of Heaven - Bruno Mars":          preset_locked_out_of_heaven,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

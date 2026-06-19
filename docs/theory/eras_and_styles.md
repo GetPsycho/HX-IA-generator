@@ -297,6 +297,29 @@ Gate → [TS push sur Solo] → OD medium-brillante → [Phaser sur Solo] → Re
 
 ---
 
+## Reggae-Rock / Pop Funk — 2010s
+
+**Repères :** Bruno Mars, influence The Police (new wave reggae).
+**Dans le setlist :** Locked Out of Heaven (Bruno Mars)
+
+### Son caractéristique
+- **Guitare :** Strat-style, son clean ordinaire
+- **Ampli :** clean
+- **Pas de distorsion** — saturation quasi nulle (analyse audio : 0.18-0.20)
+- **Compresseur :** présent pour l'attaque "skank" reggae (coups courts sur le contretemps)
+- **Chorus :** léger, confirmé par analyse audio (rate ~0.6 Hz, depth modérée) —
+  influence Andy Summers/Police malgré un son globalement discret
+- **Reverb :** quasi absente
+
+### Construction du preset
+```
+Gate → Red Squeeze (comp skank) → 70s Chorus (léger) → Reverb minimale
+```
+- Pas de bloc de saturation
+- Chorus Mix modéré (0.30-0.40), pas trop prononcé
+
+---
+
 ## Tableau de Référence Rapide
 
 | Style | Ère | Saturation | Compresseur | Modulation | Reverb Mix | Exemple setlist |
@@ -311,6 +334,7 @@ Gate → [TS push sur Solo] → OD medium-brillante → [Phaser sur Solo] → Re
 | Post-grunge | 00s | HM-2 ou OCD | Absent | Phaser discret | 0.18–0.28 | Nickelback, KoL |
 | Pop-rock fr | 20s | Aucune | Fort (0.65+) | Chorus refrain | 0.15–0.20 | Clara Luciani |
 | Ska-punk | 90s | OD medium brillante | Absent | Phaser sur solo seul | 0.10–0.16 | No Doubt |
+| Reggae-rock pop | 10s | Aucune | Présent (skank) | Chorus léger | 0.05–0.10 | Bruno Mars |
 
 ---
 

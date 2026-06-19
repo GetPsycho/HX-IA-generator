@@ -1,5 +1,26 @@
 # Sources de recherche - Presets guitare
 
+## Bruno Mars - Locked Out of Heaven (2012)
+
+### Informations confirmées
+- BPM : 143.6 (confirme 144) | Tonalité : Fa majeur (F)
+- Accordage : standard (capo 5 optionnel sur tabs UG, pas necessaire)
+- Guitare : Bruno Mars lui-meme, Fender Stratocaster, son clean
+- Influence explicite The Police — skank reggae + chorus leger confirme par
+  analyse audio (rate 0.6 Hz, depth 0.45, confiance forte)
+- Saturation tres faible (0.18-0.20) sur la quasi-totalite du morceau —
+  pas de distorsion, un seul son actif
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://en.wikipedia.org/wiki/Locked_Out_of_Heaven | Contexte, Stratocaster, influence Police |
+| https://stereogum.com/2250572/the-number-ones-bruno-mars-locked-out-of-heaven/columns/the-number-ones | Analyse influence |
+| https://tabs.ultimate-guitar.com/tab/bruno-mars/locked-out-of-heaven-chords-1197762 | Accords, capo, tonalite |
+| audio_analysis/02 - Bruno Mars - Locked out of Heaven_analysis.json | Tempo, saturation, chorus |
+
+---
+
 ## Muse - Time Is Running Out (2003)
 
 ### Informations confirmées

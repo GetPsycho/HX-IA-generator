@@ -2060,6 +2060,63 @@ def preset_no_roots():
     return pb
 
 
+def preset_not_an_addict():
+    """K's Choice - Not an Addict (86.1 BPM) — Sam & Gert Bettens
+
+    Accordage : standard (E A D G B E). Tonalite : Mi majeur (E) — accords
+    intro A-C#m-B-B (IV-vi-V-V) et chorus E-F#sus2-Asus2 (I-II-IV), diatoniques
+    a Mi majeur.
+
+    Piege tempo : analyse audio detecte 172.3 BPM mais le tempo reel est la
+    moitie (86.1 BPM, alternative donnee par le pipeline) — confirme par
+    l'estimation utilisateur (84).
+
+    Pas de partie acoustique reproduite en live (decision Eric) — un seul son
+    de guitare electrique sur tout le morceau. OCD aligne sur le pattern
+    canonique "Grunge bien pousse" (cf. docs/theory/shared_configs.md).
+
+    Chaine : Gate > CompulsiveDrive > Reverb
+    Slots  :  0      1                 2
+
+    Snap 0 Riff  : OCD — seul son actif, couvre tout le morceau
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    """
+    pb = PresetBuilder("Not an Addict", tempo=86.1, styles=["alt_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse"
+    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=2,
+                 overrides={"Decay": 0.40, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
+
+    # Riff : seul son actif — couvre tout le morceau
+    pb.add_snapshot(0, "NAA Riff", blocks_on=[0, 1, 2], color="orange")
+
+    pb.add_snapshot(1, "NAA Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(2, "NAA Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "NAA Clean", blocks_on=[0, 2],
+                    params={2: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2077,6 +2134,7 @@ PRESETS = {
     "I'm Picky - Shaka Ponk":                  preset_im_picky,
     "Just a Girl - No Doubt":                  preset_just_a_girl,
     "No Roots - Alice Merton":                 preset_no_roots,
+    "Not an Addict - K's Choice":               preset_not_an_addict,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

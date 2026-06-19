@@ -1,5 +1,23 @@
 # Sources de recherche - Presets guitare
 
+## K's Choice - Not an Addict (1995)
+
+### Informations confirmées
+- BPM : 86.1 (analyse audio detecte 172.3, double-temps — confirme par estimation 84)
+- Tonalité : Mi majeur (E) — accords intro A-C#m-B-B, chorus E-F#sus2-Asus2
+- Accordage : standard
+- Pas de fiche gear precise trouvee (Equipboard inaccessible) — decision projet :
+  un seul son electrique, pattern "grunge bien pousse" reutilise
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://tabs.ultimate-guitar.com/tab/ks-choice/not-an-addict-chords-1050238 | Accords, tonalite |
+| https://en.wikipedia.org/wiki/K%27s_Choice | Contexte groupe |
+| audio_analysis/0101 - Not an Addict_analysis.json | Tempo (piege double-temps), structure |
+
+---
+
 ## Alice Merton - No Roots (2016)
 
 ### Informations confirmées

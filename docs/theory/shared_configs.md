@@ -51,6 +51,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Sex on Fire | Riff / Chorus |
 | Travel The World | Verse / Bridge |
 | Just a Girl | Riff (couvre Intro/Verse/Chorus/Bridge) |
+| Not an Addict | Riff (seul son actif, tout le morceau) |
 
 ---
 

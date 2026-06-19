@@ -129,6 +129,25 @@ class PresetBuilder:
         # EXP pedal bindings : (slot, param_name) -> (exp_id, default_value)
         # exp_id : 1=EXP 1, 2=EXP 2, 3=EXP 3 (controllers HX Effects)
         self._exp_bindings = {}
+        # Footswitch overrides : slot -> fs_index (par defaut = slot)
+        self._fs_index_overrides = {}
+
+    def assign_footswitch(self, slot: int, fs_index: int) -> "PresetBuilder":
+        """Force le numero de footswitch (mode pedale/stomp) d'un bloc.
+
+        Par defaut, @fs_index = slot. A utiliser quand un bloc doit etre
+        sur un footswitch precis et constant entre presets (ex: un meme
+        utilitaire toujours sur le footswitch 6), independamment de son
+        slot dans la chaine.
+
+        Args:
+            slot: slot du bloc (0-7)
+            fs_index: numero de footswitch (1-6 sur le HX Effects)
+        """
+        if slot not in self._block_models:
+            raise ValueError(f"Slot {slot} sans bloc")
+        self._fs_index_overrides[slot] = fs_index
+        return self
 
     def bind_exp_pedal(self, slot: int, param_name: str,
                        exp_id: int = 1, value: float = 0.0) -> "PresetBuilder":
@@ -344,7 +363,8 @@ class PresetBuilder:
             else:
                 tone[f"snapshot{idx}"] = _empty_snapshot(idx)
 
-        tone["footswitch"] = _build_footswitch(self._blocks, self._block_models)
+        tone["footswitch"] = _build_footswitch(self._blocks, self._block_models,
+                                               self._fs_index_overrides)
         tone["variax"]     = {}
 
         return {
@@ -438,14 +458,27 @@ def _empty_snapshot(index: int) -> dict:
     }
 
 
-def _build_footswitch(blocks: dict, models: dict) -> dict:
+MAX_FOOTSWITCH = 6  # HX Effects : 6 footswitches physiques. @fs_index=0 = aucun.
+
+
+def _build_footswitch(blocks: dict, models: dict, fs_overrides: dict = None) -> dict:
     catalog = get_catalog()
+    fs_overrides = fs_overrides or {}
+    # Les overrides explicites reservent leur fs_index — les autres blocs ne
+    # doivent jamais s'y assigner par defaut (collision sur le meme footswitch).
+    reserved = set(fs_overrides.values())
     fs_dsp0 = {}
     for slot, block in blocks.items():
         info = catalog[models[slot]]
+        if slot in fs_overrides:
+            fs_index = fs_overrides[slot]
+        elif 1 <= slot <= MAX_FOOTSWITCH and slot not in reserved:
+            fs_index = slot
+        else:
+            fs_index = 0  # aucun footswitch (slot 0, slot >6, ou collision)
         fs_dsp0[f"block{slot}"] = {
             "@fs_enabled":   block.get("@enabled", False),
-            "@fs_index":     slot,
+            "@fs_index":     fs_index,
             "@fs_label":     info.name[:12],
             "@fs_ledcolor":  DEFAULT_SNAPSHOT_COLORS[slot % len(DEFAULT_SNAPSHOT_COLORS)],
             "@fs_momentary": False,

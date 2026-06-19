@@ -573,8 +573,11 @@ def preset_drive():
 
     Micro manche recommande pour le snap Acoustique (plus chaud, meilleur rendu sim).
 
-    Chaine : Gate > AcousSim > Phaser > Rotosphere > KinkyBoost > Delay > Reverb
-    Slots  :  0      1          2         3             4            5       6
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live.
+
+    Chaine : PolyPitch > Gate > AcousSim > Phaser > Rotosphere > KinkyBoost > Delay > Reverb
+    Slots  :     0          1       2         3         4            5           6       7
 
     Snap 0 Acoustique : simulation acoustique + reverb ambiante (Intro/Verse/Chorus)
     Snap 1 Solo       : Phaser + Rotosphere FAST + KinkyBoost (Drive=0.3) + delay + reverb
@@ -583,53 +586,59 @@ def preset_drive():
     """
     pb = PresetBuilder("Drive", tempo=91.0, styles=["alt_rock"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
     # Acoustic Sim : simulation caisse de resonance sur guitare electrique
     # Mode=1 (Medium body), micro manche recommande pour maximiser l'effet
     # Level en dB (range -60/+6) : 0.0 = unite
-    pb.add_block("L6SPB_AcousGtrSim", slot=1, enabled_default=False,
+    pb.add_block("L6SPB_AcousGtrSim", slot=2, enabled_default=False,
                  overrides={"Mode": 1, "Body": 0.65, "Top": 0.55,
                             "Shimmer": 0.25, "Level": 0.0})
 
     # Deluxe Phaser = Boss PH-2 Super Phaser : sweep organique sur le solo
     # Mix=0.75 : bien present, contribue au caractere avec le Rotosphere
-    pb.add_block("HD2_PhaserDeluxePhaser", slot=2, enabled_default=False,
+    pb.add_block("HD2_PhaserDeluxePhaser", slot=3, enabled_default=False,
                  overrides={"Rate": 0.6, "Depth": 0.82, "Feedback": 0.28,
                             "Stages": 4, "Mix": 0.75, "Level": 0.0})
 
     # Rotary Drum/Horn = H&K Tube Rotosphere MkII : signature du solo de Drive
     # Speed=True (fast) : rotation rapide, swirl present
     # Mix=0.88 : effet dominant
-    pb.add_block("HD2_MM4RotaryDrumHorn", slot=3, enabled_default=False,
+    pb.add_block("HD2_MM4RotaryDrumHorn", slot=4, enabled_default=False,
                  overrides={"Speed": True, "Depth": 0.85, "Horn Depth": 0.90,
                             "Drive": 0.3, "Mix": 0.88, "Level": 4.0})
 
     # KinkyBoost = Xotic EP Booster : boost + leger grain (Drive=0.3) pour gonfler le solo
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
                  overrides={"Drive": 0.3, "Boost": True, "Bright": False})
 
     # Delay sparse : eco unique, profondeur sans surcharger le Rotosphere
-    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
                  overrides={"Time": 0.40, "Feedback": 0.15, "Mix": 0.18,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=6,
+    pb.add_block("HD2_ReverbGanymede", slot=7,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.22})
 
-    pb.add_snapshot(0, "DRV Acoustique", blocks_on=[0, 1, 6], color="green")
+    pb.add_snapshot(0, "DRV Acoustique", blocks_on=[1, 2, 7], color="green")
 
     # Solo : Phaser + Rotosphere (FAST) + KinkyBoost + delay + reverb
-    pb.add_snapshot(1, "DRV Solo", blocks_on=[0, 2, 3, 4, 5, 6], color="red")
+    pb.add_snapshot(1, "DRV Solo", blocks_on=[1, 3, 4, 5, 6, 7], color="red")
 
-    pb.add_snapshot(2, "DRV Clean", blocks_on=[0, 6],
-                    params={6: {"Mix": 0.10}},
+    pb.add_snapshot(2, "DRV Clean", blocks_on=[1, 7],
+                    params={7: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "DRV Clean", blocks_on=[0, 6],
-                    params={6: {"Mix": 0.10}},
+    pb.add_snapshot(3, "DRV Clean", blocks_on=[1, 7],
+                    params={7: {"Mix": 0.10}},
                     color="white")
 
     return pb
@@ -649,8 +658,11 @@ def preset_even_flow():
     on rajoute le Klon en front pour gain stacking (mid-bump 700-800 Hz =
     chaleur sans aigus parasites, contrairement au TS9 d'origine).
 
-    Chaine : Gate > Minotaur > Scream808 > CompulsiveDrive > Reverb
-    Slots  :  0      1          2           3                 4
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live.
+
+    Chaine : PolyPitch > Gate > Minotaur > Scream808 > CompulsiveDrive > Reverb
+    Slots  :     0          1       2          3            4              5
 
     Snap 0 Principal : Klon + OCD + reverb (Intro/Verse/Chorus/Bridge/Licks)
     Snap 1 Solo      : + Scream 808 push (formule Solo standard, identique AYGGMW)
@@ -669,41 +681,47 @@ def preset_even_flow():
     """
     pb = PresetBuilder("Even Flow", tempo=103.0, styles=["grunge"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -50.0, "Decay": 0.32})
 
     # Klon Minotaur always-on = front push pour gain stacking permanent
     # Mid-bump 700-800 Hz = corps + chaleur (pas d'aigus parasites comme TS9).
     # CONFIG CANONIQUE "Rock direct" partagee avec AYGGMW.
-    pb.add_block("HD2_DistMinotaur", slot=1,
+    pb.add_block("HD2_DistMinotaur", slot=2,
                  overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
 
     # Scream 808 (Ibanez TS808) = formule Solo standard
     # Pousse l'OCD + Klon pour faire ressortir le lead.
-    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
+    pb.add_block("HD2_DistScream808", slot=3, enabled_default=False,
                  overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
     # OCD = CONFIG CANONIQUE "Rock direct" — partagee avec AYGGMW
     # Tone=0.35 (vs 0.40 du grunge seul) : Klon pousse en front, on peut adoucir
-    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
+    pb.add_block("HD2_DistCompulsiveDrive", slot=4,
                  overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.18})
 
     # Principal : Klon + OCD always-on + Reverb (= Riff/Bridge AYGGMW)
-    pb.add_snapshot(0, "EVF Principal", blocks_on=[0, 1, 3, 4], color="orange")
+    pb.add_snapshot(0, "EVF Principal", blocks_on=[1, 2, 4, 5], color="orange")
 
     # Solo : + Scream 808 push (= Solo AYGGMW, wah externe MC404 CAE)
-    pb.add_snapshot(1, "EVF Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
+    pb.add_snapshot(1, "EVF Solo", blocks_on=[1, 2, 3, 4, 5], color="red")
 
-    pb.add_snapshot(2, "EVF Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(2, "EVF Clean", blocks_on=[1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "EVF Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "EVF Clean", blocks_on=[1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="white")
 
     return pb
@@ -724,8 +742,11 @@ def preset_how_you_remind_me():
     Chorus : Heavy Dist seule (Boss Metal Zone Legacy) — suffisamment massive sans gain stacking.
     Reglages valides a l'oreille : Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80.
 
-    Chaine : Gate > HeavyDist > Chorus70s > Reverb > KinkyBoost
-    Slots  :  0       1           2           3         4
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live.
+
+    Chaine : PolyPitch > Gate > HeavyDist > Chorus70s > Reverb > KinkyBoost
+    Slots  :     0          1       2           3           4         5
 
     Snap 0 Verse  : clean brillant + KinkyBoost (Bright=True) + reverb (intro/verse/bridge)
     Snap 1 Chorus : Metal Zone — saturation metal massive
@@ -734,46 +755,52 @@ def preset_how_you_remind_me():
     """
     pb = PresetBuilder("How You Remind Me", tempo=86.0, styles=["post_grunge"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -48.0, "Decay": 0.22})
 
     # Heavy Dist = CONFIG CANONIQUE "Heavy Dist Boss Metal Zone" — partagee Toxicity
     # enabled_default=False : uniquement sur Chorus
-    pb.add_block("HD2_DM4HeavyDistortion", slot=1, enabled_default=False,
+    pb.add_block("HD2_DM4HeavyDistortion", slot=2, enabled_default=False,
                  overrides={"Drive": 0.70, "Bass": 0.80, "Mid": 0.40,
                             "Treble": 0.55, "Output": 0.80})
 
     # 70s Chorus (CE-1) en mode Vibrato : ChorusIntensity=0 = vibrato pur (pas de chorus)
     # VibratoRate=0.60 (6), VibratoDepth=0.50 (5), Mix=0.50 (5)
     # enabled_default=False : uniquement sur Arpeges
-    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+    pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
                  overrides={"ChorusIntensity": 0.0, "VibratoRate": 0.60,
                             "VibratoDepth": 0.50, "Mix": 0.50, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.12})
 
     # KinkyBoost Bright=True : simule le caractere scintillant du Fender Super 60 rack
     # enabled_default=False : actif sur Verse + Arpeges, exclu Chorus et Clean
-    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": True})
 
     # Verse/Intro : clean brillant + KinkyBoost (Bright=True) + reverb ouverte
-    pb.add_snapshot(0, "HOW Verse", blocks_on=[0, 3, 4],
-                    params={3: {"Mix": 0.20}},
+    pb.add_snapshot(0, "HOW Verse", blocks_on=[1, 4, 5],
+                    params={4: {"Mix": 0.20}},
                     color="green")
 
     # Chorus : Metal Zone seule = saturation metal massive
-    pb.add_snapshot(1, "HOW Chorus", blocks_on=[0, 1, 3], color="red")
+    pb.add_snapshot(1, "HOW Chorus", blocks_on=[1, 2, 4], color="red")
 
     # Arpeges : clean + CE-1 vibrato + reverb ouverte + KinkyBoost
-    pb.add_snapshot(2, "HOW Arpeges", blocks_on=[0, 2, 3, 4],
-                    params={3: {"Mix": 0.20}},
+    pb.add_snapshot(2, "HOW Arpeges", blocks_on=[1, 3, 4, 5],
+                    params={4: {"Mix": 0.20}},
                     color="yellow")
 
-    pb.add_snapshot(3, "HOW Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "HOW Clean", blocks_on=[1, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -1394,8 +1421,11 @@ def preset_sex_on_fire():
 
     Delay 8eme note (196ms) sur Chorus : epaissit les bends de Matthew Followill.
 
-    Chaine : Gate > Scream808 > CompulsiveDrive > SimpleDelay > Reverb
-    Slots  :  0      1            2                 3              4
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live.
+
+    Chaine : PolyPitch > Gate > Scream808 > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :     0          1       2            3                4              5
 
     Snap 0 Riff   : OCD + Reverb
     Snap 1 Chorus : Scream808 push + OCD + Delay bends + Reverb ouverte
@@ -1408,40 +1438,46 @@ def preset_sex_on_fire():
     """
     pb = PresetBuilder("Sex on Fire", tempo=153.0, styles=["indie_rock", "post_grunge"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
     # Scream 808 = formule "TS push moment fort" : pousse l'OCD sur le Chorus
-    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
                  overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
     # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/Hysteria/IWBYS/KITN
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
                  overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
     # Simple Delay : 8eme note a 153 BPM = 196ms — epaissit les bends du Chorus
-    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
                  overrides={"Time": 0.20, "Feedback": 0.08, "Mix": 0.22,
                             "TempoSync1": False})
 
     # Reverb Mix=0.16 (corrige depuis 0.28 — trop fort vs reference projet)
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.55, "Predelay": 0.02,
                             "Tone": 0.65, "Modulation": 0.20, "Mix": 0.16})
 
-    pb.add_snapshot(0, "SEX Riff", blocks_on=[0, 2, 4], color="green")
+    pb.add_snapshot(0, "SEX Riff", blocks_on=[1, 3, 5], color="green")
 
     # Chorus : TS push + OCD + delay bends + reverb ouverte
-    pb.add_snapshot(1, "SEX Chorus", blocks_on=[0, 1, 2, 3, 4],
-                    params={4: {"Decay": 0.65, "Mix": 0.28}},
+    pb.add_snapshot(1, "SEX Chorus", blocks_on=[1, 2, 3, 4, 5],
+                    params={5: {"Decay": 0.65, "Mix": 0.28}},
                     color="orange")
 
-    pb.add_snapshot(2, "SEX Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(2, "SEX Clean", blocks_on=[1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "SEX Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "SEX Clean", blocks_on=[1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -1536,6 +1572,8 @@ def preset_toxicity():
     pb.add_block("L6SPB_PolyPitch", slot=0,
                  overrides={"Interval": -2, "Cents": 0.0, "AutoEQ": 1.0,
                             "Tracking": 3, "Mix": 1.0})
+    # Footswitch 6 (constant entre presets) pour desactiver facilement en mode pedale
+    pb.assign_footswitch(0, 6)
 
     pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -46.0, "Decay": 0.18})
@@ -1685,6 +1723,8 @@ def preset_lithium():
     pb.add_block("L6SPB_PolyPitch", slot=0,
                  overrides={"Interval": -2, "Cents": 0.0, "AutoEQ": 1.0,
                             "Tracking": 3, "Mix": 1.0})
+    # Footswitch 6 (constant entre presets) pour desactiver facilement en mode pedale
+    pb.assign_footswitch(0, 6)
 
     pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -50.0, "Decay": 0.30})
@@ -2105,8 +2145,11 @@ def preset_not_an_addict():
     de guitare electrique sur tout le morceau. OCD aligne sur le pattern
     canonique "Grunge bien pousse" (cf. docs/theory/shared_configs.md).
 
-    Chaine : Gate > CompulsiveDrive > Reverb
-    Slots  :  0      1                 2
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live.
+
+    Chaine : PolyPitch > Gate > CompulsiveDrive > Reverb
+    Slots  :     0          1       2               3
 
     Snap 0 Riff  : OCD — seul son actif, couvre tout le morceau
     Snap 1 Clean : accordage / attente
@@ -2118,30 +2161,36 @@ def preset_not_an_addict():
     """
     pb = PresetBuilder("Not an Addict", tempo=86.1, styles=["alt_rock"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
     # OCD = CONFIG CANONIQUE "Grunge bien pousse"
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1,
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
                  overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
 
     # Riff : seul son actif — couvre tout le morceau
-    pb.add_snapshot(0, "NAA Riff", blocks_on=[0, 1, 2], color="orange")
+    pb.add_snapshot(0, "NAA Riff", blocks_on=[1, 2, 3], color="orange")
 
-    pb.add_snapshot(1, "NAA Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(1, "NAA Clean", blocks_on=[1, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(2, "NAA Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(2, "NAA Clean", blocks_on=[1, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "NAA Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(3, "NAA Clean", blocks_on=[1, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -2164,8 +2213,12 @@ def preset_special_k():
     - Verse/Riff   : OD legere = pattern "Intro arpege + grain leger" (Heir Apparent)
     - Chorus/Outro : saturation plus poussee = pattern "Grunge bien pousse" (OCD)
 
-    Chaine : Gate > HeirApparent > CompulsiveDrive > Reverb
-    Slots  :  0      1              2                  3
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live — independant
+    du capo case 1 (decision Eric pour l'accordage de base, pas de retune).
+
+    Chaine : PolyPitch > Gate > HeirApparent > CompulsiveDrive > Reverb
+    Slots  :     0          1       2              3                4
 
     Snap 0 Verse  : Heir Apparent (OD legere)
     Snap 1 Chorus : OCD (grunge bien pousse)
@@ -2178,31 +2231,37 @@ def preset_special_k():
     """
     pb = PresetBuilder("Special K", tempo=160.0, styles=["alt_rock"])
 
-    pb.add_block("HD2_GateNoiseGate", slot=0,
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
     # Heir Apparent = CONFIG CANONIQUE "Intro arpege + grain leger"
-    pb.add_block("HD2_DistHeirApparent", slot=1, enabled_default=False,
+    pb.add_block("HD2_DistHeirApparent", slot=2, enabled_default=False,
                  overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
 
     # OCD = CONFIG CANONIQUE "Grunge bien pousse"
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3, enabled_default=False,
                  overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    pb.add_block("HD2_ReverbGanymede", slot=3,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
 
-    pb.add_snapshot(0, "SPK Verse", blocks_on=[0, 1, 3], color="green")
+    pb.add_snapshot(0, "SPK Verse", blocks_on=[1, 2, 4], color="green")
 
-    pb.add_snapshot(1, "SPK Chorus", blocks_on=[0, 2, 3], color="red")
+    pb.add_snapshot(1, "SPK Chorus", blocks_on=[1, 3, 4], color="red")
 
-    pb.add_snapshot(2, "SPK Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(2, "SPK Clean", blocks_on=[1, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "SPK Clean", blocks_on=[0, 3],
-                    params={3: {"Mix": 0.10}},
+    pb.add_snapshot(3, "SPK Clean", blocks_on=[1, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -2308,6 +2367,8 @@ def preset_the_man_who_sold_the_world():
     pb.add_block("L6SPB_PolyPitch", slot=0,
                  overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
                             "Tracking": 3, "Mix": 1.0})
+    # Footswitch 6 (constant entre presets) pour desactiver facilement en mode pedale
+    pb.assign_footswitch(0, 6)
 
     pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -52.0, "Decay": 0.35})

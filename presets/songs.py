@@ -1771,6 +1771,10 @@ def preset_lithium():
                     params={6: {"Mix": 0.10}},
                     color="blue")
 
+    pb.add_snapshot(3, "LIT Clean", blocks_on=[0, 1, 6],
+                    params={6: {"Mix": 0.10}},
+                    color="blue")
+
     return pb
 
 

@@ -1,5 +1,27 @@
 # Sources de recherche - Presets guitare
 
+## Placebo - Special K (2000)
+
+### Informations confirmées
+- BPM : 160 (audio detecte 80.7, alternative x2 = 161.5 proche de l'estimation)
+- Tonalité : Do# majeur (C#) — confirme Wikipedia
+- Accordage : standard, capo case 1 (decision Eric, evite le retune non-standard
+  de Molko documente pour une autre ere/album)
+- Guitariste : Brian Molko. Pedales (ere proche, non confirme pour ce titre
+  precisement) : Pro Co RAT, Roger Mayer distortion, Sovtek Big Muff
+- Analyse audio : son "bright" (high-mid boost), saturation moderee, pas de
+  fuzz epais — deux patterns canoniques existants reutilises (OD legere +
+  grunge bien pousse) plutot qu'une config dediee
+
+### Sources consultées
+| URL | Contenu |
+|-----|---------|
+| https://en.wikipedia.org/wiki/Special_K_(song) | Tonalite Do# majeur |
+| https://www.uberproaudio.com/who-plays-what/561-placebo-brian-molko-guitar-rig-gear-and-equipment | Gear Molko |
+| audio_analysis/Placebo - Black Market Music - 03 - Special K_analysis.json | Tempo, EQ, saturation par section |
+
+---
+
 ## K's Choice - Not an Addict (1995)
 
 ### Informations confirmées

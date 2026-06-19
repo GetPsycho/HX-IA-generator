@@ -32,6 +32,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Be Yourself | Intro |
 | Black Hole Sun | Intro |
 | Dani California | Verse + Lick |
+| Special K | Verse |
 
 ---
 
@@ -52,6 +53,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Travel The World | Verse / Bridge |
 | Just a Girl | Riff (couvre Intro/Verse/Chorus/Bridge) |
 | Not an Addict | Riff (seul son actif, tout le morceau) |
+| Special K | Chorus |
 
 ---
 

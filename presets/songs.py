@@ -2117,6 +2117,67 @@ def preset_not_an_addict():
     return pb
 
 
+def preset_special_k():
+    """Placebo - Special K (160 BPM) — Brian Molko
+
+    Accordage : standard, capo case 1 (decision Eric — pas de retune complet
+    ni de simulation PolyPitch). Tonalite : Do# majeur (C#) — confirme Wikipedia.
+
+    Piege tempo : analyse audio detecte 80.7 BPM, alternative x2 = 161.5 BPM
+    proche de l'estimation utilisateur (160) — tempo reel retenu = 160.
+
+    Deux patterns canoniques existants reutilises (cf. docs/theory/shared_configs.md)
+    plutot qu'une config dediee — l'analyse audio montre un son "bright"
+    (high-mid boost, bas/bas-mids coupes) globalement modere (saturation
+    0.28-0.43 sur la majorite du morceau, pic a 0.64 sur l'outro) qui
+    correspond bien a ces deux paliers deja documentes :
+    - Verse/Riff   : OD legere = pattern "Intro arpege + grain leger" (Heir Apparent)
+    - Chorus/Outro : saturation plus poussee = pattern "Grunge bien pousse" (OCD)
+
+    Chaine : Gate > HeirApparent > CompulsiveDrive > Reverb
+    Slots  :  0      1              2                  3
+
+    Snap 0 Verse  : Heir Apparent (OD legere)
+    Snap 1 Chorus : OCD (grunge bien pousse)
+    Snap 2 Clean  : accordage / attente
+    Snap 3 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Heir Apparent : Gain=0.20, Tone=0.50, Level=0.85 (intro arpege + grain leger)
+    - OCD           : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    """
+    pb = PresetBuilder("Special K", tempo=160.0, styles=["alt_rock"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # Heir Apparent = CONFIG CANONIQUE "Intro arpege + grain leger"
+    pb.add_block("HD2_DistHeirApparent", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse"
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.40, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
+
+    pb.add_snapshot(0, "SPK Verse", blocks_on=[0, 1, 3], color="green")
+
+    pb.add_snapshot(1, "SPK Chorus", blocks_on=[0, 2, 3], color="red")
+
+    pb.add_snapshot(2, "SPK Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "SPK Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2135,6 +2196,7 @@ PRESETS = {
     "Just a Girl - No Doubt":                  preset_just_a_girl,
     "No Roots - Alice Merton":                 preset_no_roots,
     "Not an Addict - K's Choice":               preset_not_an_addict,
+    "Special K - Placebo":                      preset_special_k,
     "I Wanna Be Slave - Maneskin":             preset_i_wanna_be_your_slave,
     "Killing in the Name - RATM":              preset_killing_in_the_name,
     "Le Reste - Clara Luciani":                preset_le_reste,

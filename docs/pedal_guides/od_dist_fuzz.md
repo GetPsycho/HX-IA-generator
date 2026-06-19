@@ -229,10 +229,15 @@ La résistance aux diodes germanium n'est significative qu'à haut Gain.
 
 **HX Effects model ID :** `HD2_DistKWB`
 
+**Correction (retour Eric) :** malgré la plage Gain 0–1, ce n'est PAS une pédale
+haut-gain façon Mesa Rectifier — le caractère est plutôt celui d'une **OD légère,
+type Tube Screamer un peu poussé**. Ne pas l'utiliser pour simuler un ampli
+high-gain ; la réserver à des rôles d'OD légère/medium (boost, push, crunch doux).
+
 ### Paramètres
 | Param | Plage | Ce que ça fait vraiment |
 |---|---|---|
-| **Gain** | 0–1 | Saturation haute-gain. 0.6+ = territoire très saturé |
+| **Gain** | 0–1 | OD légère type TS poussé — pas un haut-gain malgré la plage |
 | **Bass** | -12 à +12 dB | EQ basses fréquences. Valeurs en dB |
 | **Treble** | -12 à +12 dB | EQ aigus. Valeurs en dB |
 | **Level** | 0–1 | Volume de sortie |
@@ -243,9 +248,8 @@ La résistance aux diodes germanium n'est significative qu'à haut Gain.
 ### Sweet spots
 | Contexte | Gain | Bass | Treble | Level | Notes |
 |---|---|---|---|---|---|
-| High gain chaud | 0.72 | 2.0 | 1.0 | 0.52 | Muse Hysteria style |
-| Metal serré | 0.80 | 0.0 | 0.0 | 0.50 | Neutre, laisser l'ampli sculpter |
-| Lead saturé | 0.85 | 1.5 | 2.0 | 0.45 | Compenser Level |
+| OD légère (TS-like) | 0.35 | 0.0 | 1.0 | 0.65 | Crunch doux, transparent |
+| OD medium poussée | 0.50 | 0.0 | 1.5 | 0.60 | Plus de présence, reste OD pas dist |
 
 Bass et Treble en **dB** (pas 0-1) — attention à la valeur absolue.
 
@@ -377,7 +381,7 @@ timbre, réponse aux transitoires, compression naturelle.
 | **Marshall JCM800** (canal overdrive, Gain 7–9) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Crunch dynamique, LPHP=True pour le punch britannique | Be Yourself — Tom Morello |
 | **Gibson Skylark** (petit combo tube ~4W, saturé à fond) | Arbitrator Fuzz | `HD2_DistArbitratorFuzz` | Fuzz Face germanium à gain modéré → "fuzz sur les bords" d'un petit tube saturé. Fuzz 0.62. Plus fidèle que le Valve Driver (trop lisse). | Are You Gonna Go My Way — Craig Ross |
 | **Marshall JCM 2000 DSL** (canal Lead, gain bas + volume fort) | Compulsive Drive (OCD) | `HD2_DistCompulsiveDrive` | Même lignée que JCM800 (britannique). LPHP=True, Gain=0.65–0.70. Saturation de power amp naturelle — pas de préamp extrême. | Hysteria — Matt Bellamy |
-| **Mesa Boogie Dual Rectifier** (canal Modern, Gain 7+) | KWB | `HD2_DistKWB` | Saturation haute-gain très serrée, caractère métal moderne. EQ neutre (Bass=0.0, Treble=0.0). Gain=0.78. Gain stacking : Scream808 (TS9, Gain=0.65) en amont resserre les palm mutes via mid hump 723 Hz. | How You Remind Me — Ryan Peake |
+| **Mesa Boogie Dual Rectifier / Metal Zone style** (canal Modern, Gain 7+) | Heavy Dist (Boss Metal Zone) | `HD2_DM4HeavyDistortion` | Saturation metal massive, palm-muting tight. Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80 (cf. pattern partagé "Heavy Dist Boss Metal Zone" dans shared_configs.md). **KWB n'est PAS adapté ici** : malgré sa plage Gain 0-1, c'est une OD légère type TS poussé, pas un haut-gain (corrigé apres retour Eric). | How You Remind Me — Ryan Peake / Toxicity |
 
 **À compléter au fil des presets.** Quand un nouveau cas de simulation d'ampli est
 rencontré, ajouter une ligne à ce tableau avec l'ampli, la pédale choisie, le

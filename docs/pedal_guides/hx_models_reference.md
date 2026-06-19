@@ -34,7 +34,7 @@ Toutes les entrées de ce fichier sont ✅ confirmées par le manuel officiel.
 | **Vermin Dist** | `HD2_DistVerminDist` | Pro Co RAT (opamp standard) |
 | **Vital Dist** | `HD2_DistVitalDist` | Earthquaker Devices Life — circuit distorsion/octave |
 | **Vital Boost** | `HD2_DistVitalBoost` | Earthquaker Devices Life — circuit boost |
-| **KWB** | `HD2_DistKWB` | Benadrian Kowloon Walled Bunny Distortion |
+| **KWB** | `HD2_DistKWB` | Benadrian Kowloon Walled Bunny Distortion — caractere reel : OD legere type TS poussé, pas un haut-gain (voir od_dist_fuzz.md) |
 | **Legendary Drive** | `HD2_DistLegendaryDrive` | Carvin VLD1 Legacy Drive (canal high gain) |
 | **Swedish Chainsaw** | `HD2_DistSwedishChainsaw` | BOSS HM-2 Heavy Metal Distortion (MIJ) |
 | **Arbitrator Fuzz** | `HD2_DistArbitratorFuzz` | Arbiter Fuzz Face |

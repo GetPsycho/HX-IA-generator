@@ -2247,9 +2247,15 @@ def preset_the_man_who_sold_the_world():
     """Nirvana - The Man Who Sold the World (117.5 BPM) — Kurt Cobain (cover Bowie)
 
     MTV Unplugged in New York (1994). Martin D-18E acoustique-electrique +
-    Boss DS-2 (subtil) + Small Clone chorus — pas du 100% acoustique malgre
-    le format "Unplugged" (confirme par Guitar.com). Accordage demi-ton plus
-    bas (Eb standard), tonalite reelle La (A).
+    Boss DS-2 (subtil sur l'intro/solo uniquement, pas le verse). Accordage
+    demi-ton plus bas (Eb standard), tonalite reelle La (A). Pas de Small
+    Clone : non audible sur ce titre a l'ecoute (retire malgre la mention
+    generale Cobain/Unplugged dans la doc gear).
+
+    3 sons distincts (retour ecoute Eric) :
+    - Intro/Riff : motif repete 2-3 fois, acoustique + DS-2 subtil
+    - Verse : son folk pur, SANS le DS-2 (acoustique seule)
+    - Solo  : variation de l'intro, + de reverb/sustain ("son qui dure")
 
     Pat Smear (2e guitare Unplugged, ligne de basse mobile au chorus) non
     reproduit — guitariste unique dans le groupe d'Eric, on joue uniquement
@@ -2258,15 +2264,12 @@ def preset_the_man_who_sold_the_world():
     Accordage simule via PolyPitch (Interval=-1 semitone, AutoEQ=1.0) —
     meme pattern que Toxicity (Drop D -> Drop C), ici standard -> Eb standard.
 
-    Analyse audio : saturation constamment haute (0.69-0.85) sur tout le
-    morceau, pas de vraie rupture clean/distordu -> un seul son actif.
+    Chaine : PolyPitch > Gate > AcousGtrSim > DeezOneMod > Reverb
+    Slots  :     0          1        2            3           4
 
-    Chaine : PolyPitch > Gate > AcousGtrSim > DeezOneMod > 70sChorus > Reverb
-    Slots  :     0          1        2            3            4         5
-
-    Snap 0 Riff  : Acoustique + DS-2 subtil + Small Clone — seul son actif
-    Snap 1 Clean : accordage / attente
-    Snap 2 Clean : accordage / attente
+    Snap 0 Intro : Acoustique + DS-2 subtil + reverb normale
+    Snap 1 Verse : Acoustique seule (pas de DS-2) — son folk pur
+    Snap 2 Solo  : Acoustique + DS-2 + reverb plus longue/presente
     Snap 3 Clean : accordage / attente
     """
     pb = PresetBuilder("The Man Who Sold the World", tempo=117.5, styles=["grunge"])
@@ -2284,32 +2287,28 @@ def preset_the_man_who_sold_the_world():
                  overrides={"Mode": 1, "Body": 0.60, "Top": 0.55,
                             "Shimmer": 0.15, "Level": 0.0})
 
-    # Deez One Mod = approx. Boss DS-2 (subtil, sous l'acoustique)
-    pb.add_block("HD2_DistDeezOneMod", slot=3,
+    # Deez One Mod = approx. Boss DS-2 (subtil) — actif Intro/Solo, absent du Verse
+    pb.add_block("HD2_DistDeezOneMod", slot=3, enabled_default=False,
                  overrides={"Drive": 0.25, "Tone": 0.50, "Level": 0.0})
 
-    # 70s Chorus = approx. EHX Small Clone
-    pb.add_block("HD2_Chorus70sChorus", slot=4,
-                 overrides={"ChorusIntensity": 0.45, "VibratoRate": 0.35,
-                            "VibratoDepth": 0.35, "Mix": 0.40, "Level": 1.0})
-
-    pb.add_block("HD2_ReverbGanymede", slot=5,
+    # Reverb : defaults orientes Intro/Verse (normale), override Solo plus presente
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.18})
 
-    # Riff : seul son actif — couvre tout le morceau (y compris le solo)
-    pb.add_snapshot(0, "TMW Riff", blocks_on=[0, 1, 2, 3, 4, 5], color="orange")
+    # Intro/Riff : acoustique + DS-2 subtil
+    pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 3, 4], color="orange")
 
-    pb.add_snapshot(1, "TMW Clean", blocks_on=[0, 1, 5],
-                    params={5: {"Mix": 0.10}},
-                    color="blue")
+    # Verse : son folk pur, sans le DS-2
+    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 2, 4], color="green")
 
-    pb.add_snapshot(2, "TMW Clean", blocks_on=[0, 1, 5],
-                    params={5: {"Mix": 0.10}},
-                    color="blue")
+    # Solo : variation de l'intro, reverb plus longue et plus presente ("qui dure")
+    pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4],
+                    params={4: {"Decay": 0.65, "Mix": 0.32}},
+                    color="red")
 
-    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 1, 5],
-                    params={5: {"Mix": 0.10}},
+    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 1, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

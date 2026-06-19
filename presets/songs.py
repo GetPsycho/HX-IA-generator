@@ -2449,8 +2449,9 @@ def preset_locked_out_of_heaven():
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
     # Red Squeeze : compression pour l'attaque skank reggae
+    # Level remonte 4.0 -> 8.0 : bridait le volume (retour test live)
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
-                 overrides={"Sensitivity": 0.55, "Mix": 1.0, "Level": 4.0})
+                 overrides={"Sensitivity": 0.55, "Mix": 1.0, "Level": 8.0})
 
     # 70s Chorus : leger, confirme par analyse audio (rate 0.6 Hz, depth 0.45)
     pb.add_block("HD2_Chorus70sChorus", slot=2,

@@ -574,13 +574,17 @@ def preset_drive():
     Micro manche recommande pour le snap Acoustique (plus chaud, meilleur rendu sim).
 
     Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
-    (mode pedale) pour transposer rapidement si besoin en live.
+    (mode pedale). KinkyBoost remplace par un bloc "Gain" pur (HD2_VolPanGain) :
+    le KinkyBoost (pedale modelisee) faisait depasser le budget DSP avec
+    PolyPitch actif (cf. docs/pedal_guides/hx_models_reference.md section
+    Poly Pitch) — le bloc Gain est un simple utilitaire volume, beaucoup
+    plus leger, pour le meme role (gonfler le solo).
 
-    Chaine : PolyPitch > Gate > AcousSim > Phaser > Rotosphere > KinkyBoost > Delay > Reverb
-    Slots  :     0          1       2         3         4            5           6       7
+    Chaine : PolyPitch > Gate > AcousSim > Phaser > Rotosphere > Gain > Delay > Reverb
+    Slots  :     0          1       2         3         4           5       6       7
 
     Snap 0 Acoustique : simulation acoustique + reverb ambiante (Intro/Verse/Chorus)
-    Snap 1 Solo       : Phaser + Rotosphere FAST + KinkyBoost (Drive=0.3) + delay + reverb
+    Snap 1 Solo       : Phaser + Rotosphere FAST + Gain (+boost) + delay + reverb
     Snap 2 Clean      : accordage / attente
     Snap 3 Clean      : accordage / attente
     """
@@ -615,9 +619,9 @@ def preset_drive():
                  overrides={"Speed": True, "Depth": 0.85, "Horn Depth": 0.90,
                             "Drive": 0.3, "Mix": 0.88, "Level": 4.0})
 
-    # KinkyBoost = Xotic EP Booster : boost + leger grain (Drive=0.3) pour gonfler le solo
-    pb.add_block("HD2_DistKinkyBoost", slot=5, enabled_default=False,
-                 overrides={"Drive": 0.3, "Boost": True, "Bright": False})
+    # Gain pur (utilitaire volume, pas une pedale modelisee) : gonfle le solo
+    pb.add_block("HD2_VolPanGain", slot=5, enabled_default=False,
+                 overrides={"Gain": 6.0})
 
     # Delay sparse : eco unique, profondeur sans surcharger le Rotosphere
     pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
@@ -630,7 +634,7 @@ def preset_drive():
 
     pb.add_snapshot(0, "DRV Acoustique", blocks_on=[1, 2, 7], color="green")
 
-    # Solo : Phaser + Rotosphere (FAST) + KinkyBoost + delay + reverb
+    # Solo : Phaser + Rotosphere (FAST) + Gain + delay + reverb
     pb.add_snapshot(1, "DRV Solo", blocks_on=[1, 3, 4, 5, 6, 7], color="red")
 
     pb.add_snapshot(2, "DRV Clean", blocks_on=[1, 7],
@@ -1706,17 +1710,17 @@ def preset_lithium():
     compensation de volume entre Verse et Chorus), mais le Chorus lui-meme
     sort desormais au meme niveau que les autres usages du pattern.
 
-    PAS de KinkyBoost "Color clean Verse" : teste, casse le preset. PolyPitch
-    consomme jusqu'a 50% du budget DSP d'un preset HX Effects (documente dans
-    le manuel Line 6) — avec PolyPitch + 6 autres blocs, le budget est deja
-    sature, impossible d'ajouter le KinkyBoost (7e bloc). Priorite donnee a
-    l'accordage -1 ton (fidele a l'enregistrement original) plutot qu'au
-    boost Verse.
+    Verse : boost via un bloc "Gain" pur (HD2_VolPanGain, +6 dB) au lieu d'un
+    KinkyBoost — KinkyBoost (pedale modelisee) faisait depasser le budget DSP
+    avec PolyPitch actif (cf. docs/pedal_guides/hx_models_reference.md section
+    Poly Pitch). Le bloc Gain est un simple utilitaire volume (pas de modelisation
+    de circuit), beaucoup plus leger en DSP — compromis : on garde le bump de
+    volume mais pas les harmoniques chaudes de l'EP Booster.
 
-    Chaine : PolyPitch > Gate > RedSqueeze > RamsHead > Chorus70s > Reverb
-    Slots  :     0          1        2           3          4         5
+    Chaine : PolyPitch > Gate > RedSqueeze > RamsHead > Chorus70s > Gain > Reverb
+    Slots  :     0          1        2           3          4         5       6
 
-    Snap 0 Verse  : quasi-clean + compresseur + Small Clone discret + reverb
+    Snap 0 Verse  : quasi-clean + compresseur + Small Clone discret + Gain (+6dB) + reverb
     Snap 1 Chorus : Big Muff (config BHS) + reverb (drop distorsion)
     Snap 2 Clean  : accordage / attente
 
@@ -1754,23 +1758,28 @@ def preset_lithium():
                  overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.35,
                             "VibratoDepth": 0.25, "Mix": 0.22, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=5,
+    # Gain pur (utilitaire volume, pas une pedale modelisee) : +6 dB sur le Verse
+    # enabled_default=False : uniquement sur Verse
+    pb.add_block("HD2_VolPanGain", slot=5, enabled_default=False,
+                 overrides={"Gain": 6.0})
+
+    pb.add_block("HD2_ReverbGanymede", slot=6,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.20})
 
-    # Verse : quasi-clean + compresseur + Small Clone discret + reverb
+    # Verse : quasi-clean + compresseur + Small Clone discret + Gain + reverb
     # Contraste volontaire avec le chorus — ne pas compenser le delta de volume
-    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 1, 2, 4, 5], color="green")
+    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 1, 2, 4, 5, 6], color="green")
 
     # Chorus : Big Muff plein (config BHS) — drop dynamique quiet/loud
-    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 3, 5], color="red")
+    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 3, 6], color="red")
 
-    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 1, 5],
-                    params={5: {"Mix": 0.10}},
+    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 1, 6],
+                    params={6: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "LIT Clean", blocks_on=[0, 1, 5],
-                    params={5: {"Mix": 0.10}},
+    pb.add_snapshot(3, "LIT Clean", blocks_on=[0, 1, 6],
+                    params={6: {"Mix": 0.10}},
                     color="blue")
 
     return pb

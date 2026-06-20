@@ -55,6 +55,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Not an Addict | Riff (seul son actif, tout le morceau) |
 | Special K | Chorus |
 | Time Is Running Out | Chorus / Bridge |
+| Take Me Out | Riff |
 
 ---
 

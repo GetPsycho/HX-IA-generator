@@ -2302,17 +2302,20 @@ def preset_take_me_out():
     "funk avec de l'overdrive par-dessus") + overdrive ("Overdriven Guitar"
     credite sur Songsterr). Analyse audio : pas de vraie rupture de
     saturation entre les sections (0.42-0.68 partout) -> un seul son actif.
-    EQ tres particuliere : bas fortement coupe (-9 a -13 dB par endroits),
-    medium pousse -> son tight et mid-forward, pas le pattern "grunge bien
-    pousse" (trop chaud/sombre pour ce caractere).
+
+    OCD aligne sur la CONFIG CANONIQUE "Grunge bien pousse" (au lieu d'une
+    config dediee Tone brillant) — cf. docs/theory/shared_configs.md.
 
     Chaine : Gate > RedSqueeze > CompulsiveDrive > EQ10Band > Reverb
     Slots  :  0      1            2                  3            4
 
-    Snap 0 Riff  : RedSqueeze (attaque funky) + OCD (OD tight/brillant) + EQ cut bas
+    Snap 0 Riff  : RedSqueeze (attaque funky) + OCD (grunge bien pousse) + EQ cut bas
     Snap 1 Clean : accordage / attente
     Snap 2 Clean : accordage / attente
     Snap 3 Clean : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
     """
     pb = PresetBuilder("Take Me Out", tempo=104.0, styles=["alt_rock"])
 
@@ -2323,9 +2326,9 @@ def preset_take_me_out():
     pb.add_block("HD2_CompressorRedSqueeze", slot=1,
                  overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
 
-    # OCD : Tone brillant (0.58, pas chaud) — caractere tight, pas "grunge bien pousse"
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/etc.
     pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.55, "Tone": 0.58, "LPHP": True, "Level": 0.78})
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
     # 10 Band Graphic : cut bas pour le caractere tight/mid-forward (vs analyse audio)
     pb.add_block("HD2_EQGraphic10Band", slot=3,

@@ -168,7 +168,7 @@ l'objectif du projet est un minimum de variation de volume entre presets.
 mais un pattern reutilise au meme titre).*
 
 **Pédale** : Acoustic Sim
-**Config canonique** : `Mode=1, Body=0.65, Top=0.55, Shimmer=0.25, Level=0.0`
+**Config canonique** : `Mode=0 (Standard), Body=0.65, Top=0.55, Shimmer=0.25, Level=0.0`
 
 | Preset | Snap |
 |---|---|

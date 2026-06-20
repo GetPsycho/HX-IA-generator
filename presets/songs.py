@@ -601,10 +601,10 @@ def preset_drive():
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
     # Acoustic Sim : simulation caisse de resonance sur guitare electrique
-    # Mode=1 (Medium body), micro manche recommande pour maximiser l'effet
+    # Mode=0 (Standard), micro manche recommande pour maximiser l'effet
     # Level en dB (range -60/+6) : 0.0 = unite
     pb.add_block("L6SPB_AcousGtrSim", slot=2, enabled_default=False,
-                 overrides={"Mode": 1, "Body": 0.65, "Top": 0.55,
+                 overrides={"Mode": 0, "Body": 0.65, "Top": 0.55,
                             "Shimmer": 0.25, "Level": 0.0})
 
     # Deluxe Phaser = Boss PH-2 Super Phaser : sweep organique sur le solo
@@ -2406,7 +2406,7 @@ def preset_the_man_who_sold_the_world():
 
     # Acoustic Sim : CONFIG CANONIQUE "Drive Acoustique" — partagee Drive
     pb.add_block("L6SPB_AcousGtrSim", slot=2,
-                 overrides={"Mode": 1, "Body": 0.65, "Top": 0.55,
+                 overrides={"Mode": 0, "Body": 0.65, "Top": 0.55,
                             "Shimmer": 0.25, "Level": 0.0})
 
     # OCD = CONFIG CANONIQUE "Grunge bien pousse" — actif Intro/Solo, absent du Verse

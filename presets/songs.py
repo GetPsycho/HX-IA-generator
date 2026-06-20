@@ -1674,10 +1674,9 @@ def preset_travel_the_world():
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.62, "Modulation": 0.18, "Mix": 0.18})
 
-    # Lick : TS push + OCD + Delay + Reverb ouverte — bends/slides intro et transitions
-    pb.add_snapshot(0, "TTW Lick", blocks_on=[0, 1, 2, 3, 4],
-                    params={4: {"Mix": 0.28, "Decay": 0.55}},
-                    color="red")
+    # Lick : TS push + OCD + Delay + Reverb standard (alignee sur le reste du
+    # morceau — pas de reverb "ouverte", ca reste un morceau rock direct)
+    pb.add_snapshot(0, "TTW Lick", blocks_on=[0, 1, 2, 3, 4], color="red")
 
     # Verse : OCD seul (config fixe)
     pb.add_snapshot(1, "TTW Verse", blocks_on=[0, 2, 4], color="orange")

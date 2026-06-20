@@ -2366,9 +2366,9 @@ def preset_the_man_who_sold_the_world():
     generale Cobain/Unplugged dans la doc gear).
 
     3 sons distincts (retour ecoute Eric) :
-    - Intro/Riff : motif repete 2-3 fois, acoustique + DS-2 subtil
-    - Verse : son folk pur, SANS le DS-2 (acoustique seule)
-    - Solo  : variation de l'intro, + de reverb/sustain ("son qui dure")
+    - Intro/Riff : motif repete 2-3 fois, acoustique + OCD "grunge bien pousse"
+    - Verse : acoustique seule (config "Drive Acoustique", memes reglages)
+    - Solo  : intro + delay (variation avec plus de sustain/mouvement)
 
     Pat Smear (2e guitare Unplugged, ligne de basse mobile au chorus) non
     reproduit — guitariste unique dans le groupe d'Eric, on joue uniquement
@@ -2377,13 +2377,18 @@ def preset_the_man_who_sold_the_world():
     Accordage simule via PolyPitch (Interval=-1 semitone, AutoEQ=1.0) —
     meme pattern que Toxicity (Drop D -> Drop C), ici standard -> Eb standard.
 
-    Chaine : PolyPitch > Gate > AcousGtrSim > DeezOneMod > Reverb
-    Slots  :     0          1        2            3           4
+    Chaine : PolyPitch > Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :     0          1        2              3               4           5
 
-    Snap 0 Intro : Acoustique + DS-2 subtil + reverb normale
-    Snap 1 Verse : Acoustique seule (pas de DS-2) — son folk pur
-    Snap 2 Solo  : Acoustique + DS-2 + reverb plus longue/presente
+    Snap 0 Intro : Acoustique + OCD (grunge bien pousse) + reverb
+    Snap 1 Verse : Acoustique seule (config "Drive Acoustique") — son folk pur
+    Snap 2 Solo  : Intro + Delay (sustain/mouvement)
     Snap 3 Clean : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - AcousGtrSim : Mode=1, Body=0.65, Top=0.55, Shimmer=0.25, Level=0.0
+      (identique Drive — snap Acoustique)
+    - OCD         : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
     """
     pb = PresetBuilder("The Man Who Sold the World", tempo=117.5, styles=["grunge"])
 
@@ -2397,33 +2402,35 @@ def preset_the_man_who_sold_the_world():
     pb.add_block("HD2_GateNoiseGate", slot=1,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
-    # Acoustic Sim : Martin D-18E acoustique-electrique
+    # Acoustic Sim : CONFIG CANONIQUE "Drive Acoustique" — partagee Drive
     pb.add_block("L6SPB_AcousGtrSim", slot=2,
-                 overrides={"Mode": 1, "Body": 0.60, "Top": 0.55,
-                            "Shimmer": 0.15, "Level": 0.0})
+                 overrides={"Mode": 1, "Body": 0.65, "Top": 0.55,
+                            "Shimmer": 0.25, "Level": 0.0})
 
-    # Deez One Mod = approx. Boss DS-2 (subtil) — actif Intro/Solo, absent du Verse
-    pb.add_block("HD2_DistDeezOneMod", slot=3, enabled_default=False,
-                 overrides={"Drive": 0.25, "Tone": 0.50, "Level": 0.0})
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — actif Intro/Solo, absent du Verse
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    # Reverb : defaults orientes Intro/Verse (normale), override Solo plus presente
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    # Simple Delay : 8eme note a 117.5 BPM ~ 255ms — actif uniquement sur le Solo
+    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
+                 overrides={"Time": 0.25, "Feedback": 0.15, "Mix": 0.20,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.18})
 
-    # Intro/Riff : acoustique + DS-2 subtil
-    pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 3, 4], color="orange")
+    # Intro/Riff : acoustique + OCD grunge bien pousse
+    pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 3, 5], color="orange")
 
-    # Verse : son folk pur, sans le DS-2
-    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 2, 4], color="green")
+    # Verse : acoustique seule (config "Drive Acoustique")
+    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 2, 5], color="green")
 
-    # Solo : variation de l'intro, reverb plus longue et plus presente ("qui dure")
-    pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4],
-                    params={4: {"Decay": 0.65, "Mix": 0.32}},
-                    color="red")
+    # Solo : Intro + Delay (sustain/mouvement)
+    pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
 
-    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 1, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb

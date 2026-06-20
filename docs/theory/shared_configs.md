@@ -56,6 +56,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Special K | Chorus |
 | Time Is Running Out | Chorus / Bridge |
 | Take Me Out | Riff |
+| The Man Who Sold the World | Intro / Solo |
 
 ---
 
@@ -158,6 +159,20 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 **Historique** : Lithium avait une "variante" separee (Tone=0.45, Level=0.50,
 plus sombre/moins fort), retiree au profit de la config canonique identique —
 l'objectif du projet est un minimum de variation de volume entre presets.
+
+---
+
+### Pattern : "Drive Acoustique"
+*Simulation acoustique sur guitare electrique (pas une pedale de saturation,
+mais un pattern reutilise au meme titre).*
+
+**Pédale** : Acoustic Sim
+**Config canonique** : `Mode=1, Body=0.65, Top=0.55, Shimmer=0.25, Level=0.0`
+
+| Preset | Snap |
+|---|---|
+| Drive | Acoustique |
+| The Man Who Sold the World | Intro / Verse / Solo |
 
 ---
 

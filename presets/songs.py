@@ -1551,13 +1551,16 @@ def preset_toxicity():
 
     Guitare : Ibanez Iceman DMM1 (humbuckers haute sortie).
     Ampli : Mesa/Boogie Dual Rectifier + Marshall JMP 2203.
-    HM-2 = Swedish Chainsaw. MXR 10-Band EQ = 10 Band Graphic (simule l'EQ rack de Malakian
-    + affine la compensation PolyPitch : cut 250Hz mud, boost 2kHz clarte).
+
+    REFONTE : alignement complet sur How You Remind Me — seule la Heavy Dist
+    assure la saturation, memes reglages exacts. EQ10Band et KinkyBoost retires
+    (simplification + libere du budget DSP pour PolyPitch, cf.
+    docs/pedal_guides/hx_models_reference.md section Poly Pitch).
 
     Pas de solo guitare dans Toxicity (pas de snap Solo).
 
-    Chaine : PolyPitch > Gate > SwedishChainsaw > 10BandEQ > Reverb > KinkyBoost
-    Slots  :     0          1         2                3           4         5
+    Chaine : PolyPitch > Gate > HeavyDist > Reverb
+    Slots  :     0          1       2          3
 
     2 sons : Verse (clean) et Disto (chorus/riff/break).
     Verse clean : gate souple, reverb plus ouverte — "dirty amp volume rolled back" (simple).
@@ -1565,9 +1568,13 @@ def preset_toxicity():
             valides a l'oreille (Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80).
 
     Snap 0 Verse : clean, gate souple, reverb ouverte (Mix=0.20)
-    Snap 1 Disto : Metal Zone + KWB (chorus/riff/break)
+    Snap 1 Disto : Metal Zone seule (chorus/riff/break)
     Snap 2 Clean : accordage Drop C
     Snap 3 Clean : accordage Drop C
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Heavy Dist : Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80
+      (Heavy Dist Boss Metal Zone, identique How You Remind Me)
     """
     pb = PresetBuilder("Toxicity", tempo=115.0, styles=["nu_metal"])
 
@@ -1590,36 +1597,27 @@ def preset_toxicity():
                  overrides={"Drive": 0.70, "Bass": 0.80, "Mid": 0.40,
                             "Treble": 0.55, "Output": 0.80})
 
-    # 10 Band Graphic : compensation PolyPitch (250Hz mud -3dB, 2kHz clarte +2dB)
-    # + simulation MXR 10-Band EQ de Malakian
-    pb.add_block("HD2_EQGraphic10Band", slot=3,
-                 overrides={"250Hz": -3.0, "2kHz": 2.0, "Level": 0.0})
-
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.30, "Predelay": 0.01,
                             "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
 
-    # KinkyBoost : compensation volume Metal Zone vs reference clean
-    pb.add_block("HD2_DistKinkyBoost", slot=5,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
     # Verse : clean basique, gate souple, reverb ouverte
-    pb.add_snapshot(0, "TOX Verse", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(0, "TOX Verse", blocks_on=[0, 1, 3],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
-                            4: {"Mix": 0.20}},
+                            3: {"Mix": 0.20}},
                     color="green")
 
-    # Disto : Metal Zone + KWB — chorus, riff, break
-    pb.add_snapshot(1, "TOX Disto", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
+    # Disto : Metal Zone seule — chorus, riff, break
+    pb.add_snapshot(1, "TOX Disto", blocks_on=[0, 1, 2, 3], color="red")
 
-    pb.add_snapshot(2, "TOX Clean", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(2, "TOX Clean", blocks_on=[0, 1, 3],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
-                            4: {"Mix": 0.10}},
+                            3: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "TOX Clean", blocks_on=[0, 1, 3, 4],
+    pb.add_snapshot(3, "TOX Clean", blocks_on=[0, 1, 3],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
-                            4: {"Mix": 0.10}},
+                            3: {"Mix": 0.10}},
                     color="blue")
 
     return pb

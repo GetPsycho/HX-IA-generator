@@ -55,13 +55,6 @@ FS_COLOR_INACTIVE     = 0x00008B  # bleu fonce
 FS_COLOR_ACTIVE       = 0x00FF00  # vert prononce
 SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]  # bleu standard
 
-DEFAULT_SNAPSHOT_COLORS = [
-    LED_COLORS["green"],
-    LED_COLORS["yellow"],
-    LED_COLORS["orange"],
-    LED_COLORS["red"],
-]
-
 MAX_BLOCKS    = 8
 MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
 

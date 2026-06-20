@@ -693,8 +693,9 @@ def preset_even_flow():
                             "Tracking": 3, "Mix": 1.0})
     pb.assign_footswitch(0, 6)
 
+    # Threshold -40 dB (remonte depuis -50, retour test live)
     pb.add_block("HD2_GateNoiseGate", slot=1,
-                 overrides={"Threshold": -50.0, "Decay": 0.32})
+                 overrides={"Threshold": -40.0, "Decay": 0.32})
 
     # Klon Minotaur always-on = front push pour gain stacking permanent
     # Mid-bump 700-800 Hz = corps + chaleur (pas d'aigus parasites comme TS9).

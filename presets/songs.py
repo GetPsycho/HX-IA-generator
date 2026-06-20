@@ -2446,61 +2446,59 @@ def preset_time_is_running_out():
     rien a reproduire cote guitare la-dessus (contexte groupe : le bassiste
     couvre deja ce hook).
 
-    Structure jouee par Eric (arrangement interprete, retour direct, a
-    confirmer en test physique) : crescendo intro (petites notes + modulation)
-    -> accords etouffes (verse) -> gros son sature garde jusqu'a la fin
-    (chorus) -> pont en arpeges avec tremolo + saturation.
+    Structure jouee par Eric (arrangement interprete, ajustee apres test) :
+    intro arpegee (grain leger + chorus) -> gros son sature garde jusqu'a la
+    fin (chorus) -> pont en arpeges avec chorus (tremolo retire, pas necessaire).
 
-    Pas de snap Clean dedie : les 4 emplacements sont utilises pour les 4
-    sons reels du morceau. Accordage de reference via un autre preset du set.
+    Pas de snap Verse distinct (retire — pas necessaire). Snap Clean ajoute
+    a la place pour l'accordage.
 
-    Chaine : Gate > CompulsiveDrive > 70sChorus > OptoTremolo > Reverb
-    Slots  :  0      1                 2            3              4
+    Chaine : Gate > HeirApparent > CompulsiveDrive > 70sChorus > Reverb
+    Slots  :  0      1              2                  3            4
 
-    Snap 0 Intro  : Chorus seul (OCD off) — petites notes, crescendo
-    Snap 1 Verse  : OCD leger (Gain=0.30) — accords etouffes
+    Snap 0 Intro  : Heir Apparent (grain leger) + Chorus — crescendo
+    Snap 1 Clean  : accordage / attente
     Snap 2 Chorus : OCD "grunge bien pousse" — gros son garde jusqu'a la fin
-    Snap 3 Bridge : OCD + Opto Tremolo — arpeges + tremolo
+    Snap 3 Bridge : OCD + Chorus (meme effet que l'Intro) — arpeges
 
     Configs partagees (cf. docs/theory/shared_configs.md) :
-    - OCD : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Heir Apparent : Gain=0.20, Tone=0.50, Level=0.85 (intro arpege + grain leger)
+    - OCD           : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
     """
     pb = PresetBuilder("Time Is Running Out", tempo=117.5, styles=["alt_rock"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
-    # OCD = CONFIG CANONIQUE "Grunge bien pousse" (Chorus/Bridge) — Verse override Gain plus bas
-    pb.add_block("HD2_DistCompulsiveDrive", slot=1, enabled_default=False,
+    # Heir Apparent = CONFIG CANONIQUE "Intro arpege + grain leger" — actif Intro seulement
+    pb.add_block("HD2_DistHeirApparent", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — actif Chorus/Bridge
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
                  overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
-    # 70s Chorus : modulation legere sur l'intro (petites notes, crescendo)
-    pb.add_block("HD2_Chorus70sChorus", slot=2, enabled_default=False,
+    # 70s Chorus : Mix remonte (0.35 -> 0.50, "un peu plus de chorus") — Intro et Bridge
+    pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
                  overrides={"ChorusIntensity": 0.40, "VibratoRate": 0.35,
-                            "VibratoDepth": 0.30, "Mix": 0.35, "Level": 1.0})
-
-    # Opto Tremolo : pont en arpeges (combine avec OCD sature)
-    pb.add_block("HD2_MM4OptoTremolo", slot=3, enabled_default=False,
-                 overrides={"Speed": 4.4, "Depth": 0.65, "Shape": 0.0,
-                            "VolSens": 0.10, "Mix": 1.0, "Level": 0.0})
+                            "VibratoDepth": 0.30, "Mix": 0.50, "Level": 1.0})
 
     pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.42, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.18, "Mix": 0.16})
 
-    # Intro : Chorus seul, OCD off — petites notes, crescendo
-    pb.add_snapshot(0, "TRO Intro", blocks_on=[0, 2, 4], color="green")
+    # Intro : Heir Apparent (grain leger) + Chorus — crescendo
+    pb.add_snapshot(0, "TRO Intro", blocks_on=[0, 1, 3, 4], color="green")
 
-    # Verse : OCD leger (override Gain) — accords etouffes
-    pb.add_snapshot(1, "TRO Verse", blocks_on=[0, 1, 4],
-                    params={1: {"Gain": 0.30}},
-                    color="yellow")
+    pb.add_snapshot(1, "TRO Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
+                    color="blue")
 
     # Chorus : OCD grunge bien pousse (defaults) — gros son garde jusqu'a la fin
-    pb.add_snapshot(2, "TRO Chorus", blocks_on=[0, 1, 4], color="orange")
+    pb.add_snapshot(2, "TRO Chorus", blocks_on=[0, 2, 4], color="orange")
 
-    # Bridge : OCD + Opto Tremolo — arpeges + tremolo
-    pb.add_snapshot(3, "TRO Bridge", blocks_on=[0, 1, 3, 4], color="red")
+    # Bridge : OCD + Chorus (meme effet que l'Intro, tremolo retire) — arpeges
+    pb.add_snapshot(3, "TRO Bridge", blocks_on=[0, 2, 3, 4], color="red")
 
     return pb
 

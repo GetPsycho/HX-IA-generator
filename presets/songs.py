@@ -466,10 +466,11 @@ def preset_creep():
     # Stabs : Top Secret OD pousse OCD + KinkyBoost en sortie (+6 dB boost)
     # = "gros coup pousse" fort et sec
     # PAS de reverb : sec, attaque "mute" tres marquee
-    # Gate Threshold override -40 dB : OCD + TopSecretOD pousse genere du bruit
-    # de fond avec Threshold=-50 (calibre Verse clean). -40 dB coupe le bruit.
+    # Gate Threshold override -30 dB (remonte depuis -40, retour test live) :
+    # OCD + TopSecretOD pousse genere du bruit de fond avec Threshold=-50
+    # (calibre Verse clean). -30 dB coupe davantage le bruit.
     pb.add_snapshot(1, "CRP Stabs", blocks_on=[0, 1, 3, 5],
-                    params={0: {"Threshold": -40.0}},
+                    params={0: {"Threshold": -30.0}},
                     color="orange")
 
     # Chorus : OCD seul + Reverb (sustain large)

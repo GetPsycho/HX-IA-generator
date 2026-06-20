@@ -47,13 +47,15 @@ LED_COLORS = {
     "cyan":   65535,
 }
 
-# Code couleur standardise (toutes les pedales/snapshots du projet) :
-# - Footswitch bloc inactif par defaut (enabled_default=False) : bleu fonce
-# - Footswitch bloc actif par defaut (enabled_default=True)    : vert prononce
-# - Snapshot (tous) : bleu standard
-FS_COLOR_INACTIVE     = 0x00008B  # bleu fonce
-FS_COLOR_ACTIVE       = 0x00FF00  # vert prononce
-SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]  # bleu standard
+# Footswitch (mode pedale) : le HX Effects pilote la couleur via "Auto Color"
+# par categorie de bloc, qui ignore @fs_ledcolor tant que ce mode est actif
+# (confirme sur l'appareil — teste, aucune valeur custom n'avait d'effet).
+# Auto Color est le comportement par defaut souhaite ici, donc @fs_ledcolor
+# n'a plus besoin de varier : on met une valeur neutre, inerte en pratique.
+FS_COLOR_PLACEHOLDER = LED_COLORS["off"]
+
+# Snapshot (tous) : bleu standard
+SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]
 
 MAX_BLOCKS    = 8
 MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
@@ -132,9 +134,6 @@ class PresetBuilder:
         self._exp_bindings = {}
         # Footswitch overrides : slot -> fs_index (par defaut = slot)
         self._fs_index_overrides = {}
-        # enabled_default original par slot (avant sync snapshot 0 dans build()) —
-        # utilise pour la couleur footswitch (actif=vert / inactif=bleu fonce)
-        self._enabled_defaults = {}
 
     def assign_footswitch(self, slot: int, fs_index: int) -> "PresetBuilder":
         """Force le numero de footswitch (mode pedale/stomp) d'un bloc.
@@ -183,7 +182,6 @@ class PresetBuilder:
                            enabled=enabled_default, overrides=overrides)
         self._blocks[slot]       = block
         self._block_models[slot] = model_id
-        self._enabled_defaults[slot] = enabled_default
         return self
 
     def add_snapshot(self, index: int, name: str,
@@ -367,8 +365,7 @@ class PresetBuilder:
                 tone[f"snapshot{idx}"] = _empty_snapshot(idx)
 
         tone["footswitch"] = _build_footswitch(self._blocks, self._block_models,
-                                               self._fs_index_overrides,
-                                               self._enabled_defaults)
+                                               self._fs_index_overrides)
         tone["variax"]     = {}
 
         return {
@@ -465,11 +462,9 @@ def _empty_snapshot(index: int) -> dict:
 MAX_FOOTSWITCH = 6  # HX Effects : 6 footswitches physiques. @fs_index=0 = aucun.
 
 
-def _build_footswitch(blocks: dict, models: dict, fs_overrides: dict = None,
-                      enabled_defaults: dict = None) -> dict:
+def _build_footswitch(blocks: dict, models: dict, fs_overrides: dict = None) -> dict:
     catalog = get_catalog()
     fs_overrides = fs_overrides or {}
-    enabled_defaults = enabled_defaults or {}
     # Les overrides explicites reservent leur fs_index — les autres blocs ne
     # doivent jamais s'y assigner par defaut (collision sur le meme footswitch).
     reserved = set(fs_overrides.values())
@@ -482,15 +477,11 @@ def _build_footswitch(blocks: dict, models: dict, fs_overrides: dict = None,
             fs_index = slot
         else:
             fs_index = 0  # aucun footswitch (slot 0, slot >6, ou collision)
-        # Code couleur standardise : vert prononce si actif par defaut
-        # (enabled_default=True, pedale "core" du chaine), bleu fonce sinon
-        # (pedale toggle/optionnelle).
-        led_color = FS_COLOR_ACTIVE if enabled_defaults.get(slot, True) else FS_COLOR_INACTIVE
         fs_dsp0[f"block{slot}"] = {
             "@fs_enabled":   block.get("@enabled", False),
             "@fs_index":     fs_index,
             "@fs_label":     info.name[:12],
-            "@fs_ledcolor":  led_color,
+            "@fs_ledcolor":  FS_COLOR_PLACEHOLDER,
             "@fs_momentary": False,
             "@fs_primary":   True,
         }

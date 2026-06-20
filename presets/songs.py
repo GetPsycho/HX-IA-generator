@@ -720,7 +720,11 @@ def preset_even_flow():
     pb.add_snapshot(0, "EVF Principal", blocks_on=[1, 2, 4, 5], color="orange")
 
     # Solo : + Scream 808 push (= Solo AYGGMW, wah externe MC404 CAE)
-    pb.add_snapshot(1, "EVF Solo", blocks_on=[1, 2, 3, 4, 5], color="red")
+    # Reverb plus ample (Decay/Mix remontes, retour test live : manquait de
+    # sustain, les notes ne duraient pas assez)
+    pb.add_snapshot(1, "EVF Solo", blocks_on=[1, 2, 3, 4, 5],
+                    params={5: {"Decay": 0.60, "Mix": 0.30}},
+                    color="red")
 
     pb.add_snapshot(2, "EVF Clean", blocks_on=[1, 5],
                     params={5: {"Mix": 0.10}},

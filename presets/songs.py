@@ -620,8 +620,9 @@ def preset_drive():
                             "Drive": 0.3, "Mix": 0.88, "Level": 4.0})
 
     # Gain pur (utilitaire volume, pas une pedale modelisee) : gonfle le solo
+    # +11 dB (remonte depuis 6 dB, retour test live)
     pb.add_block("HD2_VolPanGain", slot=5, enabled_default=False,
-                 overrides={"Gain": 6.0})
+                 overrides={"Gain": 11.0})
 
     # Delay sparse : eco unique, profondeur sans surcharger le Rotosphere
     pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
@@ -1710,12 +1711,13 @@ def preset_lithium():
     compensation de volume entre Verse et Chorus), mais le Chorus lui-meme
     sort desormais au meme niveau que les autres usages du pattern.
 
-    Verse : boost via un bloc "Gain" pur (HD2_VolPanGain, +6 dB) au lieu d'un
-    KinkyBoost — KinkyBoost (pedale modelisee) faisait depasser le budget DSP
-    avec PolyPitch actif (cf. docs/pedal_guides/hx_models_reference.md section
-    Poly Pitch). Le bloc Gain est un simple utilitaire volume (pas de modelisation
-    de circuit), beaucoup plus leger en DSP — compromis : on garde le bump de
-    volume mais pas les harmoniques chaudes de l'EP Booster.
+    Verse : boost via un bloc "Gain" pur (HD2_VolPanGain, +11 dB, ajuste en test
+    live) au lieu d'un KinkyBoost — KinkyBoost (pedale modelisee) faisait
+    depasser le budget DSP avec PolyPitch actif (cf.
+    docs/pedal_guides/hx_models_reference.md section Poly Pitch). Confirme en
+    test live : Gain leger + PolyPitch fonctionnent ensemble. Le bloc Gain est
+    un simple utilitaire volume (pas de modelisation de circuit) — compromis :
+    on garde le bump de volume mais pas les harmoniques chaudes de l'EP Booster.
 
     Chaine : PolyPitch > Gate > RedSqueeze > RamsHead > Chorus70s > Gain > Reverb
     Slots  :     0          1        2           3          4         5       6
@@ -1752,20 +1754,22 @@ def preset_lithium():
     pb.add_block("HD2_DistRamsHead", slot=3, enabled_default=False,
                  overrides={"Sustain": 0.80, "Tone": 0.55, "Level": 0.85})
 
-    # 70s Chorus = approx. EHX Small Clone : discret (reduit vs avant)
+    # 70s Chorus = approx. EHX Small Clone : Mix remonte a 0.40 (retour test live)
     # enabled_default=False : uniquement sur Verse, bypasse sur Chorus distordu
     pb.add_block("HD2_Chorus70sChorus", slot=4, enabled_default=False,
                  overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.35,
-                            "VibratoDepth": 0.25, "Mix": 0.22, "Level": 1.0})
+                            "VibratoDepth": 0.25, "Mix": 0.40, "Level": 1.0})
 
-    # Gain pur (utilitaire volume, pas une pedale modelisee) : +6 dB sur le Verse
+    # Gain pur (utilitaire volume, pas une pedale modelisee) : +11 dB sur le Verse
+    # (remonte depuis 6 dB, retour test live)
     # enabled_default=False : uniquement sur Verse
     pb.add_block("HD2_VolPanGain", slot=5, enabled_default=False,
-                 overrides={"Gain": 6.0})
+                 overrides={"Gain": 11.0})
 
+    # Reverb reduite (Mix 0.20 -> 0.14, retour test live)
     pb.add_block("HD2_ReverbGanymede", slot=6,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
-                            "Tone": 0.58, "Modulation": 0.20, "Mix": 0.20})
+                            "Tone": 0.58, "Modulation": 0.20, "Mix": 0.14})
 
     # Verse : quasi-clean + compresseur + Small Clone discret + Gain + reverb
     # Contraste volontaire avec le chorus — ne pas compenser le delta de volume

@@ -828,26 +828,25 @@ def preset_hysteria():
     Hysteria est principalement une chanson de basse (Chris Wolstenholme).
     La guitare joue en soutien — le bassiste du groupe d'Eric couvre la ligne de basse.
 
-    REFONTE rationalisation v2 : OCD aligne sur pattern canonique "Grunge bien
-    pousse" (= Creep / Dani California / Even Flow), Solo via Scream 808 push
-    (formule standard projet). KinkyBoost retire (pas dans le pattern).
+    REFONTE : passage au pattern canonique "Rock direct" (= AYGGMW/Even Flow)
+    = Klon + OCD always-on en gain stacking, au lieu de "Grunge bien pousse"
+    (OCD seul). Solo via Scream 808 push (formule standard projet). KinkyBoost
+    retire (pas dans le pattern).
 
-    Chaine : Gate > Scream808 > CompulsiveDrive > DuckedDelay > Reverb
-    Slots  :  0      1            2                 3             4
+    Chaine : Gate > Minotaur > Scream808 > CompulsiveDrive > DuckedDelay > Reverb
+    Slots  :  0      1          2            3                 4             5
 
-    Snap 0 Riff   : OCD + reverb
-    Snap 1 Chorus : OCD + DuckedDelay subtle + reverb
-    Snap 2 Solo   : Scream 808 push + OCD + DuckedDelay (ambiance lead) + reverb ample
+    Snap 0 Riff   : Klon + OCD + reverb
+    Snap 1 Chorus : Klon + OCD + DuckedDelay subtle + reverb
+    Snap 2 Solo   : + Scream 808 push + DuckedDelay (ambiance lead) + reverb ample
     Snap 3 Clean  : accordage / attente
 
     Configs partagees (cf. docs/theory/shared_configs.md) :
-    - OCD         : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Minotaur    : Gain=0.40, Tone=0.45, Level=0.86 (Klon push pattern "Rock direct")
+    - OCD         : Gain=0.65, Tone=0.35, LPHP=True, Level=0.80 (pattern "Rock direct")
     - Scream 808  : Gain=0.25, Tone=0.55, Level=0.92 (formule Solo standard)
 
     Notes :
-    - On perd un peu la brillance "Marshall JCM2000 ouvert" (Tone=0.58 avant)
-      au profit de la coherence inter-preset (Tone=0.40 grunge). A revoir si
-      en repetition le caractere Muse n'est plus assez present.
     - DuckedDelay et Reverb gardent leurs overrides snap (ambiance space-rock
       lead) — ce sont des effets, pas des boost/sat (legitime).
     """
@@ -856,44 +855,46 @@ def preset_hysteria():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.25})
 
+    # Klon Minotaur always-on = CONFIG CANONIQUE "Rock direct" — partagee AYGGMW/Even Flow
+    pb.add_block("HD2_DistMinotaur", slot=1,
+                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
+
     # Scream 808 (Ibanez TS808) = formule Solo standard
-    # Pousse l'OCD pour faire ressortir le lead sans modifier OCD.
-    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+    # Pousse l'OCD + Klon pour faire ressortir le lead.
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
                  overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — partagee Creep/DaniCal/EvenFlow
-    # JCM 2000 DSL canal Lead, gain bas + vol fort = ce caractere s'approche
-    # du grunge pousse meme si historiquement Tone=0.58 (plus brillant).
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+    # OCD = CONFIG CANONIQUE "Rock direct" — partagee AYGGMW/Even Flow
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
+                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
 
     # Ducked Delay : duck quand on joue (note seche et presente), remonte entre les phrases
     # LowCut=150Hz / HighCut=6000Hz : repeats plus chauds et moins envahissants
     # Defaults orientés Chorus (subtle) — overrides Solo ci-dessous
     # enabled_default=False : actif uniquement sur Chorus et Solo
-    pb.add_block("HD2_DelayDuckedDelay", slot=3, enabled_default=False,
+    pb.add_block("HD2_DelayDuckedDelay", slot=4, enabled_default=False,
                  overrides={"Time": 0.16, "Feedback": 0.06, "LowCut": 150.0,
                             "HighCut": 6000.0, "Mix": 0.25, "Threshold": 0.45,
                             "Ducking": 0.75, "DynAttack": 0.02, "DynRel": 0.30,
                             "TempoSync1": False, "@trails": True})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.15, "Mix": 0.14,
                             "@trails": True})
 
-    pb.add_snapshot(0, "HYS Riff", blocks_on=[0, 2, 4], color="orange")
+    pb.add_snapshot(0, "HYS Riff", blocks_on=[0, 1, 3, 5], color="orange")
 
-    pb.add_snapshot(1, "HYS Chorus", blocks_on=[0, 2, 3, 4], color="red")
+    pb.add_snapshot(1, "HYS Chorus", blocks_on=[0, 1, 3, 4, 5], color="red")
 
-    # Solo : Scream 808 push + OCD (config fixe) + DuckedDelay long + Reverb ample
-    pb.add_snapshot(2, "HYS Solo", blocks_on=[0, 1, 2, 3, 4],
-                    params={3: {"Time": 0.32, "Feedback": 0.04, "Mix": 0.55},
-                            4: {"Decay": 0.55, "Predelay": 0.05, "Mix": 0.28}},
+    # Solo : Scream 808 push + Klon + OCD (config fixe) + DuckedDelay long + Reverb ample
+    pb.add_snapshot(2, "HYS Solo", blocks_on=[0, 1, 2, 3, 4, 5],
+                    params={4: {"Time": 0.32, "Feedback": 0.04, "Mix": 0.55},
+                            5: {"Decay": 0.55, "Predelay": 0.05, "Mix": 0.28}},
                     color="yellow")
 
-    pb.add_snapshot(3, "HYS Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "HYS Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb
@@ -2038,24 +2039,25 @@ def preset_just_a_girl():
     pas d'un changement de pedale. Un seul son de base suffit donc pour
     tout le morceau hors solo.
 
-    OCD aligne sur le pattern canonique "Grunge bien pousse" (le niveau de
-    saturation mesure correspond a cette config existante, cf.
-    docs/theory/shared_configs.md) — pas de nouveau pattern necessaire.
+    REFONTE : passage au pattern canonique "Rock direct" (= AYGGMW/Even Flow/
+    Hysteria) = Klon + OCD always-on en gain stacking, au lieu de "Grunge bien
+    pousse" (OCD seul).
 
     Solo : formule "TS push moment fort" (Scream808) + Pebble Phaser
     (EHX Small Stone, specifique a ce titre selon la recherche gear)
     pour faire ressortir le solo du reste du morceau.
 
-    Chaine : Gate > Scream808 > CompulsiveDrive > PebblePhaser > Reverb
-    Slots  :  0      1            2                 3              4
+    Chaine : Gate > Minotaur > Scream808 > CompulsiveDrive > PebblePhaser > Reverb
+    Slots  :  0      1          2            3                 4              5
 
-    Snap 0 Riff  : OCD seul (grunge bien pousse) — couvre Intro/Verse/Chorus/Bridge
-    Snap 1 Solo  : Scream808 push + OCD + Pebble Phaser
+    Snap 0 Riff  : Klon + OCD (rock direct) — couvre Intro/Verse/Chorus/Bridge
+    Snap 1 Solo  : Scream808 push + Klon + OCD + Pebble Phaser
     Snap 2 Clean : accordage / attente
     Snap 3 Clean : accordage / attente
 
     Configs partagees (cf. docs/theory/shared_configs.md) :
-    - OCD        : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    - Minotaur   : Gain=0.40, Tone=0.45, Level=0.86 (Klon push pattern "Rock direct")
+    - OCD        : Gain=0.65, Tone=0.35, LPHP=True, Level=0.80 (pattern "Rock direct")
     - Scream 808 : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
     """
     pb = PresetBuilder("Just a Girl", tempo=107.7, styles=["ska_punk"])
@@ -2063,35 +2065,38 @@ def preset_just_a_girl():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.28})
 
-    # Scream 808 = formule "TS push moment fort" : pousse l'OCD sur le Solo
-    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+    # Klon Minotaur always-on = CONFIG CANONIQUE "Rock direct" — partagee AYGGMW/Even Flow/Hysteria
+    pb.add_block("HD2_DistMinotaur", slot=1,
+                 overrides={"Gain": 0.40, "Tone": 0.45, "Level": 0.86})
+
+    # Scream 808 = formule "TS push moment fort" : pousse l'OCD + Klon sur le Solo
+    pb.add_block("HD2_DistScream808", slot=2, enabled_default=False,
                  overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
 
-    # OCD = CONFIG CANONIQUE "Grunge bien pousse" — niveau de saturation mesure
-    # par l'analyse audio (0.53-0.74) correspond a ce pattern existant
-    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
-                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+    # OCD = CONFIG CANONIQUE "Rock direct" — partagee AYGGMW/Even Flow/Hysteria
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
+                 overrides={"Gain": 0.65, "Tone": 0.35, "LPHP": True, "Level": 0.80})
 
     # Pebble Phaser = EHX Small Stone : specifique au Solo (gear recherche pour ce titre)
-    pb.add_block("HD2_PhaserPebblePhaser", slot=3, enabled_default=False,
+    pb.add_block("HD2_PhaserPebblePhaser", slot=4, enabled_default=False,
                  overrides={"Rate": 0.30, "Color": False, "Spread": 0.0, "Level": 0.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
 
-    # Riff : OCD seul — couvre tout le morceau hors solo (dynamique par le jeu)
-    pb.add_snapshot(0, "JAG Riff", blocks_on=[0, 2, 4], color="orange")
+    # Riff : Klon + OCD — couvre tout le morceau hors solo (dynamique par le jeu)
+    pb.add_snapshot(0, "JAG Riff", blocks_on=[0, 1, 3, 5], color="orange")
 
-    # Solo : TS push + OCD + Phaser
-    pb.add_snapshot(1, "JAG Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
+    # Solo : TS push + Klon + OCD + Phaser
+    pb.add_snapshot(1, "JAG Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
 
-    pb.add_snapshot(2, "JAG Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(2, "JAG Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "JAG Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "JAG Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb

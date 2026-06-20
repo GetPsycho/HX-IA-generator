@@ -47,12 +47,10 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 |---|---|
 | Creep | Stabs / Chorus / Solo |
 | Dani California | Chorus / Solo |
-| Hysteria | Riff / Chorus / Solo |
 | I Wanna Be Your Slave | Verse / Chorus |
 | Killing in the Name | Riff / Solo |
 | Sex on Fire | Riff / Chorus |
 | Travel The World | Verse / Bridge |
-| Just a Girl | Riff (couvre Intro/Verse/Chorus/Bridge) |
 | Not an Addict | Riff (seul son actif, tout le morceau) |
 | Special K | Chorus |
 | Time Is Running Out | Chorus / Bridge |
@@ -76,6 +74,8 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 | AYGGMW | Riff / Bridge / Solo |
 | Even Flow | Principal / Solo |
 | I'm Picky | Riff / Solo |
+| Hysteria | Riff / Chorus / Solo |
+| Just a Girl | Riff (couvre Intro/Verse/Chorus/Bridge) / Solo |
 
 ---
 

@@ -1066,9 +1066,10 @@ def preset_le_reste():
     pb.add_block("HD2_DistKinkyBoost", slot=2,
                  overrides={"Drive": 0.1, "Boost": True, "Bright": False})
 
+    # Reverb remontee (0.14 -> 0.22, retour test live) — aligne sur Nue (meme artiste/son)
     pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
-                            "Tone": 0.68, "Modulation": 0.12, "Mix": 0.14})
+                            "Tone": 0.68, "Modulation": 0.12, "Mix": 0.22})
 
     pb.add_snapshot(0, "LER Verse", blocks_on=[0, 1, 2, 3], color="green")
 

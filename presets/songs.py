@@ -1706,21 +1706,23 @@ def preset_lithium():
     compensation de volume entre Verse et Chorus), mais le Chorus lui-meme
     sort desormais au meme niveau que les autres usages du pattern.
 
-    Verse : ajout KinkyBoost = CONFIG CANONIQUE "Color clean Verse" (identique
-    Black Hole Sun/Creep) — epaissit le clean (harmoniques chaudes) + bump
-    volume. Exclu du Chorus (Regle 2 purisme : pas dans le pattern Big Muff).
+    PAS de KinkyBoost "Color clean Verse" : teste, casse le preset. PolyPitch
+    consomme jusqu'a 50% du budget DSP d'un preset HX Effects (documente dans
+    le manuel Line 6) — avec PolyPitch + 6 autres blocs, le budget est deja
+    sature, impossible d'ajouter le KinkyBoost (7e bloc). Priorite donnee a
+    l'accordage -1 ton (fidele a l'enregistrement original) plutot qu'au
+    boost Verse.
 
-    Chaine : PolyPitch > Gate > RedSqueeze > KinkyBoost > RamsHead > Chorus70s > Reverb
-    Slots  :     0          1        2            3           4          5         6
+    Chaine : PolyPitch > Gate > RedSqueeze > RamsHead > Chorus70s > Reverb
+    Slots  :     0          1        2           3          4         5
 
-    Snap 0 Verse  : quasi-clean + compresseur + KinkyBoost + Small Clone discret + reverb
+    Snap 0 Verse  : quasi-clean + compresseur + Small Clone discret + reverb
     Snap 1 Chorus : Big Muff (config BHS) + reverb (drop distorsion)
     Snap 2 Clean  : accordage / attente
 
     Configs partagees (cf. docs/theory/shared_configs.md) :
-    - Big Muff   : Sustain=0.80, Tone=0.55, Level=0.85 (mur fuzz sombre Big Muff,
+    - Big Muff : Sustain=0.80, Tone=0.55, Level=0.85 (mur fuzz sombre Big Muff,
       identique Black Hole Sun — plus de variante separee pour Lithium)
-    - KinkyBoost : Drive=0.35, Boost=True, Bright=False (color clean Verse)
     """
     pb = PresetBuilder("Lithium", tempo=124.0, styles=["grunge"])
 
@@ -1739,41 +1741,36 @@ def preset_lithium():
     pb.add_block("HD2_CompressorRedSqueeze", slot=2, enabled_default=False,
                  overrides={"Sensitivity": 0.50, "Mix": 1.0, "Level": 2.0})
 
-    # KinkyBoost = CONFIG CANONIQUE "Color clean Verse" — partagee Black Hole Sun/Creep
-    # Place entre le compresseur et la Fuzz (ordre boost avant dist)
-    pb.add_block("HD2_DistKinkyBoost", slot=3, enabled_default=False,
-                 overrides={"Drive": 0.35, "Boost": True, "Bright": False})
-
     # Bighorn Fuzz = EHX Big Muff Pi : confirme par Butch Vig pour Lithium
     # CONFIG CANONIQUE "Mur fuzz sombre Big Muff" — identique Black Hole Sun
     # (plus de variante separee : objectif minimum de variation de volume)
     # enabled_default=False : verse quasi-clean par defaut
-    pb.add_block("HD2_DistRamsHead", slot=4, enabled_default=False,
+    pb.add_block("HD2_DistRamsHead", slot=3, enabled_default=False,
                  overrides={"Sustain": 0.80, "Tone": 0.55, "Level": 0.85})
 
     # 70s Chorus = approx. EHX Small Clone : discret (reduit vs avant)
     # enabled_default=False : uniquement sur Verse, bypasse sur Chorus distordu
-    pb.add_block("HD2_Chorus70sChorus", slot=5, enabled_default=False,
+    pb.add_block("HD2_Chorus70sChorus", slot=4, enabled_default=False,
                  overrides={"ChorusIntensity": 0.30, "VibratoRate": 0.35,
                             "VibratoDepth": 0.25, "Mix": 0.22, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=6,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.20})
 
-    # Verse : quasi-clean + compresseur + KinkyBoost + Small Clone discret + reverb
+    # Verse : quasi-clean + compresseur + Small Clone discret + reverb
     # Contraste volontaire avec le chorus — ne pas compenser le delta de volume
-    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 1, 2, 3, 5, 6], color="green")
+    pb.add_snapshot(0, "LIT Verse", blocks_on=[0, 1, 2, 4, 5], color="green")
 
     # Chorus : Big Muff plein (config BHS) — drop dynamique quiet/loud
-    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 4, 6], color="red")
+    pb.add_snapshot(1, "LIT Chorus", blocks_on=[0, 1, 3, 5], color="red")
 
-    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 1, 6],
-                    params={6: {"Mix": 0.10}},
+    pb.add_snapshot(2, "LIT Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "LIT Clean", blocks_on=[0, 1, 6],
-                    params={6: {"Mix": 0.10}},
+    pb.add_snapshot(3, "LIT Clean", blocks_on=[0, 1, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb

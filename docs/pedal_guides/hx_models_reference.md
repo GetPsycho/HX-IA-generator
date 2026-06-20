@@ -241,6 +241,7 @@ Nonlinear, Double Tank, Dynamic Hall/Room/Plate/Ambience/Bloom, Shimmer) sont de
 
 | Nom HX | Model ID | Équivalent réel |
 |---|---|---|
+| **Poly Pitch** | `L6SPB_PolyPitch` | Pitch shift polyphonique (accordage alternatif) |
 | **Pitch Wham** | `HD2_PitchPitchWham` | Digitech Whammy |
 | **Twin Harmony** | `HD2_PitchTwinHarmony` | Eventide H3000 |
 | **Simple Pitch** | `HD2_PitchSimplePitch` | Original Line 6 |
@@ -250,6 +251,28 @@ Nonlinear, Double Tank, Dynamic Hall/Room/Plate/Ambience/Bloom, Shimmer) sont de
 | **Smart Harmony** *(Legacy)* | `HD2_M13TwoVoiceHarmony` | Eventide H3000 |
 | **Attack Synth** *(Legacy)* | `HD2_FM4AttackSynth` | Korg X911 Guitar Synth |
 | **Synth String** *(Legacy)* | `HD2_FM4SynthString` | Roland GR700 Guitar Synth |
+
+### ⚠️ Poly Pitch — limite DSP critique
+
+D'après le manuel Line 6 : les modèles de pitch-shift **polyphonique** (Poly Pitch,
+Twin Harmony, Dual Pitch) sont **extrêmement coûteux en DSP — jusqu'à 50% du
+budget DSP disponible d'un preset HX Effects, à eux seuls**.
+
+**Conséquence pratique validée** (test live, juin 2026) : un preset avec Poly
+Pitch ne peut accueillir qu'environ **5 à 6 blocs au total** (Poly Pitch inclus)
+avant que le budget DSP ne sature. Au-dela, le preset s'importe mais affiche
+une chaîne vide sur l'appareil (pas d'erreur explicite — l'interface HX Edit
+grise simplement les blocs qu'on ne peut plus ajouter en édition manuelle).
+
+**Cas confirmés** :
+- Special K (5 blocs avec Poly Pitch) : OK
+- Lithium (7 blocs avec Poly Pitch) : preset vide à l'import — KinkyBoost retiré
+- Drive (8 blocs avec Poly Pitch) : preset vide à l'import — Poly Pitch retiré
+
+**Règle projet** : avant d'ajouter Poly Pitch a un preset, compter le nombre
+total de blocs (Poly Pitch inclus). Si ≥6-7, ne pas l'ajouter ou retirer
+d'autres blocs en premier. Toujours regenerer et faire tester en live avant
+de considerer l'ajout comme acquis.
 
 ---
 

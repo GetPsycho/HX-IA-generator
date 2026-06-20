@@ -112,7 +112,6 @@ Différence vs "grunge bien poussé" : Tone=0.35 (encore plus adouci pour compen
 |---|---|
 | Black Hole Sun | Verse |
 | Creep | Verse |
-| Lithium | Verse |
 
 ---
 

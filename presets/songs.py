@@ -1561,21 +1561,25 @@ def preset_toxicity():
     Ampli : Mesa/Boogie Dual Rectifier + Marshall JMP 2203.
 
     REFONTE : alignement complet sur How You Remind Me — seule la Heavy Dist
-    assure la saturation, memes reglages exacts. EQ10Band et KinkyBoost retires
+    assure la saturation, memes reglages exacts. EQ10Band retire
     (simplification + libere du budget DSP pour PolyPitch, cf.
     docs/pedal_guides/hx_models_reference.md section Poly Pitch).
+    KinkyBoost reintroduit sur Verse uniquement : pattern canonique "Clean
+    brillant strumming" (= How You Remind Me Verse), 5 blocs avec PolyPitch
+    always-on — sous le seuil empirique securitaire (~5-6 blocs).
 
     Pas de solo guitare dans Toxicity (pas de snap Solo).
 
-    Chaine : PolyPitch > Gate > HeavyDist > Reverb
-    Slots  :     0          1       2          3
+    Chaine : PolyPitch > Gate > HeavyDist > Reverb > KinkyBoost
+    Slots  :     0          1       2          3         4
 
-    2 sons : Verse (clean) et Disto (chorus/riff/break).
-    Verse clean : gate souple, reverb plus ouverte — "dirty amp volume rolled back" (simple).
+    2 sons : Verse (clean brillant) et Disto (chorus/riff/break).
+    Verse : clean brillant + KinkyBoost (pattern "Clean brillant strumming"),
+            gate souple, reverb plus ouverte — "dirty amp volume rolled back".
     Disto : Heavy Dist (Boss Metal Zone Legacy) — memes reglages que How You Remind Me,
             valides a l'oreille (Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80).
 
-    Snap 0 Verse : clean, gate souple, reverb ouverte (Mix=0.20)
+    Snap 0 Verse : clean brillant + KinkyBoost + gate souple + reverb ouverte (Mix=0.20)
     Snap 1 Disto : Metal Zone seule (chorus/riff/break)
     Snap 2 Clean : accordage Drop C
     Snap 3 Clean : accordage Drop C
@@ -1583,6 +1587,8 @@ def preset_toxicity():
     Configs partagees (cf. docs/theory/shared_configs.md) :
     - Heavy Dist : Drive=0.70, Bass=0.80, Mid=0.40, Treble=0.55, Output=0.80
       (Heavy Dist Boss Metal Zone, identique How You Remind Me)
+    - KinkyBoost : Drive=0.0, Boost=True, Bright=True (Clean brillant strumming,
+      identique How You Remind Me Verse)
     """
     pb = PresetBuilder("Toxicity", tempo=115.0, styles=["nu_metal"])
 
@@ -1609,8 +1615,13 @@ def preset_toxicity():
                  overrides={"Decay": 0.30, "Predelay": 0.01,
                             "Tone": 0.52, "Modulation": 0.10, "Mix": 0.10})
 
-    # Verse : clean basique, gate souple, reverb ouverte
-    pb.add_snapshot(0, "TOX Verse", blocks_on=[0, 1, 3],
+    # KinkyBoost = CONFIG CANONIQUE "Clean brillant strumming" — partagee How You Remind Me Verse
+    # enabled_default=False : uniquement sur Verse, exclu Disto et Clean
+    pb.add_block("HD2_DistKinkyBoost", slot=4, enabled_default=False,
+                 overrides={"Drive": 0.0, "Boost": True, "Bright": True})
+
+    # Verse : clean brillant + KinkyBoost, gate souple, reverb ouverte
+    pb.add_snapshot(0, "TOX Verse", blocks_on=[0, 1, 3, 4],
                     params={1: {"Threshold": -55.0, "Decay": 0.50},
                             3: {"Mix": 0.20}},
                     color="green")

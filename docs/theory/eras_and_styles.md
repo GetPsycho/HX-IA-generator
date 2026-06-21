@@ -158,6 +158,34 @@ AutoFilter Mode 0 (LP) sur le lick funk = son trop grave/boueux (leçon Dani Cal
 
 ---
 
+## Funk Metal — fin 80s/90s
+
+**Repères :** Extreme (Nuno Bettencourt), Living Colour, Faith No More.
+**Dans le setlist :** He-Man Woman Hater (Extreme)
+
+### Son caractéristique Extreme (Bettencourt)
+- **Guitare :** Washburn N4, chevalet haute sortie (Bill Lawrence L500-XL) pour transitoires rapides
+- **Ampli :** Préampli rack (ADA MP-1) — gain saturé mais articulé, pas un haut-gain scoopé moderne
+- **OD :** RAT toujours actif en amont, rôle de compression/filtre plutôt que distorsion pure (gain stacking avec le canal d'ampli)
+- **EQ :** Creux mid ~800Hz (Furman) pour la tenue funk-metal — tight, pas boueux
+- **Technique :** Tapping/hammer-on rapide, palm muting percutant — le groove vient surtout du jeu, pas des pédales
+- **Solo :** Legato rapide, dive bombs au whammy, unisson bends
+- **Reverb :** Discrète/sèche (studio articulé)
+
+### Construction du preset
+```
+Gate → RAT (push) → Dist haute-gain (sim préampli rack) → [Delay synchronisé sur intro] → Reverb sèche
+```
+- RAT (Ratatouille Dist, LM308 vintage) : Gain 0.35–0.45, Level élevé = push
+- Dist sim ampli (OCD CompulsiveDrive) : Gain 0.70–0.78, LPHP=True = saturation principale articulée
+- Solo : TS push (Scream808) + Whammy dive bomb (Pitch Wham, Toe=-12 sur EXP)
+- Intro avec riff tapping : si la technique studio utilise un delay pour "démultiplier" les notes jouées (trick à la Eddie Van Halen Cathedral), prévoir un snap dédié avec Feedback≈0 (une seule répétition nette) et Mix élevé
+
+### Alerte de cohérence
+Une grosse reverb ou un mid trop marqué = atypique pour ce style — le son doit rester tight/percutant, pas wash.
+
+---
+
 ## Nu-Metal / Alt-Metal — 2000s
 
 **Repères :** System of a Down, Muse, Linkin Park, Rage Against The Machine.
@@ -329,6 +357,7 @@ Gate → Red Squeeze (comp skank) → 70s Chorus (léger) → Reverb minimale
 | Grunge | 90s | Big Muff | Discret | Dimension/Chorus clean only | 0.18–0.22 | BHS, Creep, Even Flow |
 | Alt-rock atmosphérique | 90–00s | OD légère | Absent | Phaser central | 0.22–0.28 | Drive |
 | Funk-rock | 90–00s | OD légère + Dist | Absent | Envelope filter | 0.18–0.22 | Dani California |
+| Funk metal | 90s | RAT + Dist haute-gain | Absent | Absent | 0.08–0.12 | He-Man Woman Hater |
 | Nu-metal | 00s | Haute gain | Absent | Absent | 0.08–0.15 | Toxicity, Muse |
 | Stoner rock | 90–00s | OD medium | Absent | Absent | 0.08–0.12 | No One Knows |
 | Post-grunge | 00s | HM-2 ou OCD | Absent | Phaser discret | 0.18–0.28 | Nickelback, KoL |

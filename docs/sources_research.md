@@ -712,3 +712,28 @@
 | https://www.guitarchalk.com/soundgarden-kim-thayil-amp-settings/ | Réglages ampli Kim Thayil, gear général |
 | https://musicstrive.com/soundgarden-guitar-tone/ | Gear Soundgarden, secret de Black Hole Sun (chorus fast + gain bas) |
 | https://equipboard.com/pros/kim-thayil | Inventaire complet pédales Kim Thayil |
+
+---
+
+## Extreme - He-Man Woman Hater (1990)
+
+### Informations confirmées
+
+- BPM : 102. Tonalité : Db majeur (riffs), solo en E Mixolydian (forme jouée, sonne Eb Mixolydian)
+- Accordage : Eb standard (demi-ton plus bas)
+- Guitare : Washburn N4 (chevalet Bill Lawrence L500-XL, manche Seymour Duncan '59)
+- Chaîne : Guitare → Pro Co RAT (toujours actif, push) → ADA MP-1 (préampli rack, preset 45) → Furman EQ (creux mid ~800Hz) → ampli à lampes → Marshall 4x12 Greenback
+- Structure : Intro ("Flight of the Wounded Bumblebee") / Verse / Chorus / Bridge / Solo
+- Technique intro : trick de "démultiplication" au delay (à la Eddie Van Halen "Cathedral") — peu de notes jouées en tapping, delay synchronisé (Time≈240ms, Feedback≈0, Mix élevé) ajoute une répétition par note
+- Solo : legato rapide, unisson bends, dive bombs au whammy
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://tabs.ultimate-guitar.com/tab/extreme/he-man-woman-hater-tabs-2998847 | Accordage Eb standard, tab |
+| https://songbpm.com/@extreme/he-man-woman-hater | Tempo 102 BPM |
+| https://tunebat.com/Info/He-Man-Woman-Hater-Extreme/1dpmzTr7YM3dvR6uHb5aVR | Tonalité Db majeur |
+| https://guitargangsters.net/nuno-bettencourt-the-funk-metal-architect-of-fire-and-precision/ | Chaîne signal RAT→ADA MP-1→Furman→Marshall, guitare Washburn N4 |
+| https://www.guitarmasterclass.net/ls/Delay-This-Way-Nuno-Bettencourt-Style/ | Réglages delay intro (Time 240ms, Feedback 1 repeat, Mix 100%) |
+| https://www.thefretboard.co.uk/discussion/122523/ben-ellers-weekend-wankshop-how-nuno-really-plays-extreme-s-he-man-woman-hater | Confirmation technique delay (feedback=0, mix élevé) |

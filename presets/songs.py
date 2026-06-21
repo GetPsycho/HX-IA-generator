@@ -2597,6 +2597,115 @@ def preset_locked_out_of_heaven():
     return pb
 
 
+def preset_he_man_woman_hater():
+    """Extreme - He-Man Woman Hater (102 BPM) — Nuno Bettencourt
+
+    Accordage : Eb standard (demi-ton plus bas). Eric retune physiquement
+    (pas de simulation PolyPitch — pas de besoin de switch rapide entre
+    morceaux pour ce titre). Tonalite : Db majeur. Solo en E Mixolydian
+    (forme jouee, sonne Eb Mixolydian avec l'accordage).
+
+    Album Pornograffitti (1990). Guitare studio : Washburn N4 (chevalet
+    Bill Lawrence L500-XL haute sortie, manche Seymour Duncan '59).
+    Chaine studio : Guitare > Pro Co RAT (toujours actif, role de
+    filtre/compression plus que distorsion pure) > ADA MP-1 (preampli
+    rack, gain sature mais articule) > Furman EQ (creux mid ~800Hz,
+    tenue funk-metal) > ampli a lampes > Marshall 4x12 Greenback.
+
+    ADA MP-1 (preampli rack, pas de modele dedie HX Effects) simule par
+    OCD CompulsiveDrive — meme logique que Be Yourself/Hysteria (ampli
+    British/articule), gain plus pousse (0.75 vs 0.65 "grunge bien
+    pousse") car l'ADA MP-1 est plus chaud qu'un JCM800/DSL. Nouveau
+    matching documente dans docs/pedal_guides/od_dist_fuzz.md.
+
+    Intro "Flight of the Wounded Bumblebee" : technique de "demultiplication"
+    via delay (trick a la Eddie Van Halen "Cathedral") — Nuno joue peu de
+    notes en tapping, un delay synchronise (Time=240ms, Feedback=0, Mix
+    eleve) ajoute une repetition nette et forte par note jouee, donnant
+    l'illusion d'un debit beaucoup plus rapide. Feedback=0 = une seule
+    repetition (pas de trainee qui s'accumule). Mute main droite (Gate)
+    = 2e ingredient cle de l'effet.
+
+    Pas de section clean distincte (hors Intro/Solo) : un seul son sature
+    couvre Verse/Chorus/Bridge, la dynamique vient du jeu (palm mute vs
+    accords pleins) — comme Just a Girl / Not an Addict.
+
+    Solo : TS push (Scream808, formule standard) + Whammy dive bomb
+    (Pitch Wham, Toe=-12, lie a EXP 1) pour les dive bombs caracteristiques
+    du solo (unisson bends + dive bombs documentes).
+
+    Chaine : Gate > Scream808 > Ratatouille(RAT) > CompulsiveDrive(OCD) > PitchWham > SimpleDelay > Reverb
+    Slots  :  0      1            2                   3                     4            5             6
+
+    Snap 0 Intro : RAT+OCD + SimpleDelay (trick demultiplication)
+    Snap 1 Riff  : RAT+OCD seul — couvre Verse/Chorus/Bridge
+    Snap 2 Solo  : + Scream808 push + Whammy dive bomb (EXP 1)
+    Snap 3 Clean : accordage Eb / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Scream 808 : Gain=0.25, Tone=0.55, Level=0.92 (TS push moment fort)
+
+    Nouvelle config (pas encore partagee, un seul preset pour l'instant) :
+    - RAT (Ratatouille) : Gain=0.40, Filter=0.60, Level=0.70 — role de push,
+      filtre/compression (pas la saturation principale)
+    - OCD : Gain=0.75, Tone=0.38, LPHP=True, Level=0.80 — simule l'ADA MP-1,
+      plus pousse que "grunge bien pousse" (rack preamp plus chaud)
+    """
+    pb = PresetBuilder("He-Man Woman Hater", tempo=102.0, styles=["funk_metal"])
+
+    pb.add_block("HD2_GateNoiseGate", slot=0,
+                 overrides={"Threshold": -48.0, "Decay": 0.20})
+
+    # Scream 808 = formule "TS push moment fort" : pousse RAT+OCD sur le Solo
+    pb.add_block("HD2_DistScream808", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.25, "Tone": 0.55, "Level": 0.92})
+
+    # Pro Co RAT (LM308, vintage 1990) = push avant l'ampli, role de
+    # filtre/compression plus que distorsion principale (toujours actif)
+    pb.add_block("HD2_DistRatatouilleDist", slot=2,
+                 overrides={"Gain": 0.40, "Filter": 0.60, "Level": 0.70})
+
+    # OCD = simule l'ADA MP-1 (preampli rack, gain sature articule)
+    # Gain plus pousse que le pattern "grunge bien pousse" (rack preamp chaud)
+    pb.add_block("HD2_DistCompulsiveDrive", slot=3,
+                 overrides={"Gain": 0.75, "Tone": 0.38, "LPHP": True, "Level": 0.80})
+
+    # Pitch Wham : Heel=0 (unisson), Toe=-12 (dive bomb -1 octave) — solo seulement
+    # Le param "Pedal" est bindee a EXP 1 (cf. bind_exp_pedal ci-dessous)
+    pb.add_block("HD2_PitchPitchWham", slot=4, enabled_default=False,
+                 overrides={"Heel": 0, "Toe": -12, "Mix": 1.0, "Level": 0.0})
+
+    # Simple Delay : trick "demultiplication" de l'intro (Eddie Van Halen
+    # Cathedral style). Time=240ms, Feedback=0 (une seule repetition nette,
+    # pas de trainee), Mix eleve (la repetition sonne quasi aussi fort que
+    # la note jouee) — actif uniquement sur l'Intro.
+    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
+                 overrides={"Time": 0.24, "Feedback": 0.0, "Mix": 0.50,
+                            "TempoSync1": False})
+
+    pb.add_block("HD2_ReverbGanymede", slot=6,
+                 overrides={"Decay": 0.28, "Predelay": 0.01,
+                            "Tone": 0.55, "Modulation": 0.10, "Mix": 0.10})
+
+    # Bind du param "Pedal" du Pitch Wham (slot 4) a EXP 1
+    pb.bind_exp_pedal(slot=4, param_name="Pedal", exp_id=1, value=0.0)
+
+    # Intro "Flight of the Wounded Bumblebee" : trick de demultiplication au delay
+    pb.add_snapshot(0, "HMW Intro", blocks_on=[0, 2, 3, 5, 6], color="orange")
+
+    # Riff : RAT+OCD seul — couvre Verse/Chorus/Bridge (dynamique par le jeu)
+    pb.add_snapshot(1, "HMW Riff", blocks_on=[0, 2, 3, 6], color="green")
+
+    # Solo : TS push + Whammy dive bomb (EXP 1)
+    pb.add_snapshot(2, "HMW Solo", blocks_on=[0, 1, 2, 3, 4, 6], color="red")
+
+    pb.add_snapshot(3, "HMW Clean", blocks_on=[0, 6],
+                    params={6: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 PRESETS = {
     "Are You Gonna Go My Way - Lenny Kravitz": preset_are_you_gonna_go_my_way,
     "Beggin - Maneskin":                       preset_beggin,
@@ -2609,6 +2718,7 @@ PRESETS = {
     "Even Flow - Pearl Jam":                   preset_even_flow,
     "Figure It Out - Royal Blood":             preset_figure_it_out,
     "Fly Away - Lenny Kravitz":                preset_fly_away,
+    "He-Man Woman Hater - Extreme":            preset_he_man_woman_hater,
     "How You Remind Me - Nickelback":          preset_how_you_remind_me,
     "Hysteria - Muse":                         preset_hysteria,
     "I'm Picky - Shaka Ponk":                  preset_im_picky,

@@ -98,9 +98,11 @@ MAX_BLOCKS    = 9   # HX Effects : 9 blocs simultanes max, slots 0-8
 MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
 
 # EXP 1 : pedale d'expression physique d'Eric, bindee par defaut sur un bloc
-# Volume en fin de chaine (cf. PresetBuilder._maybe_add_exp_volume). Sauf si
-# deja utilisee pour autre chose dans le preset (ex: Whammy/Pitch Wham).
+# Gain (boost) en fin de chaine (cf. PresetBuilder._maybe_add_exp_volume).
+# Sauf si deja utilisee pour autre chose dans le preset (ex: Whammy/Pitch
+# Wham). Talon = 0 dB (neutre), pointe = +EXP_VOLUME_BOOST_DB (boost).
 EXP_VOLUME_ID = 1
+EXP_VOLUME_BOOST_DB = 6.0
 
 # Categories dont les blocs ont un champ @trails
 _TRAILS_CATEGORIES = {"delay", "reverb", "sendreturn"}
@@ -208,7 +210,8 @@ class PresetBuilder:
         return self
 
     def bind_exp_pedal(self, slot: int, param_name: str,
-                       exp_id: int = 1, value: float = 0.0) -> "PresetBuilder":
+                       exp_id: int = 1, value: float = 0.0,
+                       range_min: float = None, range_max: float = None) -> "PresetBuilder":
         """Bind un parametre de bloc a une pedale d'expression externe.
 
         Args:
@@ -216,6 +219,11 @@ class PresetBuilder:
             param_name: nom du parametre (ex: "Pedal" pour Pitch Wham/Wah)
             exp_id: 1=EXP 1, 2=EXP 2, 3=EXP 3
             value: valeur snapshot par defaut (typiquement 0.0 = talon)
+            range_min, range_max: restreint la plage balayee par la pedale
+                (par defaut, toute la plage catalogue du parametre). Utile
+                pour un param a large plage (ex: Gain -120/+12 dB) ou on ne
+                veut balayer qu'une portion (ex: 0 a +6 dB, talon=neutre,
+                pointe=boost).
         """
         if slot not in self._block_models:
             raise ValueError(f"Slot {slot} sans bloc")
@@ -225,7 +233,7 @@ class PresetBuilder:
         info = get_catalog()[model_id]
         if info.param(param_name) is None:
             raise ValueError(f"Param '{param_name}' inconnu pour {model_id}")
-        self._exp_bindings[(slot, param_name)] = (exp_id, value)
+        self._exp_bindings[(slot, param_name)] = (exp_id, value, range_min, range_max)
         return self
 
     def add_block(self, model_id: str, slot: int,
@@ -282,16 +290,18 @@ class PresetBuilder:
         return self
 
     def _maybe_add_exp_volume(self) -> None:
-        """Ajoute un bloc Volume en fin de chaine, bindee a EXP 1, sauf si
-        EXP 1 est deja utilisee pour autre chose (ex: Whammy), si c'est
-        explicitement desactive (cf. disable_exp_volume) ou s'il n'y a plus
-        de place (9 blocs max HX Effects). Toujours actif (utilitaire
-        disponible a tout moment, valeur par defaut = volume plein, pas de
-        changement tant qu'on ne touche pas la pedale).
+        """Ajoute un bloc Gain (boost volume) en fin de chaine, bindee a
+        EXP 1, sauf si EXP 1 est deja utilisee pour autre chose (ex:
+        Whammy), si c'est explicitement desactive (cf. disable_exp_volume)
+        ou s'il n'y a plus de place (9 blocs max HX Effects). Toujours
+        actif. Talon = 0 dB (neutre, pas de changement), pointe =
+        EXP_VOLUME_BOOST_DB (boost) — pas d'attenuation, uniquement de la
+        marge en plus si besoin (cf. Gain, pas Volume : un bloc Volume
+        classique ne peut qu'attenuer, jamais booster au-dessus de l'unite).
         """
         if self._exp_volume_disabled:
             return
-        if any(exp_id == EXP_VOLUME_ID for exp_id, _ in self._exp_bindings.values()):
+        if any(b[0] == EXP_VOLUME_ID for b in self._exp_bindings.values()):
             return
         if not self._blocks:
             return
@@ -299,12 +309,13 @@ class PresetBuilder:
         if new_slot >= MAX_BLOCKS:
             return
         self._blocks[new_slot] = make_block(
-            "HD2_VolPanVol", position=new_slot + 1, enabled=True,
-            overrides={"Pedal": 1.0, "VolumeTaper": False})
-        self._block_models[new_slot] = "HD2_VolPanVol"
+            "HD2_VolPanGain", position=new_slot + 1, enabled=True,
+            overrides={"Gain": 0.0})
+        self._block_models[new_slot] = "HD2_VolPanGain"
         for snap in self._snapshots.values():
             snap["blocks_state"][new_slot] = True
-        self._exp_bindings[(new_slot, "Pedal")] = (EXP_VOLUME_ID, 1.0)
+        self._exp_bindings[(new_slot, "Gain")] = (
+            EXP_VOLUME_ID, 0.0, 0.0, EXP_VOLUME_BOOST_DB)
 
     def build(self) -> dict:
         self._maybe_add_exp_volume()
@@ -412,10 +423,18 @@ class PresetBuilder:
                 pmin, pmax = False, True
             else:
                 pmin, pmax = float(p_info.min), float(p_info.max)
-            # EXP-bound override : utiliser l'exp_id au lieu de 10 (snapshot)
+            # EXP-bound override : utiliser l'exp_id au lieu de 10 (snapshot),
+            # et restreindre @min/@max si une plage custom a ete fournie
+            # (range_min/range_max de bind_exp_pedal — sinon plage catalogue).
             ctrl_id = 10
             if (slot, pname) in self._exp_bindings:
-                ctrl_id = self._exp_bindings[(slot, pname)][0]
+                binding = self._exp_bindings[(slot, pname)]
+                ctrl_id = binding[0]
+                range_min, range_max = binding[2], binding[3]
+                if range_min is not None:
+                    pmin = range_min
+                if range_max is not None:
+                    pmax = range_max
             controller_dsp0[block_key][pname] = {
                 "@controller":        ctrl_id,
                 "@max":               pmax,
@@ -433,9 +452,9 @@ class PresetBuilder:
 
         # EXP-bound params : injecter la valeur par defaut snapshot (typiquement 0.0 = talon)
         # dans block_base_params, pour que les snaps qui ne l'override pas l'utilisent
-        for (slot, pname), (_exp_id, default_value) in self._exp_bindings.items():
+        for (slot, pname), binding in self._exp_bindings.items():
             if slot in block_base_params:
-                block_base_params[slot][pname] = default_value
+                block_base_params[slot][pname] = binding[1]
 
         # 4 snapshots (limite hardware HX Effects)
         for idx in range(MAX_SNAPSHOTS):

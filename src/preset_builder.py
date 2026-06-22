@@ -102,7 +102,7 @@ MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
 # Sauf si deja utilisee pour autre chose dans le preset (ex: Whammy/Pitch
 # Wham). Talon = 0 dB (neutre), pointe = +EXP_VOLUME_BOOST_DB (boost).
 EXP_VOLUME_ID = 1
-EXP_VOLUME_BOOST_DB = 6.0
+EXP_VOLUME_BOOST_DB = 12.0  # max materiel du bloc Gain HX (param "Gain" : -120/+12 dB)
 
 # Categories dont les blocs ont un champ @trails
 _TRAILS_CATEGORIES = {"delay", "reverb", "sendreturn"}

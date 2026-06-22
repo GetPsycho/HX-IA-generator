@@ -60,6 +60,11 @@ SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]
 MAX_BLOCKS    = 8
 MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
 
+# EXP 1 : pedale d'expression physique d'Eric, bindee par defaut sur un bloc
+# Volume en fin de chaine (cf. PresetBuilder._maybe_add_exp_volume). Sauf si
+# deja utilisee pour autre chose dans le preset (ex: Whammy/Pitch Wham).
+EXP_VOLUME_ID = 1
+
 # Categories dont les blocs ont un champ @trails
 _TRAILS_CATEGORIES = {"delay", "reverb", "sendreturn"}
 
@@ -226,7 +231,31 @@ class PresetBuilder:
         }
         return self
 
+    def _maybe_add_exp_volume(self) -> None:
+        """Ajoute un bloc Volume en fin de chaine, bindee a EXP 1, sauf si
+        EXP 1 est deja utilisee pour autre chose (ex: Whammy) ou s'il n'y a
+        plus de place (8 blocs max HX Effects). Toujours actif (utilitaire
+        disponible a tout moment, valeur par defaut = volume plein, pas de
+        changement tant qu'on ne touche pas la pedale).
+        """
+        if any(exp_id == EXP_VOLUME_ID for exp_id, _ in self._exp_bindings.values()):
+            return
+        if not self._blocks:
+            return
+        new_slot = max(self._blocks.keys()) + 1
+        if new_slot >= MAX_BLOCKS:
+            return
+        self._blocks[new_slot] = make_block(
+            "HD2_VolPanVol", position=new_slot + 1, enabled=True,
+            overrides={"Pedal": 1.0, "VolumeTaper": False})
+        self._block_models[new_slot] = "HD2_VolPanVol"
+        for snap in self._snapshots.values():
+            snap["blocks_state"][new_slot] = True
+        self._exp_bindings[(new_slot, "Pedal")] = (EXP_VOLUME_ID, 1.0)
+
     def build(self) -> dict:
+        self._maybe_add_exp_volume()
+
         # Sync @enabled de chaque bloc avec l'etat du snapshot 0 (snapshot par defaut
         # au chargement du preset). Sinon le HX Effects laisse le bloc bypasse meme
         # si le snapshot 0 dit qu'il doit etre actif : la LED suit le snapshot mais

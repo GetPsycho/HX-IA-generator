@@ -57,7 +57,7 @@ FS_COLOR_PLACEHOLDER = LED_COLORS["off"]
 # Snapshot (tous) : bleu standard
 SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]
 
-MAX_BLOCKS    = 8
+MAX_BLOCKS    = 9   # HX Effects : 9 blocs simultanes max, slots 0-8
 MAX_SNAPSHOTS = 4   # HX Effects : 4 snapshots max
 
 # EXP 1 : pedale d'expression physique d'Eric, bindee par defaut sur un bloc

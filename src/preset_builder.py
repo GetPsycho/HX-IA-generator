@@ -176,6 +176,19 @@ class PresetBuilder:
         self._exp_bindings = {}
         # Footswitch overrides : slot -> fs_index (par defaut = slot)
         self._fs_index_overrides = {}
+        # Desactivation explicite de l'injection auto de la pedale volume EXP1
+        # (cf. disable_exp_volume) — pour les presets dont la combinaison de
+        # blocs ne supporte pas un bloc supplementaire (budget DSP).
+        self._exp_volume_disabled = False
+
+    def disable_exp_volume(self) -> "PresetBuilder":
+        """Desactive l'injection automatique de la pedale volume EXP1 pour ce
+        preset. A utiliser quand la combinaison de blocs existante ne
+        supporte pas un bloc supplementaire (budget DSP) — confirme en test
+        live pour Drive et Black Hole Sun (9 blocs : preset instable).
+        """
+        self._exp_volume_disabled = True
+        return self
 
     def assign_footswitch(self, slot: int, fs_index: int) -> "PresetBuilder":
         """Force le numero de footswitch (mode pedale/stomp) d'un bloc.
@@ -270,11 +283,14 @@ class PresetBuilder:
 
     def _maybe_add_exp_volume(self) -> None:
         """Ajoute un bloc Volume en fin de chaine, bindee a EXP 1, sauf si
-        EXP 1 est deja utilisee pour autre chose (ex: Whammy) ou s'il n'y a
-        plus de place (8 blocs max HX Effects). Toujours actif (utilitaire
+        EXP 1 est deja utilisee pour autre chose (ex: Whammy), si c'est
+        explicitement desactive (cf. disable_exp_volume) ou s'il n'y a plus
+        de place (9 blocs max HX Effects). Toujours actif (utilitaire
         disponible a tout moment, valeur par defaut = volume plein, pas de
         changement tant qu'on ne touche pas la pedale).
         """
+        if self._exp_volume_disabled:
+            return
         if any(exp_id == EXP_VOLUME_ID for exp_id, _ in self._exp_bindings.values()):
             return
         if not self._blocks:

@@ -320,6 +320,9 @@ def preset_black_hole_sun():
     - KinkyBoost   : Drive=0.35, Boost=True (color + bump volume Verse clean)
     """
     pb = PresetBuilder("Black Hole Sun", tempo=105.0, styles=["grunge"])
+    # Preset deja a 8 blocs : un 9eme bloc (pedale volume EXP1) rend le
+    # preset instable a l'import (confirme test live, juin 2026).
+    pb.disable_exp_volume()
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
@@ -590,6 +593,10 @@ def preset_drive():
     Snap 3 Clean      : accordage / attente
     """
     pb = PresetBuilder("Drive", tempo=91.0, styles=["alt_rock"])
+    # Preset deja a 8 blocs avec PolyPitch actif : un 9eme bloc (pedale
+    # volume EXP1) rend le preset instable a l'import (confirme test live,
+    # juin 2026 — meme symptome que le budget DSP PolyPitch).
+    pb.disable_exp_volume()
 
     # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
     pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,

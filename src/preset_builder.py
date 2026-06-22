@@ -50,9 +50,11 @@ LED_COLORS = {
 # Footswitch (mode pedale) : le HX Effects pilote la couleur via "Auto Color"
 # par categorie de bloc, qui ignore @fs_ledcolor tant que ce mode est actif
 # (confirme sur l'appareil — teste, aucune valeur custom n'avait d'effet).
-# Auto Color est le comportement par defaut souhaite ici, donc @fs_ledcolor
-# n'a plus besoin de varier : on met une valeur neutre, inerte en pratique.
-FS_COLOR_PLACEHOLDER = LED_COLORS["off"]
+# Auto Color est le comportement par defaut souhaite ici. ATTENTION : ne pas
+# utiliser LED_COLORS["off"] (=0) ici — observe sur l'appareil que @fs_ledcolor=0
+# fait passer le switch sur "Off" (eteint) au lieu de rester en Auto Color.
+# N'importe quelle valeur non-nulle reste neutre/inerte en pratique.
+FS_COLOR_PLACEHOLDER = LED_COLORS["green"]
 
 # Snapshot (tous) : bleu standard
 SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]

@@ -47,14 +47,49 @@ LED_COLORS = {
     "cyan":   65535,
 }
 
-# Footswitch (mode pedale) : le HX Effects pilote la couleur via "Auto Color"
-# par categorie de bloc, qui ignore @fs_ledcolor tant que ce mode est actif
-# (confirme sur l'appareil — teste, aucune valeur custom n'avait d'effet).
-# Auto Color est le comportement par defaut souhaite ici. ATTENTION : ne pas
-# utiliser LED_COLORS["off"] (=0) ici — observe sur l'appareil que @fs_ledcolor=0
-# fait passer le switch sur "Off" (eteint) au lieu de rester en Auto Color.
-# N'importe quelle valeur non-nulle reste neutre/inerte en pratique.
+# Footswitch (mode pedale) : valeur @fs_ledcolor inerte/cosmetique, le vrai
+# pilotage se fait via @fs_customcolor (cf. FS_CATEGORY_COLOR ci-dessous).
+# ATTENTION : ne pas utiliser LED_COLORS["off"] (=0) ici — observe sur
+# l'appareil que @fs_ledcolor=0 fait passer le switch sur "Off" (eteint).
 FS_COLOR_PLACEHOLDER = LED_COLORS["green"]
+
+# Index @fs_customcolor (liste deroulante "Switch LED" de HX Edit), confirme
+# sur l'appareil juin 2026 (tests successifs Red=2, Blue=8 sur le meme bloc).
+FS_CUSTOMCOLOR_INDEX = {
+    "auto":         0,
+    "white":        1,
+    "red":          2,
+    "dark_orange":  3,
+    "light_orange": 4,
+    "yellow":       5,
+    "green":        6,
+    "turquoise":    7,
+    "blue":         8,
+    "violet":       9,
+    "pink":         10,
+    "off":          11,
+}
+
+# Categorie catalogue -> couleur "Auto Color" reelle (relevee sur l'appareil
+# juin 2026, categorie par categorie, apres ouverture du panneau de reglages
+# de chaque bloc pour forcer le calcul). Auto Color ne se recalcule QUE apres
+# avoir ouvert manuellement le panneau d'un bloc — sur un import frais (jamais
+# touche dans HX Edit), le switch reste bloque sur la derniere valeur
+# @fs_ledcolor ecrite dans le fichier, pas pratique en live. On applique donc
+# ces couleurs en Custom Color (@fs_customcolor) pour qu'elles soient
+# correctes des l'import, sans manipulation.
+FS_CATEGORY_COLOR = {
+    "gate":        "yellow",
+    "compressor":  "yellow",
+    "eq":          "yellow",
+    "distortion":  "light_orange",
+    "reverb":      "dark_orange",
+    "volumepan":   "turquoise",
+    "pitch-synth": "violet",
+    "filter":      "violet",
+    "delay":       "green",
+    "modulation":  "blue",
+}
 
 # Snapshot (tous) : bleu standard
 SNAPSHOT_COLOR_STANDARD = LED_COLORS["blue"]
@@ -508,7 +543,7 @@ def _build_footswitch(blocks: dict, models: dict, fs_overrides: dict = None) -> 
             fs_index = slot
         else:
             fs_index = 0  # aucun footswitch (slot 0, slot >6, ou collision)
-        fs_dsp0[f"block{slot}"] = {
+        entry = {
             "@fs_enabled":   block.get("@enabled", False),
             "@fs_index":     fs_index,
             "@fs_label":     info.name[:12],
@@ -516,4 +551,8 @@ def _build_footswitch(blocks: dict, models: dict, fs_overrides: dict = None) -> 
             "@fs_momentary": False,
             "@fs_primary":   True,
         }
+        color_name = FS_CATEGORY_COLOR.get(info.category)
+        if color_name is not None:
+            entry["@fs_customcolor"] = FS_CUSTOMCOLOR_INDEX[color_name]
+        fs_dsp0[f"block{slot}"] = entry
     return {"dsp0": fs_dsp0}

@@ -737,3 +737,27 @@
 | https://guitargangsters.net/nuno-bettencourt-the-funk-metal-architect-of-fire-and-precision/ | Chaîne signal RAT→ADA MP-1→Furman→Marshall, guitare Washburn N4 |
 | https://www.guitarmasterclass.net/ls/Delay-This-Way-Nuno-Bettencourt-Style/ | Réglages delay intro (Time 240ms, Feedback 1 repeat, Mix 100%) |
 | https://www.thefretboard.co.uk/discussion/122523/ben-ellers-weekend-wankshop-how-nuno-really-plays-extreme-s-he-man-woman-hater | Confirmation technique delay (feedback=0, mix élevé) |
+
+---
+
+## Placebo - This Picture (2003)
+
+### Informations confirmées
+
+- BPM : 160 (audio détecte 78.3, alternative x2 = 156.6 proche de l'estimation utilisateur)
+- Tonalité : Do# majeur (C#) — même tonalité que Special K, confirmée tabs + analyse audio (confiance 0.795)
+- Accordage : standard, pas de capo
+- Structure : Intro (basse seule, pas de guitare) / Verse / Verse / Chorus / Verse / Chorus / Pont / Chorus / Outro
+- Décision Eric : un seul son actif sur tout le morceau dès l'entrée de la guitare (verse/chorus/pont/outro) — analyse audio confirmant une saturation constante et soutenue (0.48-0.70) sans vraie rupture verse/chorus, cohérent avec la recherche web ("mild overdrive throughout, keyboards prominent in the mix")
+- OCD aligné sur le pattern canonique "Grunge bien poussé" (cf. `docs/theory/shared_configs.md`)
+- Delay ~58ms détecté sur le stem guitare isolé mais confiance faible (0.37) — non retenu par défaut
+
+### Sources consultées
+
+| URL | Contenu |
+|-----|---------|
+| https://en.wikipedia.org/wiki/This_Picture_(song) | Album (Sleeping with Ghosts, 2003), date de sortie |
+| https://www.guitartabsexplorer.com/placebo/this-picture-tab | Structure, accordage standard |
+| https://www.guitartabs.cc/tabs/p/placebo/this_picture_tab_ver_2.html | Tonalité Do# majeur, structure détaillée |
+| https://guitarfxdepot.com/rigs/brian-molko-placebo-guitar-rig/ | Gear général Brian Molko (Fender Jaguar/Twin Reverb, Marshall 6100LM) |
+| Analyse audio (`audio_analysis/Placebo - Sleeping With Ghosts - 03 - This Picture_analysis.json`) | Tempo, tonalité, saturation par section |

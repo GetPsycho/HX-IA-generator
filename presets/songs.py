@@ -2318,6 +2318,76 @@ def preset_special_k():
     return pb
 
 
+def preset_this_picture():
+    """Placebo - This Picture (160 BPM) — Brian Molko
+
+    Accordage : standard (E A D G B E), pas de capo — confirme par 3 sources
+    tabs independantes. Tonalite : Do# majeur (C#) — meme tonalite que
+    Special K, confirme par l'analyse audio (confiance 0.795) et les tabs.
+
+    Piege tempo : analyse audio detecte 78.3 BPM, alternative x2 = 156.6 BPM
+    proche de l'estimation utilisateur (160) — tempo reel retenu = 160.
+
+    Decision Eric : l'intro est portee par la basse seule (pas de guitare) —
+    un seul son de guitare electrique couvre tout le morceau des l'entree de
+    la guitare (verse/chorus/pont/outro). L'analyse audio confirme une
+    saturation constante et soutenue sur ces sections (0.48-0.70, pas de
+    vraie rupture verse/chorus comme sur Special K) — coherent avec la
+    recherche web ("mild overdrive throughout, keyboards prominent in the
+    mix"). OCD aligne sur le pattern canonique "Grunge bien pousse"
+    (cf. docs/theory/shared_configs.md).
+
+    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
+    (mode pedale) pour transposer rapidement si besoin en live.
+
+    Chaine : PolyPitch > Gate > CompulsiveDrive > Reverb
+    Slots  :     0          1       2               3
+
+    Snap 0 Riff  : OCD — seul son actif, couvre tout le morceau (guitare tacet sur l'intro)
+    Snap 1 Clean : accordage / attente
+    Snap 2 Clean : accordage / attente
+    Snap 3 Clean : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - OCD : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
+    """
+    pb = PresetBuilder("This Picture", tempo=160.0, styles=["alt_rock"])
+
+    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
+    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
+                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
+                            "Tracking": 3, "Mix": 1.0})
+    pb.assign_footswitch(0, 6)
+
+    pb.add_block("HD2_GateNoiseGate", slot=1,
+                 overrides={"Threshold": -50.0, "Decay": 0.28})
+
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse"
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
+                 overrides={"Decay": 0.40, "Predelay": 0.02,
+                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.14})
+
+    # Riff : seul son actif — couvre tout le morceau (guitare tacet sur l'intro basse seule)
+    pb.add_snapshot(0, "TP Riff", blocks_on=[1, 2, 3], color="orange")
+
+    pb.add_snapshot(1, "TP Clean", blocks_on=[1, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(2, "TP Clean", blocks_on=[1, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    pb.add_snapshot(3, "TP Clean", blocks_on=[1, 3],
+                    params={3: {"Mix": 0.10}},
+                    color="blue")
+
+    return pb
+
+
 def preset_take_me_out():
     """Franz Ferdinand - Take Me Out (104 BPM) — Alex Kapranos & Nick McCarthy
 
@@ -2733,6 +2803,7 @@ PRESETS = {
     "No Roots - Alice Merton":                 preset_no_roots,
     "Not an Addict - K's Choice":               preset_not_an_addict,
     "Special K - Placebo":                      preset_special_k,
+    "This Picture - Placebo":                   preset_this_picture,
     "Take Me Out - Franz Ferdinand":             preset_take_me_out,
     "The Man Who Sold the World - Nirvana":      preset_the_man_who_sold_the_world,
     "Time Is Running Out - Muse":                preset_time_is_running_out,

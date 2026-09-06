@@ -21,10 +21,13 @@ Non confirme specifiquement pour Special K — analyse audio montre un son
 |---|---|---|---|
 | **Special K** | Verse/Riff | OD legere (pas tres saturee) | Pattern "Intro arpege + grain leger" (Heir Apparent) |
 | **Special K** | Chorus/Outro | Saturation plus poussee | Pattern "Grunge bien pousse" (OCD) |
+| **This Picture** | Verse/Chorus/Pont/Outro | Saturation soutenue et constante (OCD seul) | Intro = basse seule, guitare tacet. Pattern "Grunge bien pousse" (OCD) |
 
 ## Accordage (decision Eric)
 Capo case 1, reste en standard sous le capo — pas de retune complet
 ni de simulation PolyPitch necessaire pour Special K.
+
+This Picture : standard, pas de capo.
 
 ## Équivalents HX Effects
 | Effet | Modèle HX | Model ID |
@@ -35,3 +38,7 @@ ni de simulation PolyPitch necessaire pour Special K.
 ## Sources
 - https://en.wikipedia.org/wiki/Special_K_(song)
 - https://www.uberproaudio.com/who-plays-what/561-placebo-brian-molko-guitar-rig-gear-and-equipment
+- https://en.wikipedia.org/wiki/This_Picture_(song)
+- https://www.guitartabsexplorer.com/placebo/this-picture-tab
+- https://www.guitartabs.cc/tabs/p/placebo/this_picture_tab_ver_2.html
+- https://guitarfxdepot.com/rigs/brian-molko-placebo-guitar-rig/

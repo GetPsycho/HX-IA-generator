@@ -1513,11 +1513,19 @@ def preset_song_2():
     Verse = clean direct sur l'ampli (pas d'OD), pas de KinkyBoost = contraste maximal.
     Chorus "Woo-hoo!" = ProCo RAT (Vermin Dist) cranked + KinkyBoost.
 
+    AUDIT (2026-09-07, option A) : Level RAT etait a 0.85, tres au-dessus de
+    la fourchette documentee (`docs/pedal_guides/od_dist_fuzz.md` — sweet
+    spot RAT max = 0.52 meme en config "Heavy" Gain 0.85-0.95, avec la regle
+    "+0.20 Gain -> -0.05 a -0.08 Level"). A Gain=0.75, la fourchette
+    "Rock british" (Gain 0.70-0.78) donne Level=0.52 — retenu ici. Empile
+    avec le KinkyBoost (+6dB), ca depassait largement la fourchette
+    Chorus "0 a +2dB au-dessus du Verse" de docs/theory/volume_reference.md.
+
     Chaine : Gate > VerminDist > Reverb > KinkyBoost
     Slots  :  0      1            2          3
 
     Snap 0 Verse  : clean direct + reverb legere (intro/verse/pre-chorus)
-    Snap 1 Chorus : RAT (Gain=0.75, Filter=0.55, Level=0.85) + reverb + KWB — explosion
+    Snap 1 Chorus : RAT (Gain=0.75, Filter=0.55, Level=0.52) + reverb + KWB — explosion
     Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
     """
@@ -1527,9 +1535,10 @@ def preset_song_2():
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
     # Vermin Dist = ProCo RAT 2 : distorsion signature Coxon, son agressif middy
-    # Level=0.85 + KinkyBoost = chorus violemment plus fort que verse (dynamique signature)
+    # Level=0.52 (sweet spot documente "Rock british" pour Gain=0.75) + KinkyBoost
+    # = chorus plus fort que verse (dynamique signature) sans depasser la doc
     pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.55, "Level": 0.85})
+                 overrides={"Gain": 0.75, "Filter": 0.55, "Level": 0.52})
 
     pb.add_block("HD2_ReverbGanymede", slot=2,
                  overrides={"Decay": 0.38, "Predelay": 0.02,

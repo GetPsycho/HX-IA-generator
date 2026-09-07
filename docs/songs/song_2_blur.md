@@ -48,13 +48,14 @@ Gate > VerminDist > Reverb > KinkyBoost
 | Snap | Nom | Son |
 |---|---|---|
 | 0 | Verse | Clean direct (Gate + Reverb légère Mix=0.16) — **pas de KinkyBoost** |
-| 1 | Chorus | ProCo RAT (Gain=0.75, Filter=0.55, Level=0.85) + Reverb + KWB |
+| 1 | Chorus | ProCo RAT (Gain=0.75, Filter=0.55, Level=0.52) + Reverb + KWB |
 | 2 | Clean | Accordage / attente |
 | 3 | Clean | Accordage / attente |
 
 **Particularités :**
 - **Pas de KinkyBoost sur le Verse** : contraste dynamique volontaire (comme Lithium). Le Chorus doit exploser au-dessus du Verse.
-- RAT (Vermin Dist) Level=0.85 + KinkyBoost = chorus violemment plus fort que le verse clean
+- RAT (Vermin Dist) Level=0.52 (sweet spot documenté "Rock british" pour Gain=0.75, cf. `docs/pedal_guides/od_dist_fuzz.md`) + KinkyBoost = chorus plus fort que le verse clean
+- **Audit 2026-09-07** : Level était à 0.85, très au-dessus de toute fourchette documentée pour cette pédale (max 0.52 même en config "Heavy") — corrigé (option A) pour rester cohérent avec la règle "+0.20 Gain → -0.05/-0.08 Level" et la fourchette Chorus "0 à +2 dB au-dessus du Verse" (`docs/theory/volume_reference.md`)
 - Reverb modérée — pas d'ambiance shoegaze, juste un peu d'espace
 - ProCo RAT = pédale signature Coxon (parfois 2 sur son board live)
 

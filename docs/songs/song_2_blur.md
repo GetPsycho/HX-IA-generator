@@ -17,15 +17,22 @@
 
 | Section | Son guitare | Effets actifs | Snap HX | Notes |
 |---|---|---|---|---|
-| Intro | Drums seuls puis clean | Gate + Reverb | Verse | Power chords clean |
-| Verse 1 | Clean (drums + bass lead) | Gate + Reverb | Verse | Soft, juste rythmique |
-| Pre-chorus | Clean qui monte | Gate + Reverb | Verse | Build-up |
-| **Chorus "Woo-hoo!"** | **RAT cranked — explosion** | Gate + RAT + Reverb + KWB | Chorus | Distortion violente |
-| Verse 2 | Retour clean | Gate + Reverb | Verse | Idem verse 1 |
-| Chorus 2 | RAT explosion | Gate + RAT + Reverb + KWB | Chorus | |
-| Outro | RAT | Gate + RAT + Reverb + KWB | Chorus | Fin sur le riff distordu |
+| Intro | Drums seuls puis clean/grain léger | Gate + Heir Apparent + Reverb | Verse | Power chords, léger grain |
+| Verse 1 | OD légère (grain léger) | Gate + Heir Apparent + Reverb | Verse | Soft, juste rythmique |
+| Pre-chorus | OD légère qui monte | Gate + Heir Apparent + Reverb | Verse | Build-up |
+| **Chorus "Woo-hoo!"** | **OCD — grunge bien poussé** | Gate + OCD + Reverb | Chorus | Distortion soutenue |
+| Verse 2 | Retour OD légère | Gate + Heir Apparent + Reverb | Verse | Idem verse 1 |
+| Chorus 2 | OCD grunge poussé | Gate + OCD + Reverb | Chorus | |
+| Outro | OCD | Gate + OCD + Reverb | Chorus | Fin sur le riff distordu |
 
-**2 sons distincts** : Clean (Verse/Intro/Pre-chorus) + Distortion (Chorus/Outro). Dynamique signature quiet/loud — c'est l'identité du morceau.
+**2 sons distincts** : Heir Apparent (Verse/Intro/Pre-chorus) + OCD (Chorus/Outro). Dynamique signature quiet/loud — c'est l'identité du morceau.
+
+**Refonte 2026-09-07** : le RAT (Vermin Dist) d'origine ne convenait pas à l'oreille
+en répétition (même après correction du Level à 0.52). Remplacé par les deux
+patterns canoniques de Dani California (cf. `docs/theory/shared_configs.md`) :
+Heir Apparent ("Intro arpège + grain léger") pour le Verse, OCD ("Grunge bien
+poussé") pour le Chorus — le contraste vient désormais de l'écart de gain entre
+les deux pédales plutôt que d'un Level de RAT hors fourchette documentée.
 
 ---
 
@@ -41,23 +48,22 @@ Pas de solo. Le contenu mélodique tient dans le riff signature du chorus.
 
 **Chaîne :**
 ```
-Gate > VerminDist > Reverb > KinkyBoost
-  0       1            2         3
+Gate > HeirApparent > CompulsiveDrive > Reverb
+  0        1                2              3
 ```
 
 | Snap | Nom | Son |
 |---|---|---|
-| 0 | Verse | Clean direct (Gate + Reverb légère Mix=0.16) — **pas de KinkyBoost** |
-| 1 | Chorus | ProCo RAT (Gain=0.75, Filter=0.55, Level=0.52) + Reverb + KWB |
+| 0 | Verse | Heir Apparent (Gain=0.20, Tone=0.50, Level=0.85) — pattern "Intro arpège" |
+| 1 | Chorus | OCD (Gain=0.65, Tone=0.40, LPHP=True, Level=0.80) — pattern "Grunge bien poussé" |
 | 2 | Clean | Accordage / attente |
 | 3 | Clean | Accordage / attente |
 
 **Particularités :**
-- **Pas de KinkyBoost sur le Verse** : contraste dynamique volontaire (comme Lithium). Le Chorus doit exploser au-dessus du Verse.
-- RAT (Vermin Dist) Level=0.52 (sweet spot documenté "Rock british" pour Gain=0.75, cf. `docs/pedal_guides/od_dist_fuzz.md`) + KinkyBoost = chorus plus fort que le verse clean
-- **Audit 2026-09-07** : Level était à 0.85, très au-dessus de toute fourchette documentée pour cette pédale (max 0.52 même en config "Heavy") — corrigé (option A) pour rester cohérent avec la règle "+0.20 Gain → -0.05/-0.08 Level" et la fourchette Chorus "0 à +2 dB au-dessus du Verse" (`docs/theory/volume_reference.md`)
+- Deux patterns canoniques déjà validés (Dani California Verse/Chorus, cf. `docs/theory/shared_configs.md`), réutilisés tels quels plutôt qu'une config RAT dédiée
+- Le contraste quiet/loud signature du morceau vient de l'écart Heir Apparent (Gain=0.20) → OCD (Gain=0.65)
 - Reverb modérée — pas d'ambiance shoegaze, juste un peu d'espace
-- ProCo RAT = pédale signature Coxon (parfois 2 sur son board live)
+- ProCo RAT (pédale signature Coxon en réalité) abandonné : ne convenait pas à l'oreille en répétition
 
 ---
 

@@ -33,6 +33,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Black Hole Sun | Intro |
 | Dani California | Verse + Lick |
 | Special K | Verse |
+| Song 2 | Verse |
 | Time Is Running Out | Intro |
 
 ---
@@ -53,6 +54,7 @@ Exceptions justifiables (à documenter dans la docstring du preset) : compensati
 | Travel The World | Verse / Bridge |
 | Not an Addict | Riff (seul son actif, tout le morceau) |
 | Special K | Chorus |
+| Song 2 | Chorus |
 | Time Is Running Out | Chorus / Bridge |
 | Take Me Out | Riff |
 | The Man Who Sold the World | Intro / Solo |

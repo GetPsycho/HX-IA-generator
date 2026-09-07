@@ -1509,57 +1509,55 @@ def preset_song_2():
     Accordage : standard (E A D G B E). Tonalite : Fa (F).
     Guitare : Fender Telecaster '52 (single-coils). Ampli : Marshall.
 
-    Dynamique signature quiet/loud — explosion clean->RAT distortion.
-    Verse = clean direct sur l'ampli (pas d'OD), pas de KinkyBoost = contraste maximal.
-    Chorus "Woo-hoo!" = ProCo RAT (Vermin Dist) cranked + KinkyBoost.
+    REFONTE (2026-09-07) : le RAT (Vermin Dist, y compris apres correction
+    du Level a 0.52) ne convenait pas a l'oreille en repet. Remplace par les
+    deux patterns canoniques de Dani California (memes paliers, cf.
+    docs/theory/shared_configs.md) plutot qu'une config RAT dediee :
+    - Verse  : Heir Apparent, pattern "Intro arpege + grain leger"
+    - Chorus : OCD (Compulsive Drive), pattern "Grunge bien pousse"
+    Le contraste quiet/loud signature du morceau vient desormais de l'ecart
+    Heir Apparent (Gain=0.20) -> OCD (Gain=0.65), comme sur Special K/Dani
+    California, plutot que d'un Level de pedale hors fourchette documentee.
 
-    AUDIT (2026-09-07, option A) : Level RAT etait a 0.85, tres au-dessus de
-    la fourchette documentee (`docs/pedal_guides/od_dist_fuzz.md` — sweet
-    spot RAT max = 0.52 meme en config "Heavy" Gain 0.85-0.95, avec la regle
-    "+0.20 Gain -> -0.05 a -0.08 Level"). A Gain=0.75, la fourchette
-    "Rock british" (Gain 0.70-0.78) donne Level=0.52 — retenu ici. Empile
-    avec le KinkyBoost (+6dB), ca depassait largement la fourchette
-    Chorus "0 a +2dB au-dessus du Verse" de docs/theory/volume_reference.md.
+    Chaine : Gate > HeirApparent > CompulsiveDrive > Reverb
+    Slots  :  0      1               2                  3
 
-    Chaine : Gate > VerminDist > Reverb > KinkyBoost
-    Slots  :  0      1            2          3
-
-    Snap 0 Verse  : clean direct + reverb legere (intro/verse/pre-chorus)
-    Snap 1 Chorus : RAT (Gain=0.75, Filter=0.55, Level=0.52) + reverb + KWB — explosion
+    Snap 0 Verse  : Heir Apparent (Gain=0.20, Tone=0.50, Level=0.85)
+    Snap 1 Chorus : OCD (Gain=0.65, Tone=0.40, LPHP=True, Level=0.80)
     Snap 2 Clean  : accordage / attente
     Snap 3 Clean  : accordage / attente
+
+    Configs partagees (cf. docs/theory/shared_configs.md) :
+    - Heir Apparent : Gain=0.20, Tone=0.50, Level=0.85 (intro arpege + grain leger)
+    - OCD           : Gain=0.65, Tone=0.40, LPHP=True, Level=0.80 (grunge bien pousse)
     """
     pb = PresetBuilder("Song 2", tempo=130.0, styles=["alt_rock", "post_grunge"])
 
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.30})
 
-    # Vermin Dist = ProCo RAT 2 : distorsion signature Coxon, son agressif middy
-    # Level=0.52 (sweet spot documente "Rock british" pour Gain=0.75) + KinkyBoost
-    # = chorus plus fort que verse (dynamique signature) sans depasser la doc
-    pb.add_block("HD2_DistVerminDist", slot=1, enabled_default=False,
-                 overrides={"Gain": 0.75, "Filter": 0.55, "Level": 0.52})
+    # Heir Apparent = CONFIG CANONIQUE "Intro arpege + grain leger" (idem Dani California Verse)
+    pb.add_block("HD2_DistHeirApparent", slot=1, enabled_default=False,
+                 overrides={"Gain": 0.20, "Tone": 0.50, "Level": 0.85})
 
-    pb.add_block("HD2_ReverbGanymede", slot=2,
+    # OCD = CONFIG CANONIQUE "Grunge bien pousse" (idem Dani California Chorus)
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
+                 overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
+
+    pb.add_block("HD2_ReverbGanymede", slot=3,
                  overrides={"Decay": 0.38, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.15, "Mix": 0.16})
 
-    # KinkyBoost : EXCLU du Verse = contraste explosif quiet/loud volontaire
-    pb.add_block("HD2_DistKinkyBoost", slot=3, enabled_default=False,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
+    pb.add_snapshot(0, "SG2 Verse", blocks_on=[0, 1, 3], color="green")
 
-    # Verse : CLEAN pur — contraste dynamique avec le Chorus (comme Lithium)
-    pb.add_snapshot(0, "SG2 Verse", blocks_on=[0, 2], color="green")
+    pb.add_snapshot(1, "SG2 Chorus", blocks_on=[0, 2, 3], color="red")
 
-    # Chorus "Woo-hoo!" : explosion RAT + KWB
-    pb.add_snapshot(1, "SG2 Chorus", blocks_on=[0, 1, 2, 3], color="red")
-
-    pb.add_snapshot(2, "SG2 Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(2, "SG2 Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
-    pb.add_snapshot(3, "SG2 Clean", blocks_on=[0, 2],
-                    params={2: {"Mix": 0.10}},
+    pb.add_snapshot(3, "SG2 Clean", blocks_on=[0, 3],
+                    params={3: {"Mix": 0.10}},
                     color="blue")
 
     return pb

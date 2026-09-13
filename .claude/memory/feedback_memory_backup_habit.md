@@ -1,17 +1,30 @@
 ---
 name: feedback-memory-backup-habit
-description: "Recopier les fichiers memory vers .claude/memory/ du repo et committer, systematiquement"
+description: "Convention harmonisee : CLAUDE.md curate + miroir .claude/memory/ commite systematiquement"
 metadata: 
   node_type: memory
   type: feedback
   originSessionId: fca108e8-2cd8-416e-8724-e65c548d4fcd
-  modified: 2026-09-06T20:38:32.993Z
+  modified: 2026-09-13
 ---
 
-Chaque fois qu'un fichier memory est cree ou modifie dans
-`~/.claude/projects/c--Users-ericf-repository-hx-setlist-generator/memory/`,
-le recopier vers `.claude/memory/` dans le repo du projet et committer
-(pas besoin de demander a chaque fois — habitude systematique).
+Deux mecanismes complementaires a maintenir sur ce projet (harmonise avec
+pronote-devoirs le 2026-09-13) :
+
+1. **`CLAUDE.md`** a la racine du repo — narratif curate, mis a jour a la
+   main quand l'etat du projet change significativement (nouveau lot de
+   presets tagge, nouvelle convention majeure). Auto-charge par Claude
+   Code a chaque session : c'est le moyen principal de reprendre le fil
+   sans reexpliquer.
+2. **`.claude/memory/`** dans le repo — copie brute et systematique de
+   `~/.claude/projects/c--Users-ericf-repository-hx-setlist-generator/memory/`.
+   Pas auto-charge, sert de sauvegarde anti-perte (PC formate, reinstall).
+
+Chaque fois qu'un fichier memory est cree ou modifie dans le dossier
+memory local, le recopier vers `.claude/memory/` dans le repo du projet
+et committer (pas besoin de demander a chaque fois — habitude
+systematique). Mettre a jour `CLAUDE.md` separement, quand le changement
+est assez significatif pour meriter d'etre dans le resume de reprise.
 
 ## Why
 La memoire auto de Claude Code est stockee localement uniquement, sans

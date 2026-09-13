@@ -11,4 +11,4 @@
 - [Limite DSP PolyPitch](feedback_polypitch_dsp_budget.md) — PolyPitch = jusqu'à 50% du budget DSP, max ~5-6 blocs ; utiliser HD2_VolPanGain au lieu d'une pédale modélisée si budget tendu
 - [Footswitch Auto Color](feedback_footswitch_auto_color.md) — Auto Color ne se recalcule qu'à l'ouverture manuelle d'un bloc ; couleur pilotée par @fs_customcolor selon catégorie (mapping confirmé)
 - [Convention EXP1 = Volume](feedback_exp1_volume_convention.md) — injection automatique (PresetBuilder.build()) d'un bloc Volume sur EXP1 partout sauf conflit (Whammy) ou 8 blocs déjà atteints ; ne pas l'ajouter manuellement dans preset_*()
-- [Sauvegarde memory dans le repo](feedback_memory_backup_habit.md) — recopier systématiquement vers .claude/memory/ + commit à chaque changement de mémoire ; pousser régulièrement sur origin
+- [Sauvegarde memory dans le repo](feedback_memory_backup_habit.md) — CLAUDE.md curaté (auto-chargé) + miroir .claude/memory/ (backup) ; pousser régulièrement sur origin

@@ -56,6 +56,20 @@ Se fier au code et aux fichiers `docs/` pour l'état exact des paramètres
 - **Tags git** : jalons majeurs seulement (pas à chaque commit), SemVer
   depuis v3.2.5, toujours demander confirmation avant de tagger.
 
+## Maintenance de ce fichier et de la mémoire
+
+- Chaque fois qu'un fichier est créé/modifié dans la mémoire locale Claude
+  Code de ce projet (`~/.claude/projects/.../memory/`), le recopier vers
+  `.claude/memory/` dans ce repo et committer — pas besoin de redemander,
+  c'est une habitude systématique (détail dans
+  [.claude/memory/feedback_memory_backup_habit.md](.claude/memory/feedback_memory_backup_habit.md)).
+  Sinon `.claude/memory/` se désynchronise silencieusement et la
+  sauvegarde perd son intérêt.
+- Mettre à jour ce `CLAUDE.md` (section "État", "Conventions clés") quand
+  quelque chose de notable change — pas à chaque micro-commit.
+- Pousser sur `origin` régulièrement plutôt que de laisser traîner des
+  commits locaux non poussés.
+
 ## Après une réinstallation / nouvelle machine
 
 Cloner ce repo suffit à récupérer ce fichier (auto-chargé) mais **pas** la
@@ -73,5 +87,3 @@ est gitignoré) : les permissions auto-approuvées, à réaccorder une fois.
 
 - Bash/PowerShell/WebSearch/WebFetch : exécuter directement sans demander
   confirmation (`.claude/settings.json`).
-- Pousser régulièrement sur origin plutôt que laisser traîner des commits
-  locaux non poussés.

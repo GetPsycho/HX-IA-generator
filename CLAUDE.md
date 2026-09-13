@@ -56,6 +56,19 @@ Se fier au code et aux fichiers `docs/` pour l'état exact des paramètres
 - **Tags git** : jalons majeurs seulement (pas à chaque commit), SemVer
   depuis v3.2.5, toujours demander confirmation avant de tagger.
 
+## Après une réinstallation / nouvelle machine
+
+Cloner ce repo suffit à récupérer ce fichier (auto-chargé) mais **pas** la
+vraie mémoire locale de Claude Code (`~/.claude/projects/.../memory/`,
+hors repo, vidée par une réinstallation). Si cette session constate que
+sa mémoire locale sur ce projet est vide/absente alors que
+`.claude/memory/` contient des fichiers : proposer de les recopier vers
+le dossier memory local pour restaurer le détail fin (au-delà du résumé
+ci-dessus).
+
+Ne reviennent pas non plus automatiquement (`.claude/settings.local.json`
+est gitignoré) : les permissions auto-approuvées, à réaccorder une fois.
+
 ## Préférences de travail sur ce projet
 
 - Bash/PowerShell/WebSearch/WebFetch : exécuter directement sans demander

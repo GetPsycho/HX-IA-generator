@@ -68,9 +68,8 @@ partie non reproduite si guitariste unique.
   Acoustique") + `HD2_DistCompulsiveDrive` (config "grunge bien pousse",
   actif Intro/Solo, absent du Verse) + `HD2_DelaySimpleDelay` (Solo
   uniquement). Pas de Small Clone (non audible sur ce titre). Accordage
-  demi-ton bas simulé via `L6SPB_PolyPitch` (Interval=-1, AutoEQ=1.0) —
-  pattern identique a Toxicity (Drop D -> Drop C via PolyPitch), ici
-  standard -> Eb standard.
+  original demi-ton bas ; la simulation via `L6SPB_PolyPitch` (Interval=-1)
+  a été retirée du preset le 2026-09 (décision Eric : plus utilisée).
 
 ## Sources
 

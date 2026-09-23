@@ -6,7 +6,7 @@
 | Album | MTV Unplugged in New York (1994) |
 | BPM | 117.5 (analyse audio, proche de l'estimation 118) |
 | Tonalité | La (A) — accordage demi-ton bas (Eb standard) |
-| Accordage | Demi-ton plus bas (Eb Ab Db Gb Bb Eb), simulé via PolyPitch (-1 semitone) |
+| Accordage | Original : demi-ton plus bas (Eb Ab Db Gb Bb Eb). Preset sans PolyPitch (retiré 2026-09, décision Eric) : joué à l'accordage physique de la guitare |
 | Style | grunge |
 | Guitariste | Kurt Cobain |
 
@@ -30,7 +30,7 @@ Gamme : penta mineure de La, ou Mixolydien selon la mélodie de Bowie.
 
 ## Preset HX Effects
 **Fichier :** `output/The Man Who Sold the World - Nirvana.hlx`
-**Chaîne :** `PolyPitch > Gate > AcousGtrSim > DeezOneMod > Reverb`
+**Chaîne :** `Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay (Solo) > Reverb`
 
 | Snap | Nom | Son |
 |---|---|---|
@@ -39,8 +39,8 @@ Gamme : penta mineure de La, ou Mixolydien selon la mélodie de Bowie.
 | 2 | TMW Solo | Acoustique + DS-2 + reverb plus longue/présente |
 | 3 | TMW Clean | Accordage |
 
-PolyPitch (Interval=-1, AutoEQ=1.0) simule l'accordage demi-ton bas — pattern
-identique à Toxicity (Drop D → Drop C), ici standard → Eb standard.
+PolyPitch (-1 semitone, simulation Eb standard) retiré le 2026-09 (Eric ne s'en
+sert plus) : libère 1 slot, le preset est joué sans transposition.
 
 ## Sources
 | URL | Contenu |

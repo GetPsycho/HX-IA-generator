@@ -2481,11 +2481,12 @@ def preset_the_man_who_sold_the_world():
     reproduit — guitariste unique dans le groupe d'Eric, on joue uniquement
     la partie de Cobain (melodie + solo).
 
-    Accordage simule via PolyPitch (Interval=-1 semitone, AutoEQ=1.0) —
-    meme pattern que Toxicity (Drop D -> Drop C), ici standard -> Eb standard.
+    PolyPitch (-1 semitone, simulation Eb standard) RETIRE (decision Eric
+    2026-09 : plus utilise) — libere 1 slot. Le preset est donc joue a
+    l'accordage physique de la guitare, sans transposition.
 
-    Chaine : PolyPitch > Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay > Reverb
-    Slots  :     0          1        2              3               4           5
+    Chaine : Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay > Reverb
+    Slots  :  0        1              2               3           4
 
     Snap 0 Intro : Acoustique + OCD (grunge bien pousse) + reverb
     Snap 1 Verse : Acoustique seule (config "Drive Acoustique") — son folk pur,
@@ -2501,49 +2502,41 @@ def preset_the_man_who_sold_the_world():
     """
     pb = PresetBuilder("The Man Who Sold the World", tempo=117.5, styles=["grunge"])
 
-    # Poly Pitch : standard -> Eb standard (-1 semitone), always-on tous snaps
-    pb.add_block("L6SPB_PolyPitch", slot=0,
-                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
-                            "Tracking": 3, "Mix": 1.0})
-    # Footswitch 6 (constant entre presets) pour desactiver facilement en mode pedale
-    pb.assign_footswitch(0, 6)
-
-    pb.add_block("HD2_GateNoiseGate", slot=1,
+    pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -52.0, "Decay": 0.35})
 
     # Acoustic Sim : CONFIG CANONIQUE "Drive Acoustique" — partagee Drive
-    pb.add_block("L6SPB_AcousGtrSim", slot=2,
+    pb.add_block("L6SPB_AcousGtrSim", slot=1,
                  overrides={"Mode": 0, "Body": 0.65, "Top": 0.55,
                             "Shimmer": 0.25, "Level": 0.0})
 
     # OCD = CONFIG CANONIQUE "Grunge bien pousse" — actif Intro/Solo, absent du Verse
-    pb.add_block("HD2_DistCompulsiveDrive", slot=3, enabled_default=False,
+    pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
                  overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
     # Simple Delay : 8eme note a 117.5 BPM ~ 255ms — actif uniquement sur le Solo
-    pb.add_block("HD2_DelaySimpleDelay", slot=4, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=3, enabled_default=False,
                  overrides={"Time": 0.25, "Feedback": 0.15, "Mix": 0.20,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=5,
+    pb.add_block("HD2_ReverbGanymede", slot=4,
                  overrides={"Decay": 0.45, "Predelay": 0.02,
                             "Tone": 0.58, "Modulation": 0.20, "Mix": 0.18})
 
     # Intro/Riff : acoustique + OCD grunge bien pousse
-    pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 3, 5], color="orange")
+    pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 4], color="orange")
 
     # Verse : acoustique seule (config "Drive Acoustique")
     # Level Acoustic Sim +6 dB (max) sur ce snap : sans OCD, le Verse sortait
-    # bien trop bas vs Intro/Solo (retour repet). Pas de bloc Gain/KinkyBoost
-    # supplementaire : PolyPitch always-on = budget DSP deja a 6 blocs.
-    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 2, 5],
-                    params={2: {"Level": 6.0}}, color="green")
+    # bien trop bas vs Intro/Solo (retour repet).
+    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 4],
+                    params={1: {"Level": 6.0}}, color="green")
 
     # Solo : Intro + Delay (sustain/mouvement)
-    pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
+    pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4], color="red")
 
-    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 1, 5],
-                    params={5: {"Mix": 0.10}},
+    pb.add_snapshot(3, "TMW Clean", blocks_on=[0, 4],
+                    params={4: {"Mix": 0.10}},
                     color="blue")
 
     return pb

@@ -1297,9 +1297,6 @@ def preset_plug_in_baby():
     Son signature : Z.Vex Fuzz Factory (Industrial Fuzz) pour le riff.
     Fuzz gated et instable, tres agressif. Gate eleve pour effet saccade.
 
-    Chaine : Gate > IndustrialFuzz > Reverb
-    Slots  :  0      1                2
-
     Accordage : standard (E A D G B E). Tonalite : F# (Si mineur harmonique).
     Guitare : Manson DL-1 "Delorean" (aluminium, Fuzz Factory integree, P90 neck,
               Kent Armstrong Motherbucker bridge) — era Origin of Symmetry (2001).
@@ -1314,16 +1311,17 @@ def preset_plug_in_baby():
     Structure : Riff (intro/transitions/outro) — Chorus — Arpeges (verse, synthé original)
     Pas de solo, pas de tremolo.
 
-    Volume monte (retour repet 2026-09) : bloc Gain pur (HD2_VolPanGain) +4 dB
-    en fin de chaine, actif sur Riff/Chorus/Arpeges. Snap Clean laisse a la
-    reference (tous les Clean du projet doivent rester identiques).
+    Volume (retour repet 2026-09) : le KinkyBoost est place AVANT le fuzz
+    (entre Gate et Fuzz) avec Drive monte a 0.60 — il pousse le fuzz en entree
+    plutot que de gonfler le signal en sortie. Un bloc Gain pur final (+4 dB)
+    a ete essaye puis retire (pas la bonne technique).
 
-    Chaine : Gate > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb > KinkyBoost > Gain
-    Slots  :  0       1                  2                3           4         5          6
+    Chaine : Gate > KinkyBoost > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb
+    Slots  :  0        1              2                3               4          5
 
-    Snap 0 Riff    : Fuzz + Reverb + KWB + Gain (sans phaser)
-    Snap 1 Chorus  : Fuzz + Reverb (plus ouverte) + KWB + Gain
-    Snap 2 Arpeges : Phaser + CE-1 Chorus + Reverb longue + Gain (son synthé, sans fuzz)
+    Snap 0 Riff    : KWB + Fuzz + Reverb (sans phaser)
+    Snap 1 Chorus  : KWB + Fuzz + Reverb (plus ouverte)
+    Snap 2 Arpeges : Phaser + CE-1 Chorus + Reverb longue (son synthé, sans fuzz ni KWB)
     Snap 3 Clean   : accordage / attente
     """
     pb = PresetBuilder("Plug In Baby", tempo=136.0, styles=["alt_rock", "hard_rock"])
@@ -1331,51 +1329,49 @@ def preset_plug_in_baby():
     pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -50.0, "Decay": 0.20})
 
+    # KinkyBoost AVANT le fuzz : pousse l'entree du Fuzz Factory et compense le
+    # volume fuzz vs reference clean. Actif sur Riff et Chorus, exclu sur Arpeges
+    # (clean = reference) et Clean. Drive monte a 0.60 (retour repet : volume trop bas).
+    pb.add_block("HD2_DistKinkyBoost", slot=1,
+                 overrides={"Drive": 0.60, "Boost": True, "Bright": False})
+
     # Industrial Fuzz = Z.Vex Fuzz Factory
     # Compress=0.35 / Gate=0.20 : interaction produit les bruits/squeals caracteristiques
     # Drive=1.0 (max) / Stability=0.15 : tres bas = instabilite et oscillations parasites
-    pb.add_block("HD2_DistIndustrialFuzz", slot=1,
+    pb.add_block("HD2_DistIndustrialFuzz", slot=2,
                  overrides={"Compress": 0.50, "Gate": 0.20, "Drive": 1.0,
                             "Stability": 0.08, "Oscillator": False, "Level": 0.76})
 
     # ScriptModPhase = MXR Phase 90 : sweep tres lent (presque imperceptible en jeu)
-    pb.add_block("HD2_PhaserScriptModPhase", slot=2,
+    # Actif uniquement sur Arpeges
+    pb.add_block("HD2_PhaserScriptModPhase", slot=3,
                  overrides={"Rate": 0.05, "Mix": 0.50})
 
     # 70s Chorus (CE-1) : actif uniquement sur Arpeges — texture synthé/pad
     # Mode chorus (pas vibrato) : Mix=0.65 = epaississement clavier sur arpeges claires
-    pb.add_block("HD2_Chorus70sChorus", slot=3, enabled_default=False,
+    pb.add_block("HD2_Chorus70sChorus", slot=4, enabled_default=False,
                  overrides={"ChorusIntensity": 0.60, "VibratoRate": 0.35,
                             "VibratoDepth": 0.45, "Mix": 0.65, "Level": 1.0})
 
-    pb.add_block("HD2_ReverbGanymede", slot=4,
+    pb.add_block("HD2_ReverbGanymede", slot=5,
                  overrides={"Decay": 0.40, "Predelay": 0.02,
                             "Tone": 0.55, "Modulation": 0.15, "Mix": 0.16,
                             "@trails": True})
 
-    # KinkyBoost : compense volume fuzz vs reference clean
-    # Actif sur Riff et Chorus, exclu sur Arpeges (clean = reference) et Clean
-    pb.add_block("HD2_DistKinkyBoost", slot=5,
-                 overrides={"Drive": 0.0, "Boost": True, "Bright": False})
-
-    # Gain pur : monte le volume sur Riff/Chorus/Arpeges (pas sur Clean = reference)
-    pb.add_block("HD2_VolPanGain", slot=6, enabled_default=False,
-                 overrides={"Gain": 4.0})
-
     # Riff : sans phaser (retire retour repet)
-    pb.add_snapshot(0, "PIB Riff", blocks_on=[0, 1, 4, 5, 6], color="orange")
+    pb.add_snapshot(0, "PIB Riff", blocks_on=[0, 1, 2, 5], color="orange")
 
-    pb.add_snapshot(1, "PIB Chorus", blocks_on=[0, 1, 4, 5, 6],
-                    params={4: {"Decay": 0.50, "Mix": 0.22}},
+    pb.add_snapshot(1, "PIB Chorus", blocks_on=[0, 1, 2, 5],
+                    params={5: {"Decay": 0.50, "Mix": 0.22}},
                     color="red")
 
     # Arpeges : sans fuzz, sans KWB — phaser + CE-1 + reverb longue = texture synthé
-    pb.add_snapshot(2, "PIB Arpeges", blocks_on=[0, 2, 3, 4, 6],
-                    params={4: {"Decay": 0.65, "Mix": 0.40}},
+    pb.add_snapshot(2, "PIB Arpeges", blocks_on=[0, 3, 4, 5],
+                    params={5: {"Decay": 0.65, "Mix": 0.40}},
                     color="green")
 
-    pb.add_snapshot(3, "PIB Clean", blocks_on=[0, 4],
-                    params={4: {"Mix": 0.10}},
+    pb.add_snapshot(3, "PIB Clean", blocks_on=[0, 5],
+                    params={5: {"Mix": 0.10}},
                     color="blue")
 
     return pb

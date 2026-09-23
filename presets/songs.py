@@ -577,18 +577,17 @@ def preset_drive():
 
     Micro manche recommande pour le snap Acoustique (plus chaud, meilleur rendu sim).
 
-    Poly Pitch utilitaire : -1/2 ton, desactive par defaut, footswitch 6
-    (mode pedale). KinkyBoost remplace par un bloc "Gain" pur (HD2_VolPanGain) :
-    le KinkyBoost (pedale modelisee) faisait depasser le budget DSP avec
-    PolyPitch actif (cf. docs/pedal_guides/hx_models_reference.md section
-    Poly Pitch) — le bloc Gain est un simple utilitaire volume, beaucoup
-    plus leger, pour le meme role (gonfler le solo).
+    Poly Pitch utilitaire (-1/2 ton) RETIRE (decision Eric 2026-09 : plus
+    utilise) — libere 1 slot. Bloc "Gain" pur (HD2_VolPanGain, KinkyBoost
+    trop lourd en DSP) : +11 dB sur le Solo, et reutilise sur l'Acoustique
+    a +10 dB (override snapshot, memes valeurs que The Man Who Sold the
+    World Verse) pour compenser le volume trop bas de l'acoustique sim.
 
-    Chaine : PolyPitch > Gate > AcousSim > Phaser > Rotosphere > Gain > Delay > Reverb
-    Slots  :     0          1       2         3         4           5       6       7
+    Chaine : Gate > AcousSim > Phaser > Rotosphere > Gain > Delay > Reverb
+    Slots  :  0       1         2         3          4       5       6
 
-    Snap 0 Acoustique : simulation acoustique + reverb ambiante (Intro/Verse/Chorus)
-    Snap 1 Solo       : Phaser + Rotosphere FAST + Gain (+boost) + delay + reverb
+    Snap 0 Acoustique : simulation acoustique + reverb ambiante + Gain +10 dB
+    Snap 1 Solo       : Phaser + Rotosphere FAST + Gain +11 dB + delay + reverb
     Snap 2 Clean      : accordage / attente
     Snap 3 Clean      : accordage / attente
     """
@@ -598,60 +597,60 @@ def preset_drive():
     # juin 2026 — meme symptome que le budget DSP PolyPitch).
     pb.disable_exp_volume()
 
-    # Poly Pitch utilitaire : -1/2 ton, desactive par defaut (footswitch 6 en mode pedale)
-    pb.add_block("L6SPB_PolyPitch", slot=0, enabled_default=False,
-                 overrides={"Interval": -1, "Cents": 0.0, "AutoEQ": 1.0,
-                            "Tracking": 3, "Mix": 1.0})
-    pb.assign_footswitch(0, 6)
-
-    pb.add_block("HD2_GateNoiseGate", slot=1,
+    pb.add_block("HD2_GateNoiseGate", slot=0,
                  overrides={"Threshold": -54.0, "Decay": 0.40})
 
     # Acoustic Sim : simulation caisse de resonance sur guitare electrique
     # Mode=0 (Standard), micro manche recommande pour maximiser l'effet
     # Level en dB (range -60/+6) : 0.0 = unite
-    pb.add_block("L6SPB_AcousGtrSim", slot=2, enabled_default=False,
+    pb.add_block("L6SPB_AcousGtrSim", slot=1, enabled_default=False,
                  overrides={"Mode": 0, "Body": 0.65, "Top": 0.55,
                             "Shimmer": 0.25, "Level": 0.0})
 
     # Deluxe Phaser = Boss PH-2 Super Phaser : sweep organique sur le solo
     # Mix=0.75 : bien present, contribue au caractere avec le Rotosphere
-    pb.add_block("HD2_PhaserDeluxePhaser", slot=3, enabled_default=False,
+    pb.add_block("HD2_PhaserDeluxePhaser", slot=2, enabled_default=False,
                  overrides={"Rate": 0.6, "Depth": 0.82, "Feedback": 0.28,
                             "Stages": 4, "Mix": 0.75, "Level": 0.0})
 
     # Rotary Drum/Horn = H&K Tube Rotosphere MkII : signature du solo de Drive
     # Speed=True (fast) : rotation rapide, swirl present
     # Mix=0.88 : effet dominant
-    pb.add_block("HD2_MM4RotaryDrumHorn", slot=4, enabled_default=False,
+    pb.add_block("HD2_MM4RotaryDrumHorn", slot=3, enabled_default=False,
                  overrides={"Speed": True, "Depth": 0.85, "Horn Depth": 0.90,
                             "Drive": 0.3, "Mix": 0.88, "Level": 4.0})
 
     # Gain pur (utilitaire volume, pas une pedale modelisee) : gonfle le solo
-    # +11 dB (remonte depuis 6 dB, retour test live)
-    pb.add_block("HD2_VolPanGain", slot=5, enabled_default=False,
+    # +11 dB (remonte depuis 6 dB, retour test live). Reutilise sur l'Acoustique
+    # avec override snapshot a +10 dB (cf. snap 0).
+    pb.add_block("HD2_VolPanGain", slot=4, enabled_default=False,
                  overrides={"Gain": 11.0})
 
     # Delay sparse : eco unique, profondeur sans surcharger le Rotosphere
-    pb.add_block("HD2_DelaySimpleDelay", slot=6, enabled_default=False,
+    pb.add_block("HD2_DelaySimpleDelay", slot=5, enabled_default=False,
                  overrides={"Time": 0.40, "Feedback": 0.15, "Mix": 0.18,
                             "TempoSync1": False})
 
-    pb.add_block("HD2_ReverbGanymede", slot=7,
+    pb.add_block("HD2_ReverbGanymede", slot=6,
                  overrides={"Decay": 0.52, "Predelay": 0.02,
                             "Tone": 0.60, "Modulation": 0.20, "Mix": 0.22})
 
-    pb.add_snapshot(0, "DRV Acoustique", blocks_on=[1, 2, 7], color="green")
+    # Acoustique trop basse en repet : Gain +10 dB (memes valeurs que TMW Verse)
+    pb.add_snapshot(0, "DRV Acoustique", blocks_on=[0, 1, 4, 6],
+                    params={4: {"Gain": 10.0}}, color="green")
 
     # Solo : Phaser + Rotosphere (FAST) + Gain + delay + reverb
-    pb.add_snapshot(1, "DRV Solo", blocks_on=[1, 3, 4, 5, 6, 7], color="red")
+    # Gain +11 dB explicite : une valeur snapshot differente sur le meme bloc
+    # (Acoustique +10) ecraserait sinon le default du bloc pour le Solo.
+    pb.add_snapshot(1, "DRV Solo", blocks_on=[0, 2, 3, 4, 5, 6],
+                    params={4: {"Gain": 11.0}}, color="red")
 
-    pb.add_snapshot(2, "DRV Clean", blocks_on=[1, 7],
-                    params={7: {"Mix": 0.10}},
+    pb.add_snapshot(2, "DRV Clean", blocks_on=[0, 6],
+                    params={6: {"Mix": 0.10}},
                     color="white")
 
-    pb.add_snapshot(3, "DRV Clean", blocks_on=[1, 7],
-                    params={7: {"Mix": 0.10}},
+    pb.add_snapshot(3, "DRV Clean", blocks_on=[0, 6],
+                    params={6: {"Mix": 0.10}},
                     color="white")
 
     return pb

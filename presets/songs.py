@@ -1543,9 +1543,10 @@ def preset_song_2():
     pb.add_block("HD2_DistCompulsiveDrive", slot=2, enabled_default=False,
                  overrides={"Gain": 0.65, "Tone": 0.40, "LPHP": True, "Level": 0.80})
 
+    # Reverb identique a Dani California (Decay/Tone/Modulation/Mix)
     pb.add_block("HD2_ReverbGanymede", slot=3,
-                 overrides={"Decay": 0.38, "Predelay": 0.02,
-                            "Tone": 0.58, "Modulation": 0.15, "Mix": 0.16})
+                 overrides={"Decay": 0.42, "Predelay": 0.02,
+                            "Tone": 0.60, "Modulation": 0.20, "Mix": 0.16})
 
     pb.add_snapshot(0, "SG2 Verse", blocks_on=[0, 1, 3], color="green")
 

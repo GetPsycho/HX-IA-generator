@@ -17,9 +17,9 @@
 
 | Section | Son guitare | Effets actifs | Snap HX | Notes |
 |---|---|---|---|---|
-| Intro / Riff | Fuzz Factory ouverte + Phase 90 lent | Fuzz + Phaser + Reverb | Riff | Le riff signature — revient en transitions et outro |
-| Chorus | Même son que le Riff | Fuzz + Phaser + Reverb | Chorus | Power chords, reverb légèrement plus ouverte |
-| Verse (arpeges) | Son léger (synthé sur l'original) | Phaser + CE-1 Chorus + Reverb longue | Arpeges | Eric joue à la guitare, sons d'arpeges clairs avec texture synthé |
+| Intro / Riff | Fuzz Factory ouverte (Phase 90 retiré du preset, retour répét 2026-09) | Fuzz + Reverb + Gain | Riff | Le riff signature — revient en transitions et outro |
+| Chorus | Même son que le Riff | Fuzz + Reverb + Gain | Chorus | Power chords, reverb légèrement plus ouverte |
+| Verse (arpeges) | Son léger (synthé sur l'original) | Phaser + CE-1 Chorus + Reverb longue + Gain | Arpeges | Eric joue à la guitare, sons d'arpeges clairs avec texture synthé |
 
 **Pas de solo, pas de tremolo (contrairement à certaines sources).**
 
@@ -37,20 +37,21 @@ Pas de section d'improvisation — morceau structuré avec riff signature.
 
 **Chaîne :**
 ```
-Gate > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb > KinkyBoost
-  0         1                2               3           4         5
+Gate > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb > KinkyBoost > Gain
+  0         1                2               3           4         5          6
 ```
 
 | Snap | Nom | Son |
 |---|---|---|
-| 0 | Riff | Fuzz (ouverte) + Phaser lent + Reverb + KinkyBoost |
-| 1 | Chorus | Idem Riff, reverb légèrement plus ouverte |
-| 2 | Arpeges | Phaser + CE-1 Chorus (Mix=0.65) + Reverb longue (Decay=0.65) — texture synthé |
+| 0 | Riff | Fuzz (ouverte) + Reverb + KinkyBoost + Gain (sans phaser) |
+| 1 | Chorus | Idem Riff, reverb légèrement plus ouverte (+ Gain) |
+| 2 | Arpeges | Phaser + CE-1 Chorus (Mix=0.65) + Reverb longue (Decay=0.65) + Gain — texture synthé |
 | 3 | Clean | Accordage / attente |
 
 **Particularités :**
 - Fuzz Factory = fuzz **ouverte** (pas gated) : Compress=0.10, Gate=0.10, Drive=1.0, Stability=0.25
-- Phase 90 actif sur TOUS les snaps sauf Clean (confirmé live tout au long du morceau)
+- Phase 90 : retiré du snap Riff (retour répét 2026-09), conservé uniquement sur Arpeges (l'original l'utilise tout au long du morceau, mais Eric ne le veut pas sur le riff)
+- Volume monté (retour répét 2026-09) : bloc Gain pur (HD2_VolPanGain) +4 dB en fin de chaîne, actif sur Riff/Chorus/Arpeges ; snap Clean laissé à la référence
 - CE-1 Chorus sur Arpeges uniquement : simule la texture clavier/synthé de l'original
 - KinkyBoost exclu des Arpeges (clean = référence, pas besoin de compensation)
 

@@ -1308,17 +1308,22 @@ def preset_plug_in_baby():
     Industrial Fuzz = Z.Vex Fuzz Factory : fuzz avec instabilite et bruits parasites caracteristiques.
     Compress=0.35 / Gate=0.20 : interaction qui produit les bruits/squeals signature.
     Drive=1.0 (max) / Stability=0.15 : tres bas = instabilite prononcee, oscillations parasites.
-    MXR Phase 90 = ScriptModPhase Rate=0.08 (sweep tres lent, presque imperceptible).
+    MXR Phase 90 = ScriptModPhase Rate=0.05 (sweep tres lent, presque imperceptible) :
+    retire du snap Riff (retour repet 2026-09), conserve uniquement sur Arpeges.
 
     Structure : Riff (intro/transitions/outro) — Chorus — Arpeges (verse, synthé original)
     Pas de solo, pas de tremolo.
 
-    Chaine : Gate > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb > KinkyBoost
-    Slots  :  0       1                  2                3           4         5
+    Volume monte (retour repet 2026-09) : bloc Gain pur (HD2_VolPanGain) +4 dB
+    en fin de chaine, actif sur Riff/Chorus/Arpeges. Snap Clean laisse a la
+    reference (tous les Clean du projet doivent rester identiques).
 
-    Snap 0 Riff    : Fuzz + Phaser + Reverb + KWB
-    Snap 1 Chorus  : Fuzz + Phaser + Reverb (plus ouverte) + KWB
-    Snap 2 Arpeges : Phaser + CE-1 Chorus + Reverb longue (son synthé, sans fuzz)
+    Chaine : Gate > IndustrialFuzz > ScriptModPhase > 70sChorus > Reverb > KinkyBoost > Gain
+    Slots  :  0       1                  2                3           4         5          6
+
+    Snap 0 Riff    : Fuzz + Reverb + KWB + Gain (sans phaser)
+    Snap 1 Chorus  : Fuzz + Reverb (plus ouverte) + KWB + Gain
+    Snap 2 Arpeges : Phaser + CE-1 Chorus + Reverb longue + Gain (son synthé, sans fuzz)
     Snap 3 Clean   : accordage / attente
     """
     pb = PresetBuilder("Plug In Baby", tempo=136.0, styles=["alt_rock", "hard_rock"])
@@ -1353,14 +1358,19 @@ def preset_plug_in_baby():
     pb.add_block("HD2_DistKinkyBoost", slot=5,
                  overrides={"Drive": 0.0, "Boost": True, "Bright": False})
 
-    pb.add_snapshot(0, "PIB Riff", blocks_on=[0, 1, 2, 4, 5], color="orange")
+    # Gain pur : monte le volume sur Riff/Chorus/Arpeges (pas sur Clean = reference)
+    pb.add_block("HD2_VolPanGain", slot=6, enabled_default=False,
+                 overrides={"Gain": 4.0})
 
-    pb.add_snapshot(1, "PIB Chorus", blocks_on=[0, 1, 4, 5],
+    # Riff : sans phaser (retire retour repet)
+    pb.add_snapshot(0, "PIB Riff", blocks_on=[0, 1, 4, 5, 6], color="orange")
+
+    pb.add_snapshot(1, "PIB Chorus", blocks_on=[0, 1, 4, 5, 6],
                     params={4: {"Decay": 0.50, "Mix": 0.22}},
                     color="red")
 
     # Arpeges : sans fuzz, sans KWB — phaser + CE-1 + reverb longue = texture synthé
-    pb.add_snapshot(2, "PIB Arpeges", blocks_on=[0, 2, 3, 4],
+    pb.add_snapshot(2, "PIB Arpeges", blocks_on=[0, 2, 3, 4, 6],
                     params={4: {"Decay": 0.65, "Mix": 0.40}},
                     color="green")
 

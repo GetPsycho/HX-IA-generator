@@ -30,12 +30,12 @@ Gamme : penta mineure de La, ou Mixolydien selon la mélodie de Bowie.
 
 ## Preset HX Effects
 **Fichier :** `output/The Man Who Sold the World - Nirvana.hlx`
-**Chaîne :** `Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay (Solo) > Reverb`
+**Chaîne :** `Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay (Solo) > Reverb > Gain (Verse)`
 
 | Snap | Nom | Son |
 |---|---|---|
 | 0 | TMW Intro | Acoustique + DS-2 subtil + reverb normale |
-| 1 | TMW Verse | Acoustique seule (pas de DS-2) — Level Acoustic Sim +6 dB (max) pour compenser l'absence d'OCD (retour répét 2026-09 : Verse bien trop bas vs Intro/Solo) |
+| 1 | TMW Verse | Acoustique seule (pas de DS-2) + bloc Gain +10 dB (HD2_VolPanGain, actif Verse seulement) pour compenser l'absence d'OCD (retour répét 2026-09 : Verse bien trop bas vs Intro/Solo). Un +6 dB sur le Level de l'Acoustic Sim avait été essayé : grésillements (saturation) et pas assez fort |
 | 2 | TMW Solo | Acoustique + DS-2 + reverb plus longue/présente |
 | 3 | TMW Clean | Accordage |
 

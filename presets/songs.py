@@ -2485,13 +2485,15 @@ def preset_the_man_who_sold_the_world():
     2026-09 : plus utilise) — libere 1 slot. Le preset est donc joue a
     l'accordage physique de la guitare, sans transposition.
 
-    Chaine : Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay > Reverb
-    Slots  :  0        1              2               3           4
+    Chaine : Gate > AcousGtrSim > CompulsiveDrive > SimpleDelay > Reverb > Gain
+    Slots  :  0        1              2               3           4        5
 
     Snap 0 Intro : Acoustique + OCD (grunge bien pousse) + reverb
     Snap 1 Verse : Acoustique seule (config "Drive Acoustique") — son folk pur,
-                   Level Acoustic Sim +6 dB (max) pour compenser l'absence d'OCD
-                   (retour repet 2026-09 : Verse bien trop bas vs Intro/Solo)
+                   + bloc Gain +10 dB (HD2_VolPanGain, actif Verse seulement) pour
+                   compenser l'absence d'OCD (retour repet 2026-09 : Verse bien trop
+                   bas vs Intro/Solo). Le +6 dB sur le Level de l'Acoustic Sim
+                   provoquait des gresillements (saturation) et n'etait pas assez fort.
     Snap 2 Solo  : Intro + Delay (sustain/mouvement)
     Snap 3 Clean : accordage / attente
 
@@ -2526,11 +2528,14 @@ def preset_the_man_who_sold_the_world():
     # Intro/Riff : acoustique + OCD grunge bien pousse
     pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 4], color="orange")
 
-    # Verse : acoustique seule (config "Drive Acoustique")
-    # Level Acoustic Sim +6 dB (max) sur ce snap : sans OCD, le Verse sortait
-    # bien trop bas vs Intro/Solo (retour repet).
-    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 4],
-                    params={1: {"Level": 6.0}}, color="green")
+    # Gain pur (utilitaire volume, pas une pedale modelisee) : compense le Verse
+    # sans OCD, bien trop bas vs Intro/Solo (retour repet). Actif Verse seulement.
+    # Remplace le +6 dB sur le Level de l'Acoustic Sim (gresillements, insuffisant).
+    pb.add_block("HD2_VolPanGain", slot=5, enabled_default=False,
+                 overrides={"Gain": 10.0})
+
+    # Verse : acoustique seule (config "Drive Acoustique") + Gain
+    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 4, 5], color="green")
 
     # Solo : Intro + Delay (sustain/mouvement)
     pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4], color="red")

@@ -35,7 +35,7 @@ Gamme : penta mineure de La, ou Mixolydien selon la mélodie de Bowie.
 | Snap | Nom | Son |
 |---|---|---|
 | 0 | TMW Intro | Acoustique + DS-2 subtil + reverb normale |
-| 1 | TMW Verse | Acoustique seule (pas de DS-2) |
+| 1 | TMW Verse | Acoustique seule (pas de DS-2) — Level Acoustic Sim +6 dB (max) pour compenser l'absence d'OCD (retour répét 2026-09 : Verse bien trop bas vs Intro/Solo) |
 | 2 | TMW Solo | Acoustique + DS-2 + reverb plus longue/présente |
 | 3 | TMW Clean | Accordage |
 

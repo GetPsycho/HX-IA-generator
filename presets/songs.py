@@ -2488,7 +2488,9 @@ def preset_the_man_who_sold_the_world():
     Slots  :     0          1        2              3               4           5
 
     Snap 0 Intro : Acoustique + OCD (grunge bien pousse) + reverb
-    Snap 1 Verse : Acoustique seule (config "Drive Acoustique") — son folk pur
+    Snap 1 Verse : Acoustique seule (config "Drive Acoustique") — son folk pur,
+                   Level Acoustic Sim +6 dB (max) pour compenser l'absence d'OCD
+                   (retour repet 2026-09 : Verse bien trop bas vs Intro/Solo)
     Snap 2 Solo  : Intro + Delay (sustain/mouvement)
     Snap 3 Clean : accordage / attente
 
@@ -2531,7 +2533,11 @@ def preset_the_man_who_sold_the_world():
     pb.add_snapshot(0, "TMW Intro", blocks_on=[0, 1, 2, 3, 5], color="orange")
 
     # Verse : acoustique seule (config "Drive Acoustique")
-    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 2, 5], color="green")
+    # Level Acoustic Sim +6 dB (max) sur ce snap : sans OCD, le Verse sortait
+    # bien trop bas vs Intro/Solo (retour repet). Pas de bloc Gain/KinkyBoost
+    # supplementaire : PolyPitch always-on = budget DSP deja a 6 blocs.
+    pb.add_snapshot(1, "TMW Verse", blocks_on=[0, 1, 2, 5],
+                    params={2: {"Level": 6.0}}, color="green")
 
     # Solo : Intro + Delay (sustain/mouvement)
     pb.add_snapshot(2, "TMW Solo", blocks_on=[0, 1, 2, 3, 4, 5], color="red")
